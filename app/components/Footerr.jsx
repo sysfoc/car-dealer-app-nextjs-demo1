@@ -1,0 +1,109 @@
+import { Footer, FooterCopyright, FooterIcon, FooterLink, FooterLinkGroup, FooterTitle, TextInput } from 'flowbite-react';
+import Image from 'next/image';
+import React from 'react'
+import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
+const Footerr = () => {
+  return (
+    <Footer className='mt-10'>
+      <div className="w-full">
+        <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
+          <div>
+            <Image src={'/logo.png'} width={200} height={100} className='w-full object-cover'/>
+          </div>
+          <div>
+            <FooterTitle title="Quick Links" />
+            <FooterLinkGroup col>
+              <FooterLink href="#">About Us</FooterLink>
+              <FooterLink href="#">Contact Us</FooterLink>
+              <FooterLink href="#">FAQs</FooterLink>
+              <FooterLink href="#">Terms & Conditions</FooterLink>
+            </FooterLinkGroup>
+          </div>
+          <div>
+            <FooterTitle title="Sales Department" />
+            <FooterLinkGroup col>
+              <FooterLink href="#">Privacy Policy</FooterLink>
+              <FooterLink href="#">Licensing</FooterLink>
+              <FooterLink href="#">Terms &amp; Conditions</FooterLink>
+            </FooterLinkGroup>
+          </div>
+          <div>
+            <FooterTitle title="Trading Hour" />
+            <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-sm text-white font-semibold">Monday
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-white font-bold">8:00 am - 5:00 pm
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-sm text-white font-semibold">Tuesday
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-white font-bold">8:00 am - 5:00 pm
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-sm text-white font-semibold">Wednesday
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-white font-bold">8:00 am - 5:00 pm
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-sm text-white font-semibold">Thursday
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-white font-bold">8:00 am - 5:00 pm
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-sm text-white font-semibold">Friday
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-white font-bold">8:00 am - 1:00 pm
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-sm text-white font-semibold">Saturday
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-white font-bold">Closed
+                                </span>
+                            </div>
+                        </div>
+          </div>
+        </div>
+        <div className="w-full bg-gray-100 dark:bg-gray-700 px-4 py-6 sm:flex sm:items-center sm:justify-between">
+          <FooterCopyright href="#" by="SYSFOC e-commerce app" year={2024} />
+          <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+            <FooterIcon href="#" icon={BsFacebook} />
+            <FooterIcon href="#" icon={BsInstagram} />
+            <FooterIcon href="#" icon={BsTwitter} />
+            <FooterIcon href="#" icon={BsGithub} />
+            <FooterIcon href="#" icon={BsDribbble} />
+          </div>
+        </div>
+      </div>
+    </Footer>
+  )
+}
+
+export default Footerr

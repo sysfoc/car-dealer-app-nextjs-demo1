@@ -11,7 +11,7 @@ const Header = () => {
           </NavbarBrand>
           <NavbarToggle/>
           <NavbarCollapse>
-              <NavbarLink href="#" active className='bg-pink-500 text-white dark:text-white md:bg-transparent md:text-black'>
+              <NavbarLink href="#" active className='bg-pink-500 text-white dark:text-white md:bg-transparent md:text-pink-500'>
                 Home
               </NavbarLink>
               <NavbarLink href="#" className='hover:text-pink-500 md:hover:text-pink-500'>Car for Sale</NavbarLink>
