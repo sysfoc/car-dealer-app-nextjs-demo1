@@ -7,18 +7,21 @@ const Header = () => {
   return (
         <Navbar fluid className='shadow-md'>
             <NavbarBrand href="#">
-             <Image src={"/logo.png"} width={100} height={50} className='object-cover'/>
+             <Image src={"/logo.png"} alt="Sysfoc-cars-dealer" width={100} height={50} className='w-auto h-auto object-cover'/>
           </NavbarBrand>
-          <NavbarToggle/>
+          <div className='flex items-center gap-5'>
+            <DarkThemeToggle className='md:hidden'/>
+            <NavbarToggle/>
+          </div>
           <NavbarCollapse>
-              <NavbarLink href="#" active className='bg-pink-500 text-white dark:text-white md:bg-transparent md:text-pink-500'>
+              <NavbarLink href="#" active className='bg-blue-950 text-white dark:text-white md:bg-transparent md:text-blue-950'>
                 Home
               </NavbarLink>
-              <NavbarLink href="#" className='hover:text-pink-500 md:hover:text-pink-500'>Car for Sale</NavbarLink>
-              <NavbarLink href="#" className='hover:text-pink-500 md:hover:text-pink-500'>Sell or Trade</NavbarLink>
-              <NavbarLink href="#" className='hover:text-pink-500 md:hover:text-pink-500'>Car Finance</NavbarLink>
-              <NavbarLink href="#" className='hover:text-pink-500 md:hover:text-pink-500'>About Us</NavbarLink>
-              <NavbarLink href="#" className='hover:text-pink-500 md:hover:text-pink-500'>Contact Us</NavbarLink>
+              <NavbarLink href="#" className='hover:text-blue-950 md:hover:text-blue-950'>Car for Sale</NavbarLink>
+              <NavbarLink href="#" className='hover:text-blue-950 md:hover:text-blue-950'>Sell or Trade</NavbarLink>
+              <NavbarLink href="#" className='hover:text-blue-950 md:hover:text-blue-950'>Car Finance</NavbarLink>
+              <NavbarLink href="#" className='hover:text-blue-950 md:hover:text-blue-950'>About Us</NavbarLink>
+              <NavbarLink href="#" className='hover:text-blue-950 md:hover:text-blue-950'>Contact Us</NavbarLink>
           </NavbarCollapse>
           <DarkThemeToggle className='hidden md:block'/>
         </Navbar>

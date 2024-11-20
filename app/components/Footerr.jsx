@@ -20,13 +20,14 @@ const Footerr = () => {
   return (
     <Footer className="mt-10">
       <div className="w-full">
-        <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
+        <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8">
           <div>
             <Image
               src={"/logo.png"}
+              alt="Sysfoc-cars-dealer"
               width={200}
               height={100}
-              className="w-full object-cover"
+              className="w-auto h-auto object-cover"
             />
           </div>
           <div>
@@ -68,19 +69,19 @@ const Footerr = () => {
                 </span>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm font-semibold text-gray-500">Wednesday</span>
               </div>
               <div>
-                <span class="text-sm font-bold text-gray-500">
+                <span className="text-sm font-bold text-gray-500">
                   8:00 am - 5:00 pm
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span class="text-sm font-semibold text-gray-500">Thursday</span>
+                <span className="text-sm font-semibold text-gray-500">Thursday</span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">
