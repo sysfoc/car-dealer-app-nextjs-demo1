@@ -110,7 +110,7 @@ const Footerr = () => {
           </div>
         </div>
         <div className="w-full bg-gray-100 px-4 py-6 dark:bg-gray-700 sm:flex sm:items-center sm:justify-between">
-          <FooterCopyright href="#" by="SYSFOC e-commerce app" year={2024} />
+          <FooterCopyright href="#" by="Dealer Website by SYSFOC Automotive" year={2024} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <FooterIcon href="#" icon={BsFacebook} />
             <FooterIcon href="#" icon={BsInstagram} />
