@@ -56,8 +56,8 @@ const VehicalsList = () => {
   ];
   return (
     <section className="mx-4 my-10 sm:mx-12 md:my-20">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-semibold">Explore All Vehicles</h2>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h2 className="text-xl md:text-3xl font-semibold">Explore All Vehicles</h2>
         <Link href={"/"}>
           <p className="text-md inline-flex items-center gap-x-3">
             View All <MdOutlineArrowOutward />
@@ -74,7 +74,7 @@ const VehicalsList = () => {
                 width={300}
                 height={300}
                 alt="car-1"
-                className="object-fit h-auto w-auto"
+                className="object-fit h-full w-full"
               />
             </div>
             <div className="my-3 px-4">
