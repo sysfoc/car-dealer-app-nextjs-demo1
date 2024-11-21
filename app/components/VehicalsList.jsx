@@ -55,7 +55,7 @@ const VehicalsList = () => {
     },
   ];
   return (
-    <section className="mx-4 my-10 sm:mx-12 md:my-20">
+    <section className="mx-4 my-10 sm:mx-8 md:my-20">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="text-xl md:text-3xl font-semibold">Explore All Vehicles</h2>
         <Link href={"/"}>
@@ -67,7 +67,7 @@ const VehicalsList = () => {
       <div className="mt-3 border-b-2 border-gray-300"></div>
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {vehicals.map((vehical, index) => (
-          <div className="overflow-hidden rounded-xl shadow-md" key={index}>
+          <div className="overflow-hidden rounded-xl shadow-md dark:bg-gray-700" key={index}>
             <div>
               <Image
                 src={`${vehical.image}`}
