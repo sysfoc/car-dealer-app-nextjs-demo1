@@ -1,13 +1,13 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableRow } from "flowbite-react";
-import { RxDropdownMenu } from "react-icons/rx";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Tables = () => {
   return (
     <div className="sticky top-3">
       <div className="flex items-center gap-2 bg-blue-950 p-3 dark:bg-gray-700">
         <div>
-          <RxDropdownMenu fontSize={25} className="text-white" />
+          <RxHamburgerMenu fontSize={25} className="text-white" />
         </div>
         <h3 className="text-lg font-bold uppercase text-white">Vehical Details</h3>
       </div>

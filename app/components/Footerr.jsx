@@ -25,6 +25,7 @@ const Footerr = () => {
             <Image
               src={"/logo.png"}
               alt="Sysfoc-cars-dealer"
+              priority
               width={200}
               height={100}
               className="w-auto h-auto object-cover"
