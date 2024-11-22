@@ -1,3 +1,4 @@
+"use client"
 import Searchbar from "../components/Searchbar";
 import SidebarFilters from "../components/SidebarFilters";
 import CardetailCard from "../components/CardetailCard";

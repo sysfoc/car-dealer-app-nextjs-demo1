@@ -1,3 +1,4 @@
+"use client";
 import {
   Footer,
   FooterCopyright,
@@ -20,7 +21,7 @@ const Footerr = () => {
   return (
     <Footer className="mt-10">
       <div className="w-full">
-        <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8">
+        <div className="grid w-full grid-cols-1 gap-8 px-6 py-8 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <Image
               src={"/logo.png"}
@@ -28,7 +29,7 @@ const Footerr = () => {
               priority
               width={200}
               height={100}
-              className="w-auto h-auto object-cover"
+              className="h-auto w-auto object-cover"
             />
           </div>
           <div>
@@ -52,7 +53,9 @@ const Footerr = () => {
             <FooterTitle title="Trading Hour" />
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">Monday</span>
+                <span className="text-sm font-semibold text-gray-500">
+                  Monday
+                </span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">
@@ -62,7 +65,9 @@ const Footerr = () => {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">Tuesday</span>
+                <span className="text-sm font-semibold text-gray-500">
+                  Tuesday
+                </span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">
@@ -72,7 +77,9 @@ const Footerr = () => {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">Wednesday</span>
+                <span className="text-sm font-semibold text-gray-500">
+                  Wednesday
+                </span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">
@@ -82,7 +89,9 @@ const Footerr = () => {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">Thursday</span>
+                <span className="text-sm font-semibold text-gray-500">
+                  Thursday
+                </span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">
@@ -92,7 +101,9 @@ const Footerr = () => {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">Friday</span>
+                <span className="text-sm font-semibold text-gray-500">
+                  Friday
+                </span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">
@@ -102,7 +113,9 @@ const Footerr = () => {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">Saturday</span>
+                <span className="text-sm font-semibold text-gray-500">
+                  Saturday
+                </span>
               </div>
               <div>
                 <span className="text-sm font-bold text-gray-500">Closed</span>
@@ -111,7 +124,11 @@ const Footerr = () => {
           </div>
         </div>
         <div className="w-full bg-gray-100 px-4 py-6 dark:bg-gray-700 sm:flex sm:items-center sm:justify-between">
-          <FooterCopyright href="#" by="Dealer Website by SYSFOC Automotive" year={2024} />
+          <FooterCopyright
+            href="#"
+            by="Dealer Website by SYSFOC Automotive"
+            year={2024}
+          />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <FooterIcon href="#" icon={BsFacebook} />
             <FooterIcon href="#" icon={BsInstagram} />
