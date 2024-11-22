@@ -41,7 +41,7 @@ const BrandsList = () => {
           </p>
         </Link>
       </div>
-      <div className="mt-3 border-b-2 border-gray-300"></div>
+      <div className="mt-3 border-b-2 border-gray-300 dark:border-gray-700"></div>
       <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
         {brandLists.map((brand, index) => (
           <div className="rounded-xl border border-gray-100 bg-white p-5 transition-all delay-75 hover:border-blue-600 dark:bg-gray-700" key={index}>

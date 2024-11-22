@@ -64,7 +64,7 @@ const VehicalsList = () => {
           </p>
         </Link>
       </div>
-      <div className="mt-3 border-b-2 border-gray-300"></div>
+      <div className="mt-3 border-b-2 border-gray-300 dark:border-gray-700"></div>
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {vehicals.map((vehical, index) => (
           <div className="overflow-hidden rounded-xl shadow-md dark:bg-gray-700" key={index}>

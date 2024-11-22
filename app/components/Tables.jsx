@@ -4,7 +4,7 @@ import { RxDropdownMenu } from "react-icons/rx";
 
 const Tables = () => {
   return (
-    <div className="sticky top-5">
+    <div className="sticky top-3">
       <div className="flex items-center gap-2 bg-blue-950 p-3 dark:bg-gray-700">
         <div>
           <RxDropdownMenu fontSize={25} className="text-white" />
