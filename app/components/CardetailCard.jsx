@@ -6,7 +6,7 @@ import React from "react";
 const CardetailCard = () => {
   return (
     <div className="rounded shadow-lg dark:bg-gray-700">
-      <div className="mt-3 h-36 sm:h-48 xl:h-56 2xl:h-96">
+      <div className="mt-3 h-48 sm:h-64 xl:h-56 2xl:h-96">
         <Carousel slideInterval={3000}>
           <Image src={"/Luxury SUV.jpg"} alt="image" width={300} height={200} />
           <Image src={"/Luxury SUV.jpg"} alt="image" width={300} height={200} />
@@ -39,7 +39,7 @@ const CardetailCard = () => {
           </div>
           <div className="mt-5 flex flex-col">
             <Link
-              href="#"
+              href="/car-detail/1"
               className="bg-blue-950 dark:bg-red-500 px-3 py-2 text-center uppercase text-white transition-all"
             >
               Get Today's Price
