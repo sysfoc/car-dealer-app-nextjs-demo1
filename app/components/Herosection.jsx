@@ -87,7 +87,7 @@ const Herosection = () => {
               </select>
             </div>
             <div>
-              <Button pill color={"blue"} className="w-full p-2">
+              <Button pill color={"blue"} className="w-full p-2 dark:bg-red-500">
                 Search Cars
               </Button>
             </div>

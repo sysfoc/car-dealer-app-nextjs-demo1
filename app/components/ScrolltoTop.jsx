@@ -11,7 +11,7 @@ const ScrolltoTop = () => {
   };
   return (
     <div
-      className="group fixed bottom-10 right-10 w-fit cursor-pointer rounded-full bg-pink-500 shadow-lg dark:bg-gray-700"
+      className="group fixed bottom-10 right-10 w-fit cursor-pointer rounded-full bg-red-500 shadow-lg dark:bg-gray-700"
       onClick={scrollToTop}
       style={{ zIndex: 99 }}
     >

@@ -1,13 +1,13 @@
 "use client"
-import Searchbar from "../components/Searchbar";
-import SidebarFilters from "../components/SidebarFilters";
-import CardetailCard from "../components/CardetailCard";
+import Searchbar from "@/app/components/Searchbar";
+import SidebarFilters from "@/app/components/SidebarFilters";
+import CardetailCard from "@/app/components/CardetailCard";
 export default function Home() {
   return (
     <section className="mx-4 my-10 sm:mx-16">
       <div>
         <h2 className="text-center text-3xl font-bold uppercase text-blue-950 dark:text-gray-300 sm:text-4xl">
-          Used Cars For Sale at USA
+          New & Used Cars For Sale
         </h2>
         <p className="mt-4">
           If you are searching for a used car for sale look no further than

@@ -1,8 +1,8 @@
 "use client";
 import { LuCrown } from "react-icons/lu";
-import Slider from "../../components/Slider";
-import Table from "../../components/Tables";
-import Features from "../../components/Features";
+import Slider from "@/app/components/Slider";
+import Table from "@/app/components/Tables";
+import Features from "@/app/components/Features";
 import { Button } from "flowbite-react";
 export default function Home() {
   return (

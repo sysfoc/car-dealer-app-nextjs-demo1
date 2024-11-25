@@ -45,7 +45,7 @@ const Header = () => {
         <div className="flex items-center gap-5 md:hidden">
           <RiAccountCircleFill
             fontSize={22}
-            className="text-gray-700"
+            className="text-gray-700 cursor-pointer"
             onClick={() => setOpenModal(true)}
           />
           <DarkThemeToggle />
@@ -63,26 +63,14 @@ const Header = () => {
             as={"div"}
             className="hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="#">Used Cars</Link>
+            <Link href="/car-for-sale">New & Used Cars</Link>
           </NavbarLink>
           <NavbarLink
             as={"div"}
             className="hover:text-blue-950 md:hover:text-blue-950"
           >
             <Link
-              href="#"
-              className="hover:text-blue-950 md:hover:text-blue-950"
-            >
-              New Cars
-            </Link>
-          </NavbarLink>
-          <NavbarLink
-            as={"div"}
-            className="hover:text-blue-950 md:hover:text-blue-950"
-          >
-            <Link
-              href="/car-for-sale"
-              className="hover:text-blue-950 md:hover:text-blue-950"
+              href="/sell-or-trade"
             >
               Sell or Trade
             </Link>{" "}
@@ -93,7 +81,6 @@ const Header = () => {
           >
             <Link
               href="#"
-              className="hover:text-blue-950 md:hover:text-blue-950"
             >
               Value Your Car
             </Link>{" "}
@@ -104,7 +91,6 @@ const Header = () => {
           >
             <Link
               href="#"
-              className="hover:text-blue-950 md:hover:text-blue-950"
             >
               Car Leasing
             </Link>{" "}
@@ -115,7 +101,6 @@ const Header = () => {
           >
             <Link
               href="#"
-              className="hover:text-blue-950 md:hover:text-blue-950"
             >
               Car Finance
             </Link>{" "}
@@ -124,10 +109,10 @@ const Header = () => {
         <div className="hidden items-center gap-x-5 md:flex">
           <RiAccountCircleFill
             fontSize={20}
-            className="text-gray-700"
+            className="text-gray-600 dark:text-gray-400 cursor-pointer"
             onClick={() => setOpenModal(true)}
           />
-          <FaRegHeart fontSize={16} className="text-gray-700" />
+          <FaRegHeart fontSize={16} className="text-gray-600 dark:text-gray-400" />
           <DarkThemeToggle />
         </div>
       </Navbar>
