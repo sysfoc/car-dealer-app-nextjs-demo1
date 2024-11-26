@@ -8,23 +8,23 @@ const Slider = () => {
   const loading = false;
   const vehicalImages = [
     {
-      name: "/Luxury SUV.jpg",
+      name: "/Luxury SUV.webp",
       alt: "luxury Car",
     },
     {
-      name: "/Luxury SUV.jpg",
+      name: "/Luxury SUV.webp",
       alt: "luxury Car",
     },
     {
-      name: "/Luxury SUV.jpg",
+      name: "/Luxury SUV.webp",
       alt: "luxury Car",
     },
     {
-      name: "/Luxury SUV.jpg",
+      name: "/Luxury SUV.webp",
       alt: "luxury Car",
     },
     {
-      name: "/Luxury SUV.jpg",
+      name: "/Luxury SUV.webp",
       alt: "luxury Car",
     },
   ];

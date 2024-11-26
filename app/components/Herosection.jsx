@@ -8,7 +8,7 @@ const Herosection = () => {
     <section
       className="h-[120vh] w-full"
       style={{
-        background: "url('/Luxury SUV.jpg')",
+        background: "url('/Luxury SUV.webp')",
         backgroundSize: "cover",
         backgroundPosition: "top center",
         backgroundColor: "#000000bf",

@@ -75,7 +75,7 @@ const Header = () => {
             as={"div"}
             className="hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="#">Value Your Car</Link>{" "}
+            <Link href="/cars/valuation">Value Your Car</Link>{" "}
           </NavbarLink>
           <NavbarLink
             as={"div"}

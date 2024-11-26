@@ -13,48 +13,53 @@ const VehicalsList = () => {
   const vehicals = [
     {
       name: "Audi A6 3.5",
-      image: "/Luxury SUV.jpg",
+      image: "/Luxury SUV.webp",
       description: "3.5 D5 PowerPulse Momentum 5dr AWD Geartronic Estate",
       price: 25000,
       fuelType: "Petrol",
       driven: 50,
       transmission: "Automatic",
+      url: "/car-detail/1"
     },
     {
       name: "Audi A6 3.5",
-      image: "/Luxury SUV.jpg",
+      image: "/Luxury SUV.webp",
       description: "3.5 D5 PowerPulse Momentum 5dr AWD Geartronic Estate",
       price: 25000,
       fuelType: "Petrol",
       driven: 25,
       transmission: "Automatic",
+      url: "/car-detail/2"
     },
     {
       name: "Audi A6 3.5",
-      image: "/Luxury SUV.jpg",
+      image: "/Luxury SUV.webp",
       description: "3.5 D5 PowerPulse Momentum 5dr AWD Geartronic Estate",
       price: 25000,
       fuelType: "Petrol",
       driven: 30,
       transmission: "Automatic",
+      url: "/car-detail/3"
     },
     {
       name: "Audi A6 3.5",
-      image: "/Luxury SUV.jpg",
+      image: "/Luxury SUV.webp",
       description: "3.5 D5 PowerPulse Momentum 5dr AWD Geartronic Estate",
       price: 25000,
       fuelType: "Petrol",
       driven: 60,
       transmission: "Automatic",
+      url: "/car-detail/4"
     },
     {
       name: "Audi A6 3.5",
-      image: "/Luxury SUV.jpg",
+      image: "/Luxury SUV.webp",
       description: "3.5 D5 PowerPulse Momentum 5dr AWD Geartronic Estate",
       price: 25000,
       fuelType: "Petrol",
       driven: 70,
       transmission: "Automatic",
+      url: "/car-detail/5"
     },
   ];
   return (
@@ -123,7 +128,7 @@ const VehicalsList = () => {
                     </div>
                     <div>
                       <Link
-                        href={"/"}
+                        href={`${vehical.url}`}
                         className="font-semibold text-blue-950 dark:text-red-500"
                       >
                         <p className="inline-flex items-center gap-x-3">
@@ -184,7 +189,7 @@ const VehicalsList = () => {
                     </div>
                     <div>
                       <Link
-                        href={"/"}
+                        href={`${vehical.url}`}
                         className="font-semibold text-blue-950 dark:text-red-500"
                       >
                         <p className="inline-flex items-center gap-x-3">
