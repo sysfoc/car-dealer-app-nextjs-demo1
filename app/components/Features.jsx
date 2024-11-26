@@ -25,7 +25,7 @@ const Features = () => {
               {loading ? <Skeleton /> : "100,000"}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              Km's
+              Kms
             </span>
           </div>
         </div>

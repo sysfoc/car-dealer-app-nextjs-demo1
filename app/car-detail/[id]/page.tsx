@@ -26,22 +26,14 @@ export default function Home() {
           </div>
           <div className="my-5">
             <h3 className="text-2xl font-semibold">
-              {
-                loading? (
-                  <Skeleton height={25} />
-                ) : (
-                  "2010 Ford Falcon FG XR8 Ute Super Cab 6 Speed Manual Utility"
-                )
-              }
+              {loading ? (
+                <Skeleton height={25} />
+              ) : (
+                "2010 Ford Falcon FG XR8 Ute Super Cab 6 Speed Manual Utility"
+              )}
             </h3>
             <h4 className="my-2 text-3xl font-semibold text-blue-950 dark:text-red-500">
-              {
-                loading? (
-                  <Skeleton width={150} height={25} />
-                ) : (
-                  "$39,990"
-                )
-              }
+              {loading ? <Skeleton width={150} height={25} /> : "$39,990"}
             </h4>
           </div>
           <div>

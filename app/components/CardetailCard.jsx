@@ -64,7 +64,7 @@ const CardetailCard = () => {
                 {loading ? (
                   <Skeleton height={20} />
                 ) : (
-                  "Light Saddle (Cc Met) Exterior"
+                  "Light Saddle Cc Met Exterior"
                 )}
               </span>
             </div>
@@ -73,7 +73,7 @@ const CardetailCard = () => {
                 {loading ? (
                   <Skeleton height={20} />
                 ) : (
-                  "Light Saddle (Cc Met) Exterior"
+                  "Light Saddle Cc Met Exterior"
                 )}
               </span>
             </div>
@@ -82,7 +82,7 @@ const CardetailCard = () => {
                 {loading ? (
                   <Skeleton height={20} />
                 ) : (
-                  "Light Saddle (Cc Met) Exterior"
+                  "Light Saddle Cc Met Exterior"
                 )}
               </span>
             </div>
@@ -91,7 +91,7 @@ const CardetailCard = () => {
                 {loading ? (
                   <Skeleton height={20} />
                 ) : (
-                  "Light Saddle (Cc Met) Exterior"
+                  "Light Saddle Cc Met Exterior"
                 )}
               </span>
             </div>
@@ -101,7 +101,7 @@ const CardetailCard = () => {
               href="/car-detail/1"
               className="bg-blue-950 px-3 py-2 text-center uppercase text-white transition-all dark:bg-red-500"
             >
-              Get Today's Price
+              Get Todays Price
             </Link>
           </div>
         </div>

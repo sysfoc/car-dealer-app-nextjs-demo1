@@ -32,7 +32,7 @@ export default function Home() {
                       <Label htmlFor="registeration">Registration</Label>
                       <TextInput
                         type="text"
-                        className="mt-1"
+                        style={{marginTop: "5px"}}
                         placeholder="H.M 1234 CDE"
                         id="registeration"
                       />
@@ -41,14 +41,14 @@ export default function Home() {
                       <Label htmlFor="mileage">Current mileage</Label>
                       <TextInput
                         type="number"
-                        className="mt-1"
+                        style={{marginTop: "5px"}}
                         placeholder="H.M 1000"
                         id="mileage"
                       />
                     </div>
                   </div>
                   <div className="mt-5 flex items-center justify-center">
-                    <Button size={"md"} className="bg-blue-950 dark:bg-red-500">
+                    <Button size={"md"} color={'gray'}>
                       Get my instant valuation
                     </Button>
                   </div>
@@ -61,8 +61,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <BrandsList/>
-      <ChooseUs/>
+      <BrandsList />
+      <ChooseUs />
     </>
   );
 }

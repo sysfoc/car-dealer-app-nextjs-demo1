@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
@@ -87,13 +87,18 @@ const Herosection = () => {
               </select>
             </div>
             <div>
-              <Button pill color={"blue"} className="w-full p-2 dark:bg-red-500">
+              <Button
+                pill
+                color={"blue"}
+                className="w-full p-2 dark:bg-red-500"
+              >
                 Search Cars
               </Button>
             </div>
           </div>
           <div className="my-8">
-            <p className="text-center text-sm text-white font-semibold">Or Browse Featured Model
+            <p className="text-center text-sm font-semibold text-white">
+              Or Browse Featured Model
             </p>
           </div>
           <div className="flex items-center justify-center">

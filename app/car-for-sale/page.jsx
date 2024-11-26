@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Searchbar from "@/app/components/Searchbar";
 import SidebarFilters from "@/app/components/SidebarFilters";
 import CardetailCard from "@/app/components/CardetailCard";
@@ -28,10 +28,10 @@ export default function Home() {
         </div>
         <div className="w-full md:w-5/6">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <CardetailCard/>
-            <CardetailCard/>
-            <CardetailCard/>
-            <CardetailCard/>
+            <CardetailCard />
+            <CardetailCard />
+            <CardetailCard />
+            <CardetailCard />
           </div>
         </div>
       </div>

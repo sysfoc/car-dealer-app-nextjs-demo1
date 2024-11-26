@@ -6,7 +6,6 @@ import {
   FooterLink,
   FooterLinkGroup,
   FooterTitle,
-  TextInput,
 } from "flowbite-react";
 import Image from "next/image";
 import React from "react";
