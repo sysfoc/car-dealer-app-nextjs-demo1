@@ -5,8 +5,11 @@ import { MdOutlineArrowOutward } from "react-icons/md";
 import { IoSpeedometer } from "react-icons/io5";
 import { GiGasPump } from "react-icons/gi";
 import { TbManualGearbox } from "react-icons/tb";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const VehicalsList = () => {
+  const loading = false;
   const vehicals = [
     {
       name: "Audi A6 3.5",
@@ -56,8 +59,10 @@ const VehicalsList = () => {
   ];
   return (
     <section className="mx-4 my-10 sm:mx-8 md:my-20">
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <h2 className="text-xl md:text-3xl font-semibold">Explore All Vehicles</h2>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-xl font-semibold md:text-3xl">
+          Explore All Vehicles
+        </h2>
         <Link href={"/"}>
           <p className="text-md inline-flex items-center gap-x-3">
             View All <MdOutlineArrowOutward />
@@ -66,62 +71,131 @@ const VehicalsList = () => {
       </div>
       <div className="mt-3 border-b-2 border-gray-300 dark:border-gray-700"></div>
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {vehicals.map((vehical, index) => (
-          <div className="overflow-hidden rounded-xl shadow-md dark:bg-gray-700" key={index}>
-            <div>
-              <Image
-                src={`${vehical.image}`}
-                width={300}
-                height={300}
-                alt="car-1"
-                className="object-fit h-full w-full"
-              />
-            </div>
-            <div className="my-3 px-4">
-              <h3 className="text-xl font-semibold">{vehical.name}</h3>
-              <p className="text-md text-sm">
-                {vehical.description.slice(0, 26)}...
-              </p>
-              <div className="mt-3 border-b-2 border-gray-100"></div>
-              <div className="my-3 grid grid-cols-3 gap-3">
-                <div className="text-center">
-                  <div className="flex items-center justify-center">
-                    <IoSpeedometer fontSize={25} />
-                  </div>
-                  <p className="mt-2 text-sm">{vehical.driven} Miles</p>
+        {loading
+          ? vehicals.map((vehical, index) => (
+              <div
+                className="overflow-hidden rounded-xl shadow-md dark:bg-gray-700"
+                key={index}
+              >
+                <div>
+                  <Skeleton className="h-[230px] w-full" />
                 </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center">
-                    <GiGasPump fontSize={25} />
+                <div className="my-3 px-4">
+                  <h3 className="text-xl font-semibold">
+                    <Skeleton />
+                  </h3>
+                  <p className="text-md text-sm">
+                    <Skeleton />
+                  </p>
+                  <div className="mt-3 border-b-2 border-gray-100"></div>
+                  <div className="my-3 grid grid-cols-3 gap-3">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center">
+                        <Skeleton circle width={30} height={30} />
+                      </div>
+                      <p className="mt-2 text-sm">
+                        <Skeleton />
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center">
+                        <Skeleton circle width={30} height={30} />
+                      </div>
+                      <p className="mt-2 text-sm">
+                        <Skeleton />
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center">
+                        <Skeleton circle width={30} height={30} />
+                      </div>
+                      <p className="mt-2 text-sm">
+                        <Skeleton />
+                      </p>
+                    </div>
                   </div>
-                  <p className="mt-2 text-sm">{vehical.fuelType}</p>
-                </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center">
-                    <TbManualGearbox fontSize={25} />
+                  <div className="mt-3 border-b-2 border-gray-100"></div>
+                  <div className="my-3 flex items-center justify-between">
+                    <div>
+                      <h4 className="text-lg font-semibold">
+                        <Skeleton width={70} height={20} />
+                      </h4>
+                    </div>
+                    <div>
+                      <Link
+                        href={"/"}
+                        className="font-semibold text-blue-950 dark:text-red-500"
+                      >
+                        <p className="inline-flex items-center gap-x-3">
+                          View Details <MdOutlineArrowOutward />
+                        </p>
+                      </Link>
+                    </div>
                   </div>
-                  <p className="mt-2 text-sm">{vehical.transmission}</p>
                 </div>
               </div>
-              <div className="mt-3 border-b-2 border-gray-100"></div>
-              <div className="my-3 flex items-center justify-between">
+            ))
+          : vehicals.map((vehical, index) => (
+              <div
+                className="overflow-hidden rounded-xl shadow-md dark:bg-gray-700"
+                key={index}
+              >
                 <div>
-                  <h4 className="text-lg font-semibold">${vehical.price}</h4>
+                  <Image
+                    src={`${vehical.image}`}
+                    width={300}
+                    height={300}
+                    alt="car-1"
+                    className="object-fit h-full w-full"
+                  />
                 </div>
-                <div>
-                  <Link
-                    href={"/"}
-                    className="font-semibold text-blue-950 dark:text-red-500"
-                  >
-                    <p className="inline-flex items-center gap-x-3">
-                      View Details <MdOutlineArrowOutward />
-                    </p>
-                  </Link>
+                <div className="my-3 px-4">
+                  <h3 className="text-xl font-semibold">{vehical.name}</h3>
+                  <p className="text-md text-sm">
+                    {vehical.description.slice(0, 26)}...
+                  </p>
+                  <div className="mt-3 border-b-2 border-gray-100"></div>
+                  <div className="my-3 grid grid-cols-3 gap-3">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center">
+                        <IoSpeedometer fontSize={25} />
+                      </div>
+                      <p className="mt-2 text-sm">{vehical.driven} Miles</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center">
+                        <GiGasPump fontSize={25} />
+                      </div>
+                      <p className="mt-2 text-sm">{vehical.fuelType}</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center">
+                        <TbManualGearbox fontSize={25} />
+                      </div>
+                      <p className="mt-2 text-sm">{vehical.transmission}</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 border-b-2 border-gray-100"></div>
+                  <div className="my-3 flex items-center justify-between">
+                    <div>
+                      <h4 className="text-lg font-semibold">
+                        ${vehical.price}
+                      </h4>
+                    </div>
+                    <div>
+                      <Link
+                        href={"/"}
+                        className="font-semibold text-blue-950 dark:text-red-500"
+                      >
+                        <p className="inline-flex items-center gap-x-3">
+                          View Details <MdOutlineArrowOutward />
+                        </p>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))}
       </div>
     </section>
   );

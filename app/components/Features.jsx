@@ -8,8 +8,11 @@ import { GiMagicLamp } from "react-icons/gi";
 import { Table, TableBody, TableCell, TableRow } from "flowbite-react";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { MdLocationOn } from "react-icons/md";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Features = () => {
+  const loading = false;
   return (
     <div className="mt-5">
       <div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3">
@@ -19,7 +22,7 @@ const Features = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              102,999
+              {loading ? <Skeleton /> : "100,000"}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Km's
@@ -35,7 +38,7 @@ const Features = () => {
               On
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              Petrol
+              {loading ? <Skeleton /> : "Petrol"}
             </span>
           </div>
         </div>
@@ -45,7 +48,7 @@ const Features = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              $102
+              {loading ? <Skeleton /> : "$100"}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               To Fill
@@ -58,7 +61,7 @@ const Features = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              102Km
+              {loading ? <Skeleton /> : "100Km"}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Average Per Tank
@@ -71,7 +74,7 @@ const Features = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              6 Manual
+              {loading ? <Skeleton /> : "6 Manual"}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Gears
@@ -84,10 +87,10 @@ const Features = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              5.2L
+              {loading ? <Skeleton className="h-[15px] w-[50px]" /> : "5.0L"}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              8 Cyllinder
+              9 Cylinder
             </span>
           </div>
         </div>
@@ -105,35 +108,88 @@ const Features = () => {
         <Table hoverable className="mt-3 dark:bg-gray-700">
           <TableBody className="divide-y">
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>Central Locking - Remote/Keyless</TableCell>
-              <TableCell>Cruise Control</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>17" Alloy Wheels</TableCell>
-              <TableCell>Power Steering - Electric Assist</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>Air Cond. - Climate Control</TableCell>
-              <TableCell>CD Player</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>ABS (Antilock Brakes)</TableCell>
-              <TableCell>Airbag - Driver</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>Airbag - Knee Driver</TableCell>
-              <TableCell>Airbag - Passenger</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>Airbags - Head for 1st Row Seats (Front)</TableCell>
-              <TableCell>Airbags - Head for 2nd Row Seats</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
             <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>Audio - Aux Input Socket (MP3/CD/Cassette)</TableCell>
-              <TableCell>Central Locking - Remote/Keyless</TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>Electric Seat - Drivers</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Central Locking - Remote/Keyless"
+                )}
+              </TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "Cruise Control"}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -153,25 +209,41 @@ const Features = () => {
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Location
               </TableCell>
-              <TableCell>861 Stuart Highway Pinelands NT 082</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "861 Stuart Highway Pinelands NT 082"
+                )}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Contact
               </TableCell>
-              <TableCell>(08) 8932 9299</TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "(08) 8932 9299"}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Licence
               </TableCell>
-              <TableCell>Dealer Licence No. LMVD1030</TableCell>
+              <TableCell>
+                {loading ? (
+                  <Skeleton height={25} />
+                ) : (
+                  "Dealer Licence No. LMVD1030"
+                )}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 ABN
               </TableCell>
-              <TableCell>61639668045</TableCell>
+              <TableCell>
+                {loading ? <Skeleton height={25} /> : "61639668045"}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

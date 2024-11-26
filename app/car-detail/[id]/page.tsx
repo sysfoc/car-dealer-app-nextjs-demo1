@@ -4,7 +4,11 @@ import Slider from "@/app/components/Slider";
 import Table from "@/app/components/Tables";
 import Features from "@/app/components/Features";
 import { Button } from "flowbite-react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 export default function Home() {
+  const loading = false;
+
   return (
     <section className="mx-4 my-5 sm:mx-8">
       <div className="grid grid-cols-1 gap-x-5 gap-y-8 md:grid-cols-3">
@@ -22,10 +26,22 @@ export default function Home() {
           </div>
           <div className="my-5">
             <h3 className="text-2xl font-semibold">
-              2010 Ford Falcon FG XR8 Ute Super Cab 6 Speed Manual Utility
+              {
+                loading? (
+                  <Skeleton height={25} />
+                ) : (
+                  "2010 Ford Falcon FG XR8 Ute Super Cab 6 Speed Manual Utility"
+                )
+              }
             </h3>
             <h4 className="my-2 text-3xl font-semibold text-blue-950 dark:text-red-500">
-              $39,990
+              {
+                loading? (
+                  <Skeleton width={150} height={25} />
+                ) : (
+                  "$39,990"
+                )
+              }
             </h4>
           </div>
           <div>
