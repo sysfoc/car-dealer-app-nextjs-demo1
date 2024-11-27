@@ -80,7 +80,7 @@ const Header = () => {
             as={"div"}
             className="hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="#">Car Leasing</Link>{" "}
+            <Link href="/cars/leasing">Car Leasing</Link>{" "}
           </NavbarLink>
           <NavbarLink
             as={"div"}
