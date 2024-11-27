@@ -7,28 +7,27 @@ import {
   Button,
   Checkbox,
   Label,
-  Modal,
-  ModalBody,
-  ModalHeader,
   TextInput,
 } from "flowbite-react";
 import React, { useState } from "react";
 import { DarkThemeToggle } from "flowbite-react";
 import { FaRegHeart } from "react-icons/fa";
 import { RiAccountCircleFill } from "react-icons/ri";
+import { IoMdClose } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
 
 const Header = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
   const [email, setEmail] = useState("");
   const [modalType, setModalType] = useState("signIn");
 
-  function onCloseModal() {
-    setOpenModal(false);
+  function onCloseSidebar() {
+    setOpenSidebar(false);
     setEmail("");
     setModalType("signIn");
   }
+
   return (
     <>
       <Navbar fluid className="shadow-md">
@@ -46,7 +45,7 @@ const Header = () => {
           <RiAccountCircleFill
             fontSize={22}
             className="cursor-pointer text-gray-700"
-            onClick={() => setOpenModal(true)}
+            onClick={() => setOpenSidebar(true)}
           />
           <DarkThemeToggle />
           <NavbarToggle />
@@ -94,7 +93,7 @@ const Header = () => {
           <RiAccountCircleFill
             fontSize={20}
             className="cursor-pointer text-gray-600 dark:text-gray-400"
-            onClick={() => setOpenModal(true)}
+            onClick={() => setOpenSidebar(true)}
           />
           <FaRegHeart
             fontSize={16}
@@ -103,10 +102,21 @@ const Header = () => {
           <DarkThemeToggle />
         </div>
       </Navbar>
-      {openModal && (
-        <Modal show={openModal} size="md" onClose={onCloseModal} popup>
-          <ModalHeader />
-          <ModalBody>
+      {openSidebar && (
+        <div
+          className="fixed inset-0 z-50 flex justify-end bg-black bg-opacity-50"
+          onClick={onCloseSidebar}
+        >
+          <div
+            className="w-full bg-white p-6 shadow-lg dark:bg-gray-800 sm:w-[400px]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="mb-4 text-right text-gray-500 hover:text-gray-700 dark:text-gray-300"
+              onClick={onCloseSidebar}
+            >
+              <IoMdClose fontSize={20} />
+            </button>
             <div className="space-y-6">
               {modalType === "signIn" ? (
                 <>
@@ -197,8 +207,8 @@ const Header = () => {
                 </>
               )}
             </div>
-          </ModalBody>
-        </Modal>
+          </div>
+        </div>
       )}
     </>
   );

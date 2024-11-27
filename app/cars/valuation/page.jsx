@@ -48,7 +48,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="mt-5 flex items-center justify-center">
-                    <Button size={"md"} color={'gray'}>
+                    <Button size={"md"} color={'dark'}>
                       Get my instant valuation
                     </Button>
                   </div>
