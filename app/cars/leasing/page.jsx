@@ -1,5 +1,6 @@
 "use client";
-import { Button, Select, Label } from "flowbite-react";
+import { Select, Label } from "flowbite-react";
+import LeasingCarsDetail from "@/app/components/LeasingCarsDetail";
 export default function Home() {
   return (
     <section className="mx-4 my-10">
@@ -116,7 +117,12 @@ export default function Home() {
               for each vehicle may vary.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3"></div>
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+            <LeasingCarsDetail />
+            <LeasingCarsDetail />
+            <LeasingCarsDetail />
+            <LeasingCarsDetail />
+          </div>
         </div>
       </div>
     </section>

@@ -1,31 +1,30 @@
-"use client";
+import Image from "next/image";
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import React from "react";
 import { TbCarSuv } from "react-icons/tb";
-import { FaShuttleVan } from "react-icons/fa";
-import { FaCarSide } from "react-icons/fa";
+import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
 
-const Herosection = () => {
+const HeroSection = () => {
   return (
-    <section
-      className="h-[120vh] w-full"
-      style={{
-        background: "url('/Luxury SUV.webp')",
-        backgroundSize: "cover",
-        backgroundPosition: "top center",
-        backgroundColor: "#000000bf",
-        backgroundBlendMode: "multiply",
-      }}
-    >
-      <div className="flex h-[120vh] w-full items-center justify-center px-5">
+    <section className="relative h-[120vh] w-full">
+      <Image
+        src="/Luxury SUV.webp"
+        alt="Luxury SUV Background"
+        layout="fill"
+        objectFit="cover"
+        objectPosition="top center"
+        className="z-[-1] opacity-80"
+        priority
+      />
+      <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+      <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
         <div className="w-full sm:w-[80%]">
           <div className="mb-8">
             <p className="text-center text-sm text-white">
               Find cars for sale and for rent near you
             </p>
-            <h1 className="mt-3 text-center text-4xl font-semibold text-white sm:my-6 md:text-5xl lg:text-7xl ">
+            <h1 className="mt-3 text-center text-4xl font-semibold text-white sm:my-6 md:text-5xl lg:text-7xl">
               Find Your Perfect Car
             </h1>
           </div>
@@ -33,6 +32,7 @@ const Herosection = () => {
             <div>
               <select
                 id="make"
+                aria-label="Select car make"
                 required
                 className="w-full border-0 border-none bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
@@ -53,6 +53,7 @@ const Herosection = () => {
             <div>
               <select
                 id="model"
+                aria-label="Select car model"
                 required
                 className="w-full border-0 border-none bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
@@ -73,6 +74,7 @@ const Herosection = () => {
             <div>
               <select
                 id="price"
+                aria-label="Select price range"
                 required
                 className="w-full border-0 border-none bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
@@ -100,6 +102,7 @@ const Herosection = () => {
               </Button>
             </div>
           </div>
+
           <div className="my-8">
             <p className="text-center text-sm font-semibold text-white">
               Or Browse Featured Model
@@ -155,4 +158,4 @@ const Herosection = () => {
   );
 };
 
-export default Herosection;
+export default HeroSection;

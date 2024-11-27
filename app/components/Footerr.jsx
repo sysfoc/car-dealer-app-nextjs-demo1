@@ -124,16 +124,42 @@ const Footerr = () => {
         </div>
         <div className="w-full bg-gray-100 px-4 py-6 dark:bg-gray-700 sm:flex sm:items-center sm:justify-between">
           <FooterCopyright
-            href="#"
+            href="https://sysfoc.com"
             by="Dealer Website by SYSFOC Automotive"
+            className="text-gray-700"
             year={2024}
           />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
-            <FooterIcon href="#" icon={BsFacebook} />
-            <FooterIcon href="#" icon={BsInstagram} />
-            <FooterIcon href="#" icon={BsTwitter} />
-            <FooterIcon href="#" icon={BsGithub} />
-            <FooterIcon href="#" icon={BsDribbble} />
+            <FooterIcon
+              href="#"
+              target="_blank"
+              aria-labelledby="facebook icons"
+              icon={BsFacebook}
+            />
+            <FooterIcon
+              href="#"
+              target="_blank"
+              aria-labelledby="instagram icons"
+              icon={BsInstagram}
+            />
+            <FooterIcon
+              href="#"
+              target="_blank"
+              aria-labelledby="twitter icons"
+              icon={BsTwitter}
+            />
+            <FooterIcon
+              href="#"
+              target="_blank"
+              aria-labelledby="github icons"
+              icon={BsGithub}
+            />
+            <FooterIcon
+              href="#"
+              target="_blank"
+              aria-labelledby="dribble icons"
+              icon={BsDribbble}
+            />
           </div>
         </div>
       </div>

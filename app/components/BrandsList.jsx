@@ -9,26 +9,31 @@ const BrandsList = () => {
     {
       name: "BMW",
       image: "/bmw.avif",
+      alt: "bmw cars",
       url: "/",
     },
     {
       name: "Bentley",
       image: "/bentley.avif",
+      alt: "bentley cars",
       url: "/",
     },
     {
       name: "Honda",
       image: "/honda.avif",
+      alt: "honda cars",
       url: "/",
     },
     {
       name: "Hyundai",
       image: "/hyundai.avif",
+      alt: "hyundai cars",
       url: "/",
     },
     {
       name: "Kia",
       image: "/kia.avif",
+      alt: "Kia cars",
       url: "/",
     },
   ];
@@ -56,7 +61,7 @@ const BrandsList = () => {
                 <div>
                   <Image
                     src={`${brand.image}`}
-                    alt={`${brand.name}`}
+                    alt={`${brand.alt}`}
                     width={200}
                     height={200}
                     className="h-full w-full object-cover"
