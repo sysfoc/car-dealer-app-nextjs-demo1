@@ -41,7 +41,11 @@ const LeasingCarsDetail = () => {
             </small>
           </div>
         </div>
-        <Badge color={"success"} size={"sm"} className="py-2">
+        <Badge
+          color={"success"}
+          size={"sm"}
+          className="py-2 dark:bg-gray-700 dark:text-gray-200"
+        >
           January 2025 Delivery
         </Badge>
         <div
@@ -96,11 +100,6 @@ const LeasingCarsDetail = () => {
             <p className="mt-2 text-sm">200 Miles</p>
           </div>
         </div>
-
-        <div
-          className="mt-2 border-gray-300"
-          style={{ borderWidth: "1px" }}
-        ></div>
       </div>
     </div>
   );

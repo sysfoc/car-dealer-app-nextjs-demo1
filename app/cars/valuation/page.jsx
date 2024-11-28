@@ -27,7 +27,7 @@ export default function Home() {
               <p className="text-center font-normal text-gray-700 dark:text-gray-400">
                 What kind of valuation are you doing?
               </p>
-              <div className="flex items-center gap-x-3">
+              <div className="flex flex-wrap items-center gap-x-3">
                 <Button color={"dark"}>
                   <AiOutlineDollar className="mr-2" fontSize={20} />
                   Im Selling

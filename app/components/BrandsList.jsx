@@ -10,31 +10,31 @@ const BrandsList = () => {
       name: "BMW",
       image: "/bmw.avif",
       alt: "bmw cars",
-      url: "/",
+      url: "/cars/bmw",
     },
     {
       name: "Bentley",
       image: "/bentley.avif",
       alt: "bentley cars",
-      url: "/",
+      url: "/cars/bentley",
     },
     {
       name: "Honda",
       image: "/honda.avif",
       alt: "honda cars",
-      url: "/",
+      url: "/cars/honda",
     },
     {
       name: "Hyundai",
       image: "/hyundai.avif",
       alt: "hyundai cars",
-      url: "/",
+      url: "/cars/hyundai",
     },
     {
       name: "Kia",
       image: "/kia.avif",
       alt: "Kia cars",
-      url: "/",
+      url: "/cars/kia",
     },
   ];
   return (
