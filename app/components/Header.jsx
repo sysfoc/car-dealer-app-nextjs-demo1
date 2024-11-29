@@ -85,7 +85,7 @@ const Header = () => {
             as={"div"}
             className="hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="#">Car Finance</Link>{" "}
+            <Link href="/cars/finance">Car Finance</Link>{" "}
           </NavbarLink>
         </NavbarCollapse>
         <div className="hidden items-center gap-x-5 md:flex">
