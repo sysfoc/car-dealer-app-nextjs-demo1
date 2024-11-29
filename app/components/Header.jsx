@@ -34,7 +34,6 @@ const Header = () => {
         <Link href="/">
           <Image
             src={"/logo.png"}
-            priority
             alt="Sysfoc-cars-dealer"
             width={100}
             height={50}
@@ -68,7 +67,7 @@ const Header = () => {
             as={"div"}
             className="hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/sell-or-trade">Sell or Trade</Link>{" "}
+            <Link href="/cars/sell-my-car">Sell my car</Link>{" "}
           </NavbarLink>
           <NavbarLink
             as={"div"}

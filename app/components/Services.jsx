@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "flowbite-react";
+import Link from "next/link";
 import React from "react";
 import { MdOutlineArrowOutward } from "react-icons/md";
 
@@ -20,9 +21,11 @@ const Services = () => {
             </p>
           </div>
           <div>
-            <Button color={"blue"}>
-              Get Started <MdOutlineArrowOutward className="ml-2" />
-            </Button>
+            <Link href={"/car-for-sale"}>
+              <Button color={"blue"}>
+                Get Started <MdOutlineArrowOutward className="ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="rounded-xl bg-gray-200 p-8 dark:bg-gray-700 md:p-16">

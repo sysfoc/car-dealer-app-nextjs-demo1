@@ -6,7 +6,7 @@ export default function Home() {
     <section className="mx-4 my-10">
       <div className="relative mt-4 flex flex-wrap justify-between gap-5 md:flex-nowrap">
         <div className="w-full p-2 md:w-1/4">
-          <h3 className="text-xl font-semibold text-blue-950">
+          <h3 className="text-xl font-semibold text-blue-950 dark:text-red-500">
             Configure your deal
           </h3>
           <div>
@@ -28,7 +28,9 @@ export default function Home() {
               </Select>
             </div>
           </div>
-          <h3 className="mt-5 text-xl font-semibold text-blue-950">Filters</h3>
+          <h3 className="mt-5 text-xl font-semibold text-blue-950 dark:text-red-500">
+            Filters
+          </h3>
           <div className="my-3 flex flex-col gap-y-3">
             <div>
               <Label htmlFor="make">Make</Label>

@@ -10,7 +10,7 @@ import { Badge } from "flowbite-react";
 
 const LeasingCarsDetail = () => {
   return (
-    <div className="shadow-md">
+    <div className="border border-gray-200 shadow-md">
       <div>
         <Image
           src={"/Luxury SUV.webp"}
