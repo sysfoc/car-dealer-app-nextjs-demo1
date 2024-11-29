@@ -62,7 +62,7 @@ export default function Home() {
         </p>
       </div>
       <div className="mt-5 grid grid-cols-1 items-center gap-x-8 gap-y-5 md:grid-cols-2">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
           <Button
             color={"dark"}
             pill
@@ -75,7 +75,7 @@ export default function Home() {
             Lease This Vehical
           </Button>
         </div>
-        <div className="grid grid-cols-3 gap-5 rounded bg-gray-200 p-4">
+        <div className="grid grid-cols-3 gap-5 rounded bg-gray-200 p-4 dark:bg-gray-700">
           <div className="text-center">
             <div className="flex items-center justify-center">
               <IoSpeedometer fontSize={25} />

@@ -2,7 +2,13 @@
 import Searchbar from "@/app/components/Searchbar";
 import SidebarFilters from "@/app/components/SidebarFilters";
 import CardetailCard from "@/app/components/CardetailCard";
+import { Pagination } from "flowbite-react";
+import { useState } from "react";
 export default function Home() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page) => setCurrentPage(page);
+
   return (
     <section className="mx-4 my-10 sm:mx-16">
       <div>
@@ -32,6 +38,14 @@ export default function Home() {
             <CardetailCard />
             <CardetailCard />
             <CardetailCard />
+          </div>
+          <div className="mt-5 flex overflow-x-auto sm:justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={8}
+              onPageChange={onPageChange}
+              showIcons
+            />
           </div>
         </div>
       </div>

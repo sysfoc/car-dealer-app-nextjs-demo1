@@ -6,7 +6,6 @@ import { TbManualGearbox } from "react-icons/tb";
 import { GiCarDoor } from "react-icons/gi";
 import { GiCarSeat } from "react-icons/gi";
 import { GiPathDistance } from "react-icons/gi";
-import { Badge } from "flowbite-react";
 
 const LeasingCarsDetail = () => {
   return (
@@ -41,13 +40,6 @@ const LeasingCarsDetail = () => {
             </small>
           </div>
         </div>
-        <Badge
-          color={"success"}
-          size={"sm"}
-          className="py-2 dark:bg-gray-700 dark:text-gray-200"
-        >
-          January 2025 Delivery
-        </Badge>
         <div
           className="mt-2 border-gray-300"
           style={{ borderWidth: "1px" }}

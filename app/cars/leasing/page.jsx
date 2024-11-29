@@ -1,7 +1,11 @@
 "use client";
-import { Select, Label } from "flowbite-react";
+import { Select, Label, Pagination } from "flowbite-react";
 import LeasingCarsDetail from "@/app/components/LeasingCarsDetail";
+import { useState } from "react";
 export default function Home() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page) => setCurrentPage(page);
   return (
     <section className="mx-4 my-10">
       <div className="relative mt-4 flex flex-wrap justify-between gap-5 md:flex-nowrap">
@@ -119,11 +123,21 @@ export default function Home() {
               for each vehicle may vary.
             </p>
           </div>
-          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-            <LeasingCarsDetail />
-            <LeasingCarsDetail />
-            <LeasingCarsDetail />
-            <LeasingCarsDetail />
+          <div>
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+              <LeasingCarsDetail />
+              <LeasingCarsDetail />
+              <LeasingCarsDetail />
+              <LeasingCarsDetail />
+            </div>
+            <div className="mt-5 flex overflow-x-auto sm:justify-center">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={8}
+                onPageChange={onPageChange}
+                showIcons
+              />
+            </div>
           </div>
         </div>
       </div>
