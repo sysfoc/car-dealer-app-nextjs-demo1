@@ -41,9 +41,11 @@ const Services = () => {
             </p>
           </div>
           <div>
-            <Button color={"dark"}>
-              Get Started <MdOutlineArrowOutward className="ml-2" />
-            </Button>
+            <Link href={"/cars/sell-my-car"}>
+              <Button color={"dark"}>
+                Get Started <MdOutlineArrowOutward className="ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

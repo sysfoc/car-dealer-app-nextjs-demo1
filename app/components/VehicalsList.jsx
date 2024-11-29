@@ -19,7 +19,7 @@ const VehicalsList = () => {
       fuelType: "Petrol",
       driven: 50,
       transmission: "Automatic",
-      url: "/car-detail/1"
+      url: "/car-detail/1",
     },
     {
       name: "Audi A6 3.5",
@@ -29,7 +29,7 @@ const VehicalsList = () => {
       fuelType: "Petrol",
       driven: 25,
       transmission: "Automatic",
-      url: "/car-detail/2"
+      url: "/car-detail/2",
     },
     {
       name: "Audi A6 3.5",
@@ -39,7 +39,7 @@ const VehicalsList = () => {
       fuelType: "Petrol",
       driven: 30,
       transmission: "Automatic",
-      url: "/car-detail/3"
+      url: "/car-detail/3",
     },
     {
       name: "Audi A6 3.5",
@@ -49,7 +49,7 @@ const VehicalsList = () => {
       fuelType: "Petrol",
       driven: 60,
       transmission: "Automatic",
-      url: "/car-detail/4"
+      url: "/car-detail/4",
     },
     {
       name: "Audi A6 3.5",
@@ -59,7 +59,7 @@ const VehicalsList = () => {
       fuelType: "Petrol",
       driven: 70,
       transmission: "Automatic",
-      url: "/car-detail/5"
+      url: "/car-detail/5",
     },
   ];
   return (
@@ -68,7 +68,7 @@ const VehicalsList = () => {
         <h2 className="text-xl font-semibold md:text-3xl">
           Explore All Vehicles
         </h2>
-        <Link href={"/"}>
+        <Link href={"/car-for-sale"}>
           <p className="text-md inline-flex items-center gap-x-3">
             View All <MdOutlineArrowOutward />
           </p>

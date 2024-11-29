@@ -1,11 +1,40 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { MdOutlineArrowOutward } from "react-icons/md";
 
-const BrandsList = () => {
+export default function Home() {
   const brandLists = [
+    {
+      name: "BMW",
+      image: "/bmw.avif",
+      alt: "bmw cars",
+      url: "/cars/bmw",
+    },
+    {
+      name: "Bentley",
+      image: "/bentley.avif",
+      alt: "bentley cars",
+      url: "/cars/bentley",
+    },
+    {
+      name: "Honda",
+      image: "/honda.avif",
+      alt: "honda cars",
+      url: "/cars/honda",
+    },
+    {
+      name: "Hyundai",
+      image: "/hyundai.avif",
+      alt: "hyundai cars",
+      url: "/cars/hyundai",
+    },
+    {
+      name: "Kia",
+      image: "/kia.avif",
+      alt: "Kia cars",
+      url: "/cars/kia",
+    },
     {
       name: "BMW",
       image: "/bmw.avif",
@@ -39,18 +68,10 @@ const BrandsList = () => {
   ];
   return (
     <section className="bg-[#F9FBFC] px-4 py-10 dark:bg-gray-800 sm:px-8 md:py-20">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-xl font-semibold md:text-3xl">
-          Explore Our Premium Brands
-        </h2>
-        <Link href={"/brands"}>
-          <p className="text-md inline-flex items-center gap-x-3">
-            Show All Brands <MdOutlineArrowOutward />
-          </p>
-        </Link>
-      </div>
-      <div className="mt-3 border-b-2 border-gray-300 dark:border-gray-700"></div>
-      <div className="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <h2 className="text-center text-2xl font-semibold md:text-3xl">
+        Our Premium Brands
+      </h2>
+      <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {brandLists.map((brand, index) => (
           <div
             className="rounded-xl border border-gray-100 bg-white p-5 transition-all delay-75 hover:border-blue-600 dark:bg-gray-700"
@@ -77,6 +98,4 @@ const BrandsList = () => {
       </div>
     </section>
   );
-};
-
-export default BrandsList;
+}
