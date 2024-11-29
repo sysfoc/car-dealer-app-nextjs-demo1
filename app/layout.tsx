@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "@next/font/google";
 import { ThemeModeScript } from "flowbite-react";
-import Navbar from "./components/Header";
-import Footer from "./components/Footerr";
-import ScrolltoTop from "./components/ScrolltoTop";
+import LayoutRenderer from "@/app/components/LayoutRenderer";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -30,10 +28,7 @@ export default function RootLayout({
       <body
         className={`dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
-        <Navbar />
-        {children}
-        <ScrolltoTop />
-        <Footer />
+        <LayoutRenderer>{children}</LayoutRenderer>
       </body>
     </html>
   );
