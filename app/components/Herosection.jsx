@@ -70,7 +70,7 @@ const HeroSection = () => {
     if (selectedMake && selectedModel && priceRange) {
       try {
         const response = await fetch(
-          `/api/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
         );
         const cars = await response.json();
         console.log(cars);
