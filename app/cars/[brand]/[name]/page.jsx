@@ -142,12 +142,12 @@ export default function Home() {
             </p>
             <h3 className="font-semibold">How does leasing work?</h3>
             <p>
-              Leasing works a bit like a long-term car rental. You drive it, but
-              you don't own it.
+              Leasing works a bit like a long-term car rental. You drive it but
+              you dont own it.
             </p>
             <p>
-              You simply 'lease' it from the funder and drive it for an agreed
-              period of time (usually one to four years).
+              You simply lease it from the funder and drive it for an agreed
+              period of time usually one to four years.
             </p>
             <p>
               You pay an initial upfront payment, and then a series of equal

@@ -28,7 +28,7 @@ const AdminSidebar = () => {
           priority
           width={120}
           height={50}
-          className="h-auto w-auto object-cover"
+          className="size-auto object-cover"
         />
       </div>
       <SidebarItems>

@@ -87,8 +87,7 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-4xl text-blue-950 dark:text-red-500">
-              Whatever type of car you're looking for, we have an option for
-              you.
+              Whatever type of car youre looking for, we have an option for you.
             </h3>
             <ul className="mt-5 space-y-5">
               <li className="flex items-center gap-3">
@@ -337,7 +336,7 @@ export default function Home() {
                   <span className="text-lg font-medium">{faq.question}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`h-5 w-5 transition-transform ${
+                    className={`size-5 transition-transform ${
                       activeIndex === index ? "rotate-180" : "rotate-0"
                     }`}
                     fill="none"
