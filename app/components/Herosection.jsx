@@ -16,6 +16,8 @@ const HeroSection = () => {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [priceRange, setPriceRange] = useState("");
+  const [cars, setCars] = useState([]); // Add this state
+
   const router = useRouter();
   useEffect(() => {
     const fetchMakes = async () => {
