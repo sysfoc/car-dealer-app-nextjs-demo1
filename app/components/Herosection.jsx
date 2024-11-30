@@ -16,7 +16,7 @@ const HeroSection = () => {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [priceRange, setPriceRange] = useState("");
-  const [cars, setCars] = useState([]); // Add this state
+  const [cars, setCars] = useState([]);
 
   const router = useRouter();
   useEffect(() => {
