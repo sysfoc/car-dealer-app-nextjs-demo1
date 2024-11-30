@@ -81,7 +81,7 @@ const HeroSection = () => {
             `/car-detail/${car.id}?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
           );
         } else {
-          alert("No cars found. Please refine your search.");
+          alert("No carss found. Please refine your search.");
         }
       } catch (error) {
         console.error("Error fetching car data:", error);
