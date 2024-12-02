@@ -85,7 +85,7 @@ export default function Home() {
                     alt={`${brand.alt}`}
                     width={200}
                     height={200}
-                    className="h-full w-full object-cover"
+                    className="size-full object-cover"
                   />
                 </div>
                 <div className="mt-3">

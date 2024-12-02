@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
@@ -6,6 +11,89 @@ import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
 
 const HeroSection = () => {
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+  const [selectedMake, setSelectedMake] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [priceRange, setPriceRange] = useState("");
+  const [cars, setCars] = useState([]);
+
+  const router = useRouter();
+  useEffect(() => {
+    const fetchMakes = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/cars`,
+        );
+
+        const makes = [...new Set(response.data.map((car) => car.make))];
+        setMakes(makes);
+      } catch (error) {
+        console.error("Error fetching makes:", error);
+      }
+    };
+
+    fetchMakes();
+  }, []);
+
+  useEffect(() => {
+    if (selectedMake) {
+      const fetchModels = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}`,
+          );
+          const models = [...new Set(response.data.map((car) => car.model))];
+          setModels(models);
+        } catch (error) {
+          console.error("Error fetching models:", error);
+        }
+      };
+
+      fetchModels();
+    }
+  }, [selectedMake]);
+
+  useEffect(() => {
+    const fetchFilteredCars = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
+        );
+        setCars(response.data);
+      } catch (error) {
+        console.error("Error fetching cars:", error);
+      }
+    };
+
+    fetchFilteredCars();
+  }, [selectedMake, selectedModel, priceRange]);
+  const handleSearch = async () => {
+    if (selectedMake && selectedModel && priceRange) {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
+        );
+        const cars = await response.json();
+        console.log(cars);
+
+        if (cars.length > 0) {
+          const car = cars[0];
+          router.push(
+            `/car-detail/${car.id}?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
+          );
+        } else {
+          alert("No carss found. Please refine your search.");
+        }
+      } catch (error) {
+        console.error("Error fetching car data:", error);
+        alert("An error occurred. Please try again.");
+      }
+    } else {
+      alert("Please select all fields before searching.");
+    }
+  };
+
   return (
     <section className="relative w-full">
       <Image
@@ -18,8 +106,13 @@ const HeroSection = () => {
         priority
       />
       <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+<<<<<<< HEAD
       <div className="relative flex w-full items-center justify-center px-5 py-44">
         <div className="w-full sm:w-[80%]">
+=======
+      <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
+        <div className="w-full sm:w-4/5">
+>>>>>>> 21fc1dcb56a24dd162bccce4ade71114a450a541
           <div className="mb-8">
             <p className="text-center text-sm text-white">
               Find cars for sale and for rent near you
@@ -32,77 +125,58 @@ const HeroSection = () => {
             <div>
               <select
                 id="make"
-                aria-label="Select car make"
-                required
-                className="w-full border-0 border-none bg-transparent p-3 focus:ring-0 dark:text-gray-200"
+                value={selectedMake}
+                onChange={(e) => setSelectedMake(e.target.value)}
+                className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Any Makes
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Canada
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  France
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Germany
-                </option>
+                <option value="">Select Make</option>
+                {makes.map((make) => (
+                  <option key={make} value={make}>
+                    {make}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
               <select
                 id="model"
-                aria-label="Select car model"
-                required
-                className="w-full border-0 border-none bg-transparent p-3 focus:ring-0 dark:text-gray-200"
+                value={selectedModel}
+                onChange={(e) => setSelectedModel(e.target.value)}
+                className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
+                disabled={!selectedMake}
               >
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Any Models
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Canada
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  France
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Germany
-                </option>
+                <option value="">Select Model</option>
+                {models.map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
               <select
                 id="price"
-                aria-label="Select price range"
-                required
-                className="w-full border-0 border-none bg-transparent p-3 focus:ring-0 dark:text-gray-200"
+                value={priceRange}
+                onChange={(e) => setPriceRange(e.target.value)}
+                className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Price Range
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Canada
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  France
-                </option>
-                <option className="dark:bg-gray-800 dark:text-gray-200">
-                  Germany
-                </option>
+                <option value="">Price Range</option>
+                <option value="10k-20k">10k-20k</option>
+                <option value="20k-30k">20k-30k</option>
+                <option value="30k-50k">30k-50k</option>
               </select>
             </div>
             <div>
               <Button
                 pill
                 color={"blue"}
+                onClick={handleSearch}
                 className="w-full p-2 dark:bg-red-500"
               >
                 Search Cars
               </Button>
             </div>
           </div>
-
           <div className="my-8">
             <p className="text-center text-sm font-semibold text-white">
               Or Browse Featured Model
