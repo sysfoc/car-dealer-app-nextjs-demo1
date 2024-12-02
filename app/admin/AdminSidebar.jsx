@@ -5,7 +5,6 @@ import {
   SidebarItem,
   SidebarItemGroup,
   SidebarItems,
-  SidebarLogo,
 } from "flowbite-react";
 import { FaPencilAlt } from "react-icons/fa";
 import { TiWorld } from "react-icons/ti";
@@ -19,19 +18,6 @@ import { SiPowerpages } from "react-icons/si";
 const AdminSidebar = () => {
   return (
     <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
-<<<<<<< HEAD
-=======
-      <div className="mb-4 flex items-center justify-center">
-        <Image
-          src={"/logo.png"}
-          alt="Sysfoc-cars-dealer"
-          priority
-          width={120}
-          height={50}
-          className="size-auto object-cover"
-        />
-      </div>
->>>>>>> 21fc1dcb56a24dd162bccce4ade71114a450a541
       <SidebarItems>
         <SidebarItemGroup>
           <SidebarItem href="#" icon={HiChartPie}>
