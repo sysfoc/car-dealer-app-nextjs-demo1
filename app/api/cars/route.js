@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   const cars = [
     { id: 1, make: "Toyota", model: "Corolla", price: 12000, type: "Sedan" },
+    { id: 45, make: "Toyota", model: "Corolla", price: 11000, type: "Sedan1" },
+    { id: 46, make: "Toyota", model: "Corolla", price: 11000, type: "Sedan2" },
+    { id: 47, make: "Toyota", model: "Corolla", price: 11000, type: "Sedan2" },
     { id: 2, make: "Honda", model: "Civic", price: 25000, type: "Sedan" },
     { id: 3, make: "BMW", model: "X5", price: 45000, type: "SUV" },
     { id: 4, make: "Mercedes", model: "C-Class", price: 70000, type: "Hybrid" },
@@ -80,13 +83,11 @@ export async function GET(req) {
     { id: 40, make: "Ford", model: "Edge", price: 32000, type: "SUV" },
   ];
 
-  // Get query parameters from the request
   const { searchParams } = new URL(req.url);
   const make = searchParams.get("make");
   const model = searchParams.get("model");
   const priceRange = searchParams.get("priceRange");
 
-  // Parse priceRange (e.g., "10k-20k") to numeric values
   let minPrice = 0;
   let maxPrice = Infinity;
   if (priceRange) {
@@ -97,7 +98,6 @@ export async function GET(req) {
     }
   }
 
-  // Filter cars based on the query parameters
   const filteredCars = cars.filter((car) => {
     return (
       (!make || car.make === make) &&
