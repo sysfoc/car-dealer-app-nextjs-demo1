@@ -27,7 +27,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/api/cars.js"
+    "app/api/cars.js",
+    "app/components/Herosection.jsx",
+    "app/components/Herosection.jsx"
   ],
   "exclude": ["node_modules"]
 }

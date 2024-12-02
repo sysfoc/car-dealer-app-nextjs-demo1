@@ -9,7 +9,6 @@ import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
 import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
-
 const HeroSection = () => {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -17,15 +16,16 @@ const HeroSection = () => {
   const [selectedModel, setSelectedModel] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [cars, setCars] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
 
   const router = useRouter();
+
   useEffect(() => {
     const fetchMakes = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars`,
         );
-
         const makes = [...new Set(response.data.map((car) => car.make))];
         setMakes(makes);
       } catch (error) {
@@ -54,36 +54,18 @@ const HeroSection = () => {
     }
   }, [selectedMake]);
 
-  useEffect(() => {
-    const fetchFilteredCars = async () => {
+  const handleSearch = async () => {
+    if (selectedMake && selectedModel && priceRange) {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
         );
-        setCars(response.data);
-      } catch (error) {
-        console.error("Error fetching cars:", error);
-      }
-    };
-
-    fetchFilteredCars();
-  }, [selectedMake, selectedModel, priceRange]);
-  const handleSearch = async () => {
-    if (selectedMake && selectedModel && priceRange) {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
-        );
-        const cars = await response.json();
-        console.log(cars);
-
+        const cars = response.data;
         if (cars.length > 0) {
-          const car = cars[0];
-          router.push(
-            `/car-detail/${car.id}?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
-          );
+          setSuggestions(cars);
         } else {
-          alert("No carss found. Please refine your search.");
+          setSuggestions([]);
+          alert("No cars found. Please refine your search.");
         }
       } catch (error) {
         console.error("Error fetching car data:", error);
@@ -106,8 +88,13 @@ const HeroSection = () => {
         priority
       />
       <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+<<<<<<< HEAD
       <div className="relative flex w-full items-center justify-center px-5 py-44">
         <div className="w-full sm:w-[80%]">
+=======
+      <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
+        <div className="w-full sm:w-4/5">
+>>>>>>> b44c481f81876f6d4942e58efab94ecbdb90295f
           <div className="mb-8">
             <p className="text-center text-sm text-white">
               Find cars for sale and for rent near you
@@ -172,6 +159,39 @@ const HeroSection = () => {
               </Button>
             </div>
           </div>
+          {/* suggestion section  update.... if required*/}
+          <div className="mt-6">
+            {suggestions.length > 0 && (
+              <div>
+                <h2 className="mb-4 text-center text-xl font-semibold text-white">
+                  Suggested Cars
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {suggestions.map((car) => (
+                    <div
+                      key={car.id}
+                      className="cursor-pointer rounded-lg bg-gray-100 p-5 text-center hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                      onClick={() => router.push(`/car-detail/${car.id}`)}
+                    >
+                      <div className="mb-3 flex items-center justify-center gap-x-3">
+                        <TbCarSuv
+                          fontSize={22}
+                          className="text-gray-800 dark:text-gray-300"
+                        />
+                        <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                          {car.make} {car.model}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Price: <span className="font-medium">${car.price}</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="my-8">
             <p className="text-center text-sm font-semibold text-white">
               Or Browse Featured Model
