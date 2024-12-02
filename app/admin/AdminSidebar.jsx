@@ -15,12 +15,11 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoLanguage } from "react-icons/io5";
 import { MdOutlineMailLock } from "react-icons/md";
 import { SiPowerpages } from "react-icons/si";
+import Image from "next/image";
 
 const AdminSidebar = () => {
   return (
     <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
-<<<<<<< HEAD
-=======
       <div className="mb-4 flex items-center justify-center">
         <Image
           src={"/logo.png"}
@@ -31,7 +30,6 @@ const AdminSidebar = () => {
           className="size-auto object-cover"
         />
       </div>
->>>>>>> 21fc1dcb56a24dd162bccce4ade71114a450a541
       <SidebarItems>
         <SidebarItemGroup>
           <SidebarItem href="#" icon={HiChartPie}>
