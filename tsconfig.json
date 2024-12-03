@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     "app/api/cars.js",
     "app/components/Herosection.jsx",
-    "app/components/Herosection.jsx"
+    "app/components/Herosection.jsx",
+    "app/car-detail/[slug]/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

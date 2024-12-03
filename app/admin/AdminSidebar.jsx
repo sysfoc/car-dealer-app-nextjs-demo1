@@ -14,23 +14,34 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoLanguage } from "react-icons/io5";
 import { MdOutlineMailLock } from "react-icons/md";
 import { SiPowerpages } from "react-icons/si";
+import Image from "next/image";
 
 const AdminSidebar = () => {
   return (
     <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
+      <div className="mb-4 flex items-center justify-center">
+        <Image
+          src={"/logo.png"}
+          alt="Sysfoc-cars-dealer"
+          priority
+          width={120}
+          height={50}
+          className="size-auto object-cover"
+        />
+      </div>
       <SidebarItems>
         <SidebarItemGroup>
-          <SidebarItem href="/admin/dashboard" icon={HiChartPie}>
+          <SidebarItem href="#" icon={HiChartPie}>
             Dashboard
           </SidebarItem>
           <SidebarCollapse icon={FaList} label="Manage Listings">
             <SidebarItem href="#">Listing Brands</SidebarItem>
             <SidebarItem href="#">Add Listings</SidebarItem>
-            <SidebarItem href="/admin/listing/view">Listings</SidebarItem>
+            <SidebarItem href="#">Listings</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={FaPencilAlt} label="Manage Blogs">
             <SidebarItem href="#">Categories</SidebarItem>
-            <SidebarItem href="/admin/blog">Blog</SidebarItem>
+            <SidebarItem href="#">Blog</SidebarItem>
             <SidebarItem href="#">Approved Comments</SidebarItem>
             <SidebarItem href="#">Pending Comments</SidebarItem>
           </SidebarCollapse>

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
 import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
+
 const HeroSection = () => {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -17,6 +18,8 @@ const HeroSection = () => {
   const [priceRange, setPriceRange] = useState("");
   const [cars, setCars] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [alternativeCars, setAlternativeCars] = useState([]);
 
   const router = useRouter();
 
@@ -56,20 +59,53 @@ const HeroSection = () => {
 
   const handleSearch = async () => {
     if (selectedMake && selectedModel && priceRange) {
+      setLoading(true);
       try {
+        console.log("Fetching cars with parameters:", {
+          selectedMake,
+          selectedModel,
+          priceRange,
+        });
+
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
         );
-        const cars = response.data;
+
+        console.log("API Response:", response.data);
+
+        const cars = response.data.suggestions || [];
+        const alternatives = response.data.alternatives || [];
+
+        let minPrice = 0;
+        let maxPrice = Infinity;
+
+        if (priceRange) {
+          const match = priceRange.match(/^(\d+)[kK]-(\d+)[kK]$/);
+          if (match) {
+            minPrice = parseInt(match[1]) * 1000;
+            maxPrice = parseInt(match[2]) * 1000;
+          }
+        }
+
         if (cars.length > 0) {
           setSuggestions(cars);
+          setAlternativeCars([]);
+        } else if (alternatives.length > 0) {
+          setAlternativeCars(alternatives);
+          setSuggestions([]);
+          alert(
+            "No exact matches found within your selected price range. Here are some alternatives.",
+          );
         } else {
           setSuggestions([]);
-          alert("No cars found. Please refine your search.");
+          setAlternativeCars([]);
+          alert("No cars found. Please refine your search or try again later.");
         }
       } catch (error) {
         console.error("Error fetching car data:", error);
         alert("An error occurred. Please try again.");
+      } finally {
+        setLoading(false);
       }
     } else {
       alert("Please select all fields before searching.");
@@ -87,9 +123,9 @@ const HeroSection = () => {
         className="z-[-1] opacity-80"
         priority
       />
-      <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-      <div className="relative flex w-full items-center justify-center px-5 py-44">
-        <div className="w-full sm:w-[80%]">
+      <div className="absolute inset-0 bg-black/70"></div>
+      <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
+        <div className="w-full sm:w-4/5">
           <div className="mb-8">
             <p className="text-center text-sm text-white">
               Find cars for sale and for rent near you
@@ -139,8 +175,6 @@ const HeroSection = () => {
               >
                 <option value="">Price Range</option>
                 <option value="10k-20k">10k-20k</option>
-                <option value="20k-30k">20k-30k</option>
-                <option value="30k-50k">30k-50k</option>
               </select>
             </div>
             <div>
@@ -150,11 +184,11 @@ const HeroSection = () => {
                 onClick={handleSearch}
                 className="w-full p-2 dark:bg-red-500"
               >
-                Search Cars
+                {loading ? "Searching..." : "Search Cars"}
               </Button>
             </div>
           </div>
-          {/* suggestion section  update.... if required*/}
+          {/* suggestion section */}
           <div className="mt-6">
             {suggestions.length > 0 && (
               <div>
@@ -166,7 +200,38 @@ const HeroSection = () => {
                     <div
                       key={car.id}
                       className="cursor-pointer rounded-lg bg-gray-100 p-5 text-center hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-                      onClick={() => router.push(`/car-detail/${car.id}`)}
+                      onClick={() => router.push(`/car-detail/${car.slug}`)}
+                    >
+                      <div className="mb-3 flex items-center justify-center gap-x-3">
+                        <TbCarSuv
+                          fontSize={22}
+                          className="text-gray-800 dark:text-gray-300"
+                        />
+                        <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                          {car.make} {car.model}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Price: <span className="font-medium">${car.price}</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Display alternative cars if there are any */}
+            {alternativeCars.length > 0 && (
+              <div>
+                <h2 className="mb-4 text-center text-xl font-semibold text-white">
+                  Alternative Cars (same make & model)
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {alternativeCars.map((car) => (
+                    <div
+                      key={car.id}
+                      className="cursor-pointer rounded-lg bg-gray-100 p-5 text-center hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                      onClick={() => router.push(`/car-detail/${car.slug}`)}
                     >
                       <div className="mb-3 flex items-center justify-center gap-x-3">
                         <TbCarSuv
