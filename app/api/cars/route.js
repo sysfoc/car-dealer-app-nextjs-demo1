@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
   const cars = [
-    { id: 1, make: "Toyota", model: "Corolla", price: 15000, type: "Sedan" },
+    { id: 1, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan" },
     { id: 45, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan1" },
     { id: 46, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan2" },
     { id: 47, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan2" },
