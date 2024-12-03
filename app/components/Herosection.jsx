@@ -93,9 +93,9 @@ const HeroSection = () => {
         } else if (alternatives.length > 0) {
           setAlternativeCars(alternatives);
           setSuggestions([]);
-          alert(
-            "No exact matches found within your selected price range. Here are some alternatives.",
-          );
+          // alert(
+          //   "No exact matches found within your selected price range. Here are some alternatives.",
+          // );
         } else {
           setSuggestions([]);
           setAlternativeCars([]);
