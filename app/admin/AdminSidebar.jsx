@@ -19,8 +19,6 @@ import Image from "next/image";
 const AdminSidebar = () => {
   return (
     <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
-<<<<<<< HEAD
-=======
       <div className="mb-4 flex items-center justify-center">
         <Image
           src={"/logo.png"}
@@ -31,7 +29,6 @@ const AdminSidebar = () => {
           className="size-auto object-cover"
         />
       </div>
->>>>>>> b44c481f81876f6d4942e58efab94ecbdb90295f
       <SidebarItems>
         <SidebarItemGroup>
           <SidebarItem href="#" icon={HiChartPie}>
