@@ -31,7 +31,6 @@ export async function GET(req) {
     }
   }
 
-  // Filter exact matches based on make, model, and price range
   const exactMatches = cars.filter((car) => {
     return (
       (!slug || car.slug === slug) &&
@@ -41,12 +40,11 @@ export async function GET(req) {
     );
   });
 
-  // Find alternative suggestions for the same make and model regardless of price range
   const alternativeSuggestions = cars.filter((car) => {
     return (
       (!make || car.make === make) &&
       (!model || car.model === model) &&
-      !exactMatches.includes(car) // Exclude exact matches
+      !exactMatches.includes(car)
     );
   });
 

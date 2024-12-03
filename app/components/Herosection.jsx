@@ -5,7 +5,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button } from "flowbite-react";
+import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
+import { FaShuttleVan, FaCarSide } from "react-icons/fa";
+import { GiSurferVan } from "react-icons/gi";
 
 const HeroSection = () => {
   const [makes, setMakes] = useState([]);
@@ -258,6 +261,55 @@ const HeroSection = () => {
                 </div>
               </div>
             )}
+          </div>
+          <div className="my-8">
+            <p className="text-center text-sm font-semibold text-white">
+              Or Browse Featured Model
+            </p>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5">
+              <Link href={"/"}>
+                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
+                  <div className="flex items-center gap-x-2">
+                    <TbCarSuv fontSize={22} />
+                    <span className="text-sm">SUV</span>
+                  </div>
+                </div>
+              </Link>
+              <Link href={"/"}>
+                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
+                  <div className="flex items-center gap-x-2">
+                    <FaShuttleVan fontSize={22} />
+                    <span className="text-sm">Sedan</span>
+                  </div>
+                </div>
+              </Link>
+              <Link href={"/"}>
+                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
+                  <div className="flex items-center gap-x-2">
+                    <FaCarSide fontSize={22} />
+                    <span className="text-sm">Hatchback</span>
+                  </div>
+                </div>
+              </Link>
+              <Link href={"/"}>
+                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
+                  <div className="flex items-center gap-x-2">
+                    <GiSurferVan fontSize={22} />
+                    <span className="text-sm">Coupe</span>
+                  </div>
+                </div>
+              </Link>
+              <Link href={"/"}>
+                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
+                  <div className="flex items-center gap-x-2">
+                    <FaCarSide fontSize={22} />
+                    <span className="text-sm">Hybrid</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
