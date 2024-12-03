@@ -22,14 +22,14 @@ const HeroSection = () => {
   const [alternativeCars, setAlternativeCars] = useState([]);
 
   const router = useRouter();
-  // Fetch makes
+
   useEffect(() => {
     const fetchMakes = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars`,
         );
-        console.log("Response Data:", response.data); // Log to check data
+        console.log("Response Data:", response.data);
 
         if (
           response.data.exactMatches &&
@@ -50,7 +50,6 @@ const HeroSection = () => {
     fetchMakes();
   }, []);
 
-  // Fetch models based on selected make
   useEffect(() => {
     if (selectedMake) {
       const fetchModels = async () => {
@@ -58,7 +57,7 @@ const HeroSection = () => {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}`,
           );
-          console.log("Models Response Data:", response.data); // Log to check model data
+          console.log("Models Response Data:", response.data);
 
           if (
             response.data.exactMatches &&
@@ -83,7 +82,6 @@ const HeroSection = () => {
     }
   }, [selectedMake]);
 
-  // Handle search functionality
   const handleSearch = async () => {
     if (selectedMake && selectedModel && priceRange) {
       setLoading(true);
@@ -91,13 +89,11 @@ const HeroSection = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
         );
-        console.log("Search Response Data:", response.data); // Log to check search data
+        console.log("Search Response Data:", response.data);
 
-        // Check for cars in both exactMatches and alternativeSuggestions
         const cars = response.data.exactMatches || [];
         const alternatives = response.data.alternativeSuggestions || [];
 
-        // Prioritize cars from exactMatches
         if (cars.length > 0) {
           setSuggestions(cars);
           setAlternativeCars([]);
