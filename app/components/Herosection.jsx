@@ -71,14 +71,11 @@ const HeroSection = () => {
           `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
         );
 
-        // Debugging: Log the entire response
         console.log("API Response:", response.data);
 
-        // Assuming response.data has 'suggestions' and 'alternatives'
-        const cars = response.data.suggestions || []; // Cars matching exact price range
-        const alternatives = response.data.alternatives || []; // Cars outside the price range
+        const cars = response.data.suggestions || [];
+        const alternatives = response.data.alternatives || [];
 
-        // Calculate min and max price based on price range
         let minPrice = 0;
         let maxPrice = Infinity;
 
@@ -90,19 +87,18 @@ const HeroSection = () => {
           }
         }
 
-        // Now decide what to show
         if (cars.length > 0) {
-          setSuggestions(cars); // Set suggestions if exact matches are found
-          setAlternativeCars([]); // Clear alternatives when suggestions are shown
+          setSuggestions(cars);
+          setAlternativeCars([]);
         } else if (alternatives.length > 0) {
-          setAlternativeCars(alternatives); // Set alternative cars if no exact matches
-          setSuggestions([]); // Clear suggestions if only alternatives are found
+          setAlternativeCars(alternatives);
+          setSuggestions([]);
           alert(
             "No exact matches found within your selected price range. Here are some alternatives.",
           );
         } else {
-          setSuggestions([]); // Clear suggestions
-          setAlternativeCars([]); // Clear alternatives
+          setSuggestions([]);
+          setAlternativeCars([]);
           alert("No cars found. Please refine your search or try again later.");
         }
       } catch (error) {
