@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req) {
   const cars = [
-    { id: 1, make: "Toyota", model: "Corolla", price: 220000, type: "Sedan" },
+    { id: 1, make: "Toyota", model: "Corolla", price: 18000, type: "Sedan" },
     { id: 45, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan1" },
     { id: 46, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan2" },
     { id: 47, make: "Toyota", model: "Corolla", price: 5000, type: "Sedan2" },
@@ -31,8 +31,8 @@ export async function GET(req) {
     }
   }
 
-  // Filter cars based on make, model, and price range
-  const filteredCars = cars.filter((car) => {
+  // Filter exact matches based on make, model, and price range
+  const exactMatches = cars.filter((car) => {
     return (
       (!slug || car.slug === slug) &&
       (!make || car.make === make) &&
@@ -41,18 +41,17 @@ export async function GET(req) {
     );
   });
 
-  // If no cars are found within the selected price range
-  if (filteredCars.length === 0) {
-    // Find alternative cars based on the same make and model, regardless of price
-    const alternativeCars = cars.filter(
-      (car) => car.make === make && car.model === model,
+  // Find alternative suggestions for the same make and model regardless of price range
+  const alternativeSuggestions = cars.filter((car) => {
+    return (
+      (!make || car.make === make) &&
+      (!model || car.model === model) &&
+      !exactMatches.includes(car) // Exclude exact matches
     );
+  });
 
-    return NextResponse.json({
-      suggestions: [],
-      alternatives: alternativeCars,
-    });
-  }
-
-  return NextResponse.json(filteredCars);
+  return NextResponse.json({
+    exactMatches,
+    alternativeSuggestions,
+  });
 }

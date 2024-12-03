@@ -5,10 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button } from "flowbite-react";
-import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
-import { FaShuttleVan, FaCarSide } from "react-icons/fa";
-import { GiSurferVan } from "react-icons/gi";
 
 const HeroSection = () => {
   const [makes, setMakes] = useState([]);
@@ -22,15 +19,26 @@ const HeroSection = () => {
   const [alternativeCars, setAlternativeCars] = useState([]);
 
   const router = useRouter();
-
+  // Fetch makes
   useEffect(() => {
     const fetchMakes = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars`,
         );
-        const makes = [...new Set(response.data.map((car) => car.make))];
-        setMakes(makes);
+        console.log("Response Data:", response.data); // Log to check data
+
+        if (
+          response.data.exactMatches &&
+          Array.isArray(response.data.exactMatches)
+        ) {
+          const makes = [
+            ...new Set(response.data.exactMatches.map((car) => car.make)),
+          ];
+          setMakes(makes);
+        } else {
+          console.error("Data is not in expected format:", response.data);
+        }
       } catch (error) {
         console.error("Error fetching makes:", error);
       }
@@ -39,6 +47,7 @@ const HeroSection = () => {
     fetchMakes();
   }, []);
 
+  // Fetch models based on selected make
   useEffect(() => {
     if (selectedMake) {
       const fetchModels = async () => {
@@ -46,8 +55,22 @@ const HeroSection = () => {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}`,
           );
-          const models = [...new Set(response.data.map((car) => car.model))];
-          setModels(models);
+          console.log("Models Response Data:", response.data); // Log to check model data
+
+          if (
+            response.data.exactMatches &&
+            Array.isArray(response.data.exactMatches)
+          ) {
+            const models = [
+              ...new Set(response.data.exactMatches.map((car) => car.model)),
+            ];
+            setModels(models);
+          } else {
+            console.error(
+              "Models data is not in expected format:",
+              response.data,
+            );
+          }
         } catch (error) {
           console.error("Error fetching models:", error);
         }
@@ -57,45 +80,27 @@ const HeroSection = () => {
     }
   }, [selectedMake]);
 
+  // Handle search functionality
   const handleSearch = async () => {
     if (selectedMake && selectedModel && priceRange) {
       setLoading(true);
       try {
-        console.log("Fetching cars with parameters:", {
-          selectedMake,
-          selectedModel,
-          priceRange,
-        });
-
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
         );
+        console.log("Search Response Data:", response.data); // Log to check search data
 
-        console.log("API Response:", response.data);
+        // Check for cars in both exactMatches and alternativeSuggestions
+        const cars = response.data.exactMatches || [];
+        const alternatives = response.data.alternativeSuggestions || [];
 
-        const cars = response.data.suggestions || [];
-        const alternatives = response.data.alternatives || [];
-
-        let minPrice = 0;
-        let maxPrice = Infinity;
-
-        if (priceRange) {
-          const match = priceRange.match(/^(\d+)[kK]-(\d+)[kK]$/);
-          if (match) {
-            minPrice = parseInt(match[1]) * 1000;
-            maxPrice = parseInt(match[2]) * 1000;
-          }
-        }
-
+        // Prioritize cars from exactMatches
         if (cars.length > 0) {
           setSuggestions(cars);
           setAlternativeCars([]);
         } else if (alternatives.length > 0) {
           setAlternativeCars(alternatives);
           setSuggestions([]);
-          // alert(
-          //   "No exact matches found within your selected price range. Here are some alternatives.",
-          // );
         } else {
           setSuggestions([]);
           setAlternativeCars([]);
@@ -175,6 +180,9 @@ const HeroSection = () => {
               >
                 <option value="">Price Range</option>
                 <option value="10k-20k">10k-20k</option>
+                <option value="20k-30k">20k-30k</option>
+                <option value="30k-50k">30k-50k</option>
+                <option value="50k-100k">50k-100k</option>
               </select>
             </div>
             <div>
@@ -188,8 +196,8 @@ const HeroSection = () => {
               </Button>
             </div>
           </div>
-          {/* suggestion section */}
           <div className="mt-6">
+            {/* Display exact matches */}
             {suggestions.length > 0 && (
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
@@ -220,7 +228,7 @@ const HeroSection = () => {
               </div>
             )}
 
-            {/* Display alternative cars if there are any */}
+            {/* Display alternative suggestions */}
             {alternativeCars.length > 0 && (
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
@@ -250,56 +258,6 @@ const HeroSection = () => {
                 </div>
               </div>
             )}
-          </div>
-
-          <div className="my-8">
-            <p className="text-center text-sm font-semibold text-white">
-              Or Browse Featured Model
-            </p>
-          </div>
-          <div className="flex items-center justify-center">
-            <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-5">
-              <Link href={"/"}>
-                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
-                  <div className="flex items-center gap-x-2">
-                    <TbCarSuv fontSize={22} />
-                    <span className="text-sm">SUV</span>
-                  </div>
-                </div>
-              </Link>
-              <Link href={"/"}>
-                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
-                  <div className="flex items-center gap-x-2">
-                    <FaShuttleVan fontSize={22} />
-                    <span className="text-sm">Sedan</span>
-                  </div>
-                </div>
-              </Link>
-              <Link href={"/"}>
-                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
-                  <div className="flex items-center gap-x-2">
-                    <FaCarSide fontSize={22} />
-                    <span className="text-sm">Hatchback</span>
-                  </div>
-                </div>
-              </Link>
-              <Link href={"/"}>
-                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
-                  <div className="flex items-center gap-x-2">
-                    <GiSurferVan fontSize={22} />
-                    <span className="text-sm">Coupe</span>
-                  </div>
-                </div>
-              </Link>
-              <Link href={"/"}>
-                <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
-                  <div className="flex items-center gap-x-2">
-                    <FaCarSide fontSize={22} />
-                    <span className="text-sm">Hybrid</span>
-                  </div>
-                </div>
-              </Link>
-            </div>
           </div>
         </div>
       </div>
