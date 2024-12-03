@@ -87,7 +87,7 @@ const HeroSection = () => {
         className="z-[-1] opacity-80"
         priority
       />
-      <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+      <div className="absolute inset-0 bg-black/70"></div>
       <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
         <div className="w-full sm:w-4/5">
           <div className="mb-8">
