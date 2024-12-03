@@ -8,20 +8,18 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-
-export default function Listing() {
+export default function Page() {
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold">All Listings</h2>
+      <h2 className="text-2xl font-bold">All Blogs</h2>
       <div className="mt-5">
         <Table>
           <TableHead>
             <TableHeadCell>Featured Photo</TableHeadCell>
-            <TableHeadCell>Name</TableHeadCell>
-            <TableHeadCell>Brand</TableHeadCell>
-            <TableHeadCell>Location</TableHeadCell>
-            <TableHeadCell>Status</TableHeadCell>
-            <TableHeadCell>Is Featured?</TableHeadCell>
+            <TableHeadCell>Title</TableHeadCell>
+            <TableHeadCell>Description</TableHeadCell>
+            <TableHeadCell>Author</TableHeadCell>
+            <TableHeadCell>Created At</TableHeadCell>
             <TableHeadCell>Actions</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
@@ -35,11 +33,10 @@ export default function Listing() {
                   className="rounded-md object-cover"
                 />
               </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
+              <TableCell>This is my first blog</TableCell>
+              <TableCell>this blogs contain info</TableCell>
+              <TableCell>Hamza</TableCell>
+              <TableCell>March 29, 2003</TableCell>
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
@@ -67,11 +64,10 @@ export default function Listing() {
                   className="rounded-md object-cover"
                 />
               </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
+              <TableCell>This is my first blog</TableCell>
+              <TableCell>this blogs contain info</TableCell>
+              <TableCell>Hamza</TableCell>
+              <TableCell>March 29, 2003</TableCell>
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
@@ -99,11 +95,10 @@ export default function Listing() {
                   className="rounded-md object-cover"
                 />
               </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
+              <TableCell>This is my first blog</TableCell>
+              <TableCell>this blogs contain info</TableCell>
+              <TableCell>Hamza</TableCell>
+              <TableCell>March 29, 2003</TableCell>
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link

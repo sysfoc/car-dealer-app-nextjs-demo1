@@ -88,13 +88,8 @@ const HeroSection = () => {
         priority
       />
       <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-<<<<<<< HEAD
       <div className="relative flex w-full items-center justify-center px-5 py-44">
         <div className="w-full sm:w-[80%]">
-=======
-      <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
-        <div className="w-full sm:w-4/5">
->>>>>>> b44c481f81876f6d4942e58efab94ecbdb90295f
           <div className="mb-8">
             <p className="text-center text-sm text-white">
               Find cars for sale and for rent near you

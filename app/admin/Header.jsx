@@ -2,6 +2,7 @@
 import React from "react";
 import {
   Avatar,
+  DarkThemeToggle,
   Dropdown,
   DropdownHeader,
   Navbar,
@@ -11,8 +12,8 @@ import Image from "next/image";
 
 const Header = () => {
   return (
-    <Navbar fluid rounded>
-      <NavbarBrand href="/">
+    <Navbar fluid rounded className="dark:shadow-xl">
+      <NavbarBrand href="/admin/dashboard">
         <Image
           src={"/logo.png"}
           alt="Sysfoc-cars-dealer"
@@ -21,7 +22,8 @@ const Header = () => {
           className="h-auto w-auto object-cover"
         />
       </NavbarBrand>
-      <div className="flex md:order-2">
+      <div className="flex items-center gap-x-5 md:order-2">
+        <DarkThemeToggle />
         <Dropdown
           arrowIcon={false}
           inline
