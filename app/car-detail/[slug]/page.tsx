@@ -11,11 +11,18 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 interface Car {
+  id: number;
+  make: string;
   model: string;
   price: number;
-  [key: string]: any;
+  type: string;
+  slug: string;
 }
 
+interface ApiResponse {
+  exactMatches: Car[];
+  alternativeSuggestions: Car[];
+}
 export default function Home() {
   const { slug } = useParams();
   const [car, setCar] = useState<Car | null>(null);
@@ -38,7 +45,9 @@ export default function Home() {
           return response.json();
         })
         .then((data) => {
-          setCar(data[0] || null);
+          // setCar(data[0] || null);
+          // setLoading(false);
+          setCar(data.exactMatches[0] || null);
           setLoading(false);
         })
         .catch((err) => {

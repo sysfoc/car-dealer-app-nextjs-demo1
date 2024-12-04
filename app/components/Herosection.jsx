@@ -1,5 +1,5 @@
 "use client";
-
+import { Spinner } from "flowbite-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     const fetchMakes = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/cars`,
@@ -44,6 +45,8 @@ const HeroSection = () => {
         }
       } catch (error) {
         console.error("Error fetching makes:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -53,6 +56,7 @@ const HeroSection = () => {
   useEffect(() => {
     if (selectedMake) {
       const fetchModels = async () => {
+        setLoading(true);
         try {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}`,
@@ -75,6 +79,8 @@ const HeroSection = () => {
           }
         } catch (error) {
           console.error("Error fetching models:", error);
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -130,6 +136,12 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-black/70"></div>
       <div className="relative flex h-[120vh] w-full items-center justify-center px-5">
         <div className="w-full sm:w-4/5">
+          {loading && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50">
+              <Spinner aria-label="Spinner button example" size="sm" />
+              <span className="pl-3">Loading...</span>
+            </div>
+          )}
           <div className="mb-8">
             <p className="text-center text-sm text-white">
               Find cars for sale and for rent near you
@@ -203,27 +215,45 @@ const HeroSection = () => {
             {suggestions.length > 0 && (
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
-                  Suggested Cars
+                  <b className="text-3xl text-green-400">
+                    Sucessfully ! Exact match Found
+                  </b>
                 </h2>
+
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {suggestions.map((car) => (
                     <div
                       key={car.id}
-                      className="cursor-pointer rounded-lg bg-gray-100 p-5 text-center hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                      className="flex cursor-pointer rounded-lg bg-gray-100 p-2 text-left hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                       onClick={() => router.push(`/car-detail/${car.slug}`)}
                     >
-                      <div className="mb-3 flex items-center justify-center gap-x-3">
-                        <TbCarSuv
-                          fontSize={22}
-                          className="text-gray-800 dark:text-gray-300"
+                      {/* Image Section */}
+                      <div className="w-1/3">
+                        <Image
+                          src="/Luxury SUV.webp"
+                          width={150}
+                          height={100}
+                          alt={`${car.make} ${car.model}`}
+                          className=" rounded-md object-cover"
                         />
-                        <span className="text-lg font-semibold text-gray-800 dark:text-white">
-                          {car.make} {car.model}
-                        </span>
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Price: <span className="font-medium">${car.price}</span>
-                      </p>
+
+                      {/* Details Section */}
+                      <div className="ml-4 flex w-2/3 flex-col justify-center">
+                        <div className="mb-2 flex items-center gap-x-3">
+                          <TbCarSuv
+                            fontSize={22}
+                            className="text-gray-800 dark:text-gray-300"
+                          />
+                          <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                            {car.make} {car.model}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Price:
+                          <span className="font-medium">${car.price}</span>
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -234,27 +264,43 @@ const HeroSection = () => {
             {alternativeCars.length > 0 && (
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
-                  Alternative Cars (same make & model)
+                  <b className="text-3xl text-red-700">
+                    Exact Match Not Found Some Alternative results :
+                  </b>
                 </h2>
+
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {alternativeCars.map((car) => (
                     <div
                       key={car.id}
-                      className="cursor-pointer rounded-lg bg-gray-100 p-5 text-center hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                      className="flex cursor-pointer rounded-lg bg-gray-100 p-2 text-left hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                       onClick={() => router.push(`/car-detail/${car.slug}`)}
                     >
-                      <div className="mb-3 flex items-center justify-center gap-x-3">
-                        <TbCarSuv
-                          fontSize={22}
-                          className="text-gray-800 dark:text-gray-300"
+                      <div className="w-1/3">
+                        <Image
+                          src="/Luxury SUV.webp"
+                          width={150}
+                          height={100}
+                          alt={`${car.make} ${car.model}`}
+                          className=" rounded-md object-cover"
                         />
-                        <span className="text-lg font-semibold text-gray-800 dark:text-white">
-                          {car.make} {car.model}
-                        </span>
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Price: <span className="font-medium">${car.price}</span>
-                      </p>
+
+                      <div className="ml-4 flex w-2/3 flex-col justify-center">
+                        <div className="mb-2 flex items-center gap-x-3">
+                          <TbCarSuv
+                            fontSize={22}
+                            className="text-gray-800 dark:text-gray-300"
+                          />
+                          <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                            {car.make} {car.model}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Price:
+                          <span className="font-medium">${car.price}</span>
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
