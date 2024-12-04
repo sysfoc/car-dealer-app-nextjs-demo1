@@ -94,10 +94,12 @@ const Header = () => {
             className="cursor-pointer text-gray-600 dark:text-gray-400"
             onClick={() => setOpenSidebar(true)}
           />
-          <FaRegHeart
-            fontSize={16}
-            className="text-gray-600 dark:text-gray-400"
-          />
+          <Link href={"/user/saved"}>
+            <FaRegHeart
+              fontSize={16}
+              className="text-gray-600 dark:text-gray-400"
+            />
+          </Link>
           <DarkThemeToggle />
         </div>
       </Navbar>
