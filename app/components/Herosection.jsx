@@ -190,6 +190,9 @@ const HeroSection = () => {
                 color={"blue"}
                 onClick={handleSearch}
                 className="w-full p-2 dark:bg-red-500"
+                disabled={
+                  loading || !selectedMake || !selectedModel || !priceRange
+                }
               >
                 {loading ? "Searching..." : "Search Cars"}
               </Button>
