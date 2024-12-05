@@ -33,12 +33,7 @@ export default function Home() {
           <SidebarFilters />
         </div>
         <div className="w-full md:w-5/6">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <CardetailCard />
-            <CardetailCard />
-            <CardetailCard />
-            <CardetailCard />
-          </div>
+          <CardetailCard />
           <div className="mt-5 flex overflow-x-auto sm:justify-center">
             <Pagination
               currentPage={currentPage}
