@@ -34,7 +34,7 @@ const SidebarFilters = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-3">
       {[
         {
           label: "Search By Keyword",
@@ -138,7 +138,7 @@ const SidebarFilters = () => {
           symbol: <GiCartwheel fontSize={22} className="text-white" />,
         },
       ].map((section, index) => (
-        <div key={index} className="mt-3">
+        <div key={index}>
           <div
             className="filter-header flex cursor-pointer flex-row items-center justify-between rounded-t-md bg-blue-950 px-5 py-3 dark:bg-gray-700"
             onClick={() => toggleSection(section.content)}

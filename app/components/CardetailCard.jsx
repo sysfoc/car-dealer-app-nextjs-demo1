@@ -1,5 +1,4 @@
 "use client";
-
 import { Button, Carousel, Select } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,9 +7,17 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
+import { CiHeart } from "react-icons/ci";
+import { FaPhoneAlt } from "react-icons/fa";
 
 const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const togglePopup = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
   const loading = false;
 
   const vehicalImages = [
@@ -38,7 +45,12 @@ const CardetailCard = () => {
 
   return (
     <>
-      <div className="mb-2 flex items-center justify-end">
+      <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
+        <div>
+          <span className="text-sm">
+            <strong>4</strong> out of <strong>500</strong> results
+          </span>
+        </div>
         <div className="flex items-center gap-x-3">
           <Select icon={GrSort}>
             <option value="ascending">Ascending</option>
@@ -87,7 +99,10 @@ const CardetailCard = () => {
             </div>
             <div className="p-4">
               <div>
-                <Link href="#">
+                <Link
+                  href="/car-detail/1"
+                  className="hover:text-blue-950 hover:underline"
+                >
                   <h3 className="font-bold uppercase">
                     {loading ? (
                       <Skeleton height={25} />
@@ -96,11 +111,18 @@ const CardetailCard = () => {
                     )}
                   </h3>
                 </Link>
-                <h4 className="text-2xl font-bold text-blue-950 dark:text-red-500">
-                  {loading ? <Skeleton height={25} width={100} /> : "$3,500"}
-                </h4>
+                <div className="flex items-center justify-between">
+                  <h4 className="text-2xl font-bold text-blue-950 dark:text-red-500">
+                    {loading ? <Skeleton height={25} width={100} /> : "$3,500"}
+                  </h4>
+                  <div>
+                    <Button color={"white"}>
+                      <CiHeart fontSize={22} />
+                    </Button>
+                  </div>
+                </div>
                 <div
-                  className={`mt-3 ${
+                  className={`mt-2 ${
                     isGridView
                       ? "grid grid-cols-1 gap-3 sm:grid-cols-2"
                       : "hidden grid-cols-1 gap-3 sm:grid sm:grid-cols-2"
@@ -135,13 +157,18 @@ const CardetailCard = () => {
                     )}
                   </span>
                 </div>
-                <div className="mt-5 flex flex-col">
-                  <Link
-                    href="/car-detail/1"
-                    className="bg-blue-950 px-3 py-2 text-center uppercase text-white transition-all dark:bg-red-500"
-                  >
-                    Get Todays Price
-                  </Link>
+              </div>
+              <div className="relative mt-3 flex flex-col">
+                <div
+                  className="flex cursor-pointer items-center justify-center rounded bg-blue-950 py-3 text-center text-sm text-white dark:bg-red-500"
+                  onClick={() => togglePopup(index)}
+                >
+                  <span className="flex items-center gap-x-2">
+                    <FaPhoneAlt />
+                    {activeIndex === index
+                      ? "999 999 999"
+                      : "Show Phone Number"}
+                  </span>
                 </div>
               </div>
             </div>

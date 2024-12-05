@@ -23,40 +23,64 @@ export default function Home() {
         <h3 className="mt-5 text-center text-3xl font-semibold">
           Follow Us On Social Media
         </h3>
-        <p className="mt-5 text-center text-xl">All The Latest News For You</p>
+        <p className="mt-3 text-center text-lg">All The Latest News For You</p>
         <div className="flex items-center justify-center">
           <div className="mt-10 grid grid-cols-3 gap-5 sm:grid-cols-5 md:grid-cols-6 md:gap-8">
-            <Link href={"#"} target="_blank" className="flex flex-col text-center">
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center hover:underline"
+            >
               <div className="flex items-center justify-center">
                 <FaFacebookSquare fontSize={30} />
               </div>
               <span className="mt-2">Facebook</span>
             </Link>
-            <Link href={"#"} target="_blank" className="flex flex-col text-center">
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center hover:underline"
+            >
               <div className="flex items-center justify-center">
                 <FaYoutube fontSize={30} />
               </div>
               <span className="mt-2">Youtube</span>
             </Link>
-            <Link href={"#"} target="_blank" className="flex flex-col text-center">
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center hover:underline"
+            >
               <div className="flex items-center justify-center">
                 <FaInstagram fontSize={30} />
               </div>
               <span className="mt-2">Instagram</span>
             </Link>
-            <Link href={"#"} target="_blank" className="flex flex-col text-center">
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center hover:underline"
+            >
               <div className="flex items-center justify-center">
                 <FaTiktok fontSize={30} />
               </div>
               <span className="mt-2">Tiktok</span>
             </Link>
-            <Link href={"#"} target="_blank" className="flex flex-col text-center">
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center hover:underline"
+            >
               <div className="flex items-center justify-center">
                 <SiGiphy fontSize={30} />
               </div>
               <span className="mt-2">Giphy</span>
             </Link>
-            <Link href={"#"} target="_blank" className="flex flex-col text-center">
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center hover:underline"
+            >
               <div className="flex items-center justify-center">
                 <FaPinterest fontSize={30} />
               </div>

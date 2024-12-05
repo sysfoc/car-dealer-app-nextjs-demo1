@@ -52,40 +52,69 @@ const Header = () => {
         <NavbarCollapse>
           <NavbarLink
             as={"div"}
-            active
-            className="bg-blue-950 text-white dark:text-white md:bg-transparent md:text-blue-950"
+            className="relative hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/">Home</Link>
+            <Link
+              href="/"
+              className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            >
+              Home
+            </Link>
           </NavbarLink>
           <NavbarLink
             as={"div"}
-            className="hover:text-blue-950 md:hover:text-blue-950"
+            className="relative hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/car-for-sale">New & Used Cars</Link>
+            <Link
+              href="/car-for-sale"
+              className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            >
+              New & Used Cars
+            </Link>
           </NavbarLink>
           <NavbarLink
             as={"div"}
-            className="hover:text-blue-950 md:hover:text-blue-950"
+            className="relative hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/cars/sell-my-car">Sell my car</Link>{" "}
+            <Link
+              href="/cars/sell-my-car"
+              className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            >
+              Sell my car
+            </Link>{" "}
           </NavbarLink>
           <NavbarLink
             as={"div"}
-            className="hover:text-blue-950 md:hover:text-blue-950"
+            className="relative hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/cars/valuation">Value Your Car</Link>{" "}
+            <Link
+              href="/cars/valuation"
+              className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            >
+              Value Your Car
+            </Link>{" "}
           </NavbarLink>
           <NavbarLink
             as={"div"}
-            className="hover:text-blue-950 md:hover:text-blue-950"
+            className="relative hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/cars/leasing">Car Leasing</Link>{" "}
+            <Link
+              href="/cars/leasing"
+              className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            >
+              Car Leasing
+            </Link>{" "}
           </NavbarLink>
           <NavbarLink
             as={"div"}
-            className="hover:text-blue-950 md:hover:text-blue-950"
+            className="relative hover:text-blue-950 md:hover:text-blue-950"
           >
-            <Link href="/cars/finance">Car Finance</Link>{" "}
+            <Link
+              href="/cars/finance"
+              className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            >
+              Car Finance
+            </Link>{" "}
           </NavbarLink>
         </NavbarCollapse>
         <div className="hidden items-center gap-x-5 md:flex">

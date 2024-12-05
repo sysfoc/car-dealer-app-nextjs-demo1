@@ -22,7 +22,7 @@ const Services = () => {
           </div>
           <div>
             <Link href={"/car-for-sale"}>
-              <Button color={"blue"}>
+              <Button color={"dark"}>
                 Get Started <MdOutlineArrowOutward className="ml-2" />
               </Button>
             </Link>

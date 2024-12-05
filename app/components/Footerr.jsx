@@ -9,13 +9,12 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import React from "react";
-import {
-  BsDribbble,
-  BsFacebook,
-  BsGithub,
-  BsInstagram,
-  BsTwitter,
-} from "react-icons/bs";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa6";
+import { SiGiphy } from "react-icons/si";
+import { FaPinterest } from "react-icons/fa";
 const Footerr = () => {
   return (
     <Footer className="mt-10">
@@ -52,72 +51,86 @@ const Footerr = () => {
             <FooterTitle title="Trading Hour" />
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   Monday
                 </span>
               </div>
               <div>
-                <span className="text-sm font-bold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   8:00 am - 5:00 pm
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   Tuesday
                 </span>
               </div>
               <div>
-                <span className="text-sm font-bold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   8:00 am - 5:00 pm
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   Wednesday
                 </span>
               </div>
               <div>
-                <span className="text-sm font-bold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   8:00 am - 5:00 pm
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   Thursday
                 </span>
               </div>
               <div>
-                <span className="text-sm font-bold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   8:00 am - 5:00 pm
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   Friday
                 </span>
               </div>
               <div>
-                <span className="text-sm font-bold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   8:00 am - 1:00 pm
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <span className="text-sm font-semibold text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   Saturday
                 </span>
               </div>
               <div>
-                <span className="text-sm font-bold text-gray-500">Closed</span>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  Closed
+                </span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  Sunday
+                </span>
+              </div>
+              <div>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  Closed
+                </span>
               </div>
             </div>
           </div>
@@ -134,31 +147,37 @@ const Footerr = () => {
               href="#"
               target="_blank"
               aria-labelledby="facebook icons"
-              icon={BsFacebook}
+              icon={FaFacebookSquare}
             />
             <FooterIcon
               href="#"
               target="_blank"
               aria-labelledby="instagram icons"
-              icon={BsInstagram}
+              icon={FaInstagram}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="twitter icons"
-              icon={BsTwitter}
+              aria-labelledby="youtube icons"
+              icon={FaYoutube}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="github icons"
-              icon={BsGithub}
+              aria-labelledby="tiktok icons"
+              icon={FaTiktok}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="dribble icons"
-              icon={BsDribbble}
+              aria-labelledby="giphy icons"
+              icon={SiGiphy}
+            />
+            <FooterIcon
+              href="#"
+              target="_blank"
+              aria-labelledby="pinterest icons"
+              icon={FaPinterest}
             />
           </div>
         </div>
