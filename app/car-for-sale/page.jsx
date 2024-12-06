@@ -9,7 +9,7 @@ export default function Home() {
   const onPageChange = (page) => setCurrentPage(page);
 
   return (
-    <section className="mx-4 my-10 sm:mx-16">
+    <section className="mx-4 my-10 sm:mx-12">
       <div className="relative mt-5 flex flex-wrap justify-between gap-5 md:flex-nowrap">
         <div className="w-full md:w-2/5">
           <SidebarFilters />

@@ -8,7 +8,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
 import { CiHeart } from "react-icons/ci";
-import { FaPhoneAlt } from "react-icons/fa";
 
 const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
@@ -73,12 +72,12 @@ const CardetailCard = () => {
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
-            className={`rounded-lg shadow-lg dark:bg-gray-700 ${
-              isGridView ? "" : "flex gap-x-3"
+            className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${
+              isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"
             }`}
           >
             <div
-              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "w-[250px] md:w-1/2"}`}
+              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-56 md:w-1/2"}`}
             >
               <Carousel slideInterval={3000}>
                 {vehicalImages.map((image, i) => {
@@ -97,11 +96,14 @@ const CardetailCard = () => {
                 })}
               </Carousel>
             </div>
+            <span className="absolute left-2 top-3 rounded bg-blue-950 px-3 py-1 text-sm uppercase text-white dark:bg-red-500">
+              New
+            </span>
             <div className="p-4">
               <div>
                 <Link
                   href="/car-detail/1"
-                  className="hover:text-blue-950 hover:underline"
+                  className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
                 >
                   <h3 className="font-bold uppercase">
                     {loading ? (
@@ -125,7 +127,7 @@ const CardetailCard = () => {
                   className={`mt-2 ${
                     isGridView
                       ? "grid grid-cols-1 gap-3 sm:grid-cols-2"
-                      : "hidden grid-cols-1 gap-3 sm:grid sm:grid-cols-2"
+                      : "grid grid-cols-1 gap-3 sm:grid-cols-2"
                   }`}
                 >
                   <span className="text-sm">
@@ -158,18 +160,23 @@ const CardetailCard = () => {
                   </span>
                 </div>
               </div>
-              <div className="relative mt-3 flex flex-col">
-                <div
-                  className="flex cursor-pointer items-center justify-center rounded bg-blue-950 py-3 text-center text-sm text-white dark:bg-red-500"
-                  onClick={() => togglePopup(index)}
-                >
-                  <span className="flex items-center gap-x-2">
-                    <FaPhoneAlt />
-                    {activeIndex === index
-                      ? "999 999 999"
-                      : "Show Phone Number"}
-                  </span>
-                </div>
+              <div className="mt-3 grid grid-cols-2 gap-x-3">
+                <Link href={"#"} className="flex flex-col">
+                  <Button
+                    color={"white"}
+                    className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
+                  >
+                    Enquire Now
+                  </Button>
+                </Link>
+                <Link href={"#"} className="flex flex-col">
+                  <Button
+                    color={"white"}
+                    className="bg-blue-950 text-sm uppercase text-white dark:bg-red-500"
+                  >
+                    View Details
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

@@ -186,49 +186,37 @@ export default function Home() {
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Personal loans</p>
+                <p>Flexible Financing Options</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Debt consolidation loans</p>
+                <p> Competitive Interest Rates</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Home renovation loans</p>
+                <p>Quick and Easy Approval</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Travel loans</p>
+                <p> No Hidden Costs </p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Wedding loans</p>
+                <p> Financing for All Credit Levels</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Medical loans</p>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
-                  <FaCheck fontSize={22} color="white" />
-                </div>
-                <p>Education loans</p>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
-                  <FaCheck fontSize={22} color="white" />
-                </div>
-                <p>Funeral loans</p>
+                <p> Expert Guidance at Every Step</p>
               </li>
             </ul>
           </div>
