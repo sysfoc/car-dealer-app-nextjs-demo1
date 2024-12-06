@@ -22,6 +22,7 @@ import { ImPower } from "react-icons/im";
 import { FaHourglassEnd } from "react-icons/fa";
 import { MdOutlineCo2 } from "react-icons/md";
 import { GiCartwheel } from "react-icons/gi";
+import { FaRecycle } from "react-icons/fa6";
 const SidebarFilters = () => {
   const [openSections, setOpenSections] = useState([]);
 
@@ -42,11 +43,15 @@ const SidebarFilters = () => {
           symbol: <VscSymbolKeyword fontSize={22} className="text-white" />,
         },
         {
+          label: "Condition",
+          content: "condition",
+          symbol: <FaRecycle fontSize={22} className="text-white" />,
+        },
+        {
           label: "Location",
           content: "location",
           symbol: <FaLocationDot fontSize={22} className="text-white" />,
         },
-
         {
           label: "Price",
           content: "price",
@@ -171,6 +176,22 @@ const SidebarFilters = () => {
                   placeholder="e.g., Toyota"
                 />
               </div>
+            )}
+            {section.content === "condition" && (
+              <>
+                <div className="mt-2 flex items-center">
+                  <TextInput type="checkbox" id="new" name="new" />
+                  <Label htmlFor="new" className="ml-3 text-sm text-gray-700">
+                    New
+                  </Label>
+                </div>
+                <div className="mt-2 flex items-center">
+                  <TextInput type="checkbox" id="used" name="used" />
+                  <Label htmlFor="used" className="ml-3 text-sm text-gray-700">
+                    Used
+                  </Label>
+                </div>
+              </>
             )}
             {section.content === "location" && (
               <>

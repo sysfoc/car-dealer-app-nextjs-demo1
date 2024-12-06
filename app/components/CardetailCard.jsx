@@ -52,9 +52,14 @@ const CardetailCard = () => {
         </div>
         <div className="flex items-center gap-x-3">
           <Select icon={GrSort}>
-            <option value="ascending">Ascending</option>
-            <option value="decending">Decending</option>
-            <option value="price">Price</option>
+            <option value="recent">Updated Date: Recent First</option>
+            <option value="oldest">Updated Date: Oldest First</option>
+            <option value="price-lh">Price: Low to High</option>
+            <option value="price-hl">Price: High to Low</option>
+            <option value="model-latest">Model Year: Latest First</option>
+            <option value="model-oldest">Model Year: Oldest First</option>
+            <option value="mileage-lh">Mileage: Low to Hight</option>
+            <option value="mileage-hl">Mileage: High to Low</option>
           </Select>
           <Button color={"light"} onClick={() => setIsGridView(!isGridView)}>
             {isGridView ? <FiList fontSize={20} /> : <FiGrid fontSize={20} />}
