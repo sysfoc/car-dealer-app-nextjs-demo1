@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { LuCrown } from "react-icons/lu";
 import Slider from "@/app/components/Slider";
 import Table from "@/app/components/Tables";
+import SellerComment from "@/app/components/SellerComment";
 import Features from "@/app/components/Features";
 import { Button } from "flowbite-react";
 import Skeleton from "react-loading-skeleton";
@@ -123,12 +124,21 @@ export default function Home() {
               ${car.price}
             </h4>
           </div>
-          <div>
+          <div className="flex items-center gap-x-3">
             <Button
-              size={"lg"}
-              className="bg-blue-950 text-white dark:bg-gray-700"
+              color={"white"}
+              className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
             >
               Enquire Now
+            </Button>
+            <Button
+              color={"white"}
+              className="bg-blue-950 text-sm uppercase text-white dark:bg-red-500"
+              onClick={() => {
+                window.location.href = "tel:+1234567890";
+              }}
+            >
+              Call us now
             </Button>
           </div>
           <div className="mt-3 border-b-2 border-blue-950 dark:border-gray-700"></div>
@@ -138,6 +148,7 @@ export default function Home() {
         </div>
         <div>
           <Table />
+          <SellerComment />
         </div>
       </div>
       <div className="mt-8">

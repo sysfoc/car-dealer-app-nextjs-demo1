@@ -7,7 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const Tables = () => {
   const loading = false;
   return (
-    <div className="sticky top-3">
+    <div>
       <div className="flex items-center gap-2 bg-blue-950 p-3 dark:bg-gray-700">
         <div>
           <RxHamburgerMenu fontSize={25} className="text-white" />

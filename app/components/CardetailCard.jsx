@@ -19,12 +19,6 @@ import { IoIosColorPalette } from "react-icons/io";
 
 const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  const togglePopup = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
   const loading = false;
 
   const vehicalImages = [
@@ -109,9 +103,14 @@ const CardetailCard = () => {
                 })}
               </Carousel>
             </div>
-            <span className="absolute left-2 top-3 rounded bg-blue-950 px-3 py-1 text-sm uppercase text-white dark:bg-red-500">
-              New
-            </span>
+            <div className="absolute left-2 top-2 flex items-center gap-x-2">
+              <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
+                New
+              </span>
+              <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
+                Finance Available
+              </span>
+            </div>
             <div className="p-4">
               <div>
                 <Link
