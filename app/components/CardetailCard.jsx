@@ -8,6 +8,14 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
 import { CiHeart } from "react-icons/ci";
+import { FaLocationCrosshairs } from "react-icons/fa6";
+import { IoSpeedometer } from "react-icons/io5";
+import { GiGasPump } from "react-icons/gi";
+import { TbManualGearbox } from "react-icons/tb";
+import { GiCarDoor } from "react-icons/gi";
+import { GiCarSeat } from "react-icons/gi";
+import { FaCalendarCheck } from "react-icons/fa6";
+import { IoIosColorPalette } from "react-icons/io";
 
 const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
@@ -82,7 +90,7 @@ const CardetailCard = () => {
             }`}
           >
             <div
-              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-56 md:w-1/2"}`}
+              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
             >
               <Carousel slideInterval={3000}>
                 {vehicalImages.map((image, i) => {
@@ -129,43 +137,63 @@ const CardetailCard = () => {
                   </div>
                 </div>
                 <div
-                  className={`mt-2 ${
-                    isGridView
-                      ? "grid grid-cols-1 gap-3 sm:grid-cols-2"
-                      : "grid grid-cols-1 gap-3 sm:grid-cols-2"
-                  }`}
+                  className="mt-2 border-gray-300"
+                  style={{ borderWidth: "1px" }}
+                ></div>
+                <div
+                  className={`my-3 grid ${isGridView ? "grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-4" : "grid-cols-3 gap-x-8 gap-y-4 sm:grid-cols-4"}`}
                 >
-                  <span className="text-sm">
-                    {loading ? (
-                      <Skeleton height={20} />
-                    ) : (
-                      "Light Saddle Cc Met Exterior"
-                    )}
-                  </span>
-                  <span className="text-sm">
-                    {loading ? (
-                      <Skeleton height={20} />
-                    ) : (
-                      "Light Saddle Cc Met Exterior"
-                    )}
-                  </span>
-                  <span className="text-sm">
-                    {loading ? (
-                      <Skeleton height={20} />
-                    ) : (
-                      "Light Saddle Cc Met Exterior"
-                    )}
-                  </span>
-                  <span className="text-sm">
-                    {loading ? (
-                      <Skeleton height={20} />
-                    ) : (
-                      "Light Saddle Cc Met Exterior"
-                    )}
-                  </span>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <FaLocationCrosshairs fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">Multan</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <FaCalendarCheck fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">2009</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <IoSpeedometer fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">200 Miles</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <GiGasPump fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">Petrol</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <TbManualGearbox fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">Manual</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <IoIosColorPalette fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">Blue</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <GiCarSeat fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">5 Seats</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex items-center justify-center">
+                      <GiCarDoor fontSize={22} />
+                    </div>
+                    <p className="mt-2 text-sm">4 Doors</p>
+                  </div>
                 </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-x-3">
+              <div className="mt-5 grid grid-cols-2 gap-x-3">
                 <Link href={"#"} className="flex flex-col">
                   <Button
                     color={"white"}
