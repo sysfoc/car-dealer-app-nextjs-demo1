@@ -4,8 +4,8 @@ import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Slider = () => {
-  const loading = false;
+const Slider = ({ loadingState }) => {
+  const loading = loadingState;
   const vehicalImages = [
     {
       name: "/Luxury SUV.webp",

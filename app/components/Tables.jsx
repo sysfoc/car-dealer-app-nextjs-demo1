@@ -4,8 +4,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Tables = () => {
-  const loading = false;
+const Tables = ({ loadingState }) => {
+  const loading = loadingState;
   return (
     <div>
       <div className="flex items-center gap-2 bg-blue-950 p-3 dark:bg-gray-700">

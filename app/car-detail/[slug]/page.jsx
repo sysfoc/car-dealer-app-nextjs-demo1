@@ -1,5 +1,4 @@
 "use client";
-
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuCrown } from "react-icons/lu";
@@ -11,24 +10,11 @@ import { Button } from "flowbite-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-interface Car {
-  id: number;
-  make: string;
-  model: string;
-  price: number;
-  type: string;
-  slug: string;
-}
-
-interface ApiResponse {
-  exactMatches: Car[];
-  alternativeSuggestions: Car[];
-}
 export default function Home() {
   const { slug } = useParams();
-  const [car, setCar] = useState<Car | null>(null);
+  const [car, setCar] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (slug) {
@@ -46,8 +32,6 @@ export default function Home() {
           return response.json();
         })
         .then((data) => {
-          // setCar(data[0] || null);
-          // setLoading(false);
           setCar(data.exactMatches[0] || null);
           setLoading(false);
         })
@@ -58,51 +42,12 @@ export default function Home() {
         });
     }
   }, [slug]);
-
   if (!slug) {
-    return (
-      <div className="text-center">
-        <h1>Loading...</h1>
-      </div>
-    );
+    return <div>Sorry! No Car Found</div>;
   }
-
-  if (loading) {
-    return (
-      <div className="text-center">
-        <h1>Loading...</h1>
-        <Skeleton height={100} />
-      </div>
-    );
-  }
-
   if (error) {
-    return (
-      <div className="text-center">
-        <h1 className="text-3xl font-bold">Error</h1>
-        <p className="text-gray-500">{error}</p>
-        <a href="/" className="text-blue-500 underline">
-          Go back to homepage
-        </a>
-      </div>
-    );
+    return <div>An Error Occured While Searching</div>;
   }
-
-  if (!car) {
-    return (
-      <div className="text-center">
-        <h1 className="text-3xl font-bold">Car not found</h1>
-        <p className="text-gray-500">
-          The car you are looking for does not exist. Please check the slug or
-          go back to the homepage.
-        </p>
-        <a href="/" className="text-blue-500 underline">
-          Go back to homepage
-        </a>
-      </div>
-    );
-  }
-
   return (
     <section className="mx-4 my-5 sm:mx-8">
       <div className="grid grid-cols-1 gap-x-5 gap-y-8 md:grid-cols-3">
@@ -116,12 +61,14 @@ export default function Home() {
             </h3>
           </div>
           <div>
-            <Slider />
+            <Slider loadingState={loading} />
           </div>
           <div className="my-5">
-            <h3 className="text-2xl font-semibold">{car.model}</h3>
+            <h3 className="text-2xl font-semibold">
+              {loading ? <Skeleton /> : car.model}
+            </h3>
             <h4 className="my-2 text-3xl font-semibold text-blue-950 dark:text-red-500">
-              ${car.price}
+              {loading ? <Skeleton width={60} /> : `$${car.price}`}
             </h4>
           </div>
           <div className="flex items-center gap-x-3">
@@ -143,12 +90,12 @@ export default function Home() {
           </div>
           <div className="mt-3 border-b-2 border-blue-950 dark:border-gray-700"></div>
           <div>
-            <Features />
+            <Features loadingState={loading} />
           </div>
         </div>
         <div>
-          <Table />
-          <SellerComment />
+          <Table loadingState={loading} />
+          <SellerComment loadingState={loading} />
         </div>
       </div>
       <div className="mt-8">

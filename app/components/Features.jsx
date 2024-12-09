@@ -11,8 +11,8 @@ import { MdLocationOn } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Features = () => {
-  const loading = false;
+const Features = ({loadingState}) => {
+  const loading = loadingState;
   return (
     <div className="mt-5">
       <div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3">
