@@ -17,7 +17,7 @@ const SellerComment = ({ loadingState }) => {
       </div>
       {loading ? (
         <div>
-          <Skeleton count={25} height={18} />
+          <Skeleton height={400} />
         </div>
       ) : (
         <div className="p-4 text-gray-600 shadow-md dark:text-gray-300">

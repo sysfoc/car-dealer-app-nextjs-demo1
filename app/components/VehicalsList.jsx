@@ -51,16 +51,6 @@ const VehicalsList = () => {
       transmission: "Automatic",
       url: "/car-detail/4",
     },
-    {
-      name: "Audi A6 3.5",
-      image: "/Luxury SUV.webp",
-      description: "3.5 D5 PowerPulse Momentum 5dr AWD Geartronic Estate",
-      price: 25000,
-      fuelType: "Petrol",
-      driven: 70,
-      transmission: "Automatic",
-      url: "/car-detail/5",
-    },
   ];
   return (
     <section className="mx-4 my-10 sm:mx-8 md:my-20">

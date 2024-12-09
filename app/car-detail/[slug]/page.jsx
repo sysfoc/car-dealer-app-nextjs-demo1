@@ -6,11 +6,20 @@ import Slider from "@/app/components/Slider";
 import Table from "@/app/components/Tables";
 import SellerComment from "@/app/components/SellerComment";
 import Features from "@/app/components/Features";
-import { Button } from "flowbite-react";
+import {
+  Button,
+  Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Textarea,
+  TextInput,
+} from "flowbite-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Home() {
+  const [openModal, setOpenModal] = useState(false);
   const { slug } = useParams();
   const [car, setCar] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +57,9 @@ export default function Home() {
   if (error) {
     return <div>An Error Occured While Searching</div>;
   }
+  if (!car) {
+    return <div>No Car Found </div>;
+  }
   return (
     <section className="mx-4 my-5 sm:mx-8">
       <div className="grid grid-cols-1 gap-x-5 gap-y-8 md:grid-cols-3">
@@ -75,6 +87,7 @@ export default function Home() {
             <Button
               color={"white"}
               className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
+              onClick={() => setOpenModal(true)}
             >
               Enquire Now
             </Button>
@@ -88,6 +101,65 @@ export default function Home() {
               Call us now
             </Button>
           </div>
+          <Modal
+            dismissible
+            show={openModal}
+            onClose={() => setOpenModal(false)}
+          >
+            <ModalHeader>Enquire Now</ModalHeader>
+            <ModalBody>
+              <div>
+                <form>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="flex flex-col gap-y-1">
+                      <Label htmlFor="fname">First Name</Label>
+                      <TextInput
+                        type="text"
+                        id="fname"
+                        placeholder="First Name"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-1">
+                      <Label htmlFor="lname">Last Name</Label>
+                      <TextInput
+                        type="text"
+                        id="lname"
+                        placeholder="Last Name"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-1">
+                      <Label htmlFor="email">Email</Label>
+                      <TextInput
+                        type="email"
+                        id="email"
+                        placeholder="Active Email Address"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-1">
+                      <Label htmlFor="phone">Phone</Label>
+                      <TextInput
+                        type="tel"
+                        id="phone"
+                        placeholder="+92 333 333333"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-1">
+                      <Label htmlFor="comment">Comment</Label>
+                      <Textarea rows={5} placeholder="Comment"></Textarea>
+                    </div>
+                  </div>
+                  <div className="mt-5 flex flex-col">
+                    <Button
+                      color={"dark"}
+                      className="w-full text-lg font-semibold uppercase"
+                    >
+                      Send Enquiry
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </ModalBody>
+          </Modal>
           <div className="mt-3 border-b-2 border-blue-950 dark:border-gray-700"></div>
           <div>
             <Features loadingState={loading} />
