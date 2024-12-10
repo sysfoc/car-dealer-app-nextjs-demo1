@@ -36,15 +36,16 @@ const Footerr = () => {
               <FooterLink href="#">About Us</FooterLink>
               <FooterLink href="#">Contact Us</FooterLink>
               <FooterLink href="#">FAQs</FooterLink>
-              <FooterLink href="#">Terms & Conditions</FooterLink>
+              <FooterLink href="#">Privacy Policy</FooterLink>
             </FooterLinkGroup>
           </div>
           <div>
             <FooterTitle title="Sales Department" />
             <FooterLinkGroup col>
-              <FooterLink href="#">Privacy Policy</FooterLink>
-              <FooterLink href="#">Licensing</FooterLink>
-              <FooterLink href="#">Terms &amp; Conditions</FooterLink>
+              <FooterLink href="#">Dealer Name</FooterLink>
+              <FooterLink href="#">Call Us</FooterLink>
+              <FooterLink href="#">Licence</FooterLink>
+              <FooterLink href="#">Address</FooterLink>
             </FooterLinkGroup>
           </div>
           <div>

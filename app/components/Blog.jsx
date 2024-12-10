@@ -17,89 +17,97 @@ const Blog = () => {
       <div className="mt-3 border-b-2 border-gray-300 dark:border-gray-700"></div>
       <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="flex h-full flex-col">
-          <div className="flex h-full flex-col border border-gray-300">
-            <Image
-              src={"/sydney.jpg"}
-              alt="blog-image"
-              width={500}
-              height={500}
-              className="w-full"
-            />
-            <div>
-              <Link href={"#"} className="hover:underline">
-                <h3 className="p-2 text-xl font-semibold text-blue-950 dark:text-red-500">
+          <Link href={"#"} className="hover:underline">
+            <div className="flex h-full flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+              <Image
+                src={"/sydney.jpg"}
+                alt="blog-image"
+                width={500}
+                height={500}
+                className="w-full"
+              />
+              <div>
+                <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet, consectetur adipisicing. Lorem
                   ipsum dolor sit amet.
                 </h3>
-              </Link>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="grid h-full gap-3 sm:grid-cols-2">
-          <div className="flex flex-col border border-gray-300">
-            <Image
-              src={"/sydney.jpg"}
-              alt="blog-image-2"
-              width={500}
-              height={500}
-              className="w-full"
-            />
-            <div>
-              <Link href={"#"} className="hover:underline">
-                <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
-                  Lorem ipsum dolor sit amet
-                </h3>
-              </Link>
+          <Link href={"#"} className="hover:underline">
+            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+              <Image
+                src={"/sydney.jpg"}
+                alt="blog-image-2"
+                width={500}
+                height={500}
+                className="w-full"
+              />
+              <div>
+                <Link href={"#"} className="hover:underline">
+                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                    Lorem ipsum dolor sit amet
+                  </h3>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col border border-gray-300">
-            <Image
-              src={"/sydney.jpg"}
-              alt="blog-image-3"
-              width={500}
-              height={500}
-              className="w-full"
-            />
-            <div>
-              <Link href={"#"} className="hover:underline">
-                <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
-                  Lorem ipsum dolor sit amet
-                </h3>
-              </Link>
+          </Link>
+          <Link href={"#"} className="hover:underline">
+            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+              <Image
+                src={"/sydney.jpg"}
+                alt="blog-image-3"
+                width={500}
+                height={500}
+                className="w-full"
+              />
+              <div>
+                <Link href={"#"} className="hover:underline">
+                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                    Lorem ipsum dolor sit amet
+                  </h3>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col border border-gray-300">
-            <Image
-              src={"/sydney.jpg"}
-              alt="blog-image-5"
-              width={500}
-              height={500}
-              className="w-full"
-            />
-            <div>
-              <Link href={"#"} className="hover:underline">
-                <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
-                  Lorem ipsum dolor sit amet
-                </h3>
-              </Link>
+          </Link>
+          <Link href={"#"} className="hover:underline">
+            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+              <Image
+                src={"/sydney.jpg"}
+                alt="blog-image-5"
+                width={500}
+                height={500}
+                className="w-full"
+              />
+              <div>
+                <Link href={"#"} className="hover:underline">
+                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                    Lorem ipsum dolor sit amet
+                  </h3>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col border border-gray-300">
-            <Image
-              src={"/sydney.jpg"}
-              alt="blog-image-6"
-              width={500}
-              height={500}
-              className="w-full"
-            />
-            <div>
-              <Link href={"#"} className="hover:underline">
-                <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
-                  Lorem ipsum dolor sit amet
-                </h3>
-              </Link>
+          </Link>
+          <Link href={"#"} className="hover:underline">
+            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+              <Image
+                src={"/sydney.jpg"}
+                alt="blog-image-6"
+                width={500}
+                height={500}
+                className="w-full"
+              />
+              <div>
+                <Link href={"#"} className="hover:underline">
+                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                    Lorem ipsum dolor sit amet
+                  </h3>
+                </Link>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </section>

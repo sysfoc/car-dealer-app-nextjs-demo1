@@ -1,3 +1,4 @@
+"use client";
 import Herosection from "./components/Herosection";
 import VehicalsList from "./components/VehicalsList";
 import BrandsList from "./components/BrandsList";
@@ -12,14 +13,16 @@ import { FaTiktok } from "react-icons/fa6";
 import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   return (
     <div>
       <Herosection />
       <BrandsList />
       <BrowseCars />
-      <VehicalsList />
+      <VehicalsList loadingState={loading} />
       <ChooseUs />
       <Services />
       <Blog />
@@ -33,7 +36,7 @@ export default function Home() {
             <Link
               href={"#"}
               target="_blank"
-              className="flex flex-col text-center hover:underline"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
             >
               <div className="flex items-center justify-center">
                 <FaFacebookSquare fontSize={30} />
@@ -43,7 +46,7 @@ export default function Home() {
             <Link
               href={"#"}
               target="_blank"
-              className="flex flex-col text-center hover:underline"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
             >
               <div className="flex items-center justify-center">
                 <FaYoutube fontSize={30} />
@@ -53,7 +56,7 @@ export default function Home() {
             <Link
               href={"#"}
               target="_blank"
-              className="flex flex-col text-center hover:underline"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
             >
               <div className="flex items-center justify-center">
                 <FaInstagram fontSize={30} />
@@ -63,7 +66,7 @@ export default function Home() {
             <Link
               href={"#"}
               target="_blank"
-              className="flex flex-col text-center hover:underline"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
             >
               <div className="flex items-center justify-center">
                 <FaTiktok fontSize={30} />
@@ -73,7 +76,7 @@ export default function Home() {
             <Link
               href={"#"}
               target="_blank"
-              className="flex flex-col text-center hover:underline"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
             >
               <div className="flex items-center justify-center">
                 <SiGiphy fontSize={30} />
@@ -83,7 +86,7 @@ export default function Home() {
             <Link
               href={"#"}
               target="_blank"
-              className="flex flex-col text-center hover:underline"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
             >
               <div className="flex items-center justify-center">
                 <FaPinterest fontSize={30} />

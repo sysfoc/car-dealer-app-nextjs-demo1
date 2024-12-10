@@ -12,6 +12,10 @@ const BrowseCars = () => {
     { category: "Small Cars", icon: <FaCar fontSize={30} /> },
     { category: "Big Cars", icon: <FaCar fontSize={30} /> },
     { category: "Imported Cars", icon: <FaCar fontSize={30} /> },
+    { category: "Classic Cars", icon: <FaCar fontSize={30} /> },
+    { category: "AWD/4WD", icon: <FaCar fontSize={30} /> },
+    { category: "SUV", icon: <FaCar fontSize={30} /> },
+    { category: "Commercial", icon: <FaCar fontSize={30} /> },
     { category: "Old Cars", icon: <FaCar fontSize={30} /> },
     { category: "5 Doors", icon: <FaCar fontSize={30} /> },
     { category: "4 Doors", icon: <FaCar fontSize={30} /> },
@@ -20,6 +24,23 @@ const BrowseCars = () => {
     { category: "Japanese Cars", icon: <FaCar fontSize={30} /> },
     { category: "660cc Cars", icon: <FaCar fontSize={30} /> },
     { category: "Low Priced Cars", icon: <FaCar fontSize={30} /> },
+    { category: "Low Mileage Cars", icon: <FaCar fontSize={30} /> },
+    { category: "Jeep", icon: <FaCar fontSize={30} /> },
+    { category: "Hybrid Cars", icon: <FaCar fontSize={30} /> },
+    { category: "Cheap Cars", icon: <FaCar fontSize={30} /> },
+    { category: "4 Seater", icon: <FaCar fontSize={30} /> },
+    { category: "Diesel Cars", icon: <FaCar fontSize={30} /> },
+    { category: "7 Seaters", icon: <FaCar fontSize={30} /> },
+    { category: "Electric Cars", icon: <FaCar fontSize={30} /> },
+    { category: "8 Seater", icon: <FaCar fontSize={30} /> },
+    { category: "2 Door", icon: <FaCar fontSize={30} /> },
+    { category: "2 Seater", icon: <FaCar fontSize={30} /> },
+    { category: "Sports Cars", icon: <FaCar fontSize={30} /> },
+    { category: "Modified Cars", icon: <FaCar fontSize={30} /> },
+    { category: "3 Door", icon: <FaCar fontSize={30} /> },
+    { category: "Custom Auctions", icon: <FaCar fontSize={30} /> },
+    { category: "Duplicate File", icon: <FaCar fontSize={30} /> },
+    { category: "Urgent", icon: <FaCar fontSize={30} /> },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -68,7 +89,7 @@ const BrowseCars = () => {
         >
           {currentItems.map((item, index) => (
             <Link key={index} href={"#"}>
-              <div className="flex flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 px-3 py-8 text-center dark:bg-gray-700">
+              <div className="flex flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 px-3 py-8 text-center transition-transform duration-300 ease-in-out hover:scale-95 hover:bg-gray-100 hover:shadow-lg dark:bg-gray-700">
                 <div className="flex items-center justify-center">
                   {item.icon}
                 </div>

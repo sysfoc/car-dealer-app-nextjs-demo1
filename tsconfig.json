@@ -31,6 +31,6 @@
     "app/components/Herosection.jsx",
     "app/components/Herosection.jsx",
     "app/car-detail/[slug]/page.jsx"
-, "app/components/Slider.jsx"  ],
+, "app/components/Slider.jsx", "app/page.jsx"  ],
   "exclude": ["node_modules"]
 }

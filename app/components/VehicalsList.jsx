@@ -8,8 +8,8 @@ import { TbManualGearbox } from "react-icons/tb";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const VehicalsList = () => {
-  const loading = false;
+const VehicalsList = ({ loadingState }) => {
+  const loading = loadingState;
   const vehicals = [
     {
       name: "Audi A6 3.5",
@@ -73,7 +73,7 @@ const VehicalsList = () => {
                 key={index}
               >
                 <div>
-                  <Skeleton className="h-[230px] w-full" />
+                  <Skeleton className="h-[210px] w-full" />
                 </div>
                 <div className="my-3 px-4">
                   <h3 className="text-xl font-semibold">
@@ -132,7 +132,7 @@ const VehicalsList = () => {
             ))
           : vehicals.map((vehical, index) => (
               <div
-                className="overflow-hidden rounded-xl shadow-md dark:bg-gray-700"
+                className="overflow-hidden rounded-xl shadow-md transition-transform duration-300 ease-in-out hover:scale-95 dark:bg-gray-700"
                 key={index}
               >
                 <div>

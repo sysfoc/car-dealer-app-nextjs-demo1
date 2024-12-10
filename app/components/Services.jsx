@@ -22,7 +22,10 @@ const Services = () => {
           </div>
           <div>
             <Link href={"/car-for-sale"}>
-              <Button color={"dark"}>
+              <Button
+                color={"dark"}
+                className="transition-transform duration-300 ease-in-out hover:scale-95"
+              >
                 Get Started <MdOutlineArrowOutward className="ml-2" />
               </Button>
             </Link>
@@ -42,7 +45,10 @@ const Services = () => {
           </div>
           <div>
             <Link href={"/cars/sell-my-car"}>
-              <Button color={"dark"}>
+              <Button
+                color={"dark"}
+                className="transition-transform duration-300 ease-in-out hover:scale-95"
+              >
                 Get Started <MdOutlineArrowOutward className="ml-2" />
               </Button>
             </Link>

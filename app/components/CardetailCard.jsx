@@ -1,5 +1,6 @@
 "use client";
 import {
+  Alert,
   Button,
   Carousel,
   Label,
@@ -17,6 +18,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { IoSpeedometer } from "react-icons/io5";
@@ -31,7 +33,17 @@ const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
   const [openModal, setOpenModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [favorites, setFavorites] = useState(Array(4).fill(false));
 
+  const handleShowAlert = () => {
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 2000);
+  };
+
+  const handleFavoriteToggle = (index) => {
+    setFavorites((prev) => prev.map((fav, i) => (i === index ? !fav : fav)));
+  };
   const vehicalImages = [
     {
       name: "/Luxury SUV.webp",
@@ -57,6 +69,11 @@ const CardetailCard = () => {
 
   return (
     <>
+      {showAlert && (
+        <Alert color={"success"} className="fixed right-5 top-5 z-10 w-fit">
+          Ad added to the Favourites, Successfully!!
+        </Alert>
+      )}
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
@@ -90,13 +107,9 @@ const CardetailCard = () => {
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
-            className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${
-              isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"
-            }`}
+            className="relative rounded-lg shadow-lg dark:bg-gray-700"
           >
-            <div
-              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
-            >
+            <div className="mt-3 h-48 sm:h-64">
               <Carousel slideInterval={3000}>
                 {vehicalImages.map((image, i) => {
                   return loading ? (
@@ -108,7 +121,6 @@ const CardetailCard = () => {
                       alt={image.alt}
                       width={300}
                       height={200}
-                      className={`${isGridView ? "" : "rounded-md"}`}
                     />
                   );
                 })}
@@ -141,8 +153,19 @@ const CardetailCard = () => {
                     {loading ? <Skeleton height={25} width={100} /> : "$3,500"}
                   </h4>
                   <div>
-                    <Button color={"white"}>
-                      <CiHeart fontSize={22} />
+                    <Button
+                      color={"white"}
+                      onClick={() => handleFavoriteToggle(index)}
+                    >
+                      {favorites[index] ? (
+                        <FaHeart fontSize={22} color="red" />
+                      ) : (
+                        <CiHeart
+                          fontSize={22}
+                          color="gray"
+                          onClick={handleShowAlert}
+                        />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -150,9 +173,7 @@ const CardetailCard = () => {
                   className="mt-2 border-gray-300"
                   style={{ borderWidth: "1px" }}
                 ></div>
-                <div
-                  className={`my-3 grid ${isGridView ? "grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-4" : "grid-cols-3 gap-x-8 gap-y-4 sm:grid-cols-4"}`}
-                >
+                <div className="my-3 grid grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-4">
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <FaLocationCrosshairs fontSize={22} />
