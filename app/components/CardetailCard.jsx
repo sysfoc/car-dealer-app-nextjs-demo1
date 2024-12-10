@@ -107,9 +107,13 @@ const CardetailCard = () => {
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
-            className="relative rounded-lg shadow-lg dark:bg-gray-700"
+            className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${
+              isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"
+            }`}
           >
-            <div className="mt-3 h-48 sm:h-64">
+            <div
+              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
+            >
               <Carousel slideInterval={3000}>
                 {vehicalImages.map((image, i) => {
                   return loading ? (
@@ -121,6 +125,7 @@ const CardetailCard = () => {
                       alt={image.alt}
                       width={300}
                       height={200}
+                      className={`${isGridView ? "" : "rounded-md"}`}
                     />
                   );
                 })}
@@ -173,7 +178,9 @@ const CardetailCard = () => {
                   className="mt-2 border-gray-300"
                   style={{ borderWidth: "1px" }}
                 ></div>
-                <div className="my-3 grid grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-4">
+                <div
+                  className={`my-3 grid ${isGridView ? "grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-4" : "grid-cols-3 gap-x-8 gap-y-4 sm:grid-cols-4"}`}
+                >
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <FaLocationCrosshairs fontSize={22} />
