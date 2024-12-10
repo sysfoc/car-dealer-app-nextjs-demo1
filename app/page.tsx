@@ -3,6 +3,8 @@ import VehicalsList from "./components/VehicalsList";
 import BrandsList from "./components/BrandsList";
 import ChooseUs from "./components/ChooseUs";
 import Services from "./components/Services";
+import BrowseCars from "./components/BrowseCars";
+import Blog from "./components/Blog";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
@@ -16,9 +18,11 @@ export default function Home() {
     <div>
       <Herosection />
       <BrandsList />
+      <BrowseCars />
       <VehicalsList />
       <ChooseUs />
       <Services />
+      <Blog />
       <section className="mx-4 my-10 py-10 sm:mx-8 md:my-20">
         <h3 className="mt-5 text-center text-3xl font-semibold">
           Follow Us On Social Media

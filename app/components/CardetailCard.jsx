@@ -1,5 +1,15 @@
 "use client";
-import { Button, Carousel, Select } from "flowbite-react";
+import {
+  Button,
+  Carousel,
+  Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Select,
+  Textarea,
+  TextInput,
+} from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -20,6 +30,7 @@ import { IoIosColorPalette } from "react-icons/io";
 const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
+  const [openModal, setOpenModal] = useState(false);
 
   const vehicalImages = [
     {
@@ -193,14 +204,13 @@ const CardetailCard = () => {
                 </div>
               </div>
               <div className="mt-5 grid grid-cols-2 gap-x-3">
-                <Link href={"#"} className="flex flex-col">
-                  <Button
-                    color={"white"}
-                    className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
-                  >
-                    Enquire Now
-                  </Button>
-                </Link>
+                <Button
+                  color={"white"}
+                  className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
+                  onClick={() => setOpenModal(true)}
+                >
+                  Enquire Now
+                </Button>
                 <Link href={"#"} className="flex flex-col">
                   <Button
                     color={"white"}
@@ -213,6 +223,57 @@ const CardetailCard = () => {
             </div>
           </div>
         ))}
+        <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+          <ModalHeader>Enquire Now</ModalHeader>
+          <ModalBody>
+            <div>
+              <form>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div className="flex flex-col gap-y-1">
+                    <Label htmlFor="fname">First Name</Label>
+                    <TextInput
+                      type="text"
+                      id="fname"
+                      placeholder="First Name"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-y-1">
+                    <Label htmlFor="lname">Last Name</Label>
+                    <TextInput type="text" id="lname" placeholder="Last Name" />
+                  </div>
+                  <div className="flex flex-col gap-y-1">
+                    <Label htmlFor="email">Email</Label>
+                    <TextInput
+                      type="email"
+                      id="email"
+                      placeholder="Active Email Address"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-y-1">
+                    <Label htmlFor="phone">Phone</Label>
+                    <TextInput
+                      type="tel"
+                      id="phone"
+                      placeholder="+92 333 333333"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-y-1">
+                    <Label htmlFor="comment">Comment</Label>
+                    <Textarea rows={5} placeholder="Comment"></Textarea>
+                  </div>
+                </div>
+                <div className="mt-5 flex flex-col">
+                  <Button
+                    color={"dark"}
+                    className="w-full text-lg font-semibold uppercase"
+                  >
+                    Send Enquiry
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </ModalBody>
+        </Modal>
       </div>
     </>
   );
