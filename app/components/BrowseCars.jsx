@@ -93,14 +93,18 @@ const BrowseCars = () => {
         </div>
         <button
           onClick={handlePrev}
+          aria-label="Previous Slide"
           className="absolute left-[-20px] top-1/2 -translate-y-1/2 transform rounded-full bg-blue-950 p-3 text-white shadow-md dark:bg-red-500"
         >
+          <span className="sr-only">Previous Slide</span>
           <FaLongArrowAltLeft fontSize={25} />
         </button>
         <button
           onClick={handleNext}
+          aria-label="Next Slide"
           className="absolute right-[-20px] top-1/2 -translate-y-1/2 transform rounded-full bg-blue-950 p-3 text-white shadow-md dark:bg-red-500"
         >
+          <span className="sr-only">Next Slide</span>
           <FaLongArrowAltRight fontSize={25} />
         </button>
       </div>

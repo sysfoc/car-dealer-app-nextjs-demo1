@@ -152,6 +152,9 @@ const HeroSection = () => {
           </div>
           <div className="my-5 grid grid-cols-1 items-center gap-3 rounded bg-white px-3 py-4 dark:bg-gray-800 sm:grid-cols-2 md:grid-cols-4 md:rounded-full">
             <div>
+              <label htmlFor="make" className="sr-only">
+                Select Make
+              </label>
               <select
                 id="make"
                 value={selectedMake}
@@ -167,6 +170,9 @@ const HeroSection = () => {
               </select>
             </div>
             <div>
+              <label htmlFor="model" className="sr-only">
+                Select Model
+              </label>
               <select
                 id="model"
                 value={selectedModel}
@@ -183,6 +189,9 @@ const HeroSection = () => {
               </select>
             </div>
             <div>
+              <label htmlFor="price" className="sr-only">
+                Price Range
+              </label>
               <select
                 id="price"
                 value={priceRange}

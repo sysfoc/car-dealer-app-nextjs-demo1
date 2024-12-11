@@ -147,37 +147,37 @@ const Footerr = () => {
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="facebook icons"
+              aria-label="facebook"
               icon={FaFacebookSquare}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="instagram icons"
+              aria-label="instagram"
               icon={FaInstagram}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="youtube icons"
+              aria-label="youtube"
               icon={FaYoutube}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="tiktok icons"
+              aria-label="tiktok"
               icon={FaTiktok}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="giphy icons"
+              aria-label="giphy"
               icon={SiGiphy}
             />
             <FooterIcon
               href="#"
               target="_blank"
-              aria-labelledby="pinterest icons"
+              aria-label="pinterest"
               icon={FaPinterest}
             />
           </div>
