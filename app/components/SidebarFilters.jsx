@@ -78,12 +78,12 @@ const SidebarFilters = () => {
           symbol: <IoIosSpeedometer fontSize={22} className="text-white" />,
         },
         {
-          label: "Gearbox",
+          label: "Gear box",
           content: "gearbox",
           symbol: <GiGearStickPattern fontSize={22} className="text-white" />,
         },
         {
-          label: "Bodytype",
+          label: "Body type",
           content: "bodytype",
           symbol: <FaCar fontSize={22} className="text-white" />,
         },
@@ -103,7 +103,7 @@ const SidebarFilters = () => {
           symbol: <GiCarSeat fontSize={22} className="text-white" />,
         },
         {
-          label: "Fueltype",
+          label: "Fuel type",
           content: "fueltype",
           symbol: <BsFillFuelPumpFill fontSize={22} className="text-white" />,
         },
