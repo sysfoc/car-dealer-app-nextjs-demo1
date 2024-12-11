@@ -2,45 +2,38 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaCar } from "react-icons/fa6";
+import { FaCarAlt } from "react-icons/fa";
+import { FaCarRear } from "react-icons/fa6";
+import { IoCarSport } from "react-icons/io5";
+import { IoCar } from "react-icons/io5";
+import { BsCarFrontFill } from "react-icons/bs";
+import { LiaCarSideSolid } from "react-icons/lia";
+import { MdElectricCar } from "react-icons/md";
+import { MdCarCrash } from "react-icons/md";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { TbCarSuv } from "react-icons/tb";
+import { FaShuttleVan, FaCarSide } from "react-icons/fa";
+import { GiSurferVan } from "react-icons/gi";
 
 const BrowseCars = () => {
   const allItems = [
     { category: "Automatic Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Family Cars", icon: <FaCar fontSize={30} /> },
-    { category: "5 Seaters", icon: <FaCar fontSize={30} /> },
-    { category: "Small Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Big Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Imported Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Classic Cars", icon: <FaCar fontSize={30} /> },
-    { category: "AWD/4WD", icon: <FaCar fontSize={30} /> },
-    { category: "SUV", icon: <FaCar fontSize={30} /> },
-    { category: "Commercial", icon: <FaCar fontSize={30} /> },
-    { category: "Old Cars", icon: <FaCar fontSize={30} /> },
+    { category: "Family Cars", icon: <FaCarAlt fontSize={30} /> },
+    { category: "Sports Cars", icon: <IoCarSport fontSize={30} /> },
+    { category: "Electric Cars", icon: <MdElectricCar fontSize={30} /> },
+    { category: "5 Seaters", icon: <FaShuttleVan fontSize={30} /> },
+    { category: "Small Cars", icon: <FaCarSide fontSize={30} /> },
+    { category: "Classic Cars", icon: <FaShuttleVan fontSize={30} /> },
+    { category: "AWD/4WD", icon: <GiSurferVan fontSize={30} /> },
+    { category: "SUV", icon: <TbCarSuv fontSize={30} /> },
+    { category: "Commercial", icon: <FaCarRear fontSize={30} /> },
     { category: "5 Doors", icon: <FaCar fontSize={30} /> },
-    { category: "4 Doors", icon: <FaCar fontSize={30} /> },
-    { category: "1000cc Cars", icon: <FaCar fontSize={30} /> },
-    { category: "1300cc Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Japanese Cars", icon: <FaCar fontSize={30} /> },
-    { category: "660cc Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Low Priced Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Low Mileage Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Jeep", icon: <FaCar fontSize={30} /> },
-    { category: "Hybrid Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Cheap Cars", icon: <FaCar fontSize={30} /> },
-    { category: "4 Seater", icon: <FaCar fontSize={30} /> },
+    { category: "Low Priced Cars", icon: <IoCar fontSize={30} /> },
+    { category: "Low Mileage Cars", icon: <BsCarFrontFill fontSize={30} /> },
+    { category: "Hybrid Cars", icon: <LiaCarSideSolid fontSize={30} /> },
     { category: "Diesel Cars", icon: <FaCar fontSize={30} /> },
-    { category: "7 Seaters", icon: <FaCar fontSize={30} /> },
-    { category: "Electric Cars", icon: <FaCar fontSize={30} /> },
-    { category: "8 Seater", icon: <FaCar fontSize={30} /> },
-    { category: "2 Door", icon: <FaCar fontSize={30} /> },
-    { category: "2 Seater", icon: <FaCar fontSize={30} /> },
-    { category: "Sports Cars", icon: <FaCar fontSize={30} /> },
-    { category: "Modified Cars", icon: <FaCar fontSize={30} /> },
-    { category: "3 Door", icon: <FaCar fontSize={30} /> },
-    { category: "Custom Auctions", icon: <FaCar fontSize={30} /> },
-    { category: "Duplicate File", icon: <FaCar fontSize={30} /> },
-    { category: "Urgent", icon: <FaCar fontSize={30} /> },
+    { category: "7 Seaters", icon: <GiSurferVan fontSize={30} /> },
+    { category: "Modified Cars", icon: <MdCarCrash fontSize={30} /> },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);

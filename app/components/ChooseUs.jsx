@@ -8,7 +8,7 @@ import { MdCleaningServices } from "react-icons/md";
 const ChooseUs = () => {
   return (
     <>
-      <section className="bg-blue-950 px-4 py-10 dark:bg-gray-700 sm:px-8 md:py-20">
+      <section className="bg-blue-950 px-4 py-10 dark:bg-gray-700 sm:px-8 md:py-12">
         <div>
           <h2 className="text-3xl font-semibold text-white">Why Choose Us?</h2>
           <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

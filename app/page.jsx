@@ -10,6 +10,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa6";
+import { FaXTwitter } from "react-icons/fa6";
 import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
 import Link from "next/link";
@@ -32,7 +33,7 @@ export default function Home() {
         </h3>
         <p className="mt-3 text-center text-lg">All The Latest News For You</p>
         <div className="flex items-center justify-center">
-          <div className="mt-10 grid grid-cols-3 gap-5 sm:grid-cols-5 md:grid-cols-6 md:gap-8">
+          <div className="mt-10 grid grid-cols-3 gap-5 sm:grid-cols-5 md:grid-cols-7 md:gap-8">
             <Link
               href={"#"}
               target="_blank"
@@ -62,6 +63,16 @@ export default function Home() {
                 <FaInstagram fontSize={30} />
               </div>
               <span className="mt-2">Instagram</span>
+            </Link>
+            <Link
+              href={"#"}
+              target="_blank"
+              className="flex flex-col text-center transition-all duration-300 ease-in-out hover:scale-95 hover:underline"
+            >
+              <div className="flex items-center justify-center">
+                <FaXTwitter fontSize={30} />
+              </div>
+              <span className="mt-2">Twitter</span>
             </Link>
             <Link
               href={"#"}

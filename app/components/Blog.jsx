@@ -17,8 +17,8 @@ const Blog = () => {
       <div className="mt-3 border-b-2 border-gray-300 dark:border-gray-700"></div>
       <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="flex h-full flex-col">
-          <Link href={"#"} className="hover:underline">
-            <div className="flex h-full flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+          <div className="flex h-full flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+            <Link href={"#"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image"
@@ -26,18 +26,20 @@ const Blog = () => {
                 height={500}
                 className="w-full"
               />
-              <div>
+            </Link>
+            <div>
+              <Link href={"#"} className="hover:underline">
                 <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet, consectetur adipisicing. Lorem
                   ipsum dolor sit amet.
                 </h3>
-              </div>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
         <div className="grid h-full gap-3 sm:grid-cols-2">
-          <Link href={"#"} className="hover:underline">
-            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+          <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+            <Link href={"#"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-2"
@@ -45,17 +47,18 @@ const Blog = () => {
                 height={500}
                 className="w-full"
               />
-              <div>
-                <Link href={"#"} className="hover:underline">
-                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
-                    Lorem ipsum dolor sit amet
-                  </h3>
-                </Link>
-              </div>
+            </Link>
+            <div>
+              <Link href={"#"}>
+                <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                  Lorem ipsum dolor sit amet
+                </h3>
+              </Link>
             </div>
-          </Link>
-          <Link href={"#"} className="hover:underline">
-            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+          </div>
+
+          <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+            <Link href={"#"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-3"
@@ -63,17 +66,18 @@ const Blog = () => {
                 height={500}
                 className="w-full"
               />
-              <div>
-                <Link href={"#"} className="hover:underline">
-                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
-                    Lorem ipsum dolor sit amet
-                  </h3>
-                </Link>
-              </div>
+            </Link>
+            <div>
+              <Link href={"#"} className="hover:underline">
+                <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                  Lorem ipsum dolor sit amet
+                </h3>
+              </Link>
             </div>
-          </Link>
-          <Link href={"#"} className="hover:underline">
-            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+          </div>
+
+          <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+            <Link href={"#"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-5"
@@ -81,17 +85,18 @@ const Blog = () => {
                 height={500}
                 className="w-full"
               />
-              <div>
-                <Link href={"#"} className="hover:underline">
-                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
-                    Lorem ipsum dolor sit amet
-                  </h3>
-                </Link>
-              </div>
+            </Link>
+            <div>
+              <Link href={"#"} className="hover:underline">
+                <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                  Lorem ipsum dolor sit amet
+                </h3>
+              </Link>
             </div>
-          </Link>
-          <Link href={"#"} className="hover:underline">
-            <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+          </div>
+
+          <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
+            <Link href={"#"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-6"
@@ -99,15 +104,15 @@ const Blog = () => {
                 height={500}
                 className="w-full"
               />
-              <div>
-                <Link href={"#"} className="hover:underline">
-                  <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
-                    Lorem ipsum dolor sit amet
-                  </h3>
-                </Link>
-              </div>
+            </Link>
+            <div>
+              <Link href={"#"} className="hover:underline">
+                <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
+                  Lorem ipsum dolor sit amet
+                </h3>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </section>
