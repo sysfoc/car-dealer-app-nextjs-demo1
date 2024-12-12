@@ -15,6 +15,7 @@ import { FaInstagram } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa6";
 import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
+import LanguageSwitching from "@/app/components/LanguageSwitching";
 const Footerr = () => {
   return (
     <Footer className="mt-10">
@@ -143,7 +144,7 @@ const Footerr = () => {
             className="text-gray-700"
             year={2024}
           />
-          <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+          <div className="mt-4 flex items-center space-x-6 sm:mt-0 sm:justify-center">
             <FooterIcon
               href="#"
               target="_blank"
@@ -180,6 +181,7 @@ const Footerr = () => {
               aria-label="pinterest"
               icon={FaPinterest}
             />
+            <LanguageSwitching />
           </div>
         </div>
       </div>

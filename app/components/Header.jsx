@@ -123,7 +123,7 @@ const Header = () => {
             className="cursor-pointer text-gray-600 dark:text-gray-400"
             onClick={() => setOpenSidebar(true)}
           />
-          <Link href={"/user/saved"}>
+          <Link href={"/user/saved"} aria-label="Saved-ads">
             <FaRegHeart
               fontSize={16}
               className="text-gray-600 dark:text-gray-400"

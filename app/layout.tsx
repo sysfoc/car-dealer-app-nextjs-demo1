@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "@next/font/google";
 import { ThemeModeScript } from "flowbite-react";
 import LayoutRenderer from "@/app/components/LayoutRenderer";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -15,20 +17,24 @@ export const metadata: Metadata = {
   description: "Make Deals Of Cars And Any Other Vehical",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <ThemeModeScript />
       </head>
       <body
         className={`dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
-        <LayoutRenderer>{children}</LayoutRenderer>
+        <NextIntlClientProvider messages={messages}>
+          <LayoutRenderer>{children}</LayoutRenderer>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

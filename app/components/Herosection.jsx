@@ -9,8 +9,10 @@ import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
 import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
+import { useTranslations } from "next-intl";
 
 const HeroSection = () => {
+  const t = useTranslations("HomePage");
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [selectedMake, setSelectedMake] = useState("");
@@ -144,10 +146,10 @@ const HeroSection = () => {
           )}
           <div className="mb-8">
             <p className="text-center text-sm text-white">
-              Find cars for sale and for rent near you
+              {t("metaDescription")}
             </p>
             <h1 className="mt-3 text-center text-4xl font-semibold text-white sm:my-6 md:text-5xl lg:text-7xl">
-              Find Your Perfect Car
+              {t("h1Heading")}
             </h1>
           </div>
           <div className="my-5 grid grid-cols-1 items-center gap-3 rounded bg-white px-3 py-4 dark:bg-gray-800 sm:grid-cols-2 md:grid-cols-4 md:rounded-full">
@@ -318,7 +320,7 @@ const HeroSection = () => {
           </div>
           <div className="my-8">
             <p className="text-center text-sm font-semibold text-white">
-              Or Browse Featured Model
+              {t("browseVehical")}
             </p>
           </div>
           <div className="flex items-center justify-center">
