@@ -129,9 +129,8 @@ const HeroSection = () => {
       <Image
         src="/Luxury SUV.webp"
         alt="Luxury SUV Background"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="top center"
+        fill
+        style={{ objectPosition: "center" }}
         className="z-[-1] opacity-80"
         priority
       />
@@ -155,7 +154,7 @@ const HeroSection = () => {
           <div className="my-5 grid grid-cols-1 items-center gap-3 rounded bg-white px-3 py-4 dark:bg-gray-800 sm:grid-cols-2 md:grid-cols-4 md:rounded-full">
             <div>
               <label htmlFor="make" className="sr-only">
-                Select Make
+                {t("selectMake")}
               </label>
               <select
                 id="make"
@@ -163,7 +162,7 @@ const HeroSection = () => {
                 onChange={(e) => setSelectedMake(e.target.value)}
                 className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
-                <option value="">Select Make</option>
+                <option value="">{t("selectMake")}</option>
                 {makes.map((make) => (
                   <option key={make} value={make}>
                     {make}
@@ -173,7 +172,7 @@ const HeroSection = () => {
             </div>
             <div>
               <label htmlFor="model" className="sr-only">
-                Select Model
+                {t("selectModel")}
               </label>
               <select
                 id="model"
@@ -182,7 +181,7 @@ const HeroSection = () => {
                 className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
                 disabled={!selectedMake}
               >
-                <option value="">Select Model</option>
+                <option value="">{t("selectModel")}</option>
                 {models.map((model) => (
                   <option key={model} value={model}>
                     {model}
@@ -192,7 +191,7 @@ const HeroSection = () => {
             </div>
             <div>
               <label htmlFor="price" className="sr-only">
-                Price Range
+                {t("priceRange")}
               </label>
               <select
                 id="price"
@@ -200,7 +199,7 @@ const HeroSection = () => {
                 onChange={(e) => setPriceRange(e.target.value)}
                 className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
-                <option value="">Price Range</option>
+                <option value="">{t("priceRange")}</option>
                 <option value="10k-20k">10k-20k</option>
                 <option value="20k-30k">20k-30k</option>
                 <option value="30k-50k">30k-50k</option>
@@ -217,7 +216,7 @@ const HeroSection = () => {
                   loading || !selectedMake || !selectedModel || !priceRange
                 }
               >
-                {loading ? "Searching..." : "Search Cars"}
+                {loading ? "Searching..." : `${t("searchCar")}`}
               </Button>
             </div>
           </div>
@@ -245,7 +244,8 @@ const HeroSection = () => {
                           width={150}
                           height={100}
                           alt={`${car.make} ${car.model}`}
-                          className=" rounded-md object-cover"
+                          className=" rounded-md"
+                          style={{ objectPosition: "center" }}
                         />
                       </div>
 
@@ -293,7 +293,8 @@ const HeroSection = () => {
                           width={150}
                           height={100}
                           alt={`${car.make} ${car.model}`}
-                          className=" rounded-md object-cover"
+                          className="rounded-md"
+                          style={{ objectPosition: "center" }}
                         />
                       </div>
 
@@ -329,7 +330,7 @@ const HeroSection = () => {
                 <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
                   <div className="flex items-center gap-x-2">
                     <TbCarSuv fontSize={22} />
-                    <span className="text-sm">SUV</span>
+                    <span className="text-sm">{t("suv")}</span>
                   </div>
                 </div>
               </Link>
@@ -337,7 +338,7 @@ const HeroSection = () => {
                 <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
                   <div className="flex items-center gap-x-2">
                     <FaShuttleVan fontSize={22} />
-                    <span className="text-sm">Sedan</span>
+                    <span className="text-sm">{t("sedan")}</span>
                   </div>
                 </div>
               </Link>
@@ -345,7 +346,7 @@ const HeroSection = () => {
                 <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
                   <div className="flex items-center gap-x-2">
                     <FaCarSide fontSize={22} />
-                    <span className="text-sm">Hatchback</span>
+                    <span className="text-sm">{t("hatchback")}</span>
                   </div>
                 </div>
               </Link>
@@ -353,7 +354,7 @@ const HeroSection = () => {
                 <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
                   <div className="flex items-center gap-x-2">
                     <GiSurferVan fontSize={22} />
-                    <span className="text-sm">Coupe</span>
+                    <span className="text-sm">{t("coupe")}</span>
                   </div>
                 </div>
               </Link>
@@ -361,7 +362,7 @@ const HeroSection = () => {
                 <div className="cursor-pointer rounded-full bg-[#f4f4f454] px-5 py-2 text-white">
                   <div className="flex items-center gap-x-2">
                     <FaCarSide fontSize={22} />
-                    <span className="text-sm">Hybrid</span>
+                    <span className="text-sm">{t("hybrid")}</span>
                   </div>
                 </div>
               </Link>

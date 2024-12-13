@@ -30,7 +30,8 @@ export default function Page() {
                   width={80}
                   height={80}
                   alt="Image Of Car"
-                  className="rounded-md object-cover"
+                  objectPosition="center"
+                  className="rounded-md"
                 />
               </TableCell>
               <TableCell>This is my first blog</TableCell>
@@ -61,7 +62,8 @@ export default function Page() {
                   width={80}
                   height={80}
                   alt="Image Of Car"
-                  className="rounded-md object-cover"
+                  objectPosition="center"
+                  className="rounded-md"
                 />
               </TableCell>
               <TableCell>This is my first blog</TableCell>
@@ -92,7 +94,8 @@ export default function Page() {
                   width={80}
                   height={80}
                   alt="Image Of Car"
-                  className="rounded-md object-cover"
+                  style={{ objectPosition: "center" }}
+                  className="rounded-md"
                 />
               </TableCell>
               <TableCell>This is my first blog</TableCell>

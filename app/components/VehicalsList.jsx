@@ -7,8 +7,10 @@ import { GiGasPump } from "react-icons/gi";
 import { TbManualGearbox } from "react-icons/tb";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useTranslations } from "next-intl";
 
 const VehicalsList = ({ loadingState }) => {
+  const t = useTranslations("HomePage");
   const loading = loadingState;
   const vehicals = [
     {
@@ -56,11 +58,11 @@ const VehicalsList = ({ loadingState }) => {
     <section className="mx-4 my-10 sm:mx-8 md:my-20">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-xl font-semibold md:text-3xl">
-          Explore All Vehicles
+          {t("exploreVehical")}
         </h2>
         <Link href={"/car-for-sale"}>
           <p className="text-md inline-flex items-center gap-x-3">
-            View All <MdOutlineArrowOutward />
+            {t("viewAll")} <MdOutlineArrowOutward />
           </p>
         </Link>
       </div>
@@ -141,7 +143,8 @@ const VehicalsList = ({ loadingState }) => {
                     width={300}
                     height={300}
                     alt="car-1"
-                    className="object-fit h-full w-full"
+                    style={{ objectPosition: "center" }}
+                    className="size-full"
                   />
                 </div>
                 <div className="my-3 px-4">

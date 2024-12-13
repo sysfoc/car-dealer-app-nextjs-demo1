@@ -15,8 +15,10 @@ import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const t = useTranslations("HomePage");
   const [loading, setLoading] = useState(false);
   return (
     <div>
@@ -29,9 +31,9 @@ export default function Home() {
       <Blog />
       <section className="mx-4 my-10 py-10 sm:mx-8 md:my-20">
         <h3 className="mt-5 text-center text-3xl font-semibold">
-          Follow Us On Social Media
+          {t("followHeading")}
         </h3>
-        <p className="mt-3 text-center text-lg">All The Latest News For You</p>
+        <p className="mt-3 text-center text-lg">{t("followDescription")}</p>
         <div className="flex items-center justify-center">
           <div className="mt-10 grid grid-cols-3 gap-5 sm:grid-cols-5 md:grid-cols-7 md:gap-8">
             <Link

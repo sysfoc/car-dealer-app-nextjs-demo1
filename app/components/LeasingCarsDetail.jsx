@@ -56,7 +56,8 @@ const LeasingCarsDetail = () => {
                 alt="car-image"
                 width={300}
                 height={200}
-                className="h-full w-full"
+                style={{ objectPosition: "center" }}
+                className="size-full"
               />
             </div>
             <div
