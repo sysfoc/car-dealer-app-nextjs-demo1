@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Tables = ({ loadingState }) => {
+const Tables = ({ loadingState, carData }) => {
   const loading = loadingState;
   return (
     <div>
@@ -90,49 +90,49 @@ const Tables = ({ loadingState }) => {
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Vehical
               </TableCell>
-              <TableCell>2010 Ford Falcon FG XR8 Ute Super Cab 6</TableCell>
+              <TableCell>{carData.vehicle_full_name}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Doors
               </TableCell>
-              <TableCell>2</TableCell>
+              <TableCell>{carData.doors}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Seats
               </TableCell>
-              <TableCell>3</TableCell>
+              <TableCell>{carData.seats}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Cylinders
               </TableCell>
-              <TableCell>8</TableCell>
+              <TableCell>{carData.cylinder}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Fuel Type
               </TableCell>
-              <TableCell>Petrol - Unleaded</TableCell>
+              <TableCell>{carData.fuel_type}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Gearbox
               </TableCell>
-              <TableCell>Sports Automatic</TableCell>
+              <TableCell>{carData.gearBox}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Gears
               </TableCell>
-              <TableCell>6 Speed</TableCell>
+              <TableCell>{carData.no_of_gears}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Capacity
               </TableCell>
-              <TableCell>5-4</TableCell>
+              <TableCell>{carData.engineCapacity}</TableCell>
             </TableRow>
           </TableBody>
         )}

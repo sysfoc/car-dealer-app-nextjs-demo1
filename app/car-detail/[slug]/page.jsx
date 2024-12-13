@@ -167,7 +167,7 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <Table loadingState={loading} />
+          <Table loadingState={loading} carData={car} />
           <SellerComment loadingState={loading} />
         </div>
       </div>
