@@ -16,8 +16,10 @@ import { RiAccountCircleFill } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const Header = () => {
+  const t = useTranslations("Header");
   const [openSidebar, setOpenSidebar] = useState(false);
   const [email, setEmail] = useState("");
   const [modalType, setModalType] = useState("signIn");
@@ -58,7 +60,7 @@ const Header = () => {
               href="/"
               className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
-              Home
+              {t("homeLink")}
             </Link>
           </NavbarLink>
           <NavbarLink
@@ -69,7 +71,7 @@ const Header = () => {
               href="/car-for-sale"
               className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
-              New & Used Cars
+              {t("newAndUsedCarLink")}
             </Link>
           </NavbarLink>
           <NavbarLink
@@ -80,7 +82,7 @@ const Header = () => {
               href="/cars/sell-my-car"
               className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
-              Sell my car
+              {t("carSaleLink")}
             </Link>{" "}
           </NavbarLink>
           <NavbarLink
@@ -91,7 +93,7 @@ const Header = () => {
               href="/cars/valuation"
               className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
-              Value Your Car
+              {t("carValuationLink")}
             </Link>{" "}
           </NavbarLink>
           <NavbarLink
@@ -102,7 +104,7 @@ const Header = () => {
               href="/cars/leasing"
               className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
-              Car Leasing
+              {t("carLeasingLink")}
             </Link>{" "}
           </NavbarLink>
           <NavbarLink
@@ -113,7 +115,7 @@ const Header = () => {
               href="/cars/finance"
               className="relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-red-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
             >
-              Car Finance
+              {t("financeCarLink")}
             </Link>{" "}
           </NavbarLink>
         </NavbarCollapse>

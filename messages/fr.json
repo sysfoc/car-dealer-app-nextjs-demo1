@@ -1,4 +1,12 @@
 {
+  "Header": {
+    "homeLink": "Accueil",
+    "newAndUsedCarLink": "Voitures neuves et d'occasion",
+    "carSaleLink": "Vendre ma voiture",
+    "carValuationLink": "Estimez votre voiture",
+    "carLeasingLink": "Location de voiture",
+    "financeCarLink": "Financement de voiture"
+  },
   "HomePage": {
     "metaDescription": "Trouvez des voitures à vendre et à louer près de chez vous",
     "h1Heading": "Trouvez votre voiture parfaite",

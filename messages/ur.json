@@ -1,4 +1,12 @@
 {
+  "Header": {
+    "homeLink": "ہوم",
+    "newAndUsedCarLink": "نئی اور استعمال شدہ گاڑیاں",
+    "carSaleLink": "میری گاڑی بیچیں",
+    "carValuationLink": "اپنی گاڑی کی قیمت جانیں",
+    "carLeasingLink": "گاڑی لیز پر",
+    "financeCarLink": "گاڑی کی مالی معاونت"
+  },
   "HomePage": {
     "metaDescription": "اپنے قریب فروخت اور کرایہ پر دی جانے والی گاڑیاں تلاش کریں",
     "h1Heading": "اپنی مکمل گاڑی تلاش کریں",

@@ -1,4 +1,12 @@
 {
+  "Header": {
+    "homeLink": "Home",
+    "newAndUsedCarLink": "New & Used Cars",
+    "carSaleLink": "Sell my car",
+    "carValuationLink": "Value Your Car",
+    "carLeasingLink": "Car Leasing",
+    "financeCarLink": "Car Finance"
+  },
   "HomePage": {
     "metaDescription": "Find cars for sale and for rent near you",
     "h1Heading": "Find Your Perfect Car",
