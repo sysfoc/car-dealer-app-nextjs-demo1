@@ -150,7 +150,7 @@ export async function GET(req) {
       type: "Sedan",
       kms: "5,000",
       fuel_type: "Petrol",
-      fuel_tank_fill_price: "$80",
+      fuel_tank_fill_price: "80",
       fuel_capacity_per_tank: "60L",
       no_of_gears: 8,
       cylinder: 4,

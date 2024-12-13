@@ -11,18 +11,18 @@ import { MdLocationOn } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Features = ({loadingState}) => {
+const Features = ({ loadingState, carData }) => {
   const loading = loadingState;
   return (
     <div className="mt-5">
-      <div className="grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
         <div className="flex items-center gap-3">
           <div>
             <IoSpeedometerOutline fontSize={25} />
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : "100,000"}
+              {loading ? <Skeleton /> : carData.kms}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Kms
@@ -38,7 +38,7 @@ const Features = ({loadingState}) => {
               On
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : "Petrol"}
+              {loading ? <Skeleton /> : carData.fuel_type}
             </span>
           </div>
         </div>
@@ -48,7 +48,7 @@ const Features = ({loadingState}) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : "$100"}
+              {loading ? <Skeleton /> : carData.fuel_tank_fill_price}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               To Fill
@@ -61,7 +61,7 @@ const Features = ({loadingState}) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : "100Km"}
+              {loading ? <Skeleton /> : carData.fuel_capacity_per_tank}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Average Per Tank

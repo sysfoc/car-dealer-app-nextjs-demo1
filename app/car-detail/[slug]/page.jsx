@@ -162,7 +162,8 @@ export default function Home() {
           </Modal>
           <div className="mt-3 border-b-2 border-blue-950 dark:border-gray-700"></div>
           <div>
-            <Features loadingState={loading} />
+            <Features loadingState={loading} carData={car} />
+            {/* <Features loadingState={loading} /> */}
           </div>
         </div>
         <div>
