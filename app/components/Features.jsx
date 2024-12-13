@@ -74,7 +74,7 @@ const Features = ({ loadingState, carData }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : "6 Manual"}
+              {loading ? <Skeleton /> : carData.no_of_gears}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Gears
@@ -87,10 +87,14 @@ const Features = ({ loadingState, carData }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton className="h-[15px] w-[50px]" /> : "5.0L"}
+              {loading ? (
+                <Skeleton className="h-[15px] w-[50px]" />
+              ) : (
+                carData.cylinder
+              )}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              9 Cylinder
+              Cylinder
             </span>
           </div>
         </div>
@@ -107,7 +111,7 @@ const Features = ({ loadingState, carData }) => {
         </div>
         <Table hoverable className="mt-3 dark:bg-gray-700">
           <TableBody className="divide-y">
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
+            {/* <TableRow className="grid grid-cols-1 sm:grid-cols-2">
               <TableCell>
                 {loading ? (
                   <Skeleton height={25} />
@@ -118,79 +122,14 @@ const Features = ({ loadingState, carData }) => {
               <TableCell>
                 {loading ? <Skeleton height={25} /> : "Cruise Control"}
               </TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow>
-            <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow>
+            </TableRow> */}
+            {carData.features?.map((feature, index) => (
+              <TableRow key={index} className="grid grid-cols-1 sm:grid-cols-2">
+                <TableCell>
+                  {loading ? <Skeleton height={25} /> : feature}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
