@@ -14,8 +14,10 @@ import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import { TbCarSuv } from "react-icons/tb";
 import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
+import { useTranslations } from "next-intl";
 
 const BrowseCars = () => {
+  const t = useTranslations("HomePage");
   const allItems = [
     { category: "Automatic Cars", icon: <FaCar fontSize={30} /> },
     { category: "Family Cars", icon: <FaCarAlt fontSize={30} /> },
@@ -69,7 +71,7 @@ const BrowseCars = () => {
 
   return (
     <div className="mx-4 my-10 sm:mx-8 md:my-20">
-      <h3 className="text-xl font-semibold md:text-3xl">Browse Used Cars</h3>
+      <h3 className="text-xl font-semibold md:text-3xl">{t('browseCarHeading')}</h3>
       <div className="relative mt-5">
         <div
           className={`grid gap-3 ${

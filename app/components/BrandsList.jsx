@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { MdOutlineArrowOutward } from "react-icons/md";
+import { useTranslations } from "next-intl";
 
 const BrandsList = () => {
+  const t = useTranslations("HomePage");
   const brandLists = [
     {
       name: "BMW",
@@ -41,11 +43,11 @@ const BrandsList = () => {
     <section className="bg-[#F9FBFC] px-4 py-10 dark:bg-gray-800 sm:px-8 md:py-20">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-xl font-semibold md:text-3xl">
-          Explore Our Premium Brands
+          {t("brandHeading")}
         </h2>
         <Link href={"/brands"}>
           <p className="text-md inline-flex items-center gap-x-3">
-            Show All Brands <MdOutlineArrowOutward />
+            {t("viewAll")} <MdOutlineArrowOutward />
           </p>
         </Link>
       </div>
@@ -64,7 +66,8 @@ const BrandsList = () => {
                     alt={`${brand.alt}`}
                     width={200}
                     height={200}
-                    className="h-full w-full object-cover"
+                    style={{ objectPosition: "center" }}
+                    className="size-full"
                   />
                 </div>
                 <div className="mt-3">

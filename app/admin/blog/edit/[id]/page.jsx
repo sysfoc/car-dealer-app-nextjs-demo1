@@ -68,6 +68,7 @@ export default function Page() {
               <Image
                 width={150}
                 height={150}
+                style={{ objectPosition: "center" }}
                 src={"/Luxury SUV.webp"}
                 alt="image"
               />

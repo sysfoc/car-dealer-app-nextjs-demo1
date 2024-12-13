@@ -39,6 +39,7 @@ const Slider = ({ loadingState }) => {
               key={index}
               src={image.name}
               alt={image.alt}
+              style={{ objectPosition: "center" }}
               width={700}
               height={500}
             />

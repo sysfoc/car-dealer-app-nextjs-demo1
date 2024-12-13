@@ -19,7 +19,8 @@ const Header = () => {
           alt="Sysfoc-cars-dealer"
           width={80}
           height={50}
-          className="h-auto w-auto object-cover"
+          style={{ objectPosition: "center" }}
+          className="size-auto"
         />
       </NavbarBrand>
       <div className="flex items-center gap-x-5 md:order-2">

@@ -32,7 +32,8 @@ export default function Listing() {
                   width={80}
                   height={80}
                   alt="Image Of Car"
-                  className="rounded-md object-cover"
+                  style={{ objectPosition: "center" }}
+                  className="rounded-md"
                 />
               </TableCell>
               <TableCell>Sliver</TableCell>
@@ -64,7 +65,8 @@ export default function Listing() {
                   width={80}
                   height={80}
                   alt="Image Of Car"
-                  className="rounded-md object-cover"
+                  style={{ objectPosition: "center" }}
+                  className="rounded-md"
                 />
               </TableCell>
               <TableCell>Sliver</TableCell>
@@ -96,7 +98,8 @@ export default function Listing() {
                   width={80}
                   height={80}
                   alt="Image Of Car"
-                  className="rounded-md object-cover"
+                  style={{ objectPosition: "center" }}
+                  className="rounded-md"
                 />
               </TableCell>
               <TableCell>Sliver</TableCell>

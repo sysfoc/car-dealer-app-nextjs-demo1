@@ -16,7 +16,9 @@ import { FaTiktok } from "react-icons/fa6";
 import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
 import LanguageSwitching from "@/app/components/LanguageSwitching";
+import { useTranslations } from "next-intl";
 const Footerr = () => {
+  const t = useTranslations("Footer");
   return (
     <Footer className="mt-10">
       <div className="w-full">
@@ -28,20 +30,21 @@ const Footerr = () => {
               priority
               width={200}
               height={100}
-              className="h-auto w-auto object-cover"
+              style={{ objectPosition: "center" }}
+              className="size-auto"
             />
           </div>
           <div>
-            <FooterTitle title="Quick Links" />
+            <FooterTitle title={`${t("quickLinks")}`} />
             <FooterLinkGroup col>
-              <FooterLink href="#">About Us</FooterLink>
-              <FooterLink href="#">Contact Us</FooterLink>
-              <FooterLink href="#">FAQs</FooterLink>
-              <FooterLink href="#">Privacy Policy</FooterLink>
+              <FooterLink href="#">{t("about")}</FooterLink>
+              <FooterLink href="#">{t("contact")}</FooterLink>
+              <FooterLink href="#">{t("terms")}</FooterLink>
+              <FooterLink href="#">{t("privacy")}</FooterLink>
             </FooterLinkGroup>
           </div>
           <div>
-            <FooterTitle title="Sales Department" />
+            <FooterTitle title={`${t("salesDepartment")}`} />
             <FooterLinkGroup col>
               <FooterLink href="#">Dealer Name</FooterLink>
               <FooterLink href="#">Call Us</FooterLink>
@@ -50,88 +53,88 @@ const Footerr = () => {
             </FooterLinkGroup>
           </div>
           <div>
-            <FooterTitle title="Trading Hour" />
+            <FooterTitle title={`${t("tradingHours")}`} />
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Monday
+                  {t("monday")}
                 </span>
               </div>
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  8:00 am - 5:00 pm
+                  {t("openingHours")}
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Tuesday
+                  {t("tuesday")}
                 </span>
               </div>
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  8:00 am - 5:00 pm
-                </span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <span className="text-sm text-gray-500 dark:text-white">
-                  Wednesday
-                </span>
-              </div>
-              <div>
-                <span className="text-sm text-gray-500 dark:text-white">
-                  8:00 am - 5:00 pm
+                  {t("openingHours")}
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Thursday
+                  {t("wednesday")}
                 </span>
               </div>
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  8:00 am - 5:00 pm
-                </span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <span className="text-sm text-gray-500 dark:text-white">
-                  Friday
-                </span>
-              </div>
-              <div>
-                <span className="text-sm text-gray-500 dark:text-white">
-                  8:00 am - 1:00 pm
+                  {t("openingHours")}
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Saturday
+                  {t("thursday")}
                 </span>
               </div>
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Closed
+                  {t("openingHours")}
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Sunday
+                  {t("friday")}
                 </span>
               </div>
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
-                  Closed
+                  {t("openingHours")}
+                </span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  {t("saturday")}
+                </span>
+              </div>
+              <div>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  {t("closedHours")}
+                </span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  {t("sunday")}
+                </span>
+              </div>
+              <div>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  {t("closedHours")}
                 </span>
               </div>
             </div>
@@ -140,7 +143,7 @@ const Footerr = () => {
         <div className="w-full bg-gray-100 px-4 py-6 dark:bg-gray-700 sm:flex sm:items-center sm:justify-between">
           <FooterCopyright
             href="https://sysfoc.com"
-            by="Dealer Website by SYSFOC Automotive"
+            by={`${t("copyright")}`}
             className="text-gray-700"
             year={2024}
           />

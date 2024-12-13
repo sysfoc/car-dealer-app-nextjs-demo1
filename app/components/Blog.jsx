@@ -2,15 +2,19 @@ import React from "react";
 import Link from "next/link";
 import { MdOutlineArrowOutward } from "react-icons/md";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const Blog = () => {
+  const t = useTranslations("HomePage");
   return (
     <section className="mx-4 my-10 sm:mx-8 md:my-20">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-xl font-semibold md:text-3xl">Blogs</h2>
+        <h2 className="text-xl font-semibold md:text-3xl">
+          {t("blogHeading")}
+        </h2>
         <Link href={"/blogs"}>
           <p className="text-md inline-flex items-center gap-x-3">
-            View All <MdOutlineArrowOutward />
+            {t("viewAll")} <MdOutlineArrowOutward />
           </p>
         </Link>
       </div>
@@ -25,6 +29,7 @@ const Blog = () => {
                 width={500}
                 height={500}
                 className="w-full"
+                style={{ objectPosition: 'center' }}
               />
             </Link>
             <div>
@@ -46,6 +51,7 @@ const Blog = () => {
                 width={500}
                 height={500}
                 className="w-full"
+                style={{ objectPosition: 'center' }}
               />
             </Link>
             <div>
@@ -65,6 +71,7 @@ const Blog = () => {
                 width={500}
                 height={500}
                 className="w-full"
+                style={{ objectPosition: 'center' }}
               />
             </Link>
             <div>
@@ -84,6 +91,7 @@ const Blog = () => {
                 width={500}
                 height={500}
                 className="w-full"
+                style={{ objectPosition: 'center' }}
               />
             </Link>
             <div>
@@ -103,6 +111,7 @@ const Blog = () => {
                 width={500}
                 height={500}
                 className="w-full"
+                style={{ objectPosition: 'center' }}
               />
             </Link>
             <div>

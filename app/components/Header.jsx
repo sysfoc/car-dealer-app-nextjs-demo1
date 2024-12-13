@@ -39,7 +39,8 @@ const Header = () => {
             alt="Sysfoc-cars-dealer"
             width={100}
             height={50}
-            className="h-auto w-auto object-cover"
+            style={{ objectPosition: "center" }}
+            className="size-auto"
           />
         </Link>
         <div className="flex items-center gap-5 md:hidden">

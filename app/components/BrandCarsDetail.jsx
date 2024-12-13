@@ -28,7 +28,8 @@ const BrandCarsDetail = () => {
                 alt={`${vehical.name}`}
                 width={500}
                 height={300}
-                className="h-full w-full"
+                style={{ objectPosition: 'center' }}
+                className="size-full"
               />
             </div>
             <div className="p-4">

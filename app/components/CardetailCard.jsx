@@ -125,6 +125,7 @@ const CardetailCard = () => {
                       alt={image.alt}
                       width={300}
                       height={200}
+                      style={{ objectPosition: "center" }}
                       className={`${isGridView ? "" : "rounded-md"}`}
                     />
                   );

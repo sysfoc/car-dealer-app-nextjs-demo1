@@ -85,7 +85,8 @@ export default function Home() {
                     alt={`${brand.alt}`}
                     width={200}
                     height={200}
-                    className="size-full object-cover"
+                    className="size-full"
+                    style={{ objectPosition: 'center' }}
                   />
                 </div>
                 <div className="mt-3">
