@@ -111,18 +111,6 @@ const Features = ({ loadingState, carData }) => {
         </div>
         <Table hoverable className="mt-3 dark:bg-gray-700">
           <TableBody className="divide-y">
-            {/* <TableRow className="grid grid-cols-1 sm:grid-cols-2">
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Central Locking - Remote/Keyless"
-                )}
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "Cruise Control"}
-              </TableCell>
-            </TableRow> */}
             {carData.features?.map((feature, index) => (
               <TableRow key={index} className="grid grid-cols-1 sm:grid-cols-2">
                 <TableCell>
@@ -144,46 +132,69 @@ const Features = ({ loadingState, carData }) => {
       <div>
         <Table hoverable className="mt-3 dark:bg-gray-700">
           <TableBody className="divide-y">
-            <TableRow>
-              <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
-                Location
-              </TableCell>
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "861 Stuart Highway Pinelands NT 082"
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
-                Contact
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "(08) 8932 9299"}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
-                Licence
-              </TableCell>
-              <TableCell>
-                {loading ? (
-                  <Skeleton height={25} />
-                ) : (
-                  "Dealer Licence No. LMVD1030"
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
-                ABN
-              </TableCell>
-              <TableCell>
-                {loading ? <Skeleton height={25} /> : "61639668045"}
-              </TableCell>
-            </TableRow>
+            {loading ? (
+              <>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    Location
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={25} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    Contact
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={25} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    Licence
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={25} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    ABN
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton height={25} />
+                  </TableCell>
+                </TableRow>
+              </>
+            ) : (
+              <React.Fragment>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    Location
+                  </TableCell>
+                  <TableCell>{carData.dealerInfo?.address}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    Contact
+                  </TableCell>
+                  <TableCell>{carData.dealerInfo?.contact}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    Licence
+                  </TableCell>
+                  <TableCell>{carData.dealerInfo?.licence}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
+                    ABN
+                  </TableCell>
+                  <TableCell>{carData.dealerInfo?.abn}</TableCell>
+                </TableRow>
+              </React.Fragment>
+            )}
           </TableBody>
         </Table>
       </div>

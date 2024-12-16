@@ -1,9 +1,37 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
+  const dealerLocations = [
+    {
+      id: 1,
+      name: "Downtown Showroom",
+      address: "123 Main Street, Downtown, Cityville",
+      contact: "123-456-7890",
+      licence: "123-456-7890",
+      abn: "abn:123-456-7890",
+    },
+    {
+      id: 2,
+      name: "Uptown Showroom",
+      address: "456 Elm Street, Uptown, Cityville",
+      contact: "987-654-3210",
+      licence: "987-654-3210",
+      abn: "abn :987-654-3210",
+    },
+    {
+      id: 3,
+      name: "Suburban Showroom",
+      address: "789 Maple Avenue, Suburbia, Cityville",
+      contact: "555-123-4567",
+      licence: "555-123-4567",
+      abn: "abn no",
+    },
+  ];
+  //console.log("dealerLocations:", dealerLocations);
   const cars = [
     {
       id: 1,
+      dealerId: 3,
       make: "Toyota",
       model: "Corolla",
       price: 18000,
@@ -57,6 +85,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 2,
     },
     {
       id: 3,
@@ -85,6 +114,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 4,
@@ -113,6 +143,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 5,
@@ -141,6 +172,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 6,
@@ -169,6 +201,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 7,
@@ -197,6 +230,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 8,
@@ -225,6 +259,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 9,
@@ -253,6 +288,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
     {
       id: 10,
@@ -285,6 +321,7 @@ export async function GET(req) {
       ],
       video: "/bmw.mp4",
       sellercomments: "Here Seller Comments Come from DB",
+      dealerId: 1,
     },
   ].map((car) => ({
     ...car,
@@ -293,6 +330,18 @@ export async function GET(req) {
       .replace(/\s+/g, "-"),
   }));
 
+  //console.log("cars:", cars);
+
+  const carsWithDealerInfo = cars.map((car) => {
+    const dealer = dealerLocations.find(
+      (location) => location.id === car.dealerId,
+    );
+    return {
+      ...car,
+      dealerInfo: dealer || null,
+    };
+  });
+  console.log("carsWithDealerInfo:", carsWithDealerInfo);
   const { searchParams } = new URL(req.url);
   const make = searchParams.get("make");
   const model = searchParams.get("model");
