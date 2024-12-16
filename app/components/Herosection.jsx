@@ -91,7 +91,8 @@ const HeroSection = () => {
   }, [selectedMake]);
 
   const handleSearch = async () => {
-    if (selectedMake && selectedModel && priceRange) {
+    // if (selectedMake && selectedModel && priceRange) {
+    if (priceRange) {
       setLoading(true);
       try {
         const response = await axios.get(
@@ -120,7 +121,8 @@ const HeroSection = () => {
         setLoading(false);
       }
     } else {
-      alert("Please select all fields before searching.");
+      //alert("Please select all fields before searching.");
+      alert("Please select at least price Range for search");
     }
   };
 
@@ -212,9 +214,9 @@ const HeroSection = () => {
                 color={"blue"}
                 onClick={handleSearch}
                 className="w-full p-2 dark:bg-red-500"
-                disabled={
-                  loading || !selectedMake || !selectedModel || !priceRange
-                }
+                // disabled={
+                //   loading || !selectedMake || !selectedModel || !priceRange
+                // }
               >
                 {loading ? "Searching..." : `${t("searchCar")}`}
               </Button>
@@ -276,7 +278,7 @@ const HeroSection = () => {
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
                   <b className="text-3xl text-red-700">
-                    Exact Match Not Found Some Alternative results :
+                    Price Not Match Some Alternative price results :
                   </b>
                 </h2>
 
