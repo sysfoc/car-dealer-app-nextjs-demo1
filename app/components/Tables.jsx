@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Tables = ({ loadingState, carData }) => {
+const Tables = ({ loadingState, carData, translation: t }) => {
   const loading = loadingState;
   return (
     <div>
@@ -13,7 +13,7 @@ const Tables = ({ loadingState, carData }) => {
           <RxHamburgerMenu fontSize={25} className="text-white" />
         </div>
         <h3 className="text-lg font-bold uppercase text-white">
-          Vehical Details
+          {t("vehicalDetail")}
         </h3>
       </div>
       <Table hoverable className="mt-3 dark:bg-gray-700">

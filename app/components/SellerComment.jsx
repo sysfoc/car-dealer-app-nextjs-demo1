@@ -3,7 +3,7 @@ import { FaCommentDots } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const SellerComment = ({ loadingState, carData }) => {
+const SellerComment = ({ loadingState, carData, translation: t }) => {
   const loading = loadingState;
   return (
     <div className="sticky top-1">
@@ -12,7 +12,7 @@ const SellerComment = ({ loadingState, carData }) => {
           <FaCommentDots fontSize={25} className="text-white" />
         </div>
         <h3 className="text-lg font-bold uppercase text-white">
-          Seller Comments
+          {t("sellerComments")}
         </h3>
       </div>
       {loading ? (

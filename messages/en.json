@@ -65,6 +65,14 @@
     "mileageLowToHigh":"Mileage: Low to Hight",
     "mileageHighToLow":"Mileage: High to Low"
   },
+  "carDetails":{
+    "enquireNow":"Enquire Now",
+    "callUs":"Call Us Now",
+    "vehicalFeatures":"Vehical Features",
+    "findUs":"Where to Find Us",
+    "vehicalDetail":"Vehical Details",
+    "sellerComments":"seller comments"
+  },
   "Footer": {
     "quickLinks": "Quick Links",
     "about": "About Us",

@@ -11,8 +11,17 @@ import { MdLocationOn } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Features = ({ loadingState, carData }) => {
+const Features = ({ loadingState, carData, translation: t }) => {
   const loading = loadingState;
+
+  const chunkArray = (array, chunkSize) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  };
+  const featureChunks = chunkArray(carData.features || [], 2);
   return (
     <div className="mt-5">
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
@@ -106,16 +115,18 @@ const Features = ({ loadingState, carData }) => {
             <BsFillBookmarkFill fontSize={20} className="text-white" />
           </div>
           <h3 className="text-lg font-bold uppercase text-white">
-            Vehical Features
+            {t("vehicalFeatures")}
           </h3>
         </div>
         <Table hoverable className="mt-3 dark:bg-gray-700">
           <TableBody className="divide-y">
-            {carData.features?.map((feature, index) => (
-              <TableRow key={index} className="grid grid-cols-1 sm:grid-cols-2">
-                <TableCell>
-                  {loading ? <Skeleton height={25} /> : feature}
-                </TableCell>
+            {featureChunks.map((chunk, rowIndex) => (
+              <TableRow key={rowIndex} className="grid grid-cols-2">
+                {chunk.map((feature, colIndex) => (
+                  <TableCell key={colIndex}>
+                    {loading ? <Skeleton height={25} /> : feature}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
@@ -126,7 +137,7 @@ const Features = ({ loadingState, carData }) => {
           <MdLocationOn fontSize={25} className="text-white" />
         </div>
         <h3 className="text-lg font-bold uppercase text-white">
-          Where To Find Us
+          {t("findUs")}
         </h3>
       </div>
       <div>

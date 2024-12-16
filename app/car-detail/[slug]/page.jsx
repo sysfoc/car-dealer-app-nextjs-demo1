@@ -17,8 +17,10 @@ import {
 } from "flowbite-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const t = useTranslations("carDetails");
   const [openModal, setOpenModal] = useState(false);
   const { slug } = useParams();
   const [car, setCar] = useState([]);
@@ -91,7 +93,7 @@ export default function Home() {
               className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
               onClick={() => setOpenModal(true)}
             >
-              Enquire Now
+              {t("enquireNow")}
             </Button>
             <Button
               color={"white"}
@@ -100,7 +102,7 @@ export default function Home() {
                 window.location.href = "tel:+1234567890";
               }}
             >
-              Call us now
+              {t("callUs")}
             </Button>
           </div>
           <Modal
@@ -108,7 +110,7 @@ export default function Home() {
             show={openModal}
             onClose={() => setOpenModal(false)}
           >
-            <ModalHeader>Enquire Now</ModalHeader>
+            <ModalHeader>{t("enquireNow")}</ModalHeader>
             <ModalBody>
               <div>
                 <form>
@@ -164,13 +166,13 @@ export default function Home() {
           </Modal>
           <div className="mt-3 border-b-2 border-blue-950 dark:border-gray-700"></div>
           <div>
-            <Features loadingState={loading} carData={car} />
+            <Features loadingState={loading} carData={car} translation={t} />
             {/* <Features loadingState={loading} /> */}
           </div>
         </div>
         <div>
-          <Table loadingState={loading} carData={car} />
-          <SellerComment loadingState={loading} carData={car} />
+          <Table loadingState={loading} carData={car} translation={t} />
+          <SellerComment loadingState={loading} carData={car} translation={t}/>
         </div>
       </div>
       <div className="mt-8">

@@ -65,6 +65,14 @@
     "mileageLowToHigh": "Kilométrage : Du plus bas au plus élevé",
     "mileageHighToLow": "Kilométrage : Du plus élevé au plus bas"
   },
+  "carDetails": {
+    "enquireNow": "Demander maintenant",
+    "callUs": "Appelez-nous maintenant",
+    "vehicalFeatures": "Caractéristiques du véhicule",
+    "findUs": "Où nous trouver",
+    "vehicalDetail": "Détails du véhicule",
+    "sellerComments": "Commentaires du vendeur"
+  },
   "Footer": {
     "quickLinks": "Liens rapides",
     "about": "À propos de nous",

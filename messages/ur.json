@@ -54,7 +54,7 @@
     "to": "تک",
     "outOf": "میں سے",
     "results": "نتائج",
-    "enquireNow": "اب پوچھیں",
+    "enquireNow": "ابھی پوچھیں",
     "viewDetails": "تفصیلات دیکھیں",
     "updatedDateRecent": "تازہ ترین تاریخ: پہلے جدید",
     "updatedDateOldest": "تازہ ترین تاریخ: پہلے قدیم",
@@ -64,6 +64,14 @@
     "modelOldest": "ماڈل سال: پہلے قدیم",
     "mileageLowToHigh": "مایلیج: کم سے زیادہ",
     "mileageHighToLow": "مایلیج: زیادہ سے کم"
+  },
+  "carDetails": {
+    "enquireNow": "ابھی پوچھیں",
+    "callUs": "ابھی ہمیں کال کریں",
+    "vehicalFeatures": "گاڑی کی خصوصیات",
+    "findUs": "ہمیں کہاں تلاش کریں",
+    "vehicalDetail": "گاڑی کی تفصیلات",
+    "sellerComments": "فروخت کنندہ کے تبصرے"
   },
   "Footer": {
     "quickLinks": "فوری روابط",
