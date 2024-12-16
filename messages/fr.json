@@ -10,6 +10,8 @@
   "HomePage": {
     "metaDescription": "Trouvez des voitures à vendre et à louer près de chez vous",
     "h1Heading": "Trouvez votre voiture parfaite",
+    "matchFound": "Ces voitures correspondent à votre recherche",
+    "alternateFound": "Le prix ne correspond pas, certains résultats alternatifs de prix trouvés",
     "browseVehical": "Ou parcourez les modèles en vedette",
     "selectMake": "Choisissez la marque",
     "selectModel": "Choisissez le modèle",
@@ -72,6 +74,21 @@
     "findUs": "Où nous trouver",
     "vehicalDetail": "Détails du véhicule",
     "sellerComments": "Commentaires du vendeur"
+  },
+  "Authentication": {
+    "signInHeading": "Se connecter à Autocar Dealers",
+    "name": "Votre nom",
+    "email": "Votre e-mail",
+    "password": "Votre mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié?",
+    "loginBtn": "Connectez-vous à votre compte",
+    "registerBtn": "Créez votre compte",
+    "register": "S'inscrire",
+    "login": "Se connecter",
+    "notRegister": "Pas encore inscrit?",
+    "haveAccount": "Vous avez déjà un compte?",
+    "registerHeading": "Inscrivez-vous sur Autocar Dealers"
   },
   "Footer": {
     "quickLinks": "Liens rapides",

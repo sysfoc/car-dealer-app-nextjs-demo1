@@ -10,6 +10,8 @@
   "HomePage": {
     "metaDescription": "اپنے قریب گاڑیاں خریدیں اور کرائے پر حاصل کریں",
     "h1Heading": "اپنی بہترین گاڑی تلاش کریں",
+    "matchFound": "آپ کی تلاش کے مطابق یہ گاڑیاں ہیں",
+    "alternateFound": "قیمت میچ نہیں کرتی، کچھ متبادل قیمت کے نتائج ملے",
     "browseVehical": "یا نمایاں ماڈل دیکھیں",
     "selectMake": "بنانے کا انتخاب کریں",
     "selectModel": "ماڈل کا انتخاب کریں",
@@ -72,6 +74,21 @@
     "findUs": "ہمیں کہاں تلاش کریں",
     "vehicalDetail": "گاڑی کی تفصیلات",
     "sellerComments": "فروخت کنندہ کے تبصرے"
+  },
+  "Authentication": {
+    "signInHeading": "آٹوکار ڈیلرز میں لاگ ان کریں",
+    "name": "آپ کا نام",
+    "email": "آپ کا ای میل",
+    "password": "آپ کا پاس ورڈ",
+    "rememberMe": "مجھے یاد رکھیں",
+    "forgotPassword": "پاس ورڈ بھول گئے؟",
+    "loginBtn": "اپنے اکاؤنٹ میں لاگ ان کریں",
+    "registerBtn": "اپنا اکاؤنٹ بنائیں",
+    "register": "رجسٹر کریں",
+    "login": "سائن ان کریں",
+    "notRegister": "ابھی تک رجسٹر نہیں ہوئے؟",
+    "haveAccount": "کیا آپ کے پاس پہلے سے اکاؤنٹ ہے؟",
+    "registerHeading": "آٹوکار ڈیلرز میں رجسٹر کریں"
   },
   "Footer": {
     "quickLinks": "فوری روابط",

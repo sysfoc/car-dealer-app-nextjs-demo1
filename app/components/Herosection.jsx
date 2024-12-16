@@ -227,9 +227,7 @@ const HeroSection = () => {
             {suggestions.length > 0 && (
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
-                  <b className="text-3xl text-green-400">
-                    Sucessfully ! Exact match Found
-                  </b>
+                  <b className="text-3xl text-green-400">{t("matchFound")}</b>
                 </h2>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -277,9 +275,7 @@ const HeroSection = () => {
             {alternativeCars.length > 0 && (
               <div>
                 <h2 className="mb-4 text-center text-xl font-semibold text-white">
-                  <b className="text-3xl text-red-700">
-                    Price Not Match Some Alternative price results :
-                  </b>
+                  <b className="text-3xl text-red-700">{t("alternateFound")}</b>
                 </h2>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -20,6 +20,7 @@ import { useTranslations } from "next-intl";
 
 const Header = () => {
   const t = useTranslations("Header");
+  const authTr = useTranslations("Authentication");
   const [openSidebar, setOpenSidebar] = useState(false);
   const [email, setEmail] = useState("");
   const [modalType, setModalType] = useState("signIn");
@@ -154,10 +155,10 @@ const Header = () => {
               {modalType === "signIn" ? (
                 <>
                   <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                    Sign in to Autocar Dealers
+                    {authTr("signInHeading")}
                   </h3>
                   <div>
-                    <Label htmlFor="email" value="Your email" />
+                    <Label htmlFor="email" value={`${authTr("email")}`} />
                     <TextInput
                       id="email"
                       placeholder="name@company.com"
@@ -168,7 +169,7 @@ const Header = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="password" value="Your password" />
+                    <Label htmlFor="password" value={`${authTr("password")}`} />
                     <TextInput
                       id="password"
                       type="password"
@@ -178,28 +179,28 @@ const Header = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Checkbox id="remember" />
-                    <Label htmlFor="remember">Remember me</Label>
+                    <Label htmlFor="remember">{authTr("rememberMe")}</Label>
                   </div>
                   <Button className="w-full bg-blue-950 dark:bg-red-500">
-                    Log in to your account
+                    {authTr("loginBtn")}
                   </Button>
                   <div className="text-sm text-gray-500 dark:text-gray-300">
-                    Not registered?&nbsp;
+                    {authTr("notRegister")}&nbsp;
                     <span
                       onClick={() => setModalType("register")}
                       className="cursor-pointer text-blue-950 hover:underline dark:text-red-500"
                     >
-                      Create account
+                      {authTr("register")}
                     </span>
                   </div>
                 </>
               ) : (
                 <>
                   <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                    Register for Autocar Dealers
+                    {authTr("registerHeading")}
                   </h3>
                   <div>
-                    <Label htmlFor="name" value="Your name" />
+                    <Label htmlFor="name" value={`${authTr("name")}`} />
                     <TextInput
                       id="name"
                       placeholder="John Doe"
@@ -208,7 +209,7 @@ const Header = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="email" value="Your email" />
+                    <Label htmlFor="email" value={`${authTr("email")}`} />
                     <TextInput
                       id="email"
                       placeholder="name@company.com"
@@ -217,7 +218,7 @@ const Header = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="password" value="Your password" />
+                    <Label htmlFor="password" value={`${authTr("password")}`} />
                     <TextInput
                       id="password"
                       type="password"
@@ -226,15 +227,15 @@ const Header = () => {
                     />
                   </div>
                   <Button className="w-full bg-blue-950 dark:bg-red-500">
-                    Create your account
+                    {authTr("registerBtn")}
                   </Button>
                   <div className="text-sm text-gray-500 dark:text-gray-300">
-                    Already have an account?&nbsp;
+                    {authTr("haveAccount")}&nbsp;
                     <span
                       onClick={() => setModalType("signIn")}
                       className="cursor-pointer text-blue-950 hover:underline dark:text-red-500"
                     >
-                      Sign in
+                      {authTr("login")}
                     </span>
                   </div>
                 </>
