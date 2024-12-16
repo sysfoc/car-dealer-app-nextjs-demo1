@@ -92,38 +92,38 @@ const HeroSection = () => {
 
   const handleSearch = async () => {
     // if (selectedMake && selectedModel && priceRange) {
-    if (priceRange) {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
-        );
-        console.log("Search Response Data:", response.data);
+    // if (priceRange) {
+    //setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
+      );
+      console.log("Search Response Data:", response.data);
 
-        const cars = response.data.exactMatches || [];
-        const alternatives = response.data.alternativeSuggestions || [];
+      const cars = response.data.exactMatches || [];
+      const alternatives = response.data.alternativeSuggestions || [];
 
-        if (cars.length > 0) {
-          setSuggestions(cars);
-          setAlternativeCars([]);
-        } else if (alternatives.length > 0) {
-          setAlternativeCars(alternatives);
-          setSuggestions([]);
-        } else {
-          setSuggestions([]);
-          setAlternativeCars([]);
-          alert("No cars found. Please refine your search or try again later.");
-        }
-      } catch (error) {
-        console.error("Error fetching car data:", error);
-        alert("An error occurred. Please try again.");
-      } finally {
-        setLoading(false);
+      if (cars.length > 0) {
+        setSuggestions(cars);
+        setAlternativeCars([]);
+      } else if (alternatives.length > 0) {
+        setAlternativeCars(alternatives);
+        setSuggestions([]);
+      } else {
+        setSuggestions([]);
+        setAlternativeCars([]);
+        alert("No cars found. Please refine your search or try again later.");
       }
-    } else {
-      //alert("Please select all fields before searching.");
-      alert("Please select at least price Range for search");
+    } catch (error) {
+      console.error("Error fetching car data:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
+    // } else {
+    //   //alert("Please select all fields before searching.");
+    //   alert("Please select at least price Range for search");
+    // }
   };
 
   return (
