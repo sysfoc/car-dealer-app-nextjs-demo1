@@ -174,7 +174,7 @@ export default function Home() {
         </div>
       </div>
       <div className="mt-8">
-        {car.dealerInfo.map ? (
+        {car.dealerInfo ? (
           <iframe
             src={car.dealerInfo.map}
             width="600"
