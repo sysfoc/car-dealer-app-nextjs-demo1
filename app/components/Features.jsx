@@ -167,33 +167,39 @@ const Features = ({ loadingState, carData }) => {
                   </TableCell>
                 </TableRow>
               </>
-            ) : (
-              <React.Fragment>
+            ) : carData.dealerInfo ? (
+              <>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     Location
                   </TableCell>
-                  <TableCell>{carData.dealerInfo?.address}</TableCell>
+                  <TableCell>{carData.dealerInfo.address}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     Contact
                   </TableCell>
-                  <TableCell>{carData.dealerInfo?.contact}</TableCell>
+                  <TableCell>{carData.dealerInfo.contact}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     Licence
                   </TableCell>
-                  <TableCell>{carData.dealerInfo?.licence}</TableCell>
+                  <TableCell>{carData.dealerInfo.licence}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     ABN
                   </TableCell>
-                  <TableCell>{carData.dealerInfo?.abn}</TableCell>
+                  <TableCell>{carData.dealerInfo.abn}</TableCell>
                 </TableRow>
-              </React.Fragment>
+              </>
+            ) : (
+              <TableRow>
+                <TableCell colSpan={2}>
+                  No dealer information available
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>

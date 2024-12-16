@@ -41,7 +41,9 @@ export default function Home() {
           return response.json();
         })
         .then((data) => {
+          console.log(data);
           setCar(data.exactMatches[0] || null);
+
           setLoading(false);
         })
         .catch((err) => {
@@ -172,13 +174,17 @@ export default function Home() {
         </div>
       </div>
       <div className="mt-8">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2497.9997072499596!2d73.1154986739374!3d30.663348788985527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922b76da7fde6c7%3A0x53937ae1a82170a!2sKhan%20bakers!5e1!3m2!1sen!2s!4v1731403934717!5m2!1sen!2s"
-          width="600"
-          height="450"
-          style={{ border: 0, width: "100%" }}
-          loading="lazy"
-        ></iframe>
+        {car.dealerInfo.map ? (
+          <iframe
+            src={car.dealerInfo.map}
+            width="600"
+            height="450"
+            style={{ border: 0, width: "100%" }}
+            loading="lazy"
+          ></iframe>
+        ) : (
+          <p>Map is not available</p>
+        )}
       </div>
     </section>
   );

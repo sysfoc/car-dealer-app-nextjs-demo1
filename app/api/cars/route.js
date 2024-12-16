@@ -9,6 +9,7 @@ export async function GET(req) {
       contact: "123-456-7890",
       licence: "123-456-7890",
       abn: "abn:123-456-7890",
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2497.9997072499596!2d73.1154986739374!3d30.663348788985527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922b76da7fde6c7%3A0x53937ae1a82170a!2sKhan%20bakers!5e1!3m2!1sen!2s!4v1731403934717!5m2!1sen!2s",
     },
     {
       id: 2,
@@ -17,6 +18,7 @@ export async function GET(req) {
       contact: "987-654-3210",
       licence: "987-654-3210",
       abn: "abn :987-654-3210",
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2497.9997072499596!2d73.1154986739374!3d30.663348788985527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922b76da7fde6c7%3A0x53937ae1a82170a!2sKhan%20bakers!5e1!3m2!1sen!2s!4v1731403934717!5m2!1sen!2s",
     },
     {
       id: 3,
@@ -25,6 +27,7 @@ export async function GET(req) {
       contact: "555-123-4567",
       licence: "555-123-4567",
       abn: "abn no",
+      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2497.9997072499596!2d73.1154986739374!3d30.663348788985527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922b76da7fde6c7%3A0x53937ae1a82170a!2sKhan%20bakers!5e1!3m2!1sen!2s!4v1731403934717!5m2!1sen!2s",
     },
   ];
   //console.log("dealerLocations:", dealerLocations);
@@ -329,19 +332,6 @@ export async function GET(req) {
       .toLowerCase()
       .replace(/\s+/g, "-"),
   }));
-
-  //console.log("cars:", cars);
-
-  const carsWithDealerInfo = cars.map((car) => {
-    const dealer = dealerLocations.find(
-      (location) => location.id === car.dealerId,
-    );
-    return {
-      ...car,
-      dealerInfo: dealer || null,
-    };
-  });
-  console.log("carsWithDealerInfo:", carsWithDealerInfo);
   const { searchParams } = new URL(req.url);
   const make = searchParams.get("make");
   const model = searchParams.get("model");
@@ -359,7 +349,16 @@ export async function GET(req) {
     }
   }
 
-  const exactMatches = cars.filter((car) => {
+  const carsWithDealerInfo = cars.map((car) => {
+    const dealer = dealerLocations.find((dealer) => dealer.id === car.dealerId);
+
+    return {
+      ...car,
+      dealerInfo: dealer || null,
+    };
+  });
+
+  const exactMatches = carsWithDealerInfo.filter((car) => {
     return (
       (!slug || car.slug === slug) &&
       (!make || car.make === make) &&
@@ -368,7 +367,7 @@ export async function GET(req) {
     );
   });
 
-  const alternativeSuggestions = cars.filter((car) => {
+  const alternativeSuggestions = carsWithDealerInfo.filter((car) => {
     return (
       (!make || car.make === make) &&
       (!model || car.model === model) &&
