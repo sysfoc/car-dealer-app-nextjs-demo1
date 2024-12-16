@@ -23,7 +23,9 @@ import { FaHourglassEnd } from "react-icons/fa";
 import { MdOutlineCo2 } from "react-icons/md";
 import { GiCartwheel } from "react-icons/gi";
 import { FaRecycle } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 const SidebarFilters = () => {
+  const t = useTranslations("Filters");
   const [openSections, setOpenSections] = useState([]);
 
   const toggleSection = (section) => {
@@ -38,107 +40,107 @@ const SidebarFilters = () => {
     <div className="flex flex-col gap-y-3">
       {[
         {
-          label: "Search By Keyword",
+          label: `${t("keyword")}`,
           content: "keyword",
           symbol: <VscSymbolKeyword fontSize={22} className="text-white" />,
         },
         {
-          label: "Condition",
+          label: `${t("condition")}`,
           content: "condition",
           symbol: <FaRecycle fontSize={22} className="text-white" />,
         },
         {
-          label: "Location",
+          label: `${t("location")}`,
           content: "location",
           symbol: <FaLocationDot fontSize={22} className="text-white" />,
         },
         {
-          label: "Price",
+          label: `${t("price")}`,
           content: "price",
           symbol: <IoPricetag fontSize={22} className="text-white" />,
         },
         {
-          label: "Year",
+          label: `${t("year")}`,
           content: "year",
           symbol: <FaRegCalendarCheck fontSize={22} className="text-white" />,
         },
         {
-          label: "Make",
+          label: `${t("make")}`,
           content: "make",
           symbol: <SiCmake fontSize={22} className="text-white" />,
         },
         {
-          label: "Model",
+          label: `${t("model")}`,
           content: "model",
           symbol: <RxBoxModel fontSize={22} className="text-white" />,
         },
         {
-          label: "Mileage",
+          label: `${t("mileage")}`,
           content: "mileage",
           symbol: <IoIosSpeedometer fontSize={22} className="text-white" />,
         },
         {
-          label: "Gear box",
+          label: `${t("gearbox")}`,
           content: "gearbox",
           symbol: <GiGearStickPattern fontSize={22} className="text-white" />,
         },
         {
-          label: "Body type",
+          label: `${t("body")}`,
           content: "bodytype",
           symbol: <FaCar fontSize={22} className="text-white" />,
         },
         {
-          label: "Color",
+          label: `${t("color")}`,
           content: "color",
           symbol: <IoIosColorPalette fontSize={22} className="text-white" />,
         },
         {
-          label: "Door",
+          label: `${t("doors")}`,
           content: "door",
           symbol: <GiCarDoor fontSize={22} className="text-white" />,
         },
         {
-          label: "Seats",
+          label: `${t("seats")}`,
           content: "seats",
           symbol: <GiCarSeat fontSize={22} className="text-white" />,
         },
         {
-          label: "Fuel type",
+          label: `${t("fuel")}`,
           content: "fueltype",
           symbol: <BsFillFuelPumpFill fontSize={22} className="text-white" />,
         },
         {
-          label: "Battery Range",
+          label: `${t("battery")}`,
           content: "battery",
           symbol: <GiPathDistance fontSize={22} className="text-white" />,
         },
         {
-          label: "Charging Time",
+          label: `${t("charging")}`,
           content: "charging",
           symbol: <MdBatteryCharging50 fontSize={22} className="text-white" />,
         },
         {
-          label: "Engine Size",
+          label: `${t("engineSize")}`,
           content: "engine-size",
           symbol: <TbEngine fontSize={22} className="text-white" />,
         },
         {
-          label: "Engine Power",
+          label: `${t("enginePower")}`,
           content: "engine-power",
           symbol: <ImPower fontSize={22} className="text-white" />,
         },
         {
-          label: "Fuel Consumption",
+          label: `${t("fuelConsumption")}`,
           content: "fuel-comsumption",
           symbol: <FaHourglassEnd fontSize={22} className="text-white" />,
         },
         {
-          label: "Co2 Emission",
+          label: `${t("co2")}`,
           content: "c02-emission",
           symbol: <MdOutlineCo2 fontSize={22} className="text-white" />,
         },
         {
-          label: "Drive Type",
+          label: `${t("driveType")}`,
           content: "drive-type",
           symbol: <GiCartwheel fontSize={22} className="text-white" />,
         },
@@ -169,7 +171,7 @@ const SidebarFilters = () => {
           >
             {section.content === "keyword" && (
               <div className="flex flex-col gap-2">
-                <Label htmlFor="keyword">Type Specific Keyword</Label>
+                <Label htmlFor="keyword">{t("keyword")}</Label>
                 <TextInput
                   type="text"
                   id="keyword"
@@ -288,7 +290,7 @@ const SidebarFilters = () => {
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="flex flex-col">
                   <Label htmlFor="from" className="text-sm">
-                    From
+                    {t("from")}
                   </Label>
                   <Select id="from">
                     <option value="Any">Any</option>
@@ -299,7 +301,7 @@ const SidebarFilters = () => {
                 </div>
                 <div className="flex flex-col">
                   <Label htmlFor="to" className="text-sm">
-                    To
+                    {t("to")}
                   </Label>
                   <Select id="to">
                     <option value="Any">Any</option>
@@ -578,7 +580,7 @@ const SidebarFilters = () => {
             {section.content === "battery" && (
               <div className="flex flex-col">
                 <Label htmlFor="battery" className="text-sm">
-                  Battery Time
+                  {t("battery")}
                 </Label>
                 <Select id="battery">
                   <option value="Any">Any</option>
@@ -591,7 +593,7 @@ const SidebarFilters = () => {
             {section.content === "charging" && (
               <div className="flex flex-col">
                 <Label htmlFor="charging" className="text-sm">
-                  Charging Time
+                  {t("charging")}
                 </Label>
                 <Select id="charging">
                   <option value="Any">Any</option>
@@ -605,7 +607,7 @@ const SidebarFilters = () => {
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="flex flex-col">
                   <Label htmlFor="engine-from" className="text-sm">
-                    From
+                    {t("from")}
                   </Label>
                   <Select id="engine-from">
                     <option value="Any">Any</option>
@@ -616,7 +618,7 @@ const SidebarFilters = () => {
                 </div>
                 <div className="flex flex-col">
                   <Label htmlFor="engine-to" className="text-sm">
-                    To
+                    {t("to")}
                   </Label>
                   <Select id="engine-to">
                     <option value="Any">Any</option>
@@ -631,7 +633,7 @@ const SidebarFilters = () => {
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="flex flex-col">
                   <Label htmlFor="engine-power-from" className="text-sm">
-                    From
+                    {t("from")}
                   </Label>
                   <Select id="engine-power-from">
                     <option value="Any">Any</option>
@@ -642,7 +644,7 @@ const SidebarFilters = () => {
                 </div>
                 <div className="flex flex-col">
                   <Label htmlFor="engine-power-to" className="text-sm">
-                    To
+                    {t("to")}
                   </Label>
                   <Select id="engine-power-to">
                     <option value="Any">Any</option>
@@ -656,7 +658,7 @@ const SidebarFilters = () => {
             {section.content === "fuel-comsumption" && (
               <div className="flex flex-col">
                 <Label htmlFor="fuel-comsumption" className="text-sm">
-                  Fuel Consumption
+                  {t("fuelConsumption")}
                 </Label>
                 <Select id="fuel-comsumption">
                   <option value="Any">Any</option>
@@ -670,7 +672,7 @@ const SidebarFilters = () => {
             {section.content === "c02-emission" && (
               <div className="flex flex-col">
                 <Label htmlFor="c02-emission" className="text-sm">
-                  CO2 Emission
+                  {t("co2")}
                 </Label>
                 <Select id="c02-emission">
                   <option value="Any">Any</option>

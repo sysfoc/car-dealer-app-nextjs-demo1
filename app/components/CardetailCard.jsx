@@ -28,8 +28,10 @@ import { GiCarDoor } from "react-icons/gi";
 import { GiCarSeat } from "react-icons/gi";
 import { FaCalendarCheck } from "react-icons/fa6";
 import { IoIosColorPalette } from "react-icons/io";
+import { useTranslations } from "next-intl";
 
 const CardetailCard = () => {
+  const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
   const [openModal, setOpenModal] = useState(false);
@@ -77,19 +79,19 @@ const CardetailCard = () => {
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
-            <strong>4</strong> out of <strong>500</strong> results
+            <strong>4</strong> {t("outOf")} <strong>500</strong> {t("results")}
           </span>
         </div>
         <div className="flex items-center gap-x-3">
           <Select icon={GrSort}>
-            <option value="recent">Updated Date: Recent First</option>
-            <option value="oldest">Updated Date: Oldest First</option>
-            <option value="price-lh">Price: Low to High</option>
-            <option value="price-hl">Price: High to Low</option>
-            <option value="model-latest">Model Year: Latest First</option>
-            <option value="model-oldest">Model Year: Oldest First</option>
-            <option value="mileage-lh">Mileage: Low to Hight</option>
-            <option value="mileage-hl">Mileage: High to Low</option>
+            <option value="recent">{t("updatedDateRecent")}</option>
+            <option value="oldest">{t("updatedDateOldest")}</option>
+            <option value="price-lh">{t("priceLowToHigh")}</option>
+            <option value="price-hl">{t("priceHighToLow")}</option>
+            <option value="model-latest">{t("modelLatest")}</option>
+            <option value="model-oldest">{t("modelOldest")}</option>
+            <option value="mileage-lh">{t("mileageLowToHigh")}</option>
+            <option value="mileage-hl">{t("mileageHighToLow")}</option>
           </Select>
           <Button color={"light"} onClick={() => setIsGridView(!isGridView)}>
             {isGridView ? <FiList fontSize={20} /> : <FiGrid fontSize={20} />}
@@ -238,14 +240,14 @@ const CardetailCard = () => {
                   className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
                   onClick={() => setOpenModal(true)}
                 >
-                  Enquire Now
+                  {t("enquireNow")}
                 </Button>
                 <Link href={"#"} className="flex flex-col">
                   <Button
                     color={"white"}
                     className="bg-blue-950 text-sm uppercase text-white dark:bg-red-500"
                   >
-                    View Details
+                    {t("viewDetails")}
                   </Button>
                 </Link>
               </div>
