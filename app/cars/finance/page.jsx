@@ -1,9 +1,11 @@
 "use client";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 
 export default function Home() {
+  const t = useTranslations("carFinance");
   const [activeIndex, setActiveIndex] = useState(null);
 
   const faqs = [
@@ -39,32 +41,29 @@ export default function Home() {
           <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-2">
             <div>
               <div className="space-y-2">
-                <small className="text-xl uppercase">Finance your Car</small>
+                <small className="text-xl uppercase">{t("financeTitle")}</small>
                 <h1 className="text-4xl font-semibold text-blue-950 dark:text-red-500">
-                  The key to your new set of wheels
+                  {t("financeHeading")}
                 </h1>
-                <p>
-                  Apply online today and secure your personalised rate in as
-                  little as 60 seconds.
-                </p>
+                <p>{t("financeDescription")}</p>
               </div>
               <div className="mt-5 space-y-2">
                 <div className="flex items-center gap-x-2">
                   <FaCheck fontSize={22} />
                   <div>
-                    <p>Interest rates from 7.19 % p.a.</p>
+                    <p>{t("interestRates")}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-x-2">
                   <FaCheck fontSize={22} />
                   <div>
-                    <p>Comparison rate 7.82 % p.a.</p>
+                    <p>{t("comparisonRates")}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-x-2">
                   <FaCheck fontSize={22} />
                   <div>
-                    <p>Dedicated support team</p>
+                    <p>{t("support")}</p>
                   </div>
                 </div>
               </div>
@@ -87,35 +86,26 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-4xl text-blue-950 dark:text-red-500">
-              Whatever type of car youre looking for, we have an option for you.
+              {t("cartypeHeading")}
             </h3>
             <ul className="mt-5 space-y-5">
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>
-                  New car loans - Get the keys to your dream car quickly, with
-                  funds in as little as 24 hours.
-                </p>
+                <p>{t("cartypePoint1")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>
-                  Used car loans - Not in the market for a new car? Discover
-                  your options for a used car loan.{" "}
-                </p>
+                <p>{t("cartypePoint2")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>
-                  EV car loan - Get rewarded for going green with our discounted
-                  rates for EV’s.{" "}
-                </p>
+                <p>{t("cartypePoint3")}</p>
               </li>
             </ul>
           </div>
@@ -128,45 +118,44 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-4xl text-blue-950 dark:text-red-500">
-              Just like choosing the perfect car, take the time to find the
-              right loan.
+              {t("financeLoanHeading")}
             </h3>
             <ul className="mt-5 grid grid-cols-2 gap-5">
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Borrow up to $100,000</p>
+                <p>{t("financeLoanPoint1")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>3-7 year loan terms</p>
+                <p>{t("financeLoanPoint2")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>24hrs average settlement time</p>
+                <p>{t("financeLoanPoint3")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>$0 early repayment fee</p>
+                <p>${t("financeLoanPoint4")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>$0 monthly fee</p>
+                <p>${t("financeLoanPoint5")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Personalised interest rate</p>
+                <p>{t("financeLoanPoint6")}</p>
               </li>
             </ul>
           </div>
@@ -179,44 +168,44 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-4xl text-blue-950 dark:text-red-500">
-              Are you looking for another type of loan?
+              {t("loanTypeHeading")}
             </h3>
             <ul className="mt-5 grid grid-cols-2 gap-5">
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Flexible Financing Options</p>
+                <p>{t("loanTypePoint1")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p> Competitive Interest Rates</p>
+                <p>{t("loanTypePoint2")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p>Quick and Easy Approval</p>
+                <p>{t("loanTypePoint3")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p> No Hidden Costs </p>
+                <p>{t("loanTypePoint4")} </p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p> Financing for All Credit Levels</p>
+                <p>{t("loanTypePoint5")}</p>
               </li>
               <li className="flex items-center gap-3">
                 <div className="rounded-full bg-blue-950 p-3 dark:bg-red-500">
                   <FaCheck fontSize={22} color="white" />
                 </div>
-                <p> Expert Guidance at Every Step</p>
+                <p>{t("loanTypePoint6")}</p>
               </li>
             </ul>
           </div>

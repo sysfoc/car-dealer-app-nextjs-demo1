@@ -3,8 +3,10 @@ import { Pagination } from "flowbite-react";
 import LeasingCarsDetail from "@/app/components/LeasingCarsDetail";
 import SidebarFilters from "@/app/components/SidebarFilters";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const t = useTranslations("carLeasing");
   const [currentPage, setCurrentPage] = useState(1);
   const onPageChange = (page) => setCurrentPage(page);
   return (
@@ -17,16 +19,13 @@ export default function Home() {
           <div>
             <h2 className="mt-4 text-3xl">
               <strong className="text-blue-950 dark:text-red-500">41</strong>{" "}
-              car lease deals for{" "}
+              {t("leaseHeading")}{" "}
               <strong className="text-blue-950 dark:text-red-500">
                 Audi A8
               </strong>{" "}
-              available
+              {t("leaseDeal")}
             </h2>
-            <p className="my-2 text-lg">
-              Results are based on the lowest monthly prices available. Terms
-              for each vehicle may vary.
-            </p>
+            <p className="my-2 text-lg">{t("leaseSubheading")}</p>
           </div>
           <div>
             <LeasingCarsDetail />

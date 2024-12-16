@@ -75,6 +75,37 @@
     "vehicalDetail": "Vehical Details",
     "sellerComments": "seller comments"
   },
+  "carLeasing": {
+    "leaseHeading": "car lease deals for",
+    "leaseDeal": "available",
+    "leaseSubheading": "Results are based on the lowest monthly prices available. Terms for each vehicle may vary."
+  },
+  "carFinance": {
+    "financeTitle": "Finance your Car",
+    "financeHeading": "The key to your new set of wheels",
+    "financeDescription": "Apply online today and secure your personalised rate in as little as 60 seconds.",
+    "interestRates": "Interest rates from 7.19 % p.a.",
+    "comparisonRates": "Comparison rate 7.82 % p.a.",
+    "support": "Dedicated support team",
+    "cartypeHeading": "Whatever type of car youre looking for, we have an option for you.",
+    "cartypePoint1": "New car loans - Get the keys to your dream car quickly, with funds in as little as 24 hours.",
+    "cartypePoint2": "Used car loans - Not in the market for a new car? Discover your options for a used car loan.",
+    "cartypePoint3": "EV car loan - Get rewarded for going green with our discounted rates for EV’s.",
+    "financeLoanHeading": "Just like choosing the perfect car, take the time to find the right loan.",
+    "financeLoanPoint1": "Borrow up to $100,000",
+    "financeLoanPoint2": "3-7 year loan terms",
+    "financeLoanPoint3": "24hrs average settlement time",
+    "financeLoanPoint4": "0 early repayment fee",
+    "financeLoanPoint5": "0 monthly fee",
+    "financeLoanPoint6": "Personalised interest rate",
+    "loanTypeHeading": "Are you looking for another type of loan?",
+    "loanTypePoint1": "Flexible Financing Options",
+    "loanTypePoint2": "Competitive Interest Rates",
+    "loanTypePoint3": "Quick and Easy Approval",
+    "loanTypePoint4": "No Hidden Costs",
+    "loanTypePoint5": "Financing for All Credit Levels",
+    "loanTypePoint6": "Expert Guidance at Every Step"
+  },
   "Authentication": {
     "signInHeading": "Sign in to Autocar Dealers",
     "name": "Your name",
