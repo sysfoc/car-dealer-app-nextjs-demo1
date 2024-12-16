@@ -57,6 +57,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (selectedMake) {
+      setSelectedModel("");
       const fetchModels = async () => {
         setLoading(true);
         try {
@@ -87,17 +88,33 @@ const HeroSection = () => {
       };
 
       fetchModels();
+    } else {
+      setModels([]);
     }
   }, [selectedMake]);
 
   const handleSearch = async () => {
-    // if (selectedMake && selectedModel && priceRange) {
-    // if (priceRange) {
-    //setLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}&model=${selectedModel}&priceRange=${priceRange}`,
+    if (!selectedMake && !priceRange) {
+      alert(
+        "Please select at least one search criterion (Make or Price Range).",
       );
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const queryParams = [];
+      if (selectedMake) queryParams.push(`make=${selectedMake}`);
+      if (selectedModel) queryParams.push(`model=${selectedModel}`);
+      if (priceRange) queryParams.push(`priceRange=${priceRange}`);
+
+      const queryString = queryParams.join("&");
+
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/cars?${queryString}`,
+      );
+
       console.log("Search Response Data:", response.data);
 
       const cars = response.data.exactMatches || [];
@@ -120,10 +137,6 @@ const HeroSection = () => {
     } finally {
       setLoading(false);
     }
-    // } else {
-    //   //alert("Please select all fields before searching.");
-    //   alert("Please select at least price Range for search");
-    // }
   };
 
   return (
