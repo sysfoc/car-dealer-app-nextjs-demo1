@@ -21,6 +21,14 @@ export async function GET(req) {
       fuelType: "Petrol",
       gearBox: "Automatic",
       engineCapacity: "2.0L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 2,
@@ -41,6 +49,14 @@ export async function GET(req) {
       fuelType: "Diesel",
       gearBox: "Manual",
       engineCapacity: "1.8L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 3,
@@ -61,6 +77,14 @@ export async function GET(req) {
       fuelType: "Electric",
       gearBox: "Single Speed",
       engineCapacity: "N/A",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 4,
@@ -81,6 +105,14 @@ export async function GET(req) {
       fuelType: "Petrol",
       gearBox: "Automatic",
       engineCapacity: "5.0L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 5,
@@ -101,6 +133,14 @@ export async function GET(req) {
       fuelType: "Petrol",
       gearBox: "Manual",
       engineCapacity: "3.6L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 6,
@@ -121,6 +161,14 @@ export async function GET(req) {
       fuelType: "Petrol",
       gearBox: "Automatic",
       engineCapacity: "2.0L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 7,
@@ -141,6 +189,14 @@ export async function GET(req) {
       fuelType: "Diesel",
       gearBox: "Automatic",
       engineCapacity: "2.2L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 8,
@@ -161,6 +217,14 @@ export async function GET(req) {
       fuelType: "Petrol",
       gearBox: "Automatic",
       engineCapacity: "2.0L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 9,
@@ -181,6 +245,14 @@ export async function GET(req) {
       fuelType: "Diesel",
       gearBox: "Automatic",
       engineCapacity: "2.0L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
     {
       id: 10,
@@ -205,6 +277,14 @@ export async function GET(req) {
       fuelType: "Petrol",
       gearBox: "Automatic",
       engineCapacity: "2.0L",
+      images: [
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+        "/Luxury SUV.webp",
+      ],
+      video: "/bmw.mp4",
+      sellercomments: "Here Seller Comments Come from DB",
     },
   ].map((car) => ({
     ...car,

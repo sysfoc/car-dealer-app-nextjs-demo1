@@ -4,46 +4,49 @@ import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Slider = ({ loadingState }) => {
+const Slider = ({ loadingState, carData }) => {
   const loading = loadingState;
-  const vehicalImages = [
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-  ];
+
+  const mediaItems = [
+    carData.video ? { type: "video", src: carData.video } : null,
+    ...(carData.images || []).map((image) => ({ type: "image", src: image })),
+  ].filter(Boolean);
+
   return (
     <div className="mt-3 h-56 sm:h-72 xl:h-80 2xl:h-96">
       <Carousel slideInterval={3000}>
-        {vehicalImages.map((image, index) => {
-          return loading ? (
-            <Skeleton key={index} width={1000} height={500} />
-          ) : (
-            <Image
-              key={index}
-              src={image.name}
-              alt={image.alt}
-              style={{ objectPosition: "center" }}
-              width={700}
-              height={500}
-            />
-          );
+        {mediaItems.map((media, index) => {
+          if (loading) {
+            return <Skeleton key={index} width="100%" height="100%" />;
+          }
+
+          if (media.type === "video") {
+            return (
+              <div key={index} className="size-full">
+                <video
+                  src={media.src}
+                  controls
+                  className="size-full object-cover"
+                />
+              </div>
+            );
+          }
+
+          if (media.type === "image") {
+            return (
+              <div key={index} className="size-full">
+                <Image
+                  src={media.src}
+                  alt={`Vehicle Media ${index + 1}`}
+                  className="object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            );
+          }
+
+          return null;
         })}
       </Carousel>
     </div>

@@ -73,7 +73,7 @@ export default function Home() {
             </h3>
           </div>
           <div>
-            <Slider loadingState={loading} />
+            <Slider loadingState={loading} carData={car} />
           </div>
           <div className="my-5">
             <h3 className="text-2xl font-semibold">
@@ -168,7 +168,7 @@ export default function Home() {
         </div>
         <div>
           <Table loadingState={loading} carData={car} />
-          <SellerComment loadingState={loading} />
+          <SellerComment loadingState={loading} carData={car} />
         </div>
       </div>
       <div className="mt-8">
