@@ -172,7 +172,7 @@ export default function Home() {
         </div>
         <div>
           <Table loadingState={loading} carData={car} translation={t} />
-          <SellerComment loadingState={loading} carData={car} translation={t}/>
+          <SellerComment loadingState={loading} carData={car} translation={t} />
         </div>
       </div>
       <div className="mt-8">
