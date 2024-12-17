@@ -33,6 +33,7 @@ const LanguageSwitching = () => {
       <option value="es">Spanish</option>
       <option value="fa">Persian</option>
       <option value="kr">Korean</option>
+      <option value="cn">Chinese</option>
     </Select>
   );
 };
