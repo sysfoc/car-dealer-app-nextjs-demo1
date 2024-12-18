@@ -71,7 +71,9 @@ const BrowseCars = () => {
 
   return (
     <div className="mx-4 my-10 sm:mx-8 md:my-20">
-      <h3 className="text-xl font-semibold md:text-3xl">{t('browseCarHeading')}</h3>
+      <h3 className="text-xl font-semibold md:text-3xl">
+        {t("browseCarHeading")}
+      </h3>
       <div className="relative mt-5">
         <div
           className={`grid gap-3 ${
@@ -96,7 +98,7 @@ const BrowseCars = () => {
         <button
           onClick={handlePrev}
           aria-label="Previous Slide"
-          className="absolute left-[-20px] top-1/2 -translate-y-1/2 transform rounded-full bg-blue-950 p-3 text-white shadow-md dark:bg-red-500"
+          className="absolute left-[-20px] top-1/2 -translate-y-1/2 rounded-full bg-blue-950 p-3 text-white shadow-md dark:bg-red-500"
         >
           <span className="sr-only">Previous Slide</span>
           <FaLongArrowAltLeft fontSize={25} />
@@ -104,7 +106,7 @@ const BrowseCars = () => {
         <button
           onClick={handleNext}
           aria-label="Next Slide"
-          className="absolute right-[-20px] top-1/2 -translate-y-1/2 transform rounded-full bg-blue-950 p-3 text-white shadow-md dark:bg-red-500"
+          className="absolute right-[-20px] top-1/2 -translate-y-1/2 rounded-full bg-blue-950 p-3 text-white shadow-md dark:bg-red-500"
         >
           <span className="sr-only">Next Slide</span>
           <FaLongArrowAltRight fontSize={25} />

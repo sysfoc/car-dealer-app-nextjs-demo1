@@ -84,7 +84,7 @@ const LeasingCarsDetail = () => {
                 <h2 className="text-xl font-semibold text-blue-950 dark:text-red-500">
                   Toyota Corolla
                 </h2>
-                <p className="text-md mt-1">72.6kWh SE Long Range Auto 5dr</p>
+                <p className="mt-1">72.6kWh SE Long Range Auto 5dr</p>
               </div>
               <div
                 className="mt-2 border-gray-300"

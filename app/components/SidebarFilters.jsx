@@ -147,7 +147,7 @@ const SidebarFilters = () => {
       ].map((section, index) => (
         <div key={index}>
           <div
-            className="filter-header flex cursor-pointer flex-row items-center justify-between rounded-t-md bg-blue-950 px-5 py-3 dark:bg-gray-700"
+            className="flex cursor-pointer flex-row items-center justify-between rounded-t-md bg-blue-950 px-5 py-3 dark:bg-gray-700"
             onClick={() => toggleSection(section.content)}
           >
             <div className="flex items-center gap-x-3">
@@ -165,9 +165,9 @@ const SidebarFilters = () => {
             />
           </div>
           <div
-            className={`filter-content ${
+            className={`${
               openSections.includes(section.content) ? "block" : "hidden"
-            } border border-gray-300 px-3 py-3`}
+            } border border-gray-300 p-3`}
           >
             {section.content === "keyword" && (
               <div className="flex flex-col gap-2">

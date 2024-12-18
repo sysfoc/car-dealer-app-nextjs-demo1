@@ -39,8 +39,8 @@ const BrandCarsDetail = () => {
                     {vehical.brand}
                   </h2>
                 </Link>
-                <p className="text-md mt-1 capitalize">{vehical.name}</p>
-                <p className="text-md mt-1 capitalize">{vehical.type} </p>
+                <p className="mt-1 capitalize">{vehical.name}</p>
+                <p className="mt-1 capitalize">{vehical.type} </p>
               </div>
               <div className="my-3 grid grid-cols-3 gap-3">
                 <div className="text-center">

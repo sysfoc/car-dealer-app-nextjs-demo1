@@ -13,7 +13,7 @@ const Blog = () => {
           {t("blogHeading")}
         </h2>
         <Link href={"/blogs"}>
-          <p className="text-md inline-flex items-center gap-x-3">
+          <p className="inline-flex items-center gap-x-3">
             {t("viewAll")} <MdOutlineArrowOutward />
           </p>
         </Link>

@@ -46,7 +46,7 @@ const BrandsList = () => {
           {t("brandHeading")}
         </h2>
         <Link href={"/brands"}>
-          <p className="text-md inline-flex items-center gap-x-3">
+          <p className="inline-flex items-center gap-x-3">
             {t("viewAll")} <MdOutlineArrowOutward />
           </p>
         </Link>

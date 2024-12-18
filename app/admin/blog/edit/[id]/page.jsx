@@ -55,7 +55,6 @@ export default function Page() {
             <div>
               <Label htmlFor="slug">Content</Label>
               <ReactQuill
-                theme="snow"
                 value={value}
                 onChange={setValue}
                 modules={modules}

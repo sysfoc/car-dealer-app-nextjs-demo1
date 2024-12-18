@@ -165,7 +165,7 @@ const Header = () => {
       </Navbar>
       {openSidebar && (
         <div
-          className="fixed inset-0 z-50 flex justify-end bg-black bg-opacity-50"
+          className="fixed inset-0 z-50 flex justify-end bg-black/50"
           onClick={onCloseSidebar}
         >
           <div
