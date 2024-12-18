@@ -10,12 +10,12 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 
-const Header = () => {
+const Header = ({ isDarkMode }) => {
   return (
     <Navbar fluid rounded className="dark:shadow-xl">
       <NavbarBrand href="/admin/dashboard">
         <Image
-          src={"/logo.png"}
+          src={isDarkMode ? "/logo-white.png" : "/logo.png"}
           alt="Sysfoc-cars-dealer"
           width={80}
           height={50}

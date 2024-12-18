@@ -18,7 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-const Header = () => {
+const Header = ({isDarkMode}) => {
   const t = useTranslations("Header");
   const authTr = useTranslations("Authentication");
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -63,7 +63,7 @@ const Header = () => {
       >
         <Link href="/">
           <Image
-            src={"/logo.png"}
+            src={isDarkMode ? "/logo-white.png" : "/logo.png"}
             alt="Sysfoc-cars-dealer"
             width={100}
             height={50}

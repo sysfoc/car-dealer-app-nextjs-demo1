@@ -17,7 +17,7 @@ import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
 import LanguageSwitching from "@/app/components/LanguageSwitching";
 import { useTranslations } from "next-intl";
-const Footerr = () => {
+const Footerr = ({isDarkMode}) => {
   const t = useTranslations("Footer");
   return (
     <Footer className="mt-10">
@@ -25,7 +25,7 @@ const Footerr = () => {
         <div className="grid w-full grid-cols-1 gap-8 px-6 py-8 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <Image
-              src={"/logo.png"}
+              src={isDarkMode ? "/logo-white.png" : "/logo.png"}
               alt="Sysfoc-cars-dealer"
               priority
               width={200}
