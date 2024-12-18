@@ -9,7 +9,7 @@ import {
   Label,
   TextInput,
 } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DarkThemeToggle } from "flowbite-react";
 import { FaRegHeart } from "react-icons/fa";
 import { RiAccountCircleFill } from "react-icons/ri";
@@ -24,6 +24,28 @@ const Header = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [email, setEmail] = useState("");
   const [modalType, setModalType] = useState("signIn");
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   function onCloseSidebar() {
     setOpenSidebar(false);
@@ -33,7 +55,12 @@ const Header = () => {
 
   return (
     <>
-      <Navbar fluid className="shadow-md">
+      <Navbar
+        fluid
+        className={`sticky left-0 right-0 top-0 z-50 shadow-md transition-transform duration-300 ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <Link href="/">
           <Image
             src={"/logo.png"}
