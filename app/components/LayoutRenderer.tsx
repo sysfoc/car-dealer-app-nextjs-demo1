@@ -32,7 +32,7 @@ export default function LayoutRenderer({ children }) {
     return (
       <main>
         <section>
-          <Header isDarkMode={isDarkMode}/>
+          <Header isDarkMode={isDarkMode} />
           <div className="flex flex-wrap gap-y-5 md:flex-nowrap">
             <div className="min-h-screen">
               <Sidebar />
@@ -51,7 +51,7 @@ export default function LayoutRenderer({ children }) {
       <Navbar isDarkMode={isDarkMode} />
       {children}
       <ScrolltoTop />
-      <Footer isDarkMode={isDarkMode}/>
+      <Footer isDarkMode={isDarkMode} />
     </>
   );
 }
