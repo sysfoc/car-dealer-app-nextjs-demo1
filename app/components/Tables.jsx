@@ -90,7 +90,7 @@ const Tables = ({ loadingState, carData, translation: t }) => {
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Vehical
               </TableCell>
-              <TableCell>{carData.vehicle_full_name}</TableCell>
+              <TableCell>{carData.make}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
@@ -114,19 +114,19 @@ const Tables = ({ loadingState, carData, translation: t }) => {
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Fuel Type
               </TableCell>
-              <TableCell>{carData.fuel_type}</TableCell>
+              <TableCell>{carData.fuelType}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Gearbox
               </TableCell>
-              <TableCell>{carData.gearBox}</TableCell>
+              <TableCell>{carData.gearbox}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                 Gears
               </TableCell>
-              <TableCell>{carData.no_of_gears}</TableCell>
+              <TableCell>{carData.noOfGears}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">

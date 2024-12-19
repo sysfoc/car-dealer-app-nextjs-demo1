@@ -35,17 +35,13 @@ export default function Home() {
       fetch(`/api/cars?slug=${slug}`)
         .then((response) => {
           if (!response.ok) {
-            if (response.status === 404) {
-              throw new Error("Car not found");
-            }
             throw new Error("Failed to fetch car details");
           }
           return response.json();
         })
         .then((data) => {
-          console.log(data);
-          setCar(data.exactMatches[0] || null);
-
+          const selectedCar = data.cars?.find((c) => c.slug === slug);
+          setCar(selectedCar || null);
           setLoading(false);
         })
         .catch((err) => {
@@ -55,6 +51,7 @@ export default function Home() {
         });
     }
   }, [slug]);
+
   if (!slug) {
     return <div>Sorry! No Car Found</div>;
   }

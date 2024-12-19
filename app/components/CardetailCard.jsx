@@ -91,14 +91,19 @@ const CardetailCard = ({ cars, totalCars }) => {
             >
               <Carousel slideInterval={3000}>
                 {car.images.map((image, i) => (
-                  <Image
+                  <Link
                     key={i}
-                    src={image}
-                    alt={image.alt}
-                    width={300}
-                    height={200}
-                    className={`${isGridView ? "" : "rounded-md"}`}
-                  />
+                    href={`car-detail/${car.slug}`}
+                    className="block"
+                  >
+                    <Image
+                      src={image}
+                      alt={`Image ${i + 1} of ${car.make}`}
+                      width={300}
+                      height={200}
+                      className={`${isGridView ? "" : "rounded-md"}`}
+                    />
+                  </Link>
                 ))}
               </Carousel>
             </div>
@@ -113,7 +118,7 @@ const CardetailCard = ({ cars, totalCars }) => {
             <div className="p-4">
               <div>
                 <Link
-                  href=""
+                  href={`car-detail/${car.slug}`}
                   className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
                 >
                   <h3 className="font-bold uppercase">

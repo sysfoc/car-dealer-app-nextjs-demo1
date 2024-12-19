@@ -47,7 +47,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
               On
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.fuel_type}
+              {loading ? <Skeleton /> : carData.fuelType}
             </span>
           </div>
         </div>
@@ -57,7 +57,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.fuel_tank_fill_price}
+              {loading ? <Skeleton /> : carData.fuelTankFillPrice}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               To Fill
@@ -70,7 +70,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.fuel_capacity_per_tank}
+              {loading ? <Skeleton /> : carData.fuelCapacityPerTank}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Average Per Tank
@@ -83,7 +83,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.no_of_gears}
+              {loading ? <Skeleton /> : carData.noOfGears}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Gears

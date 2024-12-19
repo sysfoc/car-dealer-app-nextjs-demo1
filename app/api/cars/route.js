@@ -53,6 +53,7 @@ export async function GET() {
       enginePower: "200 HP",
       fuelConsumption: "5.6L/100km",
       isFinance: "Finance Available",
+      sellercomments: "sellercomments here",
     },
     {
       id: 2,
@@ -93,6 +94,7 @@ export async function GET() {
       enginePower: "200 HP",
       fuelConsumption: "5.6L/100km",
       isFinance: "Finance Available",
+      sellercomments: "here sellercomments",
     },
   ].map((car) => ({
     ...car,
