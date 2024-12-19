@@ -91,19 +91,14 @@ const CardetailCard = ({ cars, totalCars }) => {
             >
               <Carousel slideInterval={3000}>
                 {car.images.map((image, i) => (
-                  <Link
+                  <Image
                     key={i}
-                    href={`car-detail/${car.slug}`}
-                    className="block"
-                  >
-                    <Image
-                      src={image}
-                      alt={`Image ${i + 1} of ${car.make}`}
-                      width={300}
-                      height={200}
-                      className={`${isGridView ? "" : "rounded-md"}`}
-                    />
-                  </Link>
+                    src={image}
+                    alt={image.alt}
+                    width={300}
+                    height={200}
+                    className={isGridView ? "" : "rounded-md"}
+                  />
                 ))}
               </Carousel>
             </div>

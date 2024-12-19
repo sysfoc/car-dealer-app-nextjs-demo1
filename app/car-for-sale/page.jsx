@@ -45,15 +45,17 @@ export default function Home() {
       }
 
       if (filters.condition?.length) {
-        filtered = filtered.filter((car) =>
-          filters.condition.includes(car.condition),
-        );
+        filtered = filtered.filter((car) => {
+          console.log("Condition Filter:", car.condition, filters.condition);
+          return filters.condition.includes(car.condition);
+        });
       }
 
       if (filters.location?.length) {
-        filtered = filtered.filter((car) =>
-          filters.location.includes(car.Location),
-        );
+        filtered = filtered.filter((car) => {
+          console.log("Location Filter:", car.location, filters.location);
+          return filters.location.includes(car.location);
+        });
       }
 
       setFilteredCars(filtered);
