@@ -98,7 +98,7 @@ export default function Home() {
         <h3 className="text-center text-3xl font-bold text-blue-950 dark:text-red-500">
           How to sell your car, fast
         </h3>
-        <div className="grid-col-1 mt-8 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div className="space-y-4 border border-gray-200 px-3 py-8 text-center shadow-md">
             <div className="flex items-center justify-center">
               <FaCamera fontSize={80} />
@@ -145,7 +145,7 @@ export default function Home() {
         <h3 className="text-center text-3xl font-bold text-blue-950 dark:text-red-500">
           Guides to selling your car
         </h3>
-        <div className="grid-col-2 mt-8 grid gap-5 sm:grid-cols-3 md:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
           <div className="space-y-2 border border-gray-200 px-3 py-8 text-center shadow-md">
             <div className="flex items-center justify-center">
               <MdLocalCarWash fontSize={80} />
@@ -210,7 +210,7 @@ export default function Home() {
                   <span className="text-lg font-medium">{faq.question}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`h-5 w-5 transition-transform ${
+                    className={`size-5 transition-transform ${
                       activeIndex === index ? "rotate-180" : "rotate-0"
                     }`}
                     fill="none"

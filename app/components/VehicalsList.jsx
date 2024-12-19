@@ -61,7 +61,7 @@ const VehicalsList = ({ loadingState }) => {
           {t("exploreVehical")}
         </h2>
         <Link href={"/car-for-sale"}>
-          <p className="text-md inline-flex items-center gap-x-3">
+          <p className="inline-flex items-center gap-x-3">
             {t("viewAll")} <MdOutlineArrowOutward />
           </p>
         </Link>
@@ -81,7 +81,7 @@ const VehicalsList = ({ loadingState }) => {
                   <h3 className="text-xl font-semibold">
                     <Skeleton />
                   </h3>
-                  <p className="text-md text-sm">
+                  <p className="text-sm">
                     <Skeleton />
                   </p>
                   <div className="mt-3 border-b-2 border-gray-100"></div>
@@ -149,7 +149,7 @@ const VehicalsList = ({ loadingState }) => {
                 </div>
                 <div className="my-3 px-4">
                   <h3 className="text-xl font-semibold">{vehical.name}</h3>
-                  <p className="text-md text-sm">
+                  <p className="text-sm">
                     {vehical.description.slice(0, 26)}...
                   </p>
                   <div className="mt-3 border-b-2 border-gray-100"></div>

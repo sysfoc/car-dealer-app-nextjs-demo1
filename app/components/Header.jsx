@@ -18,7 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-const Header = () => {
+const Header = ({isDarkMode}) => {
   const t = useTranslations("Header");
   const authTr = useTranslations("Authentication");
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -63,7 +63,7 @@ const Header = () => {
       >
         <Link href="/">
           <Image
-            src={"/logo.png"}
+            src={isDarkMode ? "/logo-white.png" : "/logo.png"}
             alt="Sysfoc-cars-dealer"
             width={100}
             height={50}
@@ -165,7 +165,7 @@ const Header = () => {
       </Navbar>
       {openSidebar && (
         <div
-          className="fixed inset-0 z-50 flex justify-end bg-black bg-opacity-50"
+          className="fixed inset-0 z-50 flex justify-end bg-black/50"
           onClick={onCloseSidebar}
         >
           <div

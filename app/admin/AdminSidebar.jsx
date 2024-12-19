@@ -19,17 +19,6 @@ import Image from "next/image";
 const AdminSidebar = () => {
   return (
     <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
-      <div className="mb-4 flex items-center justify-center">
-        <Image
-          src={"/logo.png"}
-          alt="Sysfoc-cars-dealer"
-          priority
-          width={120}
-          height={50}
-          style={{ objectPosition: "center" }}
-          className="size-auto"
-        />
-      </div>
       <SidebarItems>
         <SidebarItemGroup>
           <SidebarItem href="#" icon={HiChartPie}>

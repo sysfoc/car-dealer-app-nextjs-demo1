@@ -30,7 +30,10 @@
     "app/api/cars.js",
     "app/components/Herosection.jsx",
     "app/components/Herosection.jsx",
-    "app/car-detail/[slug]/page.jsx"
-, "app/components/Slider.jsx", "app/page.jsx"  ],
+    "app/car-detail/[slug]/page.jsx",
+    "app/components/Slider.jsx",
+    "app/page.jsx",
+    "app/components/LayoutRenderer.jsx"
+  ],
   "exclude": ["node_modules"]
 }
