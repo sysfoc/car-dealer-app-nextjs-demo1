@@ -22,18 +22,18 @@ const Blog = () => {
       <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="flex h-full flex-col">
           <div className="flex h-full flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
-            <Link href={"#"}>
+            <Link href={"/blogs/1"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image"
                 width={500}
                 height={500}
                 className="w-full"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: "center" }}
               />
             </Link>
             <div>
-              <Link href={"#"} className="hover:underline">
+              <Link href={"/blogs/1"} className="hover:underline">
                 <h3 className="p-2 text-lg font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet, consectetur adipisicing. Lorem
                   ipsum dolor sit amet.
@@ -44,18 +44,18 @@ const Blog = () => {
         </div>
         <div className="grid h-full gap-3 sm:grid-cols-2">
           <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
-            <Link href={"#"}>
+            <Link href={"/blogs/3"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-2"
                 width={500}
                 height={500}
                 className="w-full"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: "center" }}
               />
             </Link>
             <div>
-              <Link href={"#"}>
+              <Link href={"/blogs/3"}>
                 <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet
                 </h3>
@@ -64,18 +64,18 @@ const Blog = () => {
           </div>
 
           <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
-            <Link href={"#"}>
+            <Link href={"/blogs/4"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-3"
                 width={500}
                 height={500}
                 className="w-full"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: "center" }}
               />
             </Link>
             <div>
-              <Link href={"#"} className="hover:underline">
+              <Link href={"/blogs/4"} className="hover:underline">
                 <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet
                 </h3>
@@ -84,18 +84,18 @@ const Blog = () => {
           </div>
 
           <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
-            <Link href={"#"}>
+            <Link href={"/blogs/5"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-5"
                 width={500}
                 height={500}
                 className="w-full"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: "center" }}
               />
             </Link>
             <div>
-              <Link href={"#"} className="hover:underline">
+              <Link href={"/blogs/5"} className="hover:underline">
                 <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet
                 </h3>
@@ -104,18 +104,18 @@ const Blog = () => {
           </div>
 
           <div className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95">
-            <Link href={"#"}>
+            <Link href={"/blogs/6"}>
               <Image
                 src={"/sydney.jpg"}
                 alt="blog-image-6"
                 width={500}
                 height={500}
                 className="w-full"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: "center" }}
               />
             </Link>
             <div>
-              <Link href={"#"} className="hover:underline">
+              <Link href={"/blogs/6"} className="hover:underline">
                 <h3 className="p-2 font-semibold text-blue-950 dark:text-red-500">
                   Lorem ipsum dolor sit amet
                 </h3>
