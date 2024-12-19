@@ -1,8 +1,10 @@
 "use client";
-import { Select } from "flowbite-react";
+import { Label, Select } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const LanguageSwitching = () => {
+  const t = useTranslations("Footer");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
 
   useEffect(() => {
@@ -23,18 +25,25 @@ const LanguageSwitching = () => {
   };
 
   return (
-    <Select value={selectedLanguage} onChange={handleLanguageChange}>
-      <option value="en">English</option>
-      <option value="ur">Urdu</option>
-      <option value="ar">Arabic</option>
-      <option value="hi">Hindi</option>
-      <option value="fr">French</option>
-      <option value="de">German</option>
-      <option value="es">Spanish</option>
-      <option value="fa">Persian</option>
-      <option value="kr">Korean</option>
-      <option value="cn">Chinese</option>
-    </Select>
+    <div className="flex flex-col gap-y-1">
+      <Label htmlFor="language">{t("setLanguage")}</Label>
+      <Select
+        id="language"
+        value={selectedLanguage}
+        onChange={handleLanguageChange}
+      >
+        <option value="en">English</option>
+        <option value="ur">Urdu</option>
+        <option value="ar">Arabic</option>
+        <option value="hi">Hindi</option>
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="es">Spanish</option>
+        <option value="fa">Persian</option>
+        <option value="kr">Korean</option>
+        <option value="cn">Chinese</option>
+      </Select>
+    </div>
   );
 };
 
