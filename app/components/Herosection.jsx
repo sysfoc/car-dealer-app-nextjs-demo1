@@ -19,9 +19,8 @@ const HeroSection = () => {
   const [selectedModel, setSelectedModel] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [cars, setCars] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
+
   const [loading, setLoading] = useState(false);
-  const [alternativeCars, setAlternativeCars] = useState([]);
 
   const router = useRouter();
 
@@ -34,13 +33,8 @@ const HeroSection = () => {
         );
         console.log("Response Data:", response.data);
 
-        if (
-          response.data.exactMatches &&
-          Array.isArray(response.data.exactMatches)
-        ) {
-          const makes = [
-            ...new Set(response.data.exactMatches.map((car) => car.make)),
-          ];
+        if (Array.isArray(response.data.cars)) {
+          const makes = [...new Set(response.data.cars.map((car) => car.make))];
           setMakes(makes);
         } else {
           console.error("Data is not in expected format:", response.data);
@@ -66,12 +60,9 @@ const HeroSection = () => {
           );
           console.log("Models Response Data:", response.data);
 
-          if (
-            response.data.exactMatches &&
-            Array.isArray(response.data.exactMatches)
-          ) {
+          if (Array.isArray(response.data.cars)) {
             const models = [
-              ...new Set(response.data.exactMatches.map((car) => car.model)),
+              ...new Set(response.data.cars.map((car) => car.model)),
             ];
             setModels(models);
           } else {
@@ -111,26 +102,7 @@ const HeroSection = () => {
 
       const queryString = queryParams.join("&");
 
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/cars?${queryString}`,
-      );
-
-      console.log("Search Response Data:", response.data);
-
-      const cars = response.data.exactMatches || [];
-      const alternatives = response.data.alternativeSuggestions || [];
-
-      if (cars.length > 0) {
-        setSuggestions(cars);
-        setAlternativeCars([]);
-      } else if (alternatives.length > 0) {
-        setAlternativeCars(alternatives);
-        setSuggestions([]);
-      } else {
-        setSuggestions([]);
-        setAlternativeCars([]);
-        alert("No cars found. Please refine your search or try again later.");
-      }
+      router.push(`/car-for-sale?${queryString}`);
     } catch (error) {
       console.error("Error fetching car data:", error);
       alert("An error occurred. Please try again.");
@@ -235,101 +207,7 @@ const HeroSection = () => {
               </Button>
             </div>
           </div>
-          <div className="mt-6">
-            {/* Display exact matches */}
-            {suggestions.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-center text-xl font-semibold text-white">
-                  <b className="text-3xl text-green-400">{t("matchFound")}</b>
-                </h2>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {suggestions.map((car) => (
-                    <div
-                      key={car.id}
-                      className="flex cursor-pointer rounded-lg bg-gray-100 p-2 text-left hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-                      onClick={() => router.push(`/car-detail/${car.slug}`)}
-                    >
-                      {/* Image Section */}
-                      <div className="w-1/3">
-                        <Image
-                          src="/Luxury SUV.webp"
-                          width={150}
-                          height={100}
-                          alt={`${car.make} ${car.model}`}
-                          className=" rounded-md"
-                          style={{ objectPosition: "center" }}
-                        />
-                      </div>
-
-                      {/* Details Section */}
-                      <div className="ml-4 flex w-2/3 flex-col justify-center">
-                        <div className="mb-2 flex items-center gap-x-3">
-                          <TbCarSuv
-                            fontSize={22}
-                            className="text-gray-800 dark:text-gray-300"
-                          />
-                          <span className="text-lg font-semibold text-gray-800 dark:text-white">
-                            {car.make} {car.model}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Price:
-                          <span className="font-medium">${car.price}</span>
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Display alternative suggestions */}
-            {alternativeCars.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-center text-xl font-semibold text-white">
-                  <b className="text-3xl text-red-700">{t("alternateFound")}</b>
-                </h2>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {alternativeCars.map((car) => (
-                    <div
-                      key={car.id}
-                      className="flex cursor-pointer rounded-lg bg-gray-100 p-2 text-left hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-                      onClick={() => router.push(`/car-detail/${car.slug}`)}
-                    >
-                      <div className="w-1/3">
-                        <Image
-                          src="/Luxury SUV.webp"
-                          width={150}
-                          height={100}
-                          alt={`${car.make} ${car.model}`}
-                          className="rounded-md"
-                          style={{ objectPosition: "center" }}
-                        />
-                      </div>
-
-                      <div className="ml-4 flex w-2/3 flex-col justify-center">
-                        <div className="mb-2 flex items-center gap-x-3">
-                          <TbCarSuv
-                            fontSize={22}
-                            className="text-gray-800 dark:text-gray-300"
-                          />
-                          <span className="text-lg font-semibold text-gray-800 dark:text-white">
-                            {car.make} {car.model}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Price:
-                          <span className="font-medium">${car.price}</span>
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
           <div className="my-8">
             <p className="text-center text-sm font-semibold text-white">
               {t("browseVehical")}

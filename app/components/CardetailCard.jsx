@@ -30,7 +30,7 @@ import { FaCalendarCheck } from "react-icons/fa6";
 import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
 
-const CardetailCard = () => {
+const CardetailCard = ({ cars, totalCars }) => {
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
@@ -46,28 +46,6 @@ const CardetailCard = () => {
   const handleFavoriteToggle = (index) => {
     setFavorites((prev) => prev.map((fav, i) => (i === index ? !fav : fav)));
   };
-  const vehicalImages = [
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-    {
-      name: "/Luxury SUV.webp",
-      alt: "luxury Car",
-    },
-  ];
 
   return (
     <>
@@ -79,7 +57,8 @@ const CardetailCard = () => {
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
-            <strong>4</strong> {t("outOf")} <strong>500</strong> {t("results")}
+            <strong>{cars.length}</strong> {t("outOf")}{" "}
+            <strong>{totalCars}</strong> {t("results")}
           </span>
         </div>
         <div className="flex items-center gap-x-3">
@@ -100,80 +79,57 @@ const CardetailCard = () => {
       </div>
 
       <div
-        className={`${
-          isGridView
-            ? "grid grid-cols-1 gap-5 md:grid-cols-2 "
-            : "grid grid-cols-1 space-y-5"
-        }`}
+        className={`grid ${isGridView ? "grid-cols-1 gap-5 md:grid-cols-2" : "space-y-5"}`}
       >
-        {[...Array(4)].map((_, index) => (
+        {cars.map((car, index) => (
           <div
-            key={index}
-            className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${
-              isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"
-            }`}
+            key={car.id}
+            className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"}`}
           >
             <div
               className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
             >
               <Carousel slideInterval={3000}>
-                {vehicalImages.map((image, i) => {
-                  return loading ? (
-                    <Skeleton key={i} width={500} height={300} />
-                  ) : (
-                    <Image
-                      key={i}
-                      src={image.name}
-                      alt={image.alt}
-                      width={300}
-                      height={200}
-                      style={{ objectPosition: "center" }}
-                      className={`${isGridView ? "" : "rounded-md"}`}
-                    />
-                  );
-                })}
+                {car.images.map((image, i) => (
+                  <Image
+                    key={i}
+                    src={image}
+                    alt={image.alt}
+                    width={300}
+                    height={200}
+                    className={`${isGridView ? "" : "rounded-md"}`}
+                  />
+                ))}
               </Carousel>
             </div>
             <div className="absolute left-2 top-2 flex items-center gap-x-2">
               <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
-                New
+                {car.condition}
               </span>
               <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
-                Finance Available
+                {car.isFinance}
               </span>
             </div>
             <div className="p-4">
               <div>
                 <Link
-                  href="/car-detail/1"
+                  href=""
                   className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
                 >
                   <h3 className="font-bold uppercase">
-                    {loading ? (
-                      <Skeleton height={25} />
-                    ) : (
-                      "1996 Mercury Cougar XR7"
-                    )}
+                    {loading ? <Skeleton height={25} /> : car.make}
                   </h3>
                 </Link>
                 <div className="flex items-center justify-between">
                   <h4 className="text-2xl font-bold text-blue-950 dark:text-red-500">
-                    {loading ? <Skeleton height={25} width={100} /> : "$3,500"}
+                    {loading ? <Skeleton height={25} width={100} /> : car.price}
                   </h4>
                   <div>
                     <Button
                       color={"white"}
                       onClick={() => handleFavoriteToggle(index)}
                     >
-                      {favorites[index] ? (
-                        <FaHeart fontSize={22} color="red" />
-                      ) : (
-                        <CiHeart
-                          fontSize={22}
-                          color="gray"
-                          onClick={handleShowAlert}
-                        />
-                      )}
+                      <CiHeart fontSize={22} color="gray" />
                     </Button>
                   </div>
                 </div>
@@ -188,49 +144,49 @@ const CardetailCard = () => {
                     <div className="flex items-center justify-center">
                       <FaLocationCrosshairs fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">Multan</p>
+                    <p className="mt-2 text-sm">{car.location}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <FaCalendarCheck fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">2009</p>
+                    <p className="mt-2 text-sm">{car.year}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <IoSpeedometer fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">200 Miles</p>
+                    <p className="mt-2 text-sm">{car.kms}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <GiGasPump fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">Petrol</p>
+                    <p className="mt-2 text-sm">{car.fuelType}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <TbManualGearbox fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">Manual</p>
+                    <p className="mt-2 text-sm">{car.gearbox}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <IoIosColorPalette fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">Blue</p>
+                    <p className="mt-2 text-sm">{car.color}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <GiCarSeat fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">5 Seats</p>
+                    <p className="mt-2 text-sm">{car.seats}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <GiCarDoor fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">4 Doors</p>
+                    <p className="mt-2 text-sm">{car.doors}</p>
                   </div>
                 </div>
               </div>
