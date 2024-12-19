@@ -17,7 +17,7 @@ import { SiGiphy } from "react-icons/si";
 import { FaPinterest } from "react-icons/fa";
 import LanguageSwitching from "@/app/components/LanguageSwitching";
 import { useTranslations } from "next-intl";
-const Footerr = ({isDarkMode}) => {
+const Footerr = ({ isDarkMode }) => {
   const t = useTranslations("Footer");
   return (
     <Footer className="mt-10">
@@ -41,15 +41,6 @@ const Footerr = ({isDarkMode}) => {
               <FooterLink href="#">{t("contact")}</FooterLink>
               <FooterLink href="#">{t("terms")}</FooterLink>
               <FooterLink href="#">{t("privacy")}</FooterLink>
-            </FooterLinkGroup>
-          </div>
-          <div>
-            <FooterTitle title={`${t("salesDepartment")}`} />
-            <FooterLinkGroup col>
-              <FooterLink href="#">Dealer Name</FooterLink>
-              <FooterLink href="#">Call Us</FooterLink>
-              <FooterLink href="#">Licence</FooterLink>
-              <FooterLink href="#">Address</FooterLink>
             </FooterLinkGroup>
           </div>
           <div>
@@ -139,6 +130,10 @@ const Footerr = ({isDarkMode}) => {
               </div>
             </div>
           </div>
+          <div>
+            <FooterTitle title={`${t('language')}`} />
+            <LanguageSwitching />
+          </div>
         </div>
         <div className="w-full bg-gray-100 px-4 py-6 dark:bg-gray-700 sm:flex sm:items-center sm:justify-between">
           <FooterCopyright
@@ -184,7 +179,6 @@ const Footerr = ({isDarkMode}) => {
               aria-label="pinterest"
               icon={FaPinterest}
             />
-            <LanguageSwitching />
           </div>
         </div>
       </div>
