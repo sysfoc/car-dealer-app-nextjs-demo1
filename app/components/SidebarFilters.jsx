@@ -1,6 +1,6 @@
 "use client";
 import { Label, Select, TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { VscSymbolKeyword } from "react-icons/vsc";
 import { SiCmake } from "react-icons/si";
 import { TbEngine } from "react-icons/tb";
@@ -26,60 +26,39 @@ import { BsFillFuelPumpFill } from "react-icons/bs";
 import { MdBatteryCharging50, MdOutlineCo2 } from "react-icons/md";
 import { ImPower } from "react-icons/im";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 
 const SidebarFilters = ({ onFiltersChange }) => {
   const t = useTranslations("Filters");
-  const [openSections, setOpenSections] = useState([]);
-  const [filters, setFilters] = useState({
-    keyword: "",
-    condition: {
-      new: false,
-      used: false,
-    },
-    location: {
-      usa: false,
-      uk: false,
-    },
-    price: [],
-    year: { min: "", max: "" },
-    make: {
-      toyota: false,
-      honda: false,
-    },
-    mileage: { from: "", to: "" },
-    gearbox: { automatic: false, manual: false },
-  });
+  const [openSections, setOpenSections] = useState("openSections", []);
+
+  const [keyword, setKeyword] = useQueryState("keyword", "");
+  const [condition, setCondition] = useQueryState("condition", []);
+  const [location, setLocation] = useQueryState("location", []);
+  const safeCondition = Array.isArray(condition) ? condition : [];
+  const safeLocation = Array.isArray(location) ? location : [];
+  const handleFilterChange = (filterKey, filterValue) => {
+    onFiltersChange((prevFilters) => ({
+      ...prevFilters,
+      [filterKey]: filterValue,
+    }));
+  };
 
   const toggleSection = (section) => {
-    setOpenSections((prev) =>
-      prev.includes(section)
-        ? prev.filter((item) => item !== section)
-        : [...prev, section],
+    const updatedSections = openSections.includes(section)
+      ? openSections.filter((item) => item !== section)
+      : [...openSections, section];
+    setOpenSections(updatedSections);
+  };
+  const handleCheckboxChange = (stateSetter, value) => {
+    stateSetter((prev) =>
+      Array.isArray(prev)
+        ? prev.includes(value)
+          ? prev.filter((item) => item !== value)
+          : [...prev, value]
+        : [value],
     );
   };
-
-  const handleFilterChange = (e, section, subSection = null) => {
-    const { name, value, checked, type } = e.target;
-    if (type === "checkbox") {
-      setFilters((prevFilters) => {
-        const newFilters = { ...prevFilters };
-        if (subSection) {
-          newFilters[section][subSection] = checked;
-        } else {
-          newFilters[section][name] = checked;
-        }
-        onFiltersChange(newFilters);
-        return newFilters;
-      });
-    } else {
-      setFilters((prevFilters) => {
-        const newFilters = { ...prevFilters, [section]: value };
-        onFiltersChange(newFilters);
-        return newFilters;
-      });
-    }
-  };
-
   const FilterSection = ({ label, content, symbol, children }) => (
     <div>
       <div
@@ -113,13 +92,14 @@ const SidebarFilters = ({ onFiltersChange }) => {
           symbol: <VscSymbolKeyword fontSize={22} className="text-white" />,
           render: (
             <div className="flex flex-col gap-2">
-              <Label htmlFor="keyword">Keyword</Label>
-              <TextInput
+              <label htmlFor="keyword">Keyword</label>
+              <input
                 type="text"
                 id="keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
                 placeholder="e.g., Toyota"
-                value={filters.keyword}
-                onChange={(e) => handleFilterChange(e, "keyword")}
+                className="border p-2"
               />
             </div>
           ),
@@ -134,9 +114,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 <TextInput
                   type="checkbox"
                   id="new"
-                  name="new"
-                  checked={filters.condition.new}
-                  onChange={(e) => handleFilterChange(e, "condition", "new")}
+                  checked={safeCondition.includes("new")}
+                  onChange={() => handleCheckboxChange(setCondition, "new")}
                 />
                 <Label htmlFor="new" className="ml-3 text-sm text-gray-700">
                   New
@@ -146,9 +125,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 <TextInput
                   type="checkbox"
                   id="used"
-                  name="used"
-                  checked={filters.condition.used}
-                  onChange={(e) => handleFilterChange(e, "condition", "used")}
+                  checked={safeCondition.includes("used")}
+                  onChange={() => handleCheckboxChange(setCondition, "used")}
                 />
                 <Label htmlFor="used" className="ml-3 text-sm text-gray-700">
                   Used
@@ -164,28 +142,26 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <>
               <div className="mt-2 flex items-center">
-                <TextInput
+                <input
                   type="checkbox"
                   id="usa"
-                  name="usa"
-                  checked={filters.location.usa}
-                  onChange={(e) => handleFilterChange(e, "location", "usa")}
+                  checked={safeLocation.includes("usa")}
+                  onChange={() => handleCheckboxChange(setLocation, "usa")}
                 />
-                <Label htmlFor="usa" className="ml-3 text-sm text-gray-700">
+                <label htmlFor="usa" className="ml-3 text-sm text-gray-700">
                   United States
-                </Label>
+                </label>
               </div>
               <div className="mt-2 flex items-center">
-                <TextInput
+                <input
                   type="checkbox"
                   id="uk"
-                  name="uk"
-                  checked={filters.location.uk}
-                  onChange={(e) => handleFilterChange(e, "location", "uk")}
+                  checked={safeLocation.includes("uk")}
+                  onChange={() => handleCheckboxChange(setLocation, "uk")}
                 />
-                <Label htmlFor="uk" className="ml-3 text-sm text-gray-700">
+                <label htmlFor="uk" className="ml-3 text-sm text-gray-700">
                   United Kingdom
-                </Label>
+                </label>
               </div>
             </>
           ),
@@ -196,21 +172,9 @@ const SidebarFilters = ({ onFiltersChange }) => {
           symbol: <IoPricetag fontSize={22} className="text-white" />,
           render: (
             <div className="mt-2 flex flex-wrap gap-x-3 gap-y-2">
-              {[10000, 30000, 40000, 50000, 100000].map((price) => (
-                <button
-                  key={price}
-                  className="rounded border border-blue-950 px-3 py-2 text-sm text-blue-950 transition-all hover:scale-95 hover:bg-blue-950 hover:text-white dark:bg-gray-700 dark:text-white"
-                  onClick={() =>
-                    setFilters((prevFilters) => {
-                      const newFilters = { ...prevFilters, price: [price] };
-                      onFiltersChange(newFilters);
-                      return newFilters;
-                    })
-                  }
-                >
-                  ${price}
-                </button>
-              ))}
+              <button className="rounded border border-blue-950 px-3 py-2 text-sm text-blue-950 transition-all hover:scale-95 hover:bg-blue-950 hover:text-white dark:bg-gray-700 dark:text-white">
+                $100
+              </button>
             </div>
           ),
         },
@@ -224,25 +188,13 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 <Label htmlFor="min" className="text-sm">
                   Min
                 </Label>
-                <TextInput
-                  type="number"
-                  name="min"
-                  id="min"
-                  value={filters.year.min}
-                  onChange={(e) => handleFilterChange(e, "year", "min")}
-                />
+                <TextInput type="number" name="min" id="min" />
               </div>
               <div className="flex flex-col">
                 <Label htmlFor="max" className="text-sm">
                   Max
                 </Label>
-                <TextInput
-                  type="number"
-                  name="max"
-                  id="max"
-                  value={filters.year.max}
-                  onChange={(e) => handleFilterChange(e, "year", "max")}
-                />
+                <TextInput type="number" name="max" id="max" />
               </div>
             </div>
           ),

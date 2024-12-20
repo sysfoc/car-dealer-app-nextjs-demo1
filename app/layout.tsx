@@ -4,6 +4,7 @@ import { ThemeModeScript } from "flowbite-react";
 import LayoutRenderer from "@/app/components/LayoutRenderer";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -33,7 +34,9 @@ export default async function RootLayout({
         className={`dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
         <NextIntlClientProvider messages={messages}>
-          <LayoutRenderer>{children}</LayoutRenderer>
+          <LayoutRenderer>
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </LayoutRenderer>
         </NextIntlClientProvider>
       </body>
     </html>

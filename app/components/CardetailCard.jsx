@@ -13,7 +13,7 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
@@ -29,14 +29,45 @@ import { GiCarSeat } from "react-icons/gi";
 import { FaCalendarCheck } from "react-icons/fa6";
 import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
+import { useEffect, useState } from "react";
 
-const CardetailCard = ({ cars, totalCars }) => {
+const CardetailCard = () => {
+  const [cars, setCars] = useState([]);
+  const [keyword] = useQueryState("keyword", "");
+  const [condition] = useQueryState("condition", []);
+  const [location] = useQueryState("location", []);
+  useEffect(() => {
+    fetch("/api/cars")
+      .then((res) => res.json())
+      .then((data) => setCars(data.cars || []))
+      .catch(() => setCars([]));
+  }, []);
+
+  const safeCondition = Array.isArray(condition) ? condition : [];
+  const safeLocation = Array.isArray(location) ? location : [];
+
+  const filteredCars = (cars || []).filter((car) => {
+    const matchesKeyword = keyword
+      ? car.make.toLowerCase().includes(keyword.toLowerCase())
+      : true;
+    const matchesCondition = safeCondition.length
+      ? safeCondition.includes(car.condition.toLowerCase())
+      : true;
+    const matchesLocation = safeLocation.length
+      ? safeLocation.includes(car.location.toLowerCase())
+      : true;
+    return matchesKeyword && matchesCondition && matchesLocation;
+  });
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
   const [openModal, setOpenModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [favorites, setFavorites] = useState(Array(4).fill(false));
+  if (!cars.length) {
+    return <p>No cars found.</p>;
+  }
 
   const handleShowAlert = () => {
     setShowAlert(true);
@@ -54,11 +85,20 @@ const CardetailCard = ({ cars, totalCars }) => {
           Ad added to the Favourites, Successfully!!
         </Alert>
       )}
+      {/* <div>
+        {filteredCars.map((car) => (
+          <div key={car.id} className="mb-3 border p-3">
+            <h3>{car.make}</h3>
+            <p>Price: {car.price}</p>
+            <p>Condition: {car.condition}</p>
+            <p>Location: {car.location}</p>
+          </div>
+        ))}
+      </div> */}
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
-            <strong>{cars.length}</strong> {t("outOf")}{" "}
-            <strong>{totalCars}</strong> {t("results")}
+            <strong>10</strong> {t("outOf")} <strong>46</strong> {t("results")}
           </span>
         </div>
         <div className="flex items-center gap-x-3">
@@ -113,11 +153,11 @@ const CardetailCard = ({ cars, totalCars }) => {
             <div className="p-4">
               <div>
                 <Link
-                  href={`car-detail/${car.slug}`}
+                  href={`car-detail/toyota-corolla-1`}
                   className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
                 >
                   <h3 className="font-bold uppercase">
-                    {loading ? <Skeleton height={25} /> : car.make}
+                    {loading ? <Skeleton height={25} /> : car.vehicleFullName}
                   </h3>
                 </Link>
                 <div className="flex items-center justify-between">

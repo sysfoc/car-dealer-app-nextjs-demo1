@@ -1,108 +1,37 @@
+import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
+const uri = "mongodb://localhost:27017/";
+const client = new MongoClient(uri);
+
 export async function GET() {
-  const dealerLocations = [
-    {
-      id: 1,
-      name: "Downtown Showroom",
-      address: "123 Main Street, Downtown, Cityville",
-      contact: "123-456-7890",
-      licence: "123-456-7890",
-      abn: "ABN: 123-456-7890",
-      map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2497.9997072499596!2d73.1154986739374!3d30.663348788985527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922b76da7fde6c7%3A0x53937ae1a82170a!2sKhan%20bakers!5e1!3m2!1sen!2s!4v1731403934717!5m2!1sen!2s",
-    },
-  ];
+  try {
+    await client.connect();
+    const db = client.db("cardealor");
 
-  const cars = [
-    {
-      id: 1,
-      dealerId: 1,
-      make: "Toyota1",
-      model: "Corolla",
-      price: 18000,
-      type: "Sedan",
-      kms: "25,000",
-      fuelType: "Petrol",
-      fuelTankFillPrice: "$50",
-      fuelCapacityPerTank: "50L",
-      noOfGears: 6,
-      cylinder: 4,
-      features: ["Air Conditioning", "Bluetooth", "Backup Camera"],
-      vehicleFullName: "Toyota Corolla Sedan 2021",
-      doors: 4,
-      seats: 5,
-      gearbox: "Automatic",
-      engineCapacity: "2.0L",
-      images: [
-        "/Luxury SUV.webp",
-        "/Luxury SUV.webp",
-        "/Luxury SUV.webp",
-        "/Luxury SUV.webp",
-      ],
-      video: "/bmw.mp4",
-      sellerComments: "Here Seller Comments Come from DB",
-      condition: "New",
-      location: "Cityville",
-      year: "2021",
-      mileage: "25,000 km",
-      bodyType: "Sedan",
-      color: "White",
-      batteryRange: null,
-      chargingTime: null,
-      engineSize: "2.0L",
-      enginePower: "200 HP",
-      fuelConsumption: "5.6L/100km",
-      isFinance: "Finance Available",
-      sellercomments: "sellercomments here",
-    },
-    {
-      id: 2,
-      dealerId: 1,
-      make: "Toyota2",
-      model: "Corolla",
-      price: 18000,
-      type: "Sedan",
-      kms: "25,000",
-      fuelType: "Petrol",
-      fuelTankFillPrice: "$50",
-      fuelCapacityPerTank: "50L",
-      noOfGears: 6,
-      cylinder: 4,
-      features: ["Air Conditioning", "Bluetooth", "Backup Camera"],
-      vehicleFullName: "Toyota Corolla Sedan 2021",
-      doors: 4,
-      seats: 5,
-      gearbox: "Automatic",
-      engineCapacity: "2.0L",
-      images: [
-        "/Luxury SUV.webp",
-        "/Luxury SUV.webp",
-        "/Luxury SUV.webp",
-        "/Luxury SUV.webp",
-      ],
-      video: "/bmw.mp4",
-      sellerComments: "Here Seller Comments Come from DB",
-      condition: "New",
-      location: "Cityville",
-      year: "2021",
-      milleage: "25,000 km",
-      bodyType: "Sedan",
-      color: "White",
-      batteryRange: null,
-      chargingTime: null,
-      engineSize: "2.0L",
-      enginePower: "200 HP",
-      fuelConsumption: "5.6L/100km",
-      isFinance: "Finance Available",
-      sellercomments: "here sellercomments",
-    },
-  ].map((car) => ({
-    ...car,
-    slug: `${car.make}-${car.model}-${car.id}`
-      .toLowerCase()
-      .replace(/[^a-z0-9-]+/g, "-")
-      .replace(/^-+|-+$/g, ""),
-  }));
+    const cars = await db.collection("cars").find({}).toArray();
+    const dealerLocations = await db
+      .collection("dealerLocations")
+      .find({})
+      .toArray();
 
-  return NextResponse.json({ cars, dealerLocations });
+    const carsWithDealerInfo = cars.map((car) => {
+      const dealerInfo = dealerLocations.find(
+        (dealer) => dealer.id === car.dealerId,
+      );
+      return {
+        ...car,
+        dealerInfo,
+      };
+    });
+
+    return NextResponse.json({ cars: carsWithDealerInfo });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch data" },
+      { status: 500 },
+    );
+  } finally {
+    await client.close();
+  }
 }
