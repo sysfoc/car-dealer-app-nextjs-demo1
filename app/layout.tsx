@@ -31,7 +31,7 @@ export default async function RootLayout({
         <ThemeModeScript />
       </head>
       <body
-        className={`dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
+        className={`transition-all dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
         <NextIntlClientProvider messages={messages}>
           <LayoutRenderer>

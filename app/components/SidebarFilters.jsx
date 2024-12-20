@@ -87,7 +87,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
     <div className="flex flex-col gap-y-3">
       {[
         {
-          label: "Keyword",
+          label: t('keyword'),
           content: "keyword",
           symbol: <VscSymbolKeyword fontSize={22} className="text-white" />,
           render: (
@@ -105,7 +105,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: "Condition",
+          label: t('condition'),
           content: "condition",
           symbol: <FaRecycle fontSize={22} className="text-white" />,
           render: (
@@ -136,7 +136,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: "Location",
+          label: t('location'),
           content: "location",
           symbol: <FaLocationDot fontSize={22} className="text-white" />,
           render: (
@@ -167,7 +167,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: "Price",
+          label: t('price'),
           content: "price",
           symbol: <IoPricetag fontSize={22} className="text-white" />,
           render: (
@@ -179,7 +179,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: "Year",
+          label: t('year'),
           content: "year",
           symbol: <FaRegCalendarCheck fontSize={22} className="text-white" />,
           render: (

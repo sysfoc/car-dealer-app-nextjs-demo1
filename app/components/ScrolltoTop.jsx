@@ -30,7 +30,7 @@ const ScrolltoTop = () => {
     <div>
       {isVisible && (
         <div
-          className="group fixed bottom-16 right-5 w-fit cursor-pointer rounded-full bg-red-500 shadow-lg"
+          className="group fixed bottom-8 right-5 w-fit cursor-pointer rounded-full bg-red-500 shadow-lg"
           onClick={scrollToTop}
           style={{ zIndex: 99 }}
         >

@@ -18,7 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-const Header = ({isDarkMode}) => {
+const Header = ({ isDarkMode }) => {
   const t = useTranslations("Header");
   const authTr = useTranslations("Authentication");
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -57,7 +57,7 @@ const Header = ({isDarkMode}) => {
     <>
       <Navbar
         fluid
-        className={`sticky left-0 right-0 top-0 z-50 shadow-md transition-transform duration-300 ${
+        className={`sticky left-0 right-0 top-0 z-50 bg-gray-50/95 shadow-md transition-transform duration-300 dark:bg-gray-700/95 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >

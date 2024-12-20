@@ -20,7 +20,7 @@ import { useTranslations } from "next-intl";
 const Footerr = ({ isDarkMode }) => {
   const t = useTranslations("Footer");
   return (
-    <Footer className="mt-10">
+    <Footer className="mt-10 bg-gray-100/30 dark:bg-gray-700/30">
       <div className="w-full">
         <div className="grid w-full grid-cols-1 gap-8 px-6 py-8 sm:grid-cols-2 md:grid-cols-4">
           <div>
@@ -131,7 +131,7 @@ const Footerr = ({ isDarkMode }) => {
             </div>
           </div>
           <div>
-            <FooterTitle title={`${t('language')}`} />
+            <FooterTitle title={`${t("language")}`} />
             <LanguageSwitching />
           </div>
         </div>
