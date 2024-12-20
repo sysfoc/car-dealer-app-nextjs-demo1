@@ -1,7 +1,10 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-const uri = "mongodb://localhost:27017/";
+// const uri = "mongodb://localhost:27017/";
+const uri =
+  "mongodb+srv://sysfoc:2alF7MUy7ogSXqby@cardealor.7w3ln.mongodb.net/?retryWrites=true&w=majority&appName=cardealor";
+
 const client = new MongoClient(uri);
 
 export async function GET() {
