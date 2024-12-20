@@ -153,11 +153,11 @@ const CardetailCard = () => {
             <div className="p-4">
               <div>
                 <Link
-                  href={`car-detail/toyota-corolla-1`}
+                  href={`car-detail/${car.slug}`}
                   className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
                 >
                   <h3 className="font-bold uppercase">
-                    {loading ? <Skeleton height={25} /> : car.vehicleFullName}
+                    {loading ? <Skeleton height={25} /> : car.make}
                   </h3>
                 </Link>
                 <div className="flex items-center justify-between">
