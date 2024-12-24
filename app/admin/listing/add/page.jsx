@@ -1,5 +1,13 @@
 "use client";
-import { Button, Checkbox, Label, Select, TextInput } from "flowbite-react";
+import {
+  Button,
+  Checkbox,
+  FileInput,
+  Label,
+  Select,
+  TextInput,
+} from "flowbite-react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
@@ -15,6 +23,26 @@ const page = () => {
     } else {
       setSelectedFeatures((prev) => prev.filter((item) => item !== label));
     }
+  };
+
+  const [media, setMedia] = useState([]);
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    const newMedia = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+      type: file.type.startsWith("video") ? "video" : "image",
+    }));
+    setMedia((prev) => [...prev, ...newMedia]);
+  };
+
+  const handleDeleteMedia = (index) => {
+    setMedia((prev) => {
+      const updatedMedia = [...prev];
+      updatedMedia.splice(index, 1);
+      return updatedMedia;
+    });
   };
 
   const modules = {
@@ -53,6 +81,44 @@ const page = () => {
       <h2 className="text-xl font-semibold">Add Listing</h2>
       <div className="mt-5">
         <form>
+          <div>
+            <Label htmlFor="images">Add Vehical Images Or Videos</Label>
+            <FileInput
+              type="file"
+              multiple
+              className="mt-1"
+              accept="image/*,video/*"
+              onChange={handleFileChange}
+            />
+            <div className="mb-6 mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {media.map((item, index) => (
+                <div key={index} className="group relative">
+                  {item.type === "image" ? (
+                    <Image
+                      width={250}
+                      height={250}
+                      src={item.preview}
+                      alt={`Preview ${index + 1}`}
+                      className="h-40 w-full rounded-lg border object-cover"
+                    />
+                  ) : (
+                    <video
+                      controls
+                      src={item.preview}
+                      className="h-40 w-full rounded-lg border object-cover"
+                    />
+                  )}
+                  <button
+                    type="button"
+                    className="absolute right-2 top-2 rounded-full bg-red-600 px-3 py-2 text-white opacity-0 transition group-hover:opacity-100"
+                    onClick={() => handleDeleteMedia(index)}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
           <div>
             <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
               General Details:
