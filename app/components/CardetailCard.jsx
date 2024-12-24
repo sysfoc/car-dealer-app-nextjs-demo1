@@ -34,67 +34,52 @@ import { useEffect, useState } from "react";
 
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
+  const [filteredCars, setFilteredCars] = useState([]);
   const [keyword] = useQueryState("keyword", "");
   const [condition] = useQueryState("condition", []);
   const [location] = useQueryState("location", []);
   useEffect(() => {
-    fetch("/api/cars")
+    const query = new URLSearchParams({
+      keyword,
+      condition,
+      location,
+    }).toString();
+    fetch(`/api/cars?${query}`)
       .then((res) => res.json())
       .then((data) => setCars(data.cars || []))
       .catch(() => setCars([]));
-  }, []);
+  }, [keyword, condition, location]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
+  useEffect(() => {
+    const filtered = (cars || []).filter((car) => {
+      const matchesKeyword = keyword
+        ? car.make.toLowerCase().includes(keyword.toLowerCase())
+        : true;
+      const matchesCondition = safeCondition.length
+        ? safeCondition.includes(car.condition.toLowerCase())
+        : true;
+      const matchesLocation = safeLocation.length
+        ? safeLocation.includes(car.location.toLowerCase())
+        : true;
+      return matchesKeyword && matchesCondition && matchesLocation;
+    });
+    setFilteredCars(filtered);
+  }, [keyword, condition, location, cars]);
 
-  const filteredCars = (cars || []).filter((car) => {
-    const matchesKeyword = keyword
-      ? car.make.toLowerCase().includes(keyword.toLowerCase())
-      : true;
-    const matchesCondition = safeCondition.length
-      ? safeCondition.includes(car.condition.toLowerCase())
-      : true;
-    const matchesLocation = safeLocation.length
-      ? safeLocation.includes(car.location.toLowerCase())
-      : true;
-    return matchesKeyword && matchesCondition && matchesLocation;
-  });
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
   const [openModal, setOpenModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [favorites, setFavorites] = useState(Array(4).fill(false));
+
   if (!cars.length) {
     return <p>No cars found.</p>;
   }
 
-  const handleShowAlert = () => {
-    setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 2000);
-  };
-
-  const handleFavoriteToggle = (index) => {
-    setFavorites((prev) => prev.map((fav, i) => (i === index ? !fav : fav)));
-  };
-
   return (
     <>
-      {showAlert && (
-        <Alert color={"success"} className="fixed right-5 top-5 z-10 w-fit">
-          Ad added to the Favourites, Successfully!!
-        </Alert>
-      )}
-      {/* <div>
-        {filteredCars.map((car) => (
-          <div key={car.id} className="mb-3 border p-3">
-            <h3>{car.make}</h3>
-            <p>Price: {car.price}</p>
-            <p>Condition: {car.condition}</p>
-            <p>Location: {car.location}</p>
-          </div>
-        ))}
-      </div> */}
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
@@ -121,7 +106,7 @@ const CardetailCard = () => {
       <div
         className={`grid ${isGridView ? "grid-cols-1 gap-5 md:grid-cols-2" : "space-y-5"}`}
       >
-        {cars.map((car, index) => (
+        {filteredCars.map((car, index) => (
           <div
             key={car.id}
             className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"}`}
@@ -167,7 +152,7 @@ const CardetailCard = () => {
                   <div>
                     <Button
                       color={"white"}
-                      onClick={() => handleFavoriteToggle(index)}
+                      // onClick={() => handleFavoriteToggle(index)}
                     >
                       <CiHeart fontSize={22} color="gray" />
                     </Button>

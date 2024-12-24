@@ -31,6 +31,7 @@ import { useQueryState } from "nuqs";
 const SidebarFilters = ({ onFiltersChange }) => {
   const t = useTranslations("Filters");
   const [openSections, setOpenSections] = useState("openSections", []);
+  const [filters, setFilters] = useState({});
 
   const [keyword, setKeyword] = useQueryState("keyword", "");
   const [condition, setCondition] = useQueryState("condition", []);
@@ -38,8 +39,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
   const handleFilterChange = (filterKey, filterValue) => {
-    onFiltersChange((prevFilters) => ({
-      ...prevFilters,
+    setFilters((prevFilters) => ({
+      ...(prevFilters || {}),
       [filterKey]: filterValue,
     }));
   };
@@ -87,7 +88,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
     <div className="flex flex-col gap-y-3">
       {[
         {
-          label: t('keyword'),
+          label: t("keyword"),
           content: "keyword",
           symbol: <VscSymbolKeyword fontSize={22} className="text-white" />,
           render: (
@@ -97,7 +98,12 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 type="text"
                 id="keyword"
                 value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
+                // onChange={(e) => setKeyword(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setKeyword(value); // Update the keyword state
+                  handleFilterChange("keyword", value); // Trigger filter update
+                }}
                 placeholder="e.g., Toyota"
                 className="border p-2"
               />
@@ -105,7 +111,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: t('condition'),
+          label: t("condition"),
           content: "condition",
           symbol: <FaRecycle fontSize={22} className="text-white" />,
           render: (
@@ -136,7 +142,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: t('location'),
+          label: t("location"),
           content: "location",
           symbol: <FaLocationDot fontSize={22} className="text-white" />,
           render: (
@@ -167,7 +173,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: t('price'),
+          label: t("price"),
           content: "price",
           symbol: <IoPricetag fontSize={22} className="text-white" />,
           render: (
@@ -179,7 +185,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
         {
-          label: t('year'),
+          label: t("year"),
           content: "year",
           symbol: <FaRegCalendarCheck fontSize={22} className="text-white" />,
           render: (
