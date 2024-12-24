@@ -36,8 +36,15 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const [keyword, setKeyword] = useQueryState("keyword", "");
   const [condition, setCondition] = useQueryState("condition", []);
   const [location, setLocation] = useQueryState("location", []);
+  const [price, setPrice] = useQueryState("price", []);
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
+  const safePrice = Array.isArray(price) ? price : [];
+
+  useEffect(() => {
+    console.log("Price Filter Changed:", price);
+  }, [price]);
+
   const handleFilterChange = (filterKey, filterValue) => {
     setFilters((prevFilters) => ({
       ...(prevFilters || {}),
@@ -98,11 +105,10 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 type="text"
                 id="keyword"
                 value={keyword}
-                // onChange={(e) => setKeyword(e.target.value)}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setKeyword(value); // Update the keyword state
-                  handleFilterChange("keyword", value); // Trigger filter update
+                  setKeyword(value);
+                  handleFilterChange("keyword", value);
                 }}
                 placeholder="e.g., Toyota"
                 className="border p-2"
@@ -178,12 +184,31 @@ const SidebarFilters = ({ onFiltersChange }) => {
           symbol: <IoPricetag fontSize={22} className="text-white" />,
           render: (
             <div className="mt-2 flex flex-wrap gap-x-3 gap-y-2">
-              <button className="rounded border border-blue-950 px-3 py-2 text-sm text-blue-950 transition-all hover:scale-95 hover:bg-blue-950 hover:text-white dark:bg-gray-700 dark:text-white">
-                $100
+              <button
+                onClick={() => {
+                  // console.log("Selected Price Filter: 10000-20000");
+                  handleFilterChange("price", "10000-20000");
+                  setPrice("10000-20000");
+                }}
+                className={`rounded border ${price === "10000-20000" ? "bg-blue-950 text-white" : "text-blue-950"} px-3 py-2 text-sm transition-all hover:scale-95 hover:bg-blue-950`}
+              >
+                $10k - $20k
+              </button>
+
+              <button
+                onClick={() => {
+                  // console.log("Selected Price Filter: 20000");
+                  handleFilterChange("price", "20000");
+                  setPrice("20000");
+                }}
+                className={`rounded border ${price === "20000" ? "bg-blue-950 text-white" : "text-blue-950"} px-3 py-2 text-sm transition-all hover:scale-95 hover:bg-blue-950`}
+              >
+                $20k
               </button>
             </div>
           ),
         },
+
         {
           label: t("year"),
           content: "year",

@@ -38,20 +38,23 @@ const CardetailCard = () => {
   const [keyword] = useQueryState("keyword", "");
   const [condition] = useQueryState("condition", []);
   const [location] = useQueryState("location", []);
+  const [price] = useQueryState("price", []);
   useEffect(() => {
     const query = new URLSearchParams({
       keyword,
       condition,
       location,
+      price,
     }).toString();
     fetch(`/api/cars?${query}`)
       .then((res) => res.json())
       .then((data) => setCars(data.cars || []))
       .catch(() => setCars([]));
-  }, [keyword, condition, location]);
+  }, [keyword, condition, location, price]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
+  const safePrice = Array.isArray(price) ? price : [];
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
       const matchesKeyword = keyword
@@ -63,10 +66,35 @@ const CardetailCard = () => {
       const matchesLocation = safeLocation.length
         ? safeLocation.includes(car.location.toLowerCase())
         : true;
-      return matchesKeyword && matchesCondition && matchesLocation;
+      const matchesPrice = safePrice.length
+        ? safePrice.some((priceRange) => {
+            console.log("Checking Price Range:", priceRange);
+
+            if (priceRange.includes("-")) {
+              const [minPrice, maxPrice] = priceRange
+                .split("-")
+                .map((range) => parseInt(range, 10));
+              const carPrice = parseInt(car.price, 10);
+
+              console.log("Parsed Price Range:", minPrice, "-", maxPrice);
+              console.log("Car Price:", carPrice);
+
+              return carPrice >= minPrice && carPrice <= maxPrice;
+            }
+
+            const singlePrice = parseInt(priceRange, 10);
+            console.log("Parsed Single Price:", singlePrice);
+
+            return car.price === singlePrice;
+          })
+        : true;
+
+      return (
+        matchesKeyword && matchesCondition && matchesLocation && matchesPrice
+      );
     });
     setFilteredCars(filtered);
-  }, [keyword, condition, location, cars]);
+  }, [keyword, condition, price, location, cars]);
 
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
