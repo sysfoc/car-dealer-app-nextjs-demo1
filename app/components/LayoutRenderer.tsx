@@ -34,7 +34,7 @@ export default function LayoutRenderer({ children }) {
         <section>
           <Header isDarkMode={isDarkMode} />
           <div className="flex flex-wrap gap-y-5 md:flex-nowrap">
-            <div className="min-h-screen">
+            <div className="hidden min-h-screen md:block">
               <Sidebar />
             </div>
             <div className="w-full bg-slate-100 px-4 dark:bg-gray-700 sm:px-12">
