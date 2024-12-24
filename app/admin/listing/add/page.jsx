@@ -1,11 +1,22 @@
 "use client";
 import { Button, Checkbox, Label, Select, TextInput } from "flowbite-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const page = () => {
+  const [selectedFeatures, setSelectedFeatures] = useState([]);
+
+  const handleCheckboxChange = (e) => {
+    const label = e.target.nextSibling?.textContent || "";
+    if (e.target.checked) {
+      setSelectedFeatures((prev) => [...prev, label]);
+    } else {
+      setSelectedFeatures((prev) => prev.filter((item) => item !== label));
+    }
+  };
+
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -203,49 +214,70 @@ const page = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="bluetooth" />
+                  <Checkbox id="bluetooth" onChange={handleCheckboxChange} />
                   <Label htmlFor="bluetooth">Bluetooth connectivity</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="usb-ports" />
+                  <Checkbox id="usb-ports" onChange={handleCheckboxChange} />
                   <Label htmlFor="usb-ports">USB ports</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="carplay-androidauto" />
+                  <Checkbox
+                    id="carplay-androidauto"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="carplay-androidauto">
                     Apple CarPlay and Android Auto
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="wifi-hotspot" />
+                  <Checkbox id="wifi-hotspot" onChange={handleCheckboxChange} />
                   <Label htmlFor="wifi-hotspot">Wi-Fi hotspot</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="satellite-radio" />
+                  <Checkbox
+                    id="satellite-radio"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="satellite-radio">Satellite radio</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="navigation-system" />
+                  <Checkbox
+                    id="navigation-system"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="navigation-system">Navigation system</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="touchscreen-display" />
+                  <Checkbox
+                    id="touchscreen-display"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="touchscreen-display">
                     Touchscreen infotainment display
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="voice-recognition" />
+                  <Checkbox
+                    id="voice-recognition"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="voice-recognition">Voice recognition</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="wireless-charging" />
+                  <Checkbox
+                    id="wireless-charging"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="wireless-charging">
                     Wireless charging pad
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="rear-seat-entertainment" />
+                  <Checkbox
+                    id="rear-seat-entertainment"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="rear-seat-entertainment">
                     Rear-seat entertainment system
                   </Label>
@@ -253,53 +285,74 @@ const page = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="air-conditioning" />
+                  <Checkbox
+                    id="air-conditioning"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="air-conditioning">Air conditioning</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="climate-control" />
+                  <Checkbox
+                    id="climate-control"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="climate-control">
                     Dual-zone or tri-zone climate control
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="heated-seats" />
+                  <Checkbox id="heated-seats" onChange={handleCheckboxChange} />
                   <Label htmlFor="heated-seats">
                     Heated and ventilated seats
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="power-adjustable-seats" />
+                  <Checkbox
+                    id="power-adjustable-seats"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="power-adjustable-seats">
                     Power-adjustable seats
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="leather-upholstery" />
+                  <Checkbox
+                    id="leather-upholstery"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="leather-upholstery">Leather upholstery</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="keyless-entry" />
+                  <Checkbox
+                    id="keyless-entry"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="keyless-entry">
                     Keyless entry and push-button start
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remote-start" />
+                  <Checkbox id="remote-start" onChange={handleCheckboxChange} />
                   <Label htmlFor="remote-start">Remote start</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="power-windows" />
+                  <Checkbox
+                    id="power-windows"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="power-windows">
                     Power windows and mirrors
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="sunroof" />
+                  <Checkbox id="sunroof" onChange={handleCheckboxChange} />
                   <Label htmlFor="sunroof">Sunroof or moonroof</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="ambient-lighting" />
+                  <Checkbox
+                    id="ambient-lighting"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="ambient-lighting">
                     Ambient interior lighting
                   </Label>
@@ -307,65 +360,86 @@ const page = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="heated-steering-wheel" />
+                  <Checkbox
+                    id="heated-steering-wheel"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="heated-steering-wheel">
                     Heated steering wheel
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="abs" />
+                  <Checkbox id="abs" onChange={handleCheckboxChange} />
                   <Label htmlFor="abs">Anti-lock Braking System (ABS)</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="esc" />
+                  <Checkbox id="esc" onChange={handleCheckboxChange} />
                   <Label htmlFor="esc">
                     Electronic Stability Control (ESC)
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="traction-control" />
+                  <Checkbox
+                    id="traction-control"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="traction-control">Traction control</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="airbags" />
+                  <Checkbox id="airbags" onChange={handleCheckboxChange} />
                   <Label htmlFor="airbags">
                     Airbags (front, side, curtain)
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="backup-camera" />
+                  <Checkbox
+                    id="backup-camera"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="backup-camera">Backup camera</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="blind-spot-monitoring" />
+                  <Checkbox
+                    id="blind-spot-monitoring"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="blind-spot-monitoring">
                     Blind-spot monitoring
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="lane-keeping-assist" />
+                  <Checkbox
+                    id="lane-keeping-assist"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="lane-keeping-assist">
                     Lane-keeping assist
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="adaptive-cruise-control" />
+                  <Checkbox
+                    id="adaptive-cruise-control"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="adaptive-cruise-control">
                     Adaptive cruise control
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="auto-braking" />
+                  <Checkbox id="auto-braking" onChange={handleCheckboxChange} />
                   <Label htmlFor="auto-braking">
                     Automatic emergency braking
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="parking-sensors" />
+                  <Checkbox
+                    id="parking-sensors"
+                    onChange={handleCheckboxChange}
+                  />
                   <Label htmlFor="parking-sensors">Parking sensors</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="tpms" />
+                  <Checkbox id="tpms" onChange={handleCheckboxChange} />
                   <Label htmlFor="tpms">
                     Tire pressure monitoring system (TPMS)
                   </Label>
