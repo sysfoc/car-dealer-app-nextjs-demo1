@@ -147,6 +147,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
             </>
           ),
         },
+
         {
           label: t("location"),
           content: "location",
@@ -156,12 +157,18 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <div className="mt-2 flex items-center">
                 <input
                   type="checkbox"
-                  id="usa"
-                  checked={safeLocation.includes("usa")}
-                  onChange={() => handleCheckboxChange(setLocation, "usa")}
+                  id="Cityville"
+                  checked={safeLocation.includes("Cityville")}
+                  onChange={() => {
+                    handleCheckboxChange(setLocation, "Cityville");
+                    console.log("Updated safeLocation:", safeLocation); // Log to check updates
+                  }}
                 />
-                <label htmlFor="usa" className="ml-3 text-sm text-gray-700">
-                  United States
+                <label
+                  htmlFor="Cityville"
+                  className="ml-3 text-sm text-gray-700"
+                >
+                  Cityville
                 </label>
               </div>
               <div className="mt-2 flex items-center">
@@ -169,7 +176,10 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   type="checkbox"
                   id="uk"
                   checked={safeLocation.includes("uk")}
-                  onChange={() => handleCheckboxChange(setLocation, "uk")}
+                  onChange={() => {
+                    handleCheckboxChange(setLocation, "uk");
+                    console.log("Updated safeLocation:", safeLocation); // Log to check updates
+                  }}
                 />
                 <label htmlFor="uk" className="ml-3 text-sm text-gray-700">
                   United Kingdom
@@ -178,6 +188,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
             </>
           ),
         },
+
         {
           label: t("price"),
           content: "price",
@@ -186,18 +197,16 @@ const SidebarFilters = ({ onFiltersChange }) => {
             <div className="mt-2 flex flex-wrap gap-x-3 gap-y-2">
               <button
                 onClick={() => {
-                  // console.log("Selected Price Filter: 10000-20000");
-                  handleFilterChange("price", "10000-20000");
-                  setPrice("10000-20000");
+                  handleFilterChange("price", "18000");
+                  setPrice("18000");
                 }}
-                className={`rounded border ${price === "10000-20000" ? "bg-blue-950 text-white" : "text-blue-950"} px-3 py-2 text-sm transition-all hover:scale-95 hover:bg-blue-950`}
+                className={`rounded border ${price === "18000" ? "bg-blue-950 text-white" : "text-blue-950"} px-3 py-2 text-sm transition-all hover:scale-95 hover:bg-blue-950`}
               >
-                $10k - $20k
+                $18k
               </button>
 
               <button
                 onClick={() => {
-                  // console.log("Selected Price Filter: 20000");
                   handleFilterChange("price", "20000");
                   setPrice("20000");
                 }}

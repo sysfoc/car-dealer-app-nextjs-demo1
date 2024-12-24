@@ -54,9 +54,14 @@ const CardetailCard = () => {
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
-  const safePrice = Array.isArray(price) ? price : [];
+
+  const safePrice = Array.isArray(price)
+    ? price.map((p) => parseInt(p, 10))
+    : [parseInt(price, 10)].filter(Boolean);
+
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
+      // console.log("Car Object for Filtering:", car);
       const matchesKeyword = keyword
         ? car.make.toLowerCase().includes(keyword.toLowerCase())
         : true;
@@ -64,28 +69,22 @@ const CardetailCard = () => {
         ? safeCondition.includes(car.condition.toLowerCase())
         : true;
       const matchesLocation = safeLocation.length
-        ? safeLocation.includes(car.location.toLowerCase())
+        ? safeLocation.some((loc) =>
+            car.location.toLowerCase().includes(loc.toLowerCase()),
+          )
         : true;
+
       const matchesPrice = safePrice.length
-        ? safePrice.some((priceRange) => {
-            console.log("Checking Price Range:", priceRange);
+        ? safePrice.some((singlePrice) => {
+            const carPrice = car.price ? parseInt(car.price, 10) : null;
 
-            if (priceRange.includes("-")) {
-              const [minPrice, maxPrice] = priceRange
-                .split("-")
-                .map((range) => parseInt(range, 10));
-              const carPrice = parseInt(car.price, 10);
-
-              console.log("Parsed Price Range:", minPrice, "-", maxPrice);
-              console.log("Car Price:", carPrice);
-
-              return carPrice >= minPrice && carPrice <= maxPrice;
-            }
-
-            const singlePrice = parseInt(priceRange, 10);
-            console.log("Parsed Single Price:", singlePrice);
-
-            return car.price === singlePrice;
+            // console.log(
+            //   "Checking Exact Price Match:",
+            //   singlePrice,
+            //   "with",
+            //   carPrice,
+            // );
+            return carPrice === singlePrice;
           })
         : true;
 
@@ -93,6 +92,9 @@ const CardetailCard = () => {
         matchesKeyword && matchesCondition && matchesLocation && matchesPrice
       );
     });
+    console.log("safeLocation:", safeLocation);
+    // console.log("Safe Price Array:", safePrice);
+    //console.log("Car Price for Comparison:", cars.price);
     setFilteredCars(filtered);
   }, [keyword, condition, price, location, cars]);
 
@@ -102,12 +104,22 @@ const CardetailCard = () => {
   const [openModal, setOpenModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  if (!cars.length) {
+  if (!filteredCars.length) {
     return <p>No cars found.</p>;
   }
 
   return (
     <>
+      {filteredCars.map((car) => (
+        <div key={car.id}>
+          <h3>
+            {car.make} - {car.model}
+          </h3>
+          <p>Price: {car.price}</p>
+          <p>Condition: {car.condition}</p>
+          <p>Location: {car.location}</p>
+        </div>
+      ))}
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
