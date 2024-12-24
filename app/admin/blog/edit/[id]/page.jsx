@@ -53,8 +53,9 @@ export default function Page() {
               <TextInput id="slug" placeholder="This is my first post" />
             </div>
             <div>
-              <Label htmlFor="slug">Content</Label>
+              <Label htmlFor="content">Content</Label>
               <ReactQuill
+                id="content"
                 value={value}
                 onChange={setValue}
                 modules={modules}

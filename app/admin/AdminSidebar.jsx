@@ -14,7 +14,6 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoLanguage } from "react-icons/io5";
 import { MdOutlineMailLock } from "react-icons/md";
 import { SiPowerpages } from "react-icons/si";
-import Image from "next/image";
 
 const AdminSidebar = () => {
   return (

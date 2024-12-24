@@ -12,7 +12,11 @@ import Image from "next/image";
 
 const Header = ({ isDarkMode }) => {
   return (
-    <Navbar fluid rounded className="dark:shadow-xl">
+    <Navbar
+      fluid
+      rounded
+      className="border-b border-gray-300 dark:border-gray-700 dark:shadow-xl"
+    >
       <NavbarBrand href="/admin/dashboard">
         <Image
           src={isDarkMode ? "/logo-white.png" : "/logo.png"}
