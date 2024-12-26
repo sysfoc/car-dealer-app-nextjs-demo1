@@ -9,11 +9,11 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const page = () => {
+const Page = () => {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
 
   const handleCheckboxChange = (e) => {
@@ -571,4 +571,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
