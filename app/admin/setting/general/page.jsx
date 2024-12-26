@@ -3,7 +3,7 @@ import { Checkbox, FileInput, Label, ToggleSwitch } from "flowbite-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [activeSection, setActiveSection] = useState("Logo");
   const [previewLogo, setPreviewLogo] = useState("/logo.png");
   const [previewFavicon, setPreviewFavicon] = useState("/logo.png");
@@ -142,4 +142,4 @@ const page = () => {
     </section>
   );
 };
-export default page;
+export default Page;
