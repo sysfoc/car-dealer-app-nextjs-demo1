@@ -33,7 +33,7 @@
     "app/car-detail/[slug]/page.jsx",
     "app/components/Slider.jsx",
     "app/page.jsx",
-    "app/components/LayoutRenderer.tsx"
+    "app/components/LayoutRenderer.jsx"
   ],
   "exclude": ["node_modules"]
 }
