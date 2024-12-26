@@ -4,6 +4,9 @@
     "plugin:tailwindcss/recommended",
     "prettier"
   ],
+  "rules": {
+    "react/no-unescaped-entities": 0
+  },
   "settings": {
     "tailwindcss": {
       "callees": ["twMerge", "createTheme"],
