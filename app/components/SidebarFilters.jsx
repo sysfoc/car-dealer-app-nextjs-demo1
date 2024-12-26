@@ -40,10 +40,13 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
   const safePrice = Array.isArray(price) ? price : [];
+  const [minYear, setMinYear] = useQueryState("minYear", "");
+  const [maxYear, setMaxYear] = useQueryState("maxYear", "");
+  const [make, setMake] = useQueryState("setMake", "");
 
   useEffect(() => {
-    console.log("Price Filter Changed:", price);
-  }, [price]);
+    console.log("testing:", maxYear);
+  }, [maxYear]);
 
   const handleFilterChange = (filterKey, filterValue) => {
     setFilters((prevFilters) => ({
@@ -161,7 +164,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   checked={safeLocation.includes("Cityville")}
                   onChange={() => {
                     handleCheckboxChange(setLocation, "Cityville");
-                    console.log("Updated safeLocation:", safeLocation); // Log to check updates
+                    console.log("Updated safeLocation:", safeLocation);
                   }}
                 />
                 <label
@@ -178,7 +181,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   checked={safeLocation.includes("uk")}
                   onChange={() => {
                     handleCheckboxChange(setLocation, "uk");
-                    console.log("Updated safeLocation:", safeLocation); // Log to check updates
+                    console.log("Updated safeLocation:", safeLocation);
                   }}
                 />
                 <label htmlFor="uk" className="ml-3 text-sm text-gray-700">
@@ -225,20 +228,41 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="flex flex-col">
-                <Label htmlFor="min" className="text-sm">
-                  Min
+                <Label htmlFor="minYear" className="text-sm">
+                  Min year
                 </Label>
-                <TextInput type="number" name="min" id="min" />
+                <TextInput
+                  type="number"
+                  name="minYear"
+                  id="minYear"
+                  value={minYear}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setMinYear(value);
+                    handleFilterChange("minYear", value);
+                  }}
+                />
               </div>
               <div className="flex flex-col">
-                <Label htmlFor="max" className="text-sm">
-                  Max
+                <Label htmlFor="maxYear" className="text-sm">
+                  MaxYear
                 </Label>
-                <TextInput type="number" name="max" id="max" />
+                <TextInput
+                  type="number"
+                  name="maxYear"
+                  id="maxYear"
+                  value={maxYear}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setMaxYear(value);
+                    handleFilterChange("maxYear", value);
+                  }}
+                />
               </div>
             </div>
           ),
         },
+
         //
         {
           label: t("make"),

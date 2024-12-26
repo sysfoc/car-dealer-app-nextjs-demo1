@@ -31,6 +31,7 @@ import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
@@ -39,18 +40,38 @@ const CardetailCard = () => {
   const [condition] = useQueryState("condition", []);
   const [location] = useQueryState("location", []);
   const [price] = useQueryState("price", []);
+  const [minYear] = useQueryState("minYear", []);
+  const [maxYear] = useQueryState("maxYear", []);
+
+  const [debouncedKeyword] = useDebounce(keyword, 900);
+  const [debouncedCondition] = useDebounce(condition, 300);
+  const [debouncedLocation] = useDebounce(location, 300);
+  const [debouncedPrice] = useDebounce(price, 300);
+  const [debouncedminYear] = useDebounce(minYear, 300);
+  const [debouncedmaxYear] = useDebounce(minYear, 300);
+
   useEffect(() => {
     const query = new URLSearchParams({
-      keyword,
-      condition,
-      location,
-      price,
+      keyword: debouncedKeyword,
+      condition: debouncedCondition,
+      location: debouncedLocation,
+      price: debouncedPrice,
+      minYear: debouncedminYear,
+      maxYear: debouncedmaxYear,
     }).toString();
+
     fetch(`/api/cars?${query}`)
       .then((res) => res.json())
       .then((data) => setCars(data.cars || []))
       .catch(() => setCars([]));
-  }, [keyword, condition, location, price]);
+  }, [
+    debouncedKeyword,
+    debouncedCondition,
+    debouncedLocation,
+    debouncedPrice,
+    debouncedminYear,
+    debouncedmaxYear,
+  ]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
@@ -78,18 +99,19 @@ const CardetailCard = () => {
         ? safePrice.some((singlePrice) => {
             const carPrice = car.price ? parseInt(car.price, 10) : null;
 
-            // console.log(
-            //   "Checking Exact Price Match:",
-            //   singlePrice,
-            //   "with",
-            //   carPrice,
-            // );
             return carPrice === singlePrice;
           })
         : true;
+      const matchesYear = car.year
+        ? car.year >= parseInt(minYear, 10) && car.year <= parseInt(maxYear, 10)
+        : true;
 
       return (
-        matchesKeyword && matchesCondition && matchesLocation && matchesPrice
+        matchesKeyword &&
+        matchesCondition &&
+        matchesLocation &&
+        matchesPrice &&
+        matchesYear
       );
     });
     console.log("safeLocation:", safeLocation);
