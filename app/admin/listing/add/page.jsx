@@ -5,13 +5,12 @@ import {
   FileInput,
   Label,
   Select,
+  Textarea,
   TextInput,
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { useState } from "react";
 
 const Page = () => {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
@@ -45,37 +44,6 @@ const Page = () => {
     });
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-  ];
   return (
     <section className="my-10">
       <h2 className="text-xl font-semibold">Add Listing</h2>
@@ -522,10 +490,8 @@ const Page = () => {
               <Label htmlFor="comment" className="sr-only">
                 Comments:
               </Label>
-              <ReactQuill
+              <Textarea
                 id="comment"
-                modules={modules}
-                formats={formats}
                 className="mb-12 h-72"
               />
             </div>
