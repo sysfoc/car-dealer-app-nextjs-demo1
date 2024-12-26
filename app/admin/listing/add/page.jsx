@@ -559,7 +559,7 @@ const Page = () => {
               Submit
             </Button>
             <div className="mt-5 text-sm text-gray-600">
-              By submitting this form, you agree to the Car Dealer App's{" "}
+              By submitting this form, you agree to the Car Dealer App{" "}
               <Link href="#" className="text-blue-600 hover:text-blue-700">
                 Terms of Service
               </Link>
