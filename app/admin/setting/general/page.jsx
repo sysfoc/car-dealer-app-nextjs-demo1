@@ -1,5 +1,6 @@
 "use client";
 import {
+  Button,
   Checkbox,
   FileInput,
   Label,
@@ -264,16 +265,16 @@ const Page = () => {
                       Cookie Consent Button Background Color
                     </Label>
                     <input
-                      id="cookie-button-text-color"
+                      id="cookie-button-bg-color"
                       type="color"
                       className="w-full"
                     />
                   </div>
                   <div className="flex flex-col">
-                    <Label htmlFor="cookie-button-text-color">
+                    <Label htmlFor="cookie-consent-status">
                       Cookie Consent Status
                     </Label>
-                    <Select id="analytic-status">
+                    <Select id="cookie-consent-status">
                       <option value="inactive">Inactive</option>
                       <option value="active">Active</option>
                     </Select>
@@ -281,11 +282,35 @@ const Page = () => {
                 </div>
               )}
               {activeSection === "Theme Colors" && (
-                <div>Theme Colors Setting</div>
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col">
+                    <Label htmlFor="dark-mode-bg-color">
+                      Dark Mode Background Color
+                    </Label>
+                    <input
+                      id="dark-mode-bg-color"
+                      type="color"
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <Label htmlFor="dark-mode-text-color">
+                      Dark Mode Text Color
+                    </Label>
+                    <input
+                      id="dark-mode-text-color"
+                      type="color"
+                      className="w-full"
+                    />
+                  </div>
+                </div>
               )}
             </form>
           </div>
         </div>
+        <Button className="mt-3 w-full" color={"dark"}>
+          Save Settings
+        </Button>
       </div>
     </section>
   );

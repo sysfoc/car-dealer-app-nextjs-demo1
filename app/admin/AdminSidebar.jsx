@@ -20,17 +20,17 @@ const AdminSidebar = () => {
     <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
       <SidebarItems>
         <SidebarItemGroup>
-          <SidebarItem href="#" icon={HiChartPie}>
+          <SidebarItem href="/admin/dashboard" icon={HiChartPie}>
             Dashboard
           </SidebarItem>
           <SidebarCollapse icon={FaList} label="Manage Listings">
             <SidebarItem href="#">Listing Brands</SidebarItem>
-            <SidebarItem href="#">Add Listings</SidebarItem>
-            <SidebarItem href="#">Listings</SidebarItem>
+            <SidebarItem href="/admin/listing/add">Add Listings</SidebarItem>
+            <SidebarItem href="/admin/listing/view">Listings</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={FaPencilAlt} label="Manage Blogs">
             <SidebarItem href="#">Categories</SidebarItem>
-            <SidebarItem href="#">Blog</SidebarItem>
+            <SidebarItem href="/admin/blog">Blog</SidebarItem>
             <SidebarItem href="#">Approved Comments</SidebarItem>
             <SidebarItem href="#">Pending Comments</SidebarItem>
           </SidebarCollapse>
@@ -41,7 +41,9 @@ const AdminSidebar = () => {
             <SidebarItem href="#">Pending Comments</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={IoSettingsSharp} label="Settings">
-            <SidebarItem href="#">General Settings</SidebarItem>
+            <SidebarItem href="/admin/setting/general">
+              General Settings
+            </SidebarItem>
             <SidebarItem href="#">Payment Settings</SidebarItem>
             <SidebarItem href="#">Currency</SidebarItem>
             <SidebarItem href="#">Social media</SidebarItem>
