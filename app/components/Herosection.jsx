@@ -96,9 +96,9 @@ const HeroSection = () => {
 
     try {
       const queryParams = [];
-      if (selectedMake) queryParams.push(`make=${selectedMake}`);
-      if (selectedModel) queryParams.push(`model=${selectedModel}`);
-      if (priceRange) queryParams.push(`priceRange=${priceRange}`);
+      if (selectedMake) queryParams.push(`keyword=${selectedMake}`);
+      if (selectedModel) queryParams.push(`keyword=${selectedModel}`);
+      if (priceRange) queryParams.push(`price=${priceRange}`);
 
       const queryString = queryParams.join("&");
 
@@ -187,10 +187,10 @@ const HeroSection = () => {
                 className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
                 <option value="">{t("priceRange")}</option>
-                <option value="10k-20k">10k-20k</option>
-                <option value="20k-30k">20k-30k</option>
-                <option value="30k-50k">30k-50k</option>
-                <option value="50k-100k">50k-100k</option>
+                <option value="16000">16000</option>
+                <option value="17000">17000</option>
+                <option value="18000">18000</option>
+                <option value="19000">19000</option>
               </select>
             </div>
             <div>

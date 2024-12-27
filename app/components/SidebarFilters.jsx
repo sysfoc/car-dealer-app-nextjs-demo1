@@ -42,11 +42,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safePrice = Array.isArray(price) ? price : [];
   const [minYear, setMinYear] = useQueryState("minYear", "");
   const [maxYear, setMaxYear] = useQueryState("maxYear", "");
-  const [make, setMake] = useQueryState("setMake", "");
-
-  useEffect(() => {
-    console.log("testing:", maxYear);
-  }, [maxYear]);
+  //const [make, setMake] = useQueryState("setMake", "");
 
   const handleFilterChange = (filterKey, filterValue) => {
     setFilters((prevFilters) => ({

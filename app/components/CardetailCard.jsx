@@ -1,6 +1,5 @@
 "use client";
 import {
-  Alert,
   Button,
   Carousel,
   Label,
@@ -18,7 +17,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
-import { FaHeart } from "react-icons/fa";
+
 import { CiHeart } from "react-icons/ci";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { IoSpeedometer } from "react-icons/io5";
@@ -31,8 +30,6 @@ import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
-
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
@@ -42,36 +39,41 @@ const CardetailCard = () => {
   const [price] = useQueryState("price", []);
   const [minYear] = useQueryState("minYear", []);
   const [maxYear] = useQueryState("maxYear", []);
-
-  const [debouncedKeyword] = useDebounce(keyword, 900);
-  const [debouncedCondition] = useDebounce(condition, 300);
-  const [debouncedLocation] = useDebounce(location, 300);
-  const [debouncedPrice] = useDebounce(price, 300);
-  const [debouncedminYear] = useDebounce(minYear, 300);
-  const [debouncedmaxYear] = useDebounce(minYear, 300);
+  const t = useTranslations("Filters");
+  const [isGridView, setIsGridView] = useState(true);
+  const loading = false;
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const query = new URLSearchParams({
-      keyword: debouncedKeyword,
-      condition: debouncedCondition,
-      location: debouncedLocation,
-      price: debouncedPrice,
-      minYear: debouncedminYear,
-      maxYear: debouncedmaxYear,
+      keyword,
+      condition,
+      location,
+      price,
+      minYear,
+      maxYear,
     }).toString();
+    // paste below line in .env
+    // NEXT_PUBLIC_API_URL=http://localhost:3000/api/
 
-    fetch(`/api/cars?${query}`)
-      .then((res) => res.json())
-      .then((data) => setCars(data.cars || []))
-      .catch(() => setCars([]));
-  }, [
-    debouncedKeyword,
-    debouncedCondition,
-    debouncedLocation,
-    debouncedPrice,
-    debouncedminYear,
-    debouncedmaxYear,
-  ]);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
+
+    fetch(`${apiUrl}/cars?${query}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("API Data:", data);
+        setCars(data.cars || []);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        setCars([]);
+      });
+  }, [keyword, condition, location, price, minYear, maxYear]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
@@ -82,13 +84,17 @@ const CardetailCard = () => {
 
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
-      // console.log("Car Object for Filtering:", car);
+      console.log("Car Object for Filtering:", car);
+
       const matchesKeyword = keyword
-        ? car.make.toLowerCase().includes(keyword.toLowerCase())
+        ? car.make.toLowerCase().includes(keyword.toLowerCase()) ||
+          car.model.toLowerCase().includes(keyword.toLowerCase())
         : true;
+
       const matchesCondition = safeCondition.length
         ? safeCondition.includes(car.condition.toLowerCase())
         : true;
+
       const matchesLocation = safeLocation.length
         ? safeLocation.some((loc) =>
             car.location.toLowerCase().includes(loc.toLowerCase()),
@@ -98,13 +104,28 @@ const CardetailCard = () => {
       const matchesPrice = safePrice.length
         ? safePrice.some((singlePrice) => {
             const carPrice = car.price ? parseInt(car.price, 10) : null;
-
-            return carPrice === singlePrice;
+            return carPrice >= singlePrice;
           })
         : true;
-      const matchesYear = car.year
-        ? car.year >= parseInt(minYear, 10) && car.year <= parseInt(maxYear, 10)
-        : true;
+
+      const matchesYear =
+        car.year &&
+        (!minYear || car.year >= parseInt(minYear, 10)) &&
+        (!maxYear || car.year <= parseInt(maxYear, 10));
+
+      console.log("Filter values:", {
+        keyword,
+        condition,
+        location,
+        price,
+        minYear,
+        maxYear,
+        matchesKeyword,
+        matchesCondition,
+        matchesLocation,
+        matchesPrice,
+        matchesYear,
+      });
 
       return (
         matchesKeyword &&
@@ -114,17 +135,9 @@ const CardetailCard = () => {
         matchesYear
       );
     });
-    console.log("safeLocation:", safeLocation);
-    // console.log("Safe Price Array:", safePrice);
-    //console.log("Car Price for Comparison:", cars.price);
+    console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
-  }, [keyword, condition, price, location, cars]);
-
-  const t = useTranslations("Filters");
-  const [isGridView, setIsGridView] = useState(true);
-  const loading = false;
-  const [openModal, setOpenModal] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  }, [keyword, condition, price, location, cars, minYear, maxYear]);
 
   if (!filteredCars.length) {
     return <p>No cars found.</p>;
