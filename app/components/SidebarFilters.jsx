@@ -42,7 +42,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safePrice = Array.isArray(price) ? price : [];
   const [minYear, setMinYear] = useQueryState("minYear", "");
   const [maxYear, setMaxYear] = useQueryState("maxYear", "");
-  //const [make, setMake] = useQueryState("setMake", "");
+  const [make, setMake] = useQueryState("setMake", []);
+  const safeMake = Array.isArray(make) ? make : [];
 
   const handleFilterChange = (filterKey, filterValue) => {
     setFilters((prevFilters) => ({
@@ -50,6 +51,9 @@ const SidebarFilters = ({ onFiltersChange }) => {
       [filterKey]: filterValue,
     }));
   };
+  useEffect(() => {
+    console.log("safeMake Updated:", safeMake);
+  }, [safeMake]);
 
   const toggleSection = (section) => {
     const updatedSections = openSections.includes(section)
@@ -57,15 +61,31 @@ const SidebarFilters = ({ onFiltersChange }) => {
       : [...openSections, section];
     setOpenSections(updatedSections);
   };
+  // const handleCheckboxChange = (stateSetter, value) => {
+  //   stateSetter((prev) =>
+  //     Array.isArray(prev)
+  //       ? prev.includes(value)
+  //         ? prev.filter((item) => item !== value)
+  //         : [...prev, value]
+  //       : [value],
+  //   );
+  // };
   const handleCheckboxChange = (stateSetter, value) => {
-    stateSetter((prev) =>
-      Array.isArray(prev)
-        ? prev.includes(value)
-          ? prev.filter((item) => item !== value)
-          : [...prev, value]
-        : [value],
-    );
+    stateSetter((prev) => {
+      const prevArray = Array.isArray(prev) ? prev : [];
+      console.log("Previous State:", prevArray);
+      console.log("Value to Update:", value);
+
+      if (prevArray.includes(value)) {
+        console.log(`Removing: ${value}`);
+        return prevArray.filter((item) => item !== value);
+      }
+
+      console.log(`Adding: ${value}`);
+      return [...prevArray, value];
+    });
   };
+
   const FilterSection = ({ label, content, symbol, children }) => (
     <div>
       <div
@@ -266,21 +286,23 @@ const SidebarFilters = ({ onFiltersChange }) => {
           symbol: <SiCmake fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="toyota" name="make" />
-                <Label htmlFor="toyota" className="ml-3 text-sm text-gray-700">
-                  Toyota
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="honda" name="make" />
-                <Label htmlFor="honda" className="ml-3 text-sm text-gray-700">
-                  Honda
-                </Label>
-              </div>
+              {["Toyota1", "Toyota2"].map((value) => (
+                <div className="mt-2 flex items-center" key={value}>
+                  <TextInput
+                    type="checkbox"
+                    id={value}
+                    checked={safeMake.includes(value)}
+                    onChange={() => handleCheckboxChange(setMake, value)}
+                  />
+                  <Label htmlFor={value} className="ml-3 text-sm text-gray-700">
+                    {value}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
+
         {
           label: t("mileage"),
           content: "mileage",

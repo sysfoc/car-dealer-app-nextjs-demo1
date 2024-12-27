@@ -96,7 +96,7 @@ const HeroSection = () => {
 
     try {
       const queryParams = [];
-      if (selectedMake) queryParams.push(`keyword=${selectedMake}`);
+      if (selectedMake) queryParams.push(`setMake=${selectedMake}`);
       if (selectedModel) queryParams.push(`keyword=${selectedModel}`);
       if (priceRange) queryParams.push(`price=${priceRange}`);
 

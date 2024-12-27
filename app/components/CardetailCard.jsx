@@ -39,6 +39,7 @@ const CardetailCard = () => {
   const [price] = useQueryState("price", []);
   const [minYear] = useQueryState("minYear", []);
   const [maxYear] = useQueryState("maxYear", []);
+  const [make] = useQueryState("make", []);
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
@@ -52,6 +53,7 @@ const CardetailCard = () => {
       price,
       minYear,
       maxYear,
+      make,
     }).toString();
     // paste below line in .env
     // NEXT_PUBLIC_API_URL=http://localhost:3000/api/
@@ -73,10 +75,11 @@ const CardetailCard = () => {
         console.error("Fetch error:", error);
         setCars([]);
       });
-  }, [keyword, condition, location, price, minYear, maxYear]);
+  }, [keyword, condition, location, price, minYear, maxYear, make]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
+  const safeMake = Array.isArray(make) ? make : [];
 
   const safePrice = Array.isArray(price)
     ? price.map((p) => parseInt(p, 10))
@@ -84,7 +87,7 @@ const CardetailCard = () => {
 
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
-      console.log("Car Object for Filtering:", car);
+      // console.log("Car Object for Filtering:", car);
 
       const matchesKeyword = keyword
         ? car.make.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -113,39 +116,33 @@ const CardetailCard = () => {
         (!minYear || car.year >= parseInt(minYear, 10)) &&
         (!maxYear || car.year <= parseInt(maxYear, 10));
 
-      console.log("Filter values:", {
-        keyword,
-        condition,
-        location,
-        price,
-        minYear,
-        maxYear,
-        matchesKeyword,
-        matchesCondition,
-        matchesLocation,
-        matchesPrice,
-        matchesYear,
-      });
+      const matchesMake = safeMake.length
+        ? safeMake.includes(car.make.toLowerCase())
+        : true;
 
       return (
         matchesKeyword &&
         matchesCondition &&
         matchesLocation &&
         matchesPrice &&
-        matchesYear
+        matchesYear &&
+        matchesMake
       );
     });
     console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
-  }, [keyword, condition, price, location, cars, minYear, maxYear]);
+  }, [keyword, condition, price, location, cars, minYear, maxYear, make]);
 
+  if (loading) {
+    return <p>Loading cars...</p>;
+  }
   if (!filteredCars.length) {
     return <p>No cars found.</p>;
   }
 
   return (
     <>
-      {filteredCars.map((car) => (
+      {/* {filteredCars.map((car) => (
         <div key={car.id}>
           <h3>
             {car.make} - {car.model}
@@ -154,7 +151,7 @@ const CardetailCard = () => {
           <p>Condition: {car.condition}</p>
           <p>Location: {car.location}</p>
         </div>
-      ))}
+      ))} */}
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
