@@ -39,7 +39,7 @@ const CardetailCard = () => {
   const [price] = useQueryState("price", []);
   const [minYear] = useQueryState("minYear", []);
   const [maxYear] = useQueryState("maxYear", []);
-  const [make] = useQueryState("make", []);
+  const [make] = useQueryState("setMake", []);
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
@@ -79,7 +79,11 @@ const CardetailCard = () => {
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
-  const safeMake = Array.isArray(make) ? make : [];
+  // const safeMake = Array.isArray(make) ? make : [];
+  const safeMake =
+    Array.isArray(make) && make.length > 0 ? make : make ? [make] : [];
+  console.log("safeMake:", safeMake);
+  console.log("make:", make);
 
   const safePrice = Array.isArray(price)
     ? price.map((p) => parseInt(p, 10))
