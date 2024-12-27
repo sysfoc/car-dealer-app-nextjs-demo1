@@ -44,7 +44,7 @@ export default function Listing() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="#"
+                    href="/admin/listing/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -77,7 +77,7 @@ export default function Listing() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="#"
+                    href="/admin/listing/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -110,7 +110,7 @@ export default function Listing() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="#"
+                    href="/admin/listing/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit

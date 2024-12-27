@@ -41,7 +41,9 @@ const AdminSidebar = () => {
             <SidebarItem href="#">Pending Comments</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={IoSettingsSharp} label="Settings">
-            <SidebarItem href="/admin/setting/general">General Settings</SidebarItem>
+            <SidebarItem href="/admin/setting/general">
+              General Settings
+            </SidebarItem>
             <SidebarItem href="#">Payment Settings</SidebarItem>
             <SidebarItem href="#">Currency</SidebarItem>
             <SidebarItem href="#">Social media</SidebarItem>
