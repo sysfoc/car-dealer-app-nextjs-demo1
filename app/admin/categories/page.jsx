@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Listing() {
+export default function Categories() {
   return (
     <div className="mt-10">
       <h2 className="text-2xl font-bold">Blog Categories</h2>
