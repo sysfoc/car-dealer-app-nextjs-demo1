@@ -42,7 +42,11 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safePrice = Array.isArray(price) ? price : [];
   const [minYear, setMinYear] = useQueryState("minYear", "");
   const [maxYear, setMaxYear] = useQueryState("maxYear", "");
-  const [make, setMake] = useQueryState("setMake", []);
+  const [make, setMake] = useQueryState("make", []);
+
+  const [millageFrom, setmillageFrom] = useQueryState("millageFrom", "");
+  const [millageTo, setmillageTo] = useQueryState("millageTo", "");
+
   const safeMake = Array.isArray(make) ? make : [];
 
   const handleFilterChange = (filterKey, filterValue) => {
@@ -279,7 +283,6 @@ const SidebarFilters = ({ onFiltersChange }) => {
           ),
         },
 
-        //
         {
           label: t("make"),
           content: "make",
@@ -302,7 +305,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
             </>
           ),
         },
-
+        //
         {
           label: t("mileage"),
           content: "mileage",
@@ -661,6 +664,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <div className="flex flex-col">
                 <Label htmlFor="engine-power-from" className="text-sm">
                   {t("from")}
+                  {}
                 </Label>
                 <Select id="engine-power-from">
                   <option value="Any">Any</option>

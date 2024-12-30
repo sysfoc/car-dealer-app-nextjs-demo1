@@ -39,9 +39,10 @@ const CardetailCard = () => {
   const [price] = useQueryState("price", []);
   const [minYear] = useQueryState("minYear", []);
   const [maxYear] = useQueryState("maxYear", []);
-  const [make] = useQueryState("setMake", []);
+  const [make] = useQueryState("make", []);
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
+
   const loading = false;
   const [openModal, setOpenModal] = useState(false);
 
@@ -80,8 +81,11 @@ const CardetailCard = () => {
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
   // const safeMake = Array.isArray(make) ? make : [];
+  // const safeMake =
+  //   Array.isArray(make) && make.length > 0 ? make : make ? [make] : [];
   const safeMake =
     Array.isArray(make) && make.length > 0 ? make : make ? [make] : [];
+
   console.log("safeMake:", safeMake);
   console.log("make:", make);
 
@@ -120,8 +124,11 @@ const CardetailCard = () => {
         (!minYear || car.year >= parseInt(minYear, 10)) &&
         (!maxYear || car.year <= parseInt(maxYear, 10));
 
+      // const matchesMake = safeMake.length
+      //   ? safeMake.includes(car.make.toLowerCase())
+      //   : true;
       const matchesMake = safeMake.length
-        ? safeMake.includes(car.make.toLowerCase())
+        ? safeMake.some((make) => make.toLowerCase() === car.make.toLowerCase())
         : true;
 
       return (
