@@ -1,12 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import Image from "next/image";
+import "react-quill/dist/quill.snow.css";
 
 export default function Page() {
   const [value, setValue] = useState("");
+  const [ReactQuill, setReactQuill] = useState(null);
+
+  useEffect(() => {
+    import("react-quill")
+      .then((module) => {
+        setReactQuill(() => module.default);
+      })
+      .catch((error) => {
+        console.error("Error loading ReactQuill:", error);
+      });
+  }, []);
+
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -38,6 +49,7 @@ export default function Page() {
     "link",
     "image",
   ];
+
   return (
     <div className="mt-10">
       <h2 className="text-2xl font-bold">Edit Post</h2>
@@ -54,14 +66,18 @@ export default function Page() {
             </div>
             <div>
               <Label htmlFor="content">Content</Label>
-              <ReactQuill
-                id="content"
-                value={value}
-                onChange={setValue}
-                modules={modules}
-                formats={formats}
-                className="mb-12 h-72"
-              />
+              {ReactQuill ? (
+                <ReactQuill
+                  id="content"
+                  value={value}
+                  onChange={setValue}
+                  modules={modules}
+                  formats={formats}
+                  className="mb-12 h-72"
+                />
+              ) : (
+                <p>Loading editor...</p>
+              )}
             </div>
             <div>
               <Label htmlFor="image">Existed Image</Label>
@@ -90,11 +106,11 @@ export default function Page() {
               <Label htmlFor="category">Select Category</Label>
               <Select id="category">
                 <option value="any">Select Category</option>
-                <option value="$1000">parent blog</option>
+                <option value="$1000">Parent Blog</option>
               </Select>
             </div>
             <div>
-              <Button color={"blue"}>Update</Button>
+              <Button color="blue">Update</Button>
             </div>
           </form>
         </div>

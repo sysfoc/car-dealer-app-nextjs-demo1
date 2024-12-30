@@ -2,6 +2,7 @@
 import React from "react";
 import {
   Avatar,
+  Button,
   DarkThemeToggle,
   Dropdown,
   DropdownHeader,
@@ -9,6 +10,7 @@ import {
   NavbarBrand,
 } from "flowbite-react";
 import Image from "next/image";
+import { FiLogOut } from "react-icons/fi";
 
 const Header = ({ isDarkMode }) => {
   return (
@@ -28,6 +30,9 @@ const Header = ({ isDarkMode }) => {
         />
       </NavbarBrand>
       <div className="flex items-center gap-x-5 md:order-2">
+        <Button color={"gray"} href="/">
+          <FiLogOut fontSize={20} className="text-gray-500" />
+        </Button>
         <DarkThemeToggle />
         <Dropdown
           arrowIcon={false}

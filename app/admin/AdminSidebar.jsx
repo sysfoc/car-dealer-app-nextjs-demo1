@@ -29,16 +29,18 @@ const AdminSidebar = () => {
             <SidebarItem href="/admin/listing/view">Listings</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={FaPencilAlt} label="Manage Blogs">
-            <SidebarItem href="#">Categories</SidebarItem>
+            <SidebarItem href="/admin/categories">Categories</SidebarItem>
             <SidebarItem href="/admin/blog">Blog</SidebarItem>
-            <SidebarItem href="#">Approved Comments</SidebarItem>
-            <SidebarItem href="#">Pending Comments</SidebarItem>
+            <SidebarItem href="/admin/comments/approved">
+              Approved Comments
+            </SidebarItem>
+            <SidebarItem href="/admin/comments/pending">
+              Pending Comments
+            </SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={TiWorld} label="Manage Website">
             <SidebarItem href="#">FAQ</SidebarItem>
             <SidebarItem href="#">Testimonial</SidebarItem>
-            <SidebarItem href="#">Approved Comments</SidebarItem>
-            <SidebarItem href="#">Pending Comments</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={IoSettingsSharp} label="Settings">
             <SidebarItem href="/admin/setting/general">
