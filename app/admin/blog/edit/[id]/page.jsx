@@ -44,7 +44,6 @@ export default function Page() {
     "strike",
     "blockquote",
     "list",
-    "bullet",
     "indent",
     "link",
     "image",
