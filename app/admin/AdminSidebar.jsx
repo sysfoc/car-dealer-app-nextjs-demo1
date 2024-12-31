@@ -58,9 +58,9 @@ const AdminSidebar = () => {
           </SidebarCollapse>
           <SidebarCollapse icon={SiPowerpages} label="Page Settings">
             <SidebarItem href="/admin/setting/page/home">Home</SidebarItem>
-            <SidebarItem href="">Blog</SidebarItem>
-            <SidebarItem href="#">FAQs</SidebarItem>
-            <SidebarItem href="#">Contact</SidebarItem>
+            <SidebarItem href="/admin/setting/page/contact">
+              Contact
+            </SidebarItem>
             <SidebarItem href="/admin/setting/page/about">About Us</SidebarItem>
             <SidebarItem href="/admin/setting/page/terms">
               Terms & Conditions
