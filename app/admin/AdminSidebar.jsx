@@ -65,7 +65,9 @@ const AdminSidebar = () => {
             <SidebarItem href="/admin/setting/page/terms">
               Terms & Conditions
             </SidebarItem>
-            <SidebarItem href="#">Privacy Policy</SidebarItem>
+            <SidebarItem href="/admin/setting/page/privacy">
+              Privacy Policy
+            </SidebarItem>
           </SidebarCollapse>
           <SidebarItem href="#" icon={MdOutlineMailLock}>
             Email Templates
