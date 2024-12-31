@@ -19,16 +19,21 @@ const Page = () => {
 
   const modules = {
     toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
       [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
+        { header: "1" },
+        { header: "2" },
+        { header: [1, 2, 3, 4, 5, 6, false] },
+        { font: [] },
       ],
-      ["link", "image"],
+      [{ size: ["small", false, "large", "huge"] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ script: "sub" }, { script: "super" }],
+      ["blockquote", "code-block"],
+      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ align: [] }],
+      ["link", "image", "video", "formula"],
       ["clean"],
     ],
   };
@@ -41,11 +46,18 @@ const Page = () => {
     "italic",
     "underline",
     "strike",
+    "color",
+    "background",
+    "script",
     "blockquote",
+    "code-block",
     "list",
     "indent",
+    "align",
     "link",
     "image",
+    "video",
+    "formula",
   ];
 
   return (
@@ -53,11 +65,11 @@ const Page = () => {
       <h2 className="text-xl font-semibold">Privacy policy</h2>
       <form className="mt-5 flex flex-col gap-3">
         <div>
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">Name:</Label>
           <TextInput id="name" placeholder="Privacy Policy" />
         </div>
         <div>
-          <Label htmlFor="content">Content</Label>
+          <Label htmlFor="content">Content:</Label>
           {ReactQuill ? (
             <ReactQuill
               id="content"

@@ -22,6 +22,7 @@ const Header = ({ isDarkMode }) => {
       <NavbarBrand href="/admin/dashboard">
         <Image
           src={isDarkMode ? "/logo-white.png" : "/logo.png"}
+          priority
           alt="Sysfoc-cars-dealer"
           width={80}
           height={50}
