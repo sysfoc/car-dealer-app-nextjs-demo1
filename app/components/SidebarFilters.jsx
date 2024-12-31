@@ -44,8 +44,11 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const [maxYear, setMaxYear] = useQueryState("maxYear", "");
   const [make, setMake] = useQueryState("make", []);
 
-  const [millageFrom, setmillageFrom] = useQueryState("millageFrom", "");
-  const [millageTo, setmillageTo] = useQueryState("millageTo", "");
+  const [millageFrom, setMillageFrom] = useQueryState("millageFrom", "");
+  const [millageTo, setMillageTo] = useQueryState("millageTo", "");
+
+  const [gearBox, setGearBox] = useQueryState("gearBox", []);
+  const safeGearBox = Array.isArray(gearBox) ? gearBox : [];
 
   const safeMake = Array.isArray(make) ? make : [];
 
@@ -65,15 +68,10 @@ const SidebarFilters = ({ onFiltersChange }) => {
       : [...openSections, section];
     setOpenSections(updatedSections);
   };
-  // const handleCheckboxChange = (stateSetter, value) => {
-  //   stateSetter((prev) =>
-  //     Array.isArray(prev)
-  //       ? prev.includes(value)
-  //         ? prev.filter((item) => item !== value)
-  //         : [...prev, value]
-  //       : [value],
-  //   );
-  // };
+  const handleSelectChange = (stateSetter) => (event) => {
+    stateSetter(event.target.value);
+  };
+
   const handleCheckboxChange = (stateSetter, value) => {
     stateSetter((prev) => {
       const prevArray = Array.isArray(prev) ? prev : [];
@@ -316,27 +314,34 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 <Label htmlFor="from" className="text-sm">
                   {t("from")}
                 </Label>
-                <Select id="from">
-                  <option value="Any">Any</option>
-                  <option value="0 miles">0 Miles</option>
-                  <option value="100 miles">100 Miles</option>
-                  <option value="1000 miles">1000 Miles</option>
+                <Select
+                  id="from"
+                  value={millageFrom}
+                  onChange={handleSelectChange(setMillageFrom)}
+                >
+                  <option value="25000">25000 km</option>
+                  <option value="26000">26000 KM</option>
+                  <option value="27000">27000 KM</option>
                 </Select>
               </div>
               <div className="flex flex-col">
                 <Label htmlFor="to" className="text-sm">
                   {t("to")}
                 </Label>
-                <Select id="to">
-                  <option value="Any">Any</option>
-                  <option value="0 miles">0 Miles</option>
-                  <option value="100 miles">100 Miles</option>
-                  <option value="1000 miles">1000 Miles</option>
+                <Select
+                  id="to"
+                  value={millageTo}
+                  onChange={handleSelectChange(setMillageTo)}
+                >
+                  <option value="24000">24000 KM</option>
+                  <option value="26000">26000 KM</option>
+                  <option value="27000">27000 KM </option>
                 </Select>
               </div>
             </div>
           ),
         },
+
         {
           label: t("gearbox"),
           content: "gearbox",
@@ -344,7 +349,13 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <>
               <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="automatic" name="gearbox" />
+                <TextInput
+                  type="checkbox"
+                  id="automatic"
+                  name="gearbox"
+                  checked={safeGearBox.includes("automatic")}
+                  onChange={() => handleCheckboxChange(setGearBox, "automatic")}
+                />
                 <Label
                   htmlFor="automatic"
                   className="ml-3 text-sm text-gray-700"
@@ -353,7 +364,13 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 </Label>
               </div>
               <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="manual" name="gearbox" />
+                <TextInput
+                  type="checkbox"
+                  id="manual"
+                  name="gearbox"
+                  checked={safeGearBox.includes("manual")}
+                  onChange={() => handleCheckboxChange(setGearBox, "manual")}
+                />
                 <Label htmlFor="manual" className="ml-3 text-sm text-gray-700">
                   Manual
                 </Label>

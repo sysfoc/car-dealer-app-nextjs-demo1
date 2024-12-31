@@ -40,6 +40,9 @@ const CardetailCard = () => {
   const [minYear] = useQueryState("minYear", []);
   const [maxYear] = useQueryState("maxYear", []);
   const [make] = useQueryState("make", []);
+  const [millageFrom] = useQueryState("millageFrom", "");
+  const [millageTo] = useQueryState("millageTo", "");
+  const [gearBox] = useQueryState("gearBox", []);
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
 
@@ -55,7 +58,11 @@ const CardetailCard = () => {
       minYear,
       maxYear,
       make,
+      millageFrom,
+      millageTo,
+      gearBox,
     }).toString();
+
     // paste below line in .env
     // NEXT_PUBLIC_API_URL=http://localhost:3000/api/
 
@@ -76,22 +83,31 @@ const CardetailCard = () => {
         console.error("Fetch error:", error);
         setCars([]);
       });
-  }, [keyword, condition, location, price, minYear, maxYear, make]);
+  }, [
+    keyword,
+    condition,
+    location,
+    price,
+    minYear,
+    maxYear,
+    make,
+    millageFrom,
+    millageTo,
+    gearBox,
+  ]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
-  // const safeMake = Array.isArray(make) ? make : [];
-  // const safeMake =
-  //   Array.isArray(make) && make.length > 0 ? make : make ? [make] : [];
+
   const safeMake =
     Array.isArray(make) && make.length > 0 ? make : make ? [make] : [];
-
-  console.log("safeMake:", safeMake);
-  console.log("make:", make);
 
   const safePrice = Array.isArray(price)
     ? price.map((p) => parseInt(p, 10))
     : [parseInt(price, 10)].filter(Boolean);
+  const safeGearBox = Array.isArray(gearBox) ? gearBox : [];
+
+  console.log("safeGearBox:", safeGearBox);
 
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
@@ -124,11 +140,20 @@ const CardetailCard = () => {
         (!minYear || car.year >= parseInt(minYear, 10)) &&
         (!maxYear || car.year <= parseInt(maxYear, 10));
 
-      // const matchesMake = safeMake.length
-      //   ? safeMake.includes(car.make.toLowerCase())
-      //   : true;
       const matchesMake = safeMake.length
         ? safeMake.some((make) => make.toLowerCase() === car.make.toLowerCase())
+        : true;
+
+      const matchesMileage = car.mileage
+        ? (() => {
+            const carMileage = parseInt(car.mileage.replace(/[^\d]/g, ""), 10);
+            const from = millageFrom ? parseInt(millageFrom, 10) : null;
+            const to = millageTo ? parseInt(millageTo, 10) : null;
+            return (!from || carMileage >= from) && (!to || carMileage <= to);
+          })()
+        : true;
+      const matchesGearBox = safeGearBox.length
+        ? safeGearBox.includes(car.gearbox?.toLowerCase())
         : true;
 
       return (
@@ -137,12 +162,26 @@ const CardetailCard = () => {
         matchesLocation &&
         matchesPrice &&
         matchesYear &&
-        matchesMake
+        matchesMake &&
+        matchesMileage &&
+        matchesGearBox
       );
     });
     console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
-  }, [keyword, condition, price, location, cars, minYear, maxYear, make]);
+  }, [
+    keyword,
+    condition,
+    price,
+    location,
+    cars,
+    minYear,
+    maxYear,
+    make,
+    millageFrom,
+    millageTo,
+    gearBox,
+  ]);
 
   if (loading) {
     return <p>Loading cars...</p>;
