@@ -57,12 +57,14 @@ const AdminSidebar = () => {
             <SidebarItem href="#">Admin Panel Text</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={SiPowerpages} label="Page Settings">
-            <SidebarItem href="#">Home</SidebarItem>
-            <SidebarItem href="#">Blog</SidebarItem>
+            <SidebarItem href="/admin/setting/page/home">Home</SidebarItem>
+            <SidebarItem href="">Blog</SidebarItem>
             <SidebarItem href="#">FAQs</SidebarItem>
             <SidebarItem href="#">Contact</SidebarItem>
-            <SidebarItem href="#">About Us</SidebarItem>
-            <SidebarItem href="#">Terms & Conditions</SidebarItem>
+            <SidebarItem href="/admin/setting/page/about">About Us</SidebarItem>
+            <SidebarItem href="/admin/setting/page/terms">
+              Terms & Conditions
+            </SidebarItem>
             <SidebarItem href="#">Privacy Policy</SidebarItem>
           </SidebarCollapse>
           <SidebarItem href="#" icon={MdOutlineMailLock}>
