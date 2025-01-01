@@ -24,7 +24,9 @@ const AdminSidebar = () => {
             Dashboard
           </SidebarItem>
           <SidebarCollapse icon={FaList} label="Manage Listings">
-            <SidebarItem href="#">Listing Brands</SidebarItem>
+            <SidebarItem href="/admin/listing/brand">
+              Listing Brands
+            </SidebarItem>
             <SidebarItem href="/admin/listing/add">Add Listings</SidebarItem>
             <SidebarItem href="/admin/listing/view">Listings</SidebarItem>
           </SidebarCollapse>
