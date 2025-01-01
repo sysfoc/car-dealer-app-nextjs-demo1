@@ -11,11 +11,23 @@ import Link from "next/link";
 export default function Page() {
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold">All Blogs</h2>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">All Blogs</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/blog/create"}
+            className="rounded-lg bg-yellow-500 p-3 text-sm text-white"
+          >
+            Add New
+          </Link>
+        </div>
+      </div>
       <div className="mt-5">
         <Table>
           <TableHead>
-            <TableHeadCell>Featured Photo</TableHeadCell>
+            <TableHeadCell>Image</TableHeadCell>
             <TableHeadCell>Title</TableHeadCell>
             <TableHeadCell>Description</TableHeadCell>
             <TableHeadCell>Author</TableHeadCell>
