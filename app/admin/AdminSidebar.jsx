@@ -46,9 +46,8 @@ const AdminSidebar = () => {
             <SidebarItem href="/admin/setting/general">
               General Settings
             </SidebarItem>
-            <SidebarItem href="#">Payment Settings</SidebarItem>
             <SidebarItem href="#">Currency</SidebarItem>
-            <SidebarItem href="#">Social media</SidebarItem>
+            <SidebarItem href="/admin/setting/social">Social media</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={IoLanguage} label="Language">
             <SidebarItem href="#">Menu Text</SidebarItem>
