@@ -35,7 +35,7 @@ export default function Page() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="//admin/setting/social/edit/1"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -59,7 +59,7 @@ export default function Page() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/setting/social/edit/1"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -83,7 +83,7 @@ export default function Page() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/setting/social/edit/1"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -107,7 +107,7 @@ export default function Page() {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/setting/social/edit/1"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
