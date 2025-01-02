@@ -1,65 +1,18 @@
 "use client";
 import { Button, Label, TextInput } from "flowbite-react";
-import React, { useState, useEffect } from "react";
-import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
+import React, { Suspense, useState } from "react";
+
+const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const Page = () => {
-  const [value, setValue] = useState("");
-  const [ReactQuill, setReactQuill] = useState(null);
+  const [content, setContent] = useState("");
 
-  useEffect(() => {
-    import("react-quill")
-      .then((module) => {
-        setReactQuill(() => module.default);
-      })
-      .catch((error) => {
-        console.error("Error loading ReactQuill:", error);
-      });
-  }, []);
-
-  const modules = {
-    toolbar: [
-      [
-        { header: "1" },
-        { header: "2" },
-        { header: [1, 2, 3, 4, 5, 6, false] },
-        { font: [] },
-      ],
-      [{ size: ["small", false, "large", "huge"] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ script: "sub" }, { script: "super" }],
-      ["blockquote", "code-block"],
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ align: [] }],
-      ["link", "image", "video", "formula"],
-      ["clean"],
-    ],
+  const config = {
+    readonly: false,
+    placeholder: "Start typing...",
+    height: 500,
   };
-
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "color",
-    "background",
-    "script",
-    "blockquote",
-    "code-block",
-    "list",
-    "indent",
-    "align",
-    "link",
-    "image",
-    "video",
-    "formula",
-  ];
-
   return (
     <section className="my-10">
       <h2 className="text-xl font-semibold">Privacy policy</h2>
@@ -70,18 +23,15 @@ const Page = () => {
         </div>
         <div>
           <Label htmlFor="content">Content:</Label>
-          {ReactQuill ? (
-            <ReactQuill
-              id="content"
-              value={value}
-              onChange={setValue}
-              modules={modules}
-              formats={formats}
-              className="mb-12 h-72"
+          <Suspense fallback={<p>Loading editor...</p>}>
+            <LazyJoditEditor
+              value={content}
+              config={config}
+              tabIndex={1}
+              onBlur={(newContent) => setContent(newContent)}
+              onChange={() => {}}
             />
-          ) : (
-            <p>Loading editor...</p>
-          )}
+          </Suspense>
         </div>
         <div>
           <Button type="submit" className="mt-3 w-full" color={"dark"}>
