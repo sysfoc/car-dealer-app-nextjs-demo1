@@ -70,7 +70,7 @@ const AdminSidebar = () => {
               Privacy Policy
             </SidebarItem>
           </SidebarCollapse>
-          <SidebarItem href="#" icon={MdOutlineMailLock}>
+          <SidebarItem href="/admin/emails/view" icon={MdOutlineMailLock}>
             Email Templates
           </SidebarItem>
         </SidebarItemGroup>
