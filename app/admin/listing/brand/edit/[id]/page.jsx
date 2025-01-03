@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Label, TextInput, Button, FileInput } from "flowbite-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Page = () => {
   const [previewLogo, setPreviewLogo] = useState("/Luxury SUV.webp");
@@ -18,7 +19,19 @@ const Page = () => {
   };
   return (
     <section className="mt-10">
-      <h2 className="text-2xl font-bold">Edit Brand</h2>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Edit Brands</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/listing/brand"}
+            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          >
+            View All
+          </Link>
+        </div>
+      </div>
       <div>
         <form className="mt-5 flex flex-col gap-3">
           <div>

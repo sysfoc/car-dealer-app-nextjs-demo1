@@ -520,6 +520,7 @@ const Page = () => {
             <Button
               type="submit"
               size={"md"}
+              color={'dark'}
               className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
             >
               Submit

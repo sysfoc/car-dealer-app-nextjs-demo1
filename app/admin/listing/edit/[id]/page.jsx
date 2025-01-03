@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "flowbite-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const Page = () => {
@@ -45,7 +46,19 @@ const Page = () => {
 
   return (
     <section className="my-10">
-      <h2 className="text-xl font-semibold">Edit Listing</h2>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Edit Listing</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/listing/view"}
+            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          >
+            View All
+          </Link>
+        </div>
+      </div>
       <div className="mt-5">
         <form>
           <div>
@@ -53,6 +66,7 @@ const Page = () => {
             <FileInput
               type="file"
               multiple
+              id="images"
               className="mt-1"
               accept="image/*,video/*"
               onChange={handleFileChange}
@@ -513,11 +527,7 @@ const Page = () => {
             </div>
           </div>
           <div className="my-8">
-            <Button
-              type="submit"
-              size={"md"}
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-            >
+            <Button type="submit" size={"md"} color={"dark"} className="w-full">
               Save Changes
             </Button>
           </div>
