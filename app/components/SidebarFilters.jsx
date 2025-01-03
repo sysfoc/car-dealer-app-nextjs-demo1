@@ -63,6 +63,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safeDoors = Array.isArray(doors) ? doors : [];
   const safeSeats = Array.isArray(seats) ? seats : [];
   const safeFuel = Array.isArray(fuel) ? fuel : [];
+  const [battery, setBattery] = useQueryState("battery", "Any");
+  const [charging, setCharging] = useQueryState("charging", "Any");
 
   const safeMake = Array.isArray(make) ? make : [];
 
@@ -551,11 +553,15 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <Label htmlFor="battery" className="text-sm">
                 {t("battery")}
               </Label>
-              <Select id="battery">
+              <Select
+                id="battery"
+                value={battery}
+                onChange={handleSelectChange(setBattery)}
+              >
                 <option value="Any">Any</option>
-                <option value="0 miles">0 Miles</option>
-                <option value="100 miles">100 Miles</option>
-                <option value="1000 miles">1000 Miles</option>
+                <option value="0">0 Miles</option>
+                <option value="100">100 Miles</option>
+                <option value="1000">1000 Miles</option>
               </Select>
             </div>
           ),
@@ -570,7 +576,11 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <Label htmlFor="charging" className="text-sm">
                 {t("charging")}
               </Label>
-              <Select id="charging">
+              <Select
+                id="charging"
+                value={charging}
+                onChange={handleSelectChange(setCharging)}
+              >
                 <option value="Any">Any</option>
                 <option value="0 miles">0 Miles</option>
                 <option value="100 miles">100 Miles</option>
