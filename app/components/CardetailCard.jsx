@@ -43,9 +43,27 @@ const CardetailCard = () => {
   const [millageFrom] = useQueryState("millageFrom", "");
   const [millageTo] = useQueryState("millageTo", "");
   const [gearBox] = useQueryState("gearBox", []);
+  const [bodyType] = useQueryState("bodyType", []);
+  const safebodyType = Array.isArray(bodyType) ? bodyType : [];
+
+  const [color, setColor] = useQueryState("color", []);
+  const safeColor = Array.isArray(color) ? color : [];
+  const [doors, setDoors] = useQueryState("doors", []);
+  const [seats, setSeats] = useQueryState("seats", []);
+  const [fuel, setFuel] = useQueryState("fuel", []);
+
+  // const safeDoors = Array.isArray(doors) ? doors : [];
+  const safeDoors = Array.isArray(doors)
+    ? doors.map((door) => parseInt(door, 10)).filter(Number.isInteger)
+    : [];
+
+  //const safeSeats = Array.isArray(seats) ? seats : [];
+  const safeSeats = Array.isArray(seats)
+    ? seats.map((seat) => parseInt(seat, 10)).filter(Number.isInteger)
+    : [];
+  const safeFuel = Array.isArray(fuel) ? fuel : [];
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
-
   const loading = false;
   const [openModal, setOpenModal] = useState(false);
 
@@ -61,6 +79,11 @@ const CardetailCard = () => {
       millageFrom,
       millageTo,
       gearBox,
+      bodyType,
+      color,
+      doors,
+      seats,
+      fuel,
     }).toString();
 
     // paste below line in .env
@@ -94,6 +117,11 @@ const CardetailCard = () => {
     millageFrom,
     millageTo,
     gearBox,
+    bodyType,
+    color,
+    doors,
+    seats,
+    fuel,
   ]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
@@ -155,6 +183,21 @@ const CardetailCard = () => {
       const matchesGearBox = safeGearBox.length
         ? safeGearBox.includes(car.gearbox?.toLowerCase())
         : true;
+      const matchesbodyType = safebodyType.length
+        ? safebodyType.includes(car.bodyType?.toLowerCase())
+        : true;
+      const matchesColor = safeColor.length
+        ? safeColor.includes(car.color?.toLowerCase())
+        : true;
+      const matchesDoors = safeDoors.length
+        ? safeDoors.includes(car.doors)
+        : true;
+      const matchesSeats = safeSeats.length
+        ? safeSeats.includes(car.seats)
+        : true;
+      const matchesFuelType = safeFuel.length
+        ? safeFuel.includes(car.fuelType?.toLowerCase())
+        : true;
 
       return (
         matchesKeyword &&
@@ -164,7 +207,12 @@ const CardetailCard = () => {
         matchesYear &&
         matchesMake &&
         matchesMileage &&
-        matchesGearBox
+        matchesGearBox &&
+        matchesbodyType &&
+        matchesColor &&
+        matchesDoors &&
+        matchesSeats &&
+        matchesFuelType
       );
     });
     console.log("Filtered Cars:", filtered);
@@ -181,6 +229,11 @@ const CardetailCard = () => {
     millageFrom,
     millageTo,
     gearBox,
+    bodyType,
+    color,
+    doors,
+    seats,
+    fuel,
   ]);
 
   if (loading) {

@@ -50,6 +50,20 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const [gearBox, setGearBox] = useQueryState("gearBox", []);
   const safeGearBox = Array.isArray(gearBox) ? gearBox : [];
 
+  const [bodyType, setbodyType] = useQueryState("bodyType", []);
+  const safebodyType = Array.isArray(bodyType) ? bodyType : [];
+
+  const [color, setColor] = useQueryState("color", []);
+  const safeColor = Array.isArray(color) ? color : [];
+
+  const [doors, setDoors] = useQueryState("doors", []);
+  const [seats, setSeats] = useQueryState("seats", []);
+  const [fuel, setFuel] = useQueryState("fuel", []);
+
+  const safeDoors = Array.isArray(doors) ? doors : [];
+  const safeSeats = Array.isArray(seats) ? seats : [];
+  const safeFuel = Array.isArray(fuel) ? fuel : [];
+
   const safeMake = Array.isArray(make) ? make : [];
 
   const handleFilterChange = (filterKey, filterValue) => {
@@ -378,62 +392,88 @@ const SidebarFilters = ({ onFiltersChange }) => {
             </>
           ),
         },
-
         {
           label: t("body"),
           content: "bodytype",
           symbol: <FaCar fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput
-                  type="checkbox"
-                  id="convertible"
-                  name="convertible"
-                />
-                <Label
-                  htmlFor="convertible"
-                  className="ml-3 text-sm text-gray-700"
-                >
-                  Convertible
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="coupe" name="coupe" />
-                <Label htmlFor="coupe" className="ml-3 text-sm text-gray-700">
-                  Coupe
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="estate" name="estate" />
-                <Label htmlFor="estate" className="ml-3 text-sm text-gray-700">
-                  Estate
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="hatchback" name="hatchback" />
-                <Label
-                  htmlFor="hatchback"
-                  className="ml-3 text-sm text-gray-700"
-                >
-                  Hatchback
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="saloon" name="saloon" />
-                <Label htmlFor="saloon" className="ml-3 text-sm text-gray-700">
-                  Saloon
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="suv" name="suv" />
-                <Label htmlFor="suv" className="ml-3 text-sm text-gray-700">
-                  SUV
-                </Label>
-              </div>
+              {[
+                { id: "convertible", label: "Convertible" },
+                { id: "coupe", label: "Coupe" },
+                { id: "estate", label: "Estate" },
+                { id: "hatchback", label: "Hatchback" },
+                { id: "saloon", label: "Saloon" },
+                { id: "suv", label: "SUV" },
+              ].map(({ id, label }) => (
+                <div key={id} className="mt-2 flex items-center">
+                  <TextInput
+                    type="checkbox"
+                    id={id}
+                    name={id}
+                    checked={safebodyType.includes(id)}
+                    onChange={() => handleCheckboxChange(setbodyType, id)}
+                  />
+                  <Label htmlFor={id} className="ml-3 text-sm text-gray-700">
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
+
+        // {
+        //   label: t("color"),
+        //   content: "color",
+        //   symbol: <IoIosColorPalette fontSize={22} className="text-white" />,
+        //   render: (
+        //     <>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="black" name="black" />
+        //         <Label htmlFor="black" className="ml-3 text-sm text-gray-700">
+        //           Black
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="blue" name="blue" />
+        //         <Label htmlFor="blue" className="ml-3 text-sm text-gray-700">
+        //           Blue
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="gray" name="gray" />
+        //         <Label htmlFor="gray" className="ml-3 text-sm text-gray-700">
+        //           Gray
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="white" name="white" />
+        //         <Label htmlFor="white" className="ml-3 text-sm text-gray-700">
+        //           White
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="silver" name="silver" />
+        //         <Label htmlFor="silver" className="ml-3 text-sm text-gray-700">
+        //           Silver
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="red" name="red" />
+        //         <Label htmlFor="red" className="ml-3 text-sm text-gray-700">
+        //           Red
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="green" name="green" />
+        //         <Label htmlFor="green" className="ml-3 text-sm text-gray-700">
+        //           Green
+        //         </Label>
+        //       </div>
+        //     </>
+        //   ),
+        // },
 
         {
           label: t("color"),
@@ -441,82 +481,172 @@ const SidebarFilters = ({ onFiltersChange }) => {
           symbol: <IoIosColorPalette fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="black" name="black" />
-                <Label htmlFor="black" className="ml-3 text-sm text-gray-700">
-                  Black
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="blue" name="blue" />
-                <Label htmlFor="blue" className="ml-3 text-sm text-gray-700">
-                  Blue
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="gray" name="gray" />
-                <Label htmlFor="gray" className="ml-3 text-sm text-gray-700">
-                  Gray
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="white" name="white" />
-                <Label htmlFor="white" className="ml-3 text-sm text-gray-700">
-                  White
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="silver" name="silver" />
-                <Label htmlFor="silver" className="ml-3 text-sm text-gray-700">
-                  Silver
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="red" name="red" />
-                <Label htmlFor="red" className="ml-3 text-sm text-gray-700">
-                  Red
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="green" name="green" />
-                <Label htmlFor="green" className="ml-3 text-sm text-gray-700">
-                  Green
-                </Label>
-              </div>
+              {[
+                { id: "black", label: "Black" },
+                { id: "blue", label: "Blue" },
+                { id: "gray", label: "Gray" },
+                { id: "white", label: "White" },
+                { id: "silver", label: "Silver" },
+                { id: "red", label: "Red" },
+                { id: "green", label: "Green" },
+              ].map(({ id, label }) => (
+                <div key={id} className="mt-2 flex items-center">
+                  <TextInput
+                    type="checkbox"
+                    id={id}
+                    name={id}
+                    checked={safeColor.includes(id)}
+                    onChange={() => handleCheckboxChange(setColor, id)}
+                  />
+                  <Label htmlFor={id} className="ml-3 text-sm text-gray-700">
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
 
+        // {
+        //   label: t("doors"),
+        //   content: "doors",
+        //   symbol: <GiCarDoor fontSize={22} className="text-white" />,
+        //   render: (
+        //     <>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="doors-2" name="doors-2" />
+        //         <Label htmlFor="doors-2" className="ml-3 text-sm text-gray-700">
+        //           2 Doors
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="doors-3" name="doors-3" />
+        //         <Label htmlFor="doors-3" className="ml-3 text-sm text-gray-700">
+        //           3 Doors
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="doors-4" name="doors-4" />
+        //         <Label htmlFor="doors-4" className="ml-3 text-sm text-gray-700">
+        //           4 Doors
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="doors-5" name="doors-5" />
+        //         <Label htmlFor="doors-5" className="ml-3 text-sm text-gray-700">
+        //           5 Doors
+        //         </Label>
+        //       </div>
+        //     </>
+        //   ),
+        // },
+        // {
+        //   label: t("seats"),
+        //   content: "Seats",
+        //   symbol: <GiCarSeat fontSize={22} className="text-white" />,
+        //   render: (
+        //     <>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="seats-2" name="seats-2" />
+        //         <Label htmlFor="doors-2" className="ml-3 text-sm text-gray-700">
+        //           2 Seats
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="seats-3" name="seats-3" />
+        //         <Label htmlFor="seats-3" className="ml-3 text-sm text-gray-700">
+        //           3 Seats
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="seats-4" name="seats-4" />
+        //         <Label htmlFor="seats-4" className="ml-3 text-sm text-gray-700">
+        //           4 Seats
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="seats-5" name="seats-5" />
+        //         <Label htmlFor="seats-5" className="ml-3 text-sm text-gray-700">
+        //           5 Seats
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="seats-7" name="seats-7" />
+        //         <Label htmlFor="seats-7" className="ml-3 text-sm text-gray-700">
+        //           7 Seats
+        //         </Label>
+        //       </div>
+        //     </>
+        //   ),
+        // },
+
+        // {
+        //   label: t("fuel"),
+        //   content: "fueltype",
+        //   symbol: <BsFillFuelPumpFill fontSize={22} className="text-white" />,
+        //   render: (
+        //     <>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="petrol" name="petrol" />
+        //         <Label htmlFor="petrol" className="ml-3 text-sm text-gray-700">
+        //           Petrol
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="diesel" name="diesel" />
+        //         <Label htmlFor="diesel" className="ml-3 text-sm text-gray-700">
+        //           Diesel
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="electric" name="electric" />
+        //         <Label
+        //           htmlFor="electric"
+        //           className="ml-3 text-sm text-gray-700"
+        //         >
+        //           Electric
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="hybrid" name="hybrid" />
+        //         <Label htmlFor="hybrid" className="ml-3 text-sm text-gray-700">
+        //           Hybrid
+        //         </Label>
+        //       </div>
+        //       <div className="mt-2 flex items-center">
+        //         <TextInput type="checkbox" id="bi-fuel" name="bi-fuel" />
+        //         <Label htmlFor="bi-fuel" className="ml-3 text-sm text-gray-700">
+        //           Bi Fuel
+        //         </Label>
+        //       </div>
+        //     </>
+        //   ),
+        // },
         {
           label: t("doors"),
           content: "doors",
           symbol: <GiCarDoor fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="doors-2" name="doors-2" />
-                <Label htmlFor="doors-2" className="ml-3 text-sm text-gray-700">
-                  2 Doors
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="doors-3" name="doors-3" />
-                <Label htmlFor="doors-3" className="ml-3 text-sm text-gray-700">
-                  3 Doors
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="doors-4" name="doors-4" />
-                <Label htmlFor="doors-4" className="ml-3 text-sm text-gray-700">
-                  4 Doors
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="doors-5" name="doors-5" />
-                <Label htmlFor="doors-5" className="ml-3 text-sm text-gray-700">
-                  5 Doors
-                </Label>
-              </div>
+              {[
+                { id: "2", label: "2 Doors" },
+                { id: "3", label: "3 Doors" },
+                { id: "4", label: "4 Doors" },
+                { id: "5", label: "5 Doors" },
+              ].map(({ id, label }) => (
+                <div key={id} className="mt-2 flex items-center">
+                  <TextInput
+                    type="checkbox"
+                    id={id}
+                    name={id}
+                    checked={safeDoors.includes(id)}
+                    onChange={() => handleCheckboxChange(setDoors, id)}
+                  />
+                  <Label htmlFor={id} className="ml-3 text-sm text-gray-700">
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
@@ -526,79 +656,55 @@ const SidebarFilters = ({ onFiltersChange }) => {
           symbol: <GiCarSeat fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="seats-2" name="seats-2" />
-                <Label htmlFor="doors-2" className="ml-3 text-sm text-gray-700">
-                  2 Seats
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="seats-3" name="seats-3" />
-                <Label htmlFor="seats-3" className="ml-3 text-sm text-gray-700">
-                  3 Seats
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="seats-4" name="seats-4" />
-                <Label htmlFor="seats-4" className="ml-3 text-sm text-gray-700">
-                  4 Seats
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="seats-5" name="seats-5" />
-                <Label htmlFor="seats-5" className="ml-3 text-sm text-gray-700">
-                  5 Seats
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="seats-7" name="seats-7" />
-                <Label htmlFor="seats-7" className="ml-3 text-sm text-gray-700">
-                  7 Seats
-                </Label>
-              </div>
+              {[
+                { id: "2", label: "2 Seats" },
+                { id: "3", label: "3 Seats" },
+                { id: "4", label: "4 Seats" },
+                { id: "5", label: "5 Seats" },
+                { id: "7", label: "7 Seats" },
+              ].map(({ id, label }) => (
+                <div key={id} className="mt-2 flex items-center">
+                  <TextInput
+                    type="checkbox"
+                    id={id}
+                    name={id}
+                    checked={safeSeats.includes(id)}
+                    onChange={() => handleCheckboxChange(setSeats, id)}
+                  />
+                  <Label htmlFor={id} className="ml-3 text-sm text-gray-700">
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
-
         {
           label: t("fuel"),
           content: "fueltype",
           symbol: <BsFillFuelPumpFill fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="petrol" name="petrol" />
-                <Label htmlFor="petrol" className="ml-3 text-sm text-gray-700">
-                  Petrol
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="diesel" name="diesel" />
-                <Label htmlFor="diesel" className="ml-3 text-sm text-gray-700">
-                  Diesel
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="electric" name="electric" />
-                <Label
-                  htmlFor="electric"
-                  className="ml-3 text-sm text-gray-700"
-                >
-                  Electric
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="hybrid" name="hybrid" />
-                <Label htmlFor="hybrid" className="ml-3 text-sm text-gray-700">
-                  Hybrid
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="bi-fuel" name="bi-fuel" />
-                <Label htmlFor="bi-fuel" className="ml-3 text-sm text-gray-700">
-                  Bi Fuel
-                </Label>
-              </div>
+              {[
+                { id: "petrol", label: "Petrol" },
+                { id: "diesel", label: "Diesel" },
+                { id: "electric", label: "Electric" },
+                { id: "hybrid", label: "Hybrid" },
+                { id: "bi-fuel", label: "Bi Fuel" },
+              ].map(({ id, label }) => (
+                <div key={id} className="mt-2 flex items-center">
+                  <TextInput
+                    type="checkbox"
+                    id={id}
+                    name={id}
+                    checked={safeFuel.includes(id)}
+                    onChange={() => handleCheckboxChange(setFuel, id)}
+                  />
+                  <Label htmlFor={id} className="ml-3 text-sm text-gray-700">
+                    {label}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
