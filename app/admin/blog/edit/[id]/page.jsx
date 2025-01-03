@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
+import Link from "next/link";
 
 export default function Page() {
   const [value, setValue] = useState("");
@@ -62,8 +63,20 @@ export default function Page() {
   ];
 
   return (
-    <div className="mt-10">
-      <h2 className="text-2xl font-bold">Edit Post</h2>
+    <div className="my-10">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Edit Post</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/blog"}
+            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          >
+            View All
+          </Link>
+        </div>
+      </div>
       <div>
         <div>
           <form className="mt-8 flex flex-col gap-y-5">
@@ -121,7 +134,9 @@ export default function Page() {
               </Select>
             </div>
             <div>
-              <Button color="blue">Update</Button>
+              <Button color="dark" className="w-full">
+                Update Changes
+              </Button>
             </div>
           </form>
         </div>

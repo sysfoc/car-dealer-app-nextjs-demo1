@@ -11,7 +11,19 @@ import Image from "next/image";
 export default function Page() {
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold">Listing Brands</h2>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Listing Brands</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/listing/brand/add"}
+            className="rounded-lg bg-yellow-500 p-3 text-sm text-white"
+          >
+            Add New
+          </Link>
+        </div>
+      </div>
       <div className="mt-5">
         <Table>
           <TableHead>

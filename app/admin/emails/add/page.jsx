@@ -19,7 +19,7 @@ export default function Page() {
     <section className="my-10">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Edit Email</h2>
+          <h2 className="text-2xl font-bold">Add New Email</h2>
         </div>
         <div>
           <Link
@@ -33,8 +33,8 @@ export default function Page() {
       <div>
         <form className="mt-5 flex flex-col gap-y-5">
           <div>
-            <Label htmlFor="subject">Subject:</Label>
-            <TextInput id="subject" placeholder="Contact Form Title" />
+            <Label htmlFor="name">Subject:</Label>
+            <TextInput id="name" placeholder="Contact Form Title" />
           </div>
           <div>
             <p className="text-sm">Content:</p>
@@ -48,7 +48,7 @@ export default function Page() {
             </Suspense>
           </div>
           <div className="mt-5 flex flex-col">
-            <Button color="dark">Update</Button>
+            <Button color="dark">Add Email</Button>
           </div>
         </form>
       </div>

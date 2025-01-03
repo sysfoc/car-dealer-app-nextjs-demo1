@@ -7,6 +7,7 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 
@@ -69,7 +70,19 @@ const Page = () => {
 
   return (
     <section className="my-10">
-      <h2 className="text-2xl font-semibold">Add New Blog</h2>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Add New Post</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/blog"}
+            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          >
+            View All
+          </Link>
+        </div>
+      </div>
       <form className="mt-5 flex flex-col gap-3">
         <div>
           <Label htmlFor="title">Title:</Label>

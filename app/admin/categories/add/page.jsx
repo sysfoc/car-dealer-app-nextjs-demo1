@@ -7,7 +7,7 @@ const page = () => {
     <div className="mt-10">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Edit Categories</h2>
+          <h2 className="text-2xl font-bold">Add New Category</h2>
         </div>
         <div>
           <Link
@@ -31,7 +31,7 @@ const page = () => {
             </div>
             <div>
               <Button color={"dark"} className="w-full">
-                Update changes
+                Add Category
               </Button>
             </div>
           </form>
