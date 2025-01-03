@@ -15,17 +15,16 @@ const Page = () => {
   };
   return (
     <section className="my-10">
-      <h2 className="text-xl font-semibold">Privacy policy</h2>
+      <h2 className="text-2xl font-semibold">Privacy policy</h2>
       <form className="mt-5 flex flex-col gap-3">
         <div>
           <Label htmlFor="name">Name:</Label>
           <TextInput id="name" placeholder="Privacy Policy" />
         </div>
         <div>
-          <Label htmlFor="content">Content:</Label>
+          <p className="text-sm">Content:</p>
           <Suspense fallback={<p>Loading editor...</p>}>
             <LazyJoditEditor
-              value={content}
               config={config}
               tabIndex={1}
               onBlur={(newContent) => setContent(newContent)}

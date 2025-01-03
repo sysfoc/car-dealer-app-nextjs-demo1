@@ -1,0 +1,123 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
+import Link from "next/link";
+
+export default function Categories() {
+  return (
+    <div className="mt-10">
+      <h2 className="text-2xl font-bold">Currency</h2>
+      <div className="mt-5">
+        <Table>
+          <TableHead>
+            <TableHeadCell>Serial</TableHeadCell>
+            <TableHeadCell>Name</TableHeadCell>
+            <TableHeadCell>Symbol</TableHeadCell>
+            <TableHeadCell>Value</TableHeadCell>
+            <TableHeadCell>isDefault?</TableHeadCell>
+            <TableHeadCell>Actions</TableHeadCell>
+          </TableHead>
+          <TableBody className="divide-y">
+            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <TableCell>1</TableCell>
+              <TableCell>USD</TableCell>
+              <TableCell>$</TableCell>
+              <TableCell>1</TableCell>
+              <TableCell>Yes</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-x-5">
+                  <Link
+                    href="/admin/setting/currency/edit/1"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    href="#"
+                    className="font-medium text-red-500 hover:underline dark:text-red-500"
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <TableCell>2</TableCell>
+              <TableCell>INR</TableCell>
+              <TableCell>₹</TableCell>
+              <TableCell>76.67</TableCell>
+              <TableCell>No</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-x-5">
+                  <Link
+                    href="/admin/setting/currency/edit/1"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    href="#"
+                    className="font-medium text-red-500 hover:underline dark:text-red-500"
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <TableCell>3</TableCell>
+              <TableCell>BDT</TableCell>
+              <TableCell>৳</TableCell>
+              <TableCell>84.5</TableCell>
+              <TableCell>No</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-x-5">
+                  <Link
+                    href="/admin/setting/currency/edit/1"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    href="#"
+                    className="font-medium text-red-500 hover:underline dark:text-red-500"
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <TableCell>4</TableCell>
+              <TableCell>NGN</TableCell>
+              <TableCell>₦</TableCell>
+              <TableCell>415.84</TableCell>
+              <TableCell>No</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-x-5">
+                  <Link
+                    href="/admin/setting/currency/edit/1"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    href="#"
+                    className="font-medium text-red-500 hover:underline dark:text-red-500"
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}

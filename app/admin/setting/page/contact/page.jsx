@@ -24,7 +24,6 @@ const page = () => {
           <Label htmlFor="content">Content:</Label>
           <Suspense fallback={<p>Loading editor...</p>}>
             <LazyJoditEditor
-              value={content}
               config={config}
               tabIndex={1}
               onBlur={(newContent) => setContent(newContent)}
