@@ -66,6 +66,33 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const [battery, setBattery] = useQueryState("battery", "Any");
   const [charging, setCharging] = useQueryState("charging", "Any");
 
+  const [engineSizeFrom, setEngineSizeFrom] = useQueryState(
+    "engineSizeFrom",
+    "Any",
+  );
+  const [engineSizeTo, setEngineSizeTo] = useQueryState("engineSizeTo", "Any");
+  const [enginePowerFrom, setEnginePowerFrom] = useQueryState(
+    "enginePowerFrom",
+    "Any",
+  );
+  const [enginePowerTo, setEnginePowerTO] = useQueryState(
+    "enginePowerTo",
+    "Any",
+  );
+  const [fuelConsumption, setFuelConsumption] = useQueryState(
+    "setFuelConsumption",
+    "Any",
+  );
+  const [co2Emission, setco2Emission] = useQueryState("co2Emission", "Any");
+  const [driveType, setDrivetype] = useQueryState("driveType", []);
+  const safedriveType = Array.isArray(driveType) ? driveType : [];
+
+  const driveTypeOptions = [
+    { id: "four", label: "Four Wheel Drive" },
+    { id: "front", label: "Front Wheel Drive" },
+    { id: "rear", label: "Rear Wheel Drive" },
+  ];
+
   const safeMake = Array.isArray(make) ? make : [];
 
   const handleFilterChange = (filterKey, filterValue) => {
@@ -75,8 +102,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
     }));
   };
   useEffect(() => {
-    console.log("safeMake Updated:", safeMake);
-  }, [safeMake]);
+    console.log("safedriveType Updated:", safedriveType);
+  }, [safedriveType]);
 
   const toggleSection = (section) => {
     const updatedSections = openSections.includes(section)
@@ -198,7 +225,6 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   checked={safeLocation.includes("Cityville")}
                   onChange={() => {
                     handleCheckboxChange(setLocation, "Cityville");
-                    console.log("Updated safeLocation:", safeLocation);
                   }}
                 />
                 <label
@@ -215,7 +241,6 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   checked={safeLocation.includes("uk")}
                   onChange={() => {
                     handleCheckboxChange(setLocation, "uk");
-                    console.log("Updated safeLocation:", safeLocation);
                   }}
                 />
                 <label htmlFor="uk" className="ml-3 text-sm text-gray-700">
@@ -582,9 +607,9 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 onChange={handleSelectChange(setCharging)}
               >
                 <option value="Any">Any</option>
-                <option value="0 miles">0 Miles</option>
-                <option value="100 miles">100 Miles</option>
-                <option value="1000 miles">1000 Miles</option>
+                <option value="0">0 Miles</option>
+                <option value="100">100 Miles</option>
+                <option value="1000">1000 Miles</option>
               </Select>
             </div>
           ),
@@ -600,22 +625,30 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 <Label htmlFor="engine-from" className="text-sm">
                   {t("from")}
                 </Label>
-                <Select id="engine-from">
+                <Select
+                  id="engine-from"
+                  value={engineSizeFrom}
+                  onChange={handleSelectChange(setEngineSizeFrom)}
+                >
                   <option value="Any">Any</option>
-                  <option value="0-l">0L</option>
-                  <option value="1.0l">1.0L</option>
-                  <option value="2.0l">2.0L</option>
+                  <option value="0">0L</option>
+                  <option value="1">1.0L</option>
+                  <option value="2">2.0L</option>
                 </Select>
               </div>
               <div className="flex flex-col">
                 <Label htmlFor="engine-to" className="text-sm">
                   {t("to")}
                 </Label>
-                <Select id="engine-to">
+                <Select
+                  id="engine-to"
+                  value={engineSizeTo}
+                  onChange={handleSelectChange(setEngineSizeTo)}
+                >
                   <option value="Any">Any</option>
-                  <option value="0-l">0L</option>
-                  <option value="1.0l">1.0L</option>
-                  <option value="2.0l">2.0L</option>
+                  <option value="0">0L</option>
+                  <option value="1">1.0L</option>
+                  <option value="2">2.0L</option>
                 </Select>
               </div>
             </div>
@@ -632,22 +665,30 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   {t("from")}
                   {}
                 </Label>
-                <Select id="engine-power-from">
+                <Select
+                  id="engine-power-from"
+                  value={enginePowerFrom}
+                  onChange={handleSelectChange(setEnginePowerFrom)}
+                >
                   <option value="Any">Any</option>
-                  <option value="50bhp">50bhp</option>
-                  <option value="100bhp">100bhp</option>
-                  <option value="150bhp">150bhp</option>
+                  <option value="50">50bhp</option>
+                  <option value="100">100bhp</option>
+                  <option value="150">150bhp</option>
                 </Select>
               </div>
               <div className="flex flex-col">
                 <Label htmlFor="engine-power-to" className="text-sm">
                   {t("to")}
                 </Label>
-                <Select id="engine-power-to">
+                <Select
+                  id="engine-power-to"
+                  value={enginePowerTo}
+                  onChange={handleSelectChange(setEnginePowerTO)}
+                >
                   <option value="Any">Any</option>
-                  <option value="50bhp">50bhp</option>
-                  <option value="100bhp">100bhp</option>
-                  <option value="150bhp">150bhp</option>
+                  <option value="50">50bhp</option>
+                  <option value="100">100bhp</option>
+                  <option value="150">150bhp</option>
                 </Select>
               </div>
             </div>
@@ -663,12 +704,16 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <Label htmlFor="fuel-comsumption" className="text-sm">
                 {t("fuelConsumption")}
               </Label>
-              <Select id="fuel-comsumption">
+              <Select
+                id="fuel-comsumption"
+                value={fuelConsumption}
+                onChange={handleSelectChange(setFuelConsumption)}
+              >
                 <option value="Any">Any</option>
-                <option value="30mph">30+mph</option>
-                <option value="40mph">40+mph</option>
-                <option value="50mph">50+mph</option>
-                <option value="60mph">60+mph</option>
+                <option value="30">30+mph</option>
+                <option value="40">40+mph</option>
+                <option value="50">50+mph</option>
+                <option value="60">60+mph</option>
               </Select>
             </div>
           ),
@@ -683,54 +728,48 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <Label htmlFor="c02-emission" className="text-sm">
                 {t("co2")}
               </Label>
-              <Select id="c02-emission">
+              <Select
+                id="c02-emission"
+                value={co2Emission}
+                onChange={handleSelectChange(setco2Emission)}
+              >
                 <option value="Any">Any</option>
-                <option value="0g/km">Upto 0 g/km CO2</option>
-                <option value="75g/km">Upto 75 g/km CO2</option>
-                <option value="100g/km">Upto 100 g/km CO2</option>
-                <option value="110g/km">Upto 110 g/km CO2</option>
-                <option value="120g/km">Upto 120 g/km CO2</option>
+                <option value="0">Upto 0 g/km CO2</option>
+                <option value="75">Upto 75 g/km CO2</option>
+                <option value="100">Upto 100 g/km CO2</option>
+                <option value="110">Upto 110 g/km CO2</option>
+                <option value="120">Upto 120 g/km CO2</option>
               </Select>
             </div>
+            //
           ),
         },
+
         {
           label: t("driveType"),
           content: "drive-type",
           symbol: <GiCartwheel fontSize={22} className="text-white" />,
           render: (
             <>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="four-wheel" name="four-wheel" />
-                <Label
-                  htmlFor="four-wheel"
-                  className="ml-3 text-sm text-gray-700"
-                >
-                  Four Wheel Drive
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput
-                  type="checkbox"
-                  id="front-wheel"
-                  name="front-wheel"
-                />
-                <Label
-                  htmlFor="front-wheel"
-                  className="ml-3 text-sm text-gray-700"
-                >
-                  Front Wheel Drive
-                </Label>
-              </div>
-              <div className="mt-2 flex items-center">
-                <TextInput type="checkbox" id="rear-wheel" name="rear-wheel" />
-                <Label
-                  htmlFor="rear-wheel"
-                  className="ml-3 text-sm text-gray-700"
-                >
-                  Rear Wheel Drive
-                </Label>
-              </div>
+              {driveTypeOptions.map((option) => (
+                <div key={option.id} className="mt-2 flex items-center">
+                  <TextInput
+                    type="checkbox"
+                    id={option.id}
+                    name={option.id}
+                    checked={safedriveType.includes(option.id)}
+                    onChange={() =>
+                      handleCheckboxChange(setDrivetype, option.id)
+                    }
+                  />
+                  <Label
+                    htmlFor={option.id}
+                    className="ml-3 text-sm text-gray-700"
+                  >
+                    {option.label}
+                  </Label>
+                </div>
+              ))}
             </>
           ),
         },
