@@ -9,6 +9,7 @@ import {
 import { FaPencilAlt } from "react-icons/fa";
 import { TiWorld } from "react-icons/ti";
 import { FaList } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { HiChartPie, HiViewBoards } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoLanguage } from "react-icons/io5";
@@ -22,6 +23,9 @@ const AdminSidebar = () => {
         <SidebarItemGroup>
           <SidebarItem href="/admin/dashboard" icon={HiChartPie}>
             Dashboard
+          </SidebarItem>
+          <SidebarItem href="/admin/manage-users" icon={FaUser}>
+            Manage Users
           </SidebarItem>
           <SidebarCollapse icon={FaList} label="Manage Listings">
             <SidebarItem href="/admin/listing/brand">
