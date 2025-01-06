@@ -62,6 +62,10 @@ const CardetailCard = () => {
     ? seats.map((seat) => parseInt(seat, 10)).filter(Number.isInteger)
     : [];
   const safeFuel = Array.isArray(fuel) ? fuel : [];
+
+  const [battery, setBattery] = useQueryState("battery", "Any");
+  const [charging, setCharging] = useQueryState("charging", "Any");
+
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
   const loading = false;
@@ -84,6 +88,8 @@ const CardetailCard = () => {
       doors,
       seats,
       fuel,
+      battery,
+      charging,
     }).toString();
 
     // paste below line in .env
@@ -122,6 +128,8 @@ const CardetailCard = () => {
     doors,
     seats,
     fuel,
+    charging,
+    battery,
   ]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
@@ -180,6 +188,7 @@ const CardetailCard = () => {
             return (!from || carMileage >= from) && (!to || carMileage <= to);
           })()
         : true;
+
       const matchesGearBox = safeGearBox.length
         ? safeGearBox.includes(car.gearbox?.toLowerCase())
         : true;
@@ -198,6 +207,25 @@ const CardetailCard = () => {
       const matchesFuelType = safeFuel.length
         ? safeFuel.includes(car.fuelType?.toLowerCase())
         : true;
+      const matchesBatteryrange = car.batteryRange
+        ? (() => {
+            const batteryRange = battery ? parseInt(battery, 10) : null;
+            const carBatteryRange = car.batteryRange
+              ? parseInt(car.batteryRange, 10)
+              : null;
+            return batteryRange ? carBatteryRange >= batteryRange : true;
+          })()
+        : true;
+
+      const matchesChargingTime = car.chargingTime
+        ? (() => {
+            const chargingTime = charging ? parseInt(charging, 10) : null;
+            const carChargingTime = car.chargingTime
+              ? parseInt(car.chargingTime, 10)
+              : null;
+            return chargingTime ? carChargingTime >= chargingTime : true;
+          })()
+        : true;
 
       return (
         matchesKeyword &&
@@ -212,7 +240,9 @@ const CardetailCard = () => {
         matchesColor &&
         matchesDoors &&
         matchesSeats &&
-        matchesFuelType
+        matchesFuelType &&
+        matchesBatteryrange &&
+        matchesChargingTime
       );
     });
     console.log("Filtered Cars:", filtered);
@@ -234,6 +264,8 @@ const CardetailCard = () => {
     doors,
     seats,
     fuel,
+    charging,
+    battery,
   ]);
 
   if (loading) {

@@ -63,6 +63,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safeDoors = Array.isArray(doors) ? doors : [];
   const safeSeats = Array.isArray(seats) ? seats : [];
   const safeFuel = Array.isArray(fuel) ? fuel : [];
+
   const [battery, setBattery] = useQueryState("battery", "Any");
   const [charging, setCharging] = useQueryState("charging", "Any");
 
@@ -75,6 +76,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
     "enginePowerFrom",
     "Any",
   );
+
   const [enginePowerTo, setEnginePowerTO] = useQueryState(
     "enginePowerTo",
     "Any",
@@ -584,9 +586,9 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 onChange={handleSelectChange(setBattery)}
               >
                 <option value="Any">Any</option>
-                <option value="0">0 Miles</option>
-                <option value="100">100 Miles</option>
-                <option value="1000">1000 Miles</option>
+                <option value="100">0 Miles</option>
+                <option value="1000">100 Miles</option>
+                <option value="2000">1000 Miles</option>
               </Select>
             </div>
           ),
@@ -607,9 +609,9 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 onChange={handleSelectChange(setCharging)}
               >
                 <option value="Any">Any</option>
-                <option value="0">0 Miles</option>
-                <option value="100">100 Miles</option>
-                <option value="1000">1000 Miles</option>
+                <option value="100">0 Miles</option>
+                <option value="1000">100 Miles</option>
+                <option value="2000">1000 Miles</option>
               </Select>
             </div>
           ),
