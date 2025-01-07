@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import React, { Suspense, useState } from "react";
 
 const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
-const page = () => {
+const Page = () => {
   const [content, setContent] = useState("");
 
   const config = {
@@ -21,7 +21,7 @@ const page = () => {
           <TextInput id="heading" placeholder="Contact Us" />
         </div>
         <div>
-          <Label htmlFor="content">Content:</Label>
+          <p className="text-sm">Content:</p>
           <Suspense fallback={<p>Loading editor...</p>}>
             <LazyJoditEditor
               config={config}
@@ -61,4 +61,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
