@@ -350,6 +350,29 @@ const CardetailCard = () => {
     driveType,
   ]);
 
+  const resetFilters = () => {
+    setKeyword("");
+    setCondition([]);
+    setLocation([]);
+    setPrice([]);
+    setMinYear([]);
+    setMaxYear([]);
+    setMake([]);
+    setMillageFrom("");
+    setMillageTo("");
+    setGearBox([]);
+    setBodyType([]);
+    setColor([]);
+    setDoors([]);
+    setSeats([]);
+    setFuel([]);
+    setBattery("Any");
+    setCharging("Any");
+    setFuelConsumption("Any");
+    setco2Emission("Any");
+    setDriveType([]);
+  };
+
   if (loading) {
     return <p>Loading cars...</p>;
   }
