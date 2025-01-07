@@ -31,9 +31,11 @@ const Header = ({ isDarkMode }) => {
         />
       </NavbarBrand>
       <div className="flex items-center gap-x-5 md:order-2">
-        <Button color={"gray"} href="/">
-          <FiLogOut fontSize={20} className="text-gray-500" />
-        </Button>
+        <div className="hidden md:block">
+          <Button color={"gray"} href="/">
+            <FiLogOut fontSize={20} className="text-gray-500" />
+          </Button>
+        </div>
         <DarkThemeToggle />
         <Dropdown
           arrowIcon={false}

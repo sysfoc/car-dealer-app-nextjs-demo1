@@ -6,6 +6,7 @@ import Footer from "@/app/components/Footerr";
 import ScrolltoTop from "@/app/components//ScrolltoTop";
 import Sidebar from "@/app/admin/AdminSidebar";
 import Header from "@/app/admin/Header";
+import DrawerSidebar from "@/app/admin/DrawerSidebar";
 
 export default function LayoutRenderer({ children }) {
   const pathname = usePathname();
@@ -34,10 +35,13 @@ export default function LayoutRenderer({ children }) {
         <section>
           <Header isDarkMode={isDarkMode} />
           <div className="flex flex-wrap gap-y-5 md:flex-nowrap">
+            <div className="md:hidden">
+              <DrawerSidebar />
+            </div>
             <div className="hidden min-h-screen md:block">
               <Sidebar />
             </div>
-            <div className="w-full bg-slate-100 px-4 dark:bg-gray-700 sm:px-12">
+            <div className="w-full overflow-scroll bg-slate-100 px-4 dark:bg-gray-700 sm:px-12">
               {children}
             </div>
           </div>
