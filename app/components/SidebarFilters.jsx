@@ -35,6 +35,12 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const [filters, setFilters] = useState({});
 
   const [keyword, setKeyword] = useQueryState("keyword", "");
+
+  const handleSearchDebounced = useDebouncedCallback((value) => {
+    setKeyword(value);
+    handleFilterChange("keyword", value);
+  }, 1300);
+
   const [condition, setCondition] = useQueryState("condition", []);
   const [location, setLocation] = useQueryState("location", []);
   const [price, setPrice] = useQueryState("price", []);
@@ -176,9 +182,13 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 value={keyword}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setKeyword(value);
-                  handleFilterChange("keyword", value);
+                  handleSearchDebounced(value); // Use the debounced callback
                 }}
+                // onChange={(e) => {
+                //   const value = e.target.value;
+                //   setKeyword(value);
+                //   handleFilterChange("keyword", value);
+                // }}
                 placeholder="e.g., Toyota"
                 className="border p-2"
               />

@@ -10,14 +10,13 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
+
 import Image from "next/image";
 import Link from "next/link";
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
-
 import { CiHeart } from "react-icons/ci";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { IoSpeedometer } from "react-icons/io5";
@@ -30,10 +29,12 @@ import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
+
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [keyword] = useQueryState("keyword", "");
+
   const [condition] = useQueryState("condition", []);
   const [location] = useQueryState("location", []);
   const [price] = useQueryState("price", []);
