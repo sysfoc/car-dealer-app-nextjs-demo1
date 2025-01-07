@@ -27,6 +27,7 @@ import { MdBatteryCharging50, MdOutlineCo2 } from "react-icons/md";
 import { ImPower } from "react-icons/im";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
+import { useDebouncedCallback } from "use-debounce";
 
 const SidebarFilters = ({ onFiltersChange }) => {
   const t = useTranslations("Filters");
@@ -81,10 +82,12 @@ const SidebarFilters = ({ onFiltersChange }) => {
     "enginePowerTo",
     "Any",
   );
+
   const [fuelConsumption, setFuelConsumption] = useQueryState(
-    "setFuelConsumption",
+    "fuelConsumption",
     "Any",
   );
+
   const [co2Emission, setco2Emission] = useQueryState("co2Emission", "Any");
   const [driveType, setDrivetype] = useQueryState("driveType", []);
   const safedriveType = Array.isArray(driveType) ? driveType : [];
@@ -120,15 +123,15 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const handleCheckboxChange = (stateSetter, value) => {
     stateSetter((prev) => {
       const prevArray = Array.isArray(prev) ? prev : [];
-      console.log("Previous State:", prevArray);
-      console.log("Value to Update:", value);
+      //  console.log("Previous State:", prevArray);
+      //console.log("Value to Update:", value);
 
       if (prevArray.includes(value)) {
-        console.log(`Removing: ${value}`);
+        //  console.log(`Removing: ${value}`);
         return prevArray.filter((item) => item !== value);
       }
 
-      console.log(`Adding: ${value}`);
+      // console.log(`Adding: ${value}`);
       return [...prevArray, value];
     });
   };
@@ -632,7 +635,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   value={engineSizeFrom}
                   onChange={handleSelectChange(setEngineSizeFrom)}
                 >
-                  <option value="Any">Any</option>
+                  <option value="">Any</option>
                   <option value="0">0L</option>
                   <option value="1">1.0L</option>
                   <option value="2">2.0L</option>
@@ -647,7 +650,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   value={engineSizeTo}
                   onChange={handleSelectChange(setEngineSizeTo)}
                 >
-                  <option value="Any">Any</option>
+                  <option value="">Any</option>
                   <option value="0">0L</option>
                   <option value="1">1.0L</option>
                   <option value="2">2.0L</option>
@@ -736,7 +739,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 onChange={handleSelectChange(setco2Emission)}
               >
                 <option value="Any">Any</option>
-                <option value="0">Upto 0 g/km CO2</option>
+                <option value="30">Upto 30 g/km CO2</option>
                 <option value="75">Upto 75 g/km CO2</option>
                 <option value="100">Upto 100 g/km CO2</option>
                 <option value="110">Upto 110 g/km CO2</option>

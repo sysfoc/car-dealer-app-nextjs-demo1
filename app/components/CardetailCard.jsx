@@ -52,6 +52,11 @@ const CardetailCard = () => {
   const [seats, setSeats] = useQueryState("seats", []);
   const [fuel, setFuel] = useQueryState("fuel", []);
 
+  const [engineSizeFrom] = useQueryState("engineSizeFrom", "");
+  const [engineSizeTo] = useQueryState("engineSizeTo", "");
+  const [enginePowerFrom] = useQueryState("enginePowerFrom", "");
+  const [enginePowerTo] = useQueryState("enginePowerTo", "");
+
   // const safeDoors = Array.isArray(doors) ? doors : [];
   const safeDoors = Array.isArray(doors)
     ? doors.map((door) => parseInt(door, 10)).filter(Number.isInteger)
@@ -65,6 +70,13 @@ const CardetailCard = () => {
 
   const [battery, setBattery] = useQueryState("battery", "Any");
   const [charging, setCharging] = useQueryState("charging", "Any");
+  const [fuelConsumption, setFuelConsumption] = useQueryState(
+    "fuelConsumption",
+    "Any",
+  );
+  const [co2Emission, setco2Emission] = useQueryState("co2Emission", "Any");
+  const [driveType, setDrivetype] = useQueryState("driveType", []);
+  const safedriveType = Array.isArray(driveType) ? driveType : [];
 
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
@@ -90,16 +102,25 @@ const CardetailCard = () => {
       fuel,
       battery,
       charging,
+      engineSizeFrom,
+      engineSizeTo,
+      enginePowerFrom,
+      enginePowerTo,
+      fuelConsumption,
+      co2Emission,
+      driveType,
     }).toString();
 
     // paste below line in .env
     // NEXT_PUBLIC_API_URL=http://localhost:3000/api/
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
+    console.log("API URL:", `${apiUrl}/cars?${query}`);
 
     fetch(`${apiUrl}/cars?${query}`)
       .then((res) => {
         if (!res.ok) {
+          console.error(`API error: ${res.status} ${res.statusText}`);
           throw new Error("Network response was not ok");
         }
         return res.json();
@@ -130,6 +151,13 @@ const CardetailCard = () => {
     fuel,
     charging,
     battery,
+    engineSizeFrom,
+    engineSizeTo,
+    enginePowerFrom,
+    enginePowerTo,
+    fuelConsumption,
+    co2Emission,
+    driveType,
   ]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
@@ -143,12 +171,10 @@ const CardetailCard = () => {
     : [parseInt(price, 10)].filter(Boolean);
   const safeGearBox = Array.isArray(gearBox) ? gearBox : [];
 
-  console.log("safeGearBox:", safeGearBox);
+  // console.log("safeGearBox:", safeGearBox);
 
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
-      // console.log("Car Object for Filtering:", car);
-
       const matchesKeyword = keyword
         ? car.make.toLowerCase().includes(keyword.toLowerCase()) ||
           car.model.toLowerCase().includes(keyword.toLowerCase())
@@ -207,6 +233,10 @@ const CardetailCard = () => {
       const matchesFuelType = safeFuel.length
         ? safeFuel.includes(car.fuelType?.toLowerCase())
         : true;
+      const matchesDriveType = safedriveType.length
+        ? safedriveType.includes(car.driveType?.toLowerCase())
+        : true;
+
       const matchesBatteryrange = car.batteryRange
         ? (() => {
             const batteryRange = battery ? parseInt(battery, 10) : null;
@@ -227,6 +257,45 @@ const CardetailCard = () => {
           })()
         : true;
 
+      const matchesEngineSize =
+        (!engineSizeFrom ||
+          parseInt(car.engineSize, 10) >= parseInt(engineSizeFrom, 10)) &&
+        (!engineSizeTo ||
+          parseInt(car.engineSize, 10) <= parseInt(engineSizeTo, 10));
+
+      const matchesEnginePower =
+        (!enginePowerFrom ||
+          parseInt(car.enginePower, 10) >= parseInt(enginePowerFrom, 10)) &&
+        (!enginePowerTo ||
+          parseInt(car.enginePower, 10) <= parseInt(enginePowerTo, 10));
+
+      const matchesFuelConsumption = car.fuelConsumption
+        ? (() => {
+            const selectedFuelConsumption = fuelConsumption
+              ? parseInt(fuelConsumption, 10)
+              : null;
+            const carFuelConsumption = car.fuelConsumption
+              ? parseInt(car.fuelConsumption, 10)
+              : null;
+            return selectedFuelConsumption
+              ? carFuelConsumption === selectedFuelConsumption
+              : true;
+          })()
+        : true;
+      const matchesCo2Emission = car.co2Emission
+        ? (() => {
+            const selectedCo2Emission = co2Emission
+              ? parseInt(co2Emission, 10)
+              : null;
+            const carCo2Emission = car.co2Emission
+              ? parseInt(car.co2Emission, 10)
+              : null;
+            return selectedCo2Emission
+              ? carCo2Emission === selectedCo2Emission
+              : true;
+          })()
+        : true;
+
       return (
         matchesKeyword &&
         matchesCondition &&
@@ -242,10 +311,15 @@ const CardetailCard = () => {
         matchesSeats &&
         matchesFuelType &&
         matchesBatteryrange &&
-        matchesChargingTime
+        matchesChargingTime &&
+        matchesEngineSize &&
+        matchesEnginePower &&
+        matchesFuelConsumption &&
+        matchesCo2Emission &&
+        matchesDriveType
       );
     });
-    console.log("Filtered Cars:", filtered);
+    // console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
   }, [
     keyword,
@@ -266,6 +340,13 @@ const CardetailCard = () => {
     fuel,
     charging,
     battery,
+    engineSizeFrom,
+    engineSizeTo,
+    enginePowerFrom,
+    enginePowerTo,
+    fuelConsumption,
+    co2Emission,
+    driveType,
   ]);
 
   if (loading) {
@@ -277,16 +358,6 @@ const CardetailCard = () => {
 
   return (
     <>
-      {/* {filteredCars.map((car) => (
-        <div key={car.id}>
-          <h3>
-            {car.make} - {car.model}
-          </h3>
-          <p>Price: {car.price}</p>
-          <p>Condition: {car.condition}</p>
-          <p>Location: {car.location}</p>
-        </div>
-      ))} */}
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
