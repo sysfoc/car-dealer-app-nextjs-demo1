@@ -139,7 +139,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const FilterSection = ({ label, content, symbol, children }) => (
     <div>
       <div
-        className="filter-header flex cursor-pointer flex-row items-center justify-between rounded-t-md bg-blue-950 px-5 py-3 dark:bg-gray-700"
+        className="flex cursor-pointer flex-row items-center justify-between rounded-t-md bg-blue-950 px-5 py-3 dark:bg-gray-700"
         onClick={() => toggleSection(content)}
       >
         <div className="flex items-center gap-x-3">
@@ -153,7 +153,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
         />
       </div>
       <div
-        className={`filter-content ${openSections.includes(content) ? "block" : "hidden"} border border-gray-300 p-3`}
+        className={`${openSections.includes(content) ? "block" : "hidden"} border border-gray-300 p-3`}
       >
         {children}
       </div>

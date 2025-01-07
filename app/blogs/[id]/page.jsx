@@ -27,7 +27,7 @@ const page = () => {
               <span>Oct 04, 2024</span>
             </div>
           </div>
-          <h1 className="dark:red mt-3 text-2xl font-bold sm:mt-5 sm:text-4xl">
+          <h1 className="mt-3 text-2xl font-bold sm:mt-5 sm:text-4xl">
             Top 5 Vehicals to buy in 2025 - The Biggest Car Launches of 2025
           </h1>
           <div className="mt-5 flex items-center gap-10">
