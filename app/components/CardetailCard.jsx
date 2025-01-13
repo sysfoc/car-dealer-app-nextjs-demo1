@@ -40,7 +40,7 @@ const CardetailCard = () => {
   const [price] = useQueryState("price", []);
   const [minYear] = useQueryState("minYear", []);
   const [maxYear] = useQueryState("maxYear", []);
-  const [make] = useQueryState("make", []);
+  const [model] = useQueryState("model", []);
   const [millageFrom] = useQueryState("millageFrom", "");
   const [millageTo] = useQueryState("millageTo", "");
   const [gearBox] = useQueryState("gearBox", []);
@@ -92,7 +92,7 @@ const CardetailCard = () => {
       price,
       minYear,
       maxYear,
-      make,
+      model,
       millageFrom,
       millageTo,
       gearBox,
@@ -141,7 +141,7 @@ const CardetailCard = () => {
     price,
     minYear,
     maxYear,
-    make,
+    model,
     millageFrom,
     millageTo,
     gearBox,
@@ -164,8 +164,8 @@ const CardetailCard = () => {
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
 
-  const safeMake =
-    Array.isArray(make) && make.length > 0 ? make : make ? [make] : [];
+  const safeModel =
+    Array.isArray(model) && model.length > 0 ? model : model ? [model] : [];
 
   const safePrice = Array.isArray(price)
     ? price.map((p) => parseInt(p, 10))
@@ -203,8 +203,10 @@ const CardetailCard = () => {
         (!minYear || car.year >= parseInt(minYear, 10)) &&
         (!maxYear || car.year <= parseInt(maxYear, 10));
 
-      const matchesMake = safeMake.length
-        ? safeMake.some((make) => make.toLowerCase() === car.make.toLowerCase())
+      const matchesModel = safeModel.length
+        ? safeModel.some(
+            (model) => model.toLowerCase() === car.model.toLowerCase(),
+          )
         : true;
 
       const matchesMileage = car.mileage
@@ -303,7 +305,7 @@ const CardetailCard = () => {
         matchesLocation &&
         matchesPrice &&
         matchesYear &&
-        matchesMake &&
+        matchesModel &&
         matchesMileage &&
         matchesGearBox &&
         matchesbodyType &&
@@ -330,7 +332,7 @@ const CardetailCard = () => {
     cars,
     minYear,
     maxYear,
-    make,
+    model,
     millageFrom,
     millageTo,
     gearBox,

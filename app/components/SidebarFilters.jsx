@@ -49,7 +49,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
   const safePrice = Array.isArray(price) ? price : [];
   const [minYear, setMinYear] = useQueryState("minYear", "");
   const [maxYear, setMaxYear] = useQueryState("maxYear", "");
-  const [make, setMake] = useQueryState("make", []);
+  // const [make, setMake] = useQueryState("make", []);
+  const [model, setModel] = useQueryState("model", []);
 
   const [millageFrom, setMillageFrom] = useQueryState("millageFrom", "");
   const [millageTo, setMillageTo] = useQueryState("millageTo", "");
@@ -104,7 +105,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
     { id: "rear", label: "Rear Wheel Drive" },
   ];
 
-  const safeMake = Array.isArray(make) ? make : [];
+  const safeModel = Array.isArray(model) ? model : [];
 
   const handleFilterChange = (filterKey, filterValue) => {
     setFilters((prevFilters) => ({
@@ -112,9 +113,9 @@ const SidebarFilters = ({ onFiltersChange }) => {
       [filterKey]: filterValue,
     }));
   };
-  useEffect(() => {
-    console.log("safedriveType Updated:", safedriveType);
-  }, [safedriveType]);
+  // useEffect(() => {
+  //   console.log("safedriveType Updated:", safedriveType);
+  // }, [safedriveType]);
 
   const toggleSection = (section) => {
     const updatedSections = openSections.includes(section)
@@ -338,18 +339,18 @@ const SidebarFilters = ({ onFiltersChange }) => {
         },
 
         {
-          label: t("make"),
-          content: "make",
+          label: "Model",
+          content: "Model",
           symbol: <SiCmake fontSize={22} className="text-white" />,
           render: (
             <>
-              {["Toyota1", "Toyota2"].map((value) => (
+              {["Corolla", "sequoio", "147", "146", "159"].map((value) => (
                 <div className="mt-2 flex items-center" key={value}>
                   <TextInput
                     type="checkbox"
                     id={value}
-                    checked={safeMake.includes(value)}
-                    onChange={() => handleCheckboxChange(setMake, value)}
+                    checked={safeModel.includes(value)}
+                    onChange={() => handleCheckboxChange(setModel, value)}
                   />
                   <Label htmlFor={value} className="ml-3 text-sm text-gray-700">
                     {value}
