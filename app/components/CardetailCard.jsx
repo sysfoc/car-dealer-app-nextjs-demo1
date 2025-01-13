@@ -421,7 +421,11 @@ const CardetailCard = () => {
                   className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
                 >
                   <h3 className="font-bold uppercase">
-                    {loading ? <Skeleton height={25} /> : car.make}
+                    {loading ? (
+                      <Skeleton height={25} />
+                    ) : (
+                      `${car.make} - ${car.model}`
+                    )}
                   </h3>
                 </Link>
                 <div className="flex items-center justify-between">
