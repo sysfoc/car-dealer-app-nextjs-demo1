@@ -1,9 +1,10 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-// const uri = "mongodb://localhost:27017/";
-const uri =
-  "mongodb+srv://sysfoc:2alF7MUy7ogSXqby@cardealor.7w3ln.mongodb.net/?retryWrites=true&w=majority&appName=cardealor";
+//paste this in .env
+//MONGODB_URI= mongodb+srv://sysfoc:2alF7MUy7ogSXqby@cardealor.7w3ln.mongodb.net/?retryWrites=true&w=majority&appName=cardealor
+
+const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri);
 

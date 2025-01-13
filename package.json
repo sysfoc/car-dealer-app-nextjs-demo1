@@ -27,6 +27,7 @@
     "react-dom": "^18",
     "react-loading-skeleton": "^3.5.0",
     "react-quill": "^2.0.0",
+    "sweetalert2": "^11.15.10",
     "use-debounce": "^10.0.4"
   },
   "devDependencies": {
