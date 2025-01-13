@@ -41,7 +41,7 @@ export default function LayoutRenderer({ children }) {
             <div className="hidden min-h-screen md:block">
               <Sidebar />
             </div>
-            <div className="w-full overflow-scroll bg-slate-100 px-4 dark:bg-gray-700 sm:px-12">
+            <div className="w-full overflow-x-scroll bg-slate-100 px-4 dark:bg-gray-700 sm:px-12">
               {children}
             </div>
           </div>

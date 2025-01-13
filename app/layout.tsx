@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "@next/font/google";
+import { Poppins } from "next/font/google";
 import { ThemeModeScript } from "flowbite-react";
 import LayoutRenderer from "@/app/components/LayoutRenderer";
 import { NextIntlClientProvider } from "next-intl";
