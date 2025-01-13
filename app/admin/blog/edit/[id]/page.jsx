@@ -1,66 +1,19 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import React, { Suspense, useState } from "react";
 import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
 import Image from "next/image";
-import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
+const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 export default function Page() {
-  const [value, setValue] = useState("");
-  const [ReactQuill, setReactQuill] = useState(null);
+  const [content, setContent] = useState("");
 
-  useEffect(() => {
-    import("react-quill")
-      .then((module) => {
-        setReactQuill(() => module.default);
-      })
-      .catch((error) => {
-        console.error("Error loading ReactQuill:", error);
-      });
-  }, []);
-
-  const modules = {
-    toolbar: [
-      [
-        { header: "1" },
-        { header: "2" },
-        { header: [1, 2, 3, 4, 5, 6, false] },
-        { font: [] },
-      ],
-      [{ size: ["small", false, "large", "huge"] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ script: "sub" }, { script: "super" }],
-      ["blockquote", "code-block"],
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ align: [] }],
-      ["link", "image", "video", "formula"],
-      ["clean"],
-    ],
+  const config = {
+    readonly: false,
+    placeholder: "Start typing...",
+    height: 500,
   };
-
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "color",
-    "background",
-    "script",
-    "blockquote",
-    "code-block",
-    "list",
-    "indent",
-    "align",
-    "link",
-    "image",
-    "video",
-    "formula",
-  ];
 
   return (
     <div className="my-10">
@@ -89,19 +42,16 @@ export default function Page() {
               <TextInput id="slug" placeholder="This is my first post" />
             </div>
             <div>
-              <Label htmlFor="content">Content</Label>
-              {ReactQuill ? (
-                <ReactQuill
-                  id="content"
-                  value={value}
-                  onChange={setValue}
-                  modules={modules}
-                  formats={formats}
-                  className="mb-12 h-72"
+              <p className="text-sm">Content:</p>
+              <Suspense fallback={<p>Loading editor...</p>}>
+                <LazyJoditEditor
+                  value={content}
+                  config={config}
+                  tabIndex={1}
+                  onBlur={(newContent) => setContent(newContent)}
+                  onChange={() => {}}
                 />
-              ) : (
-                <p>Loading editor...</p>
-              )}
+              </Suspense>
             </div>
             <div>
               <Label htmlFor="image">Existed Image</Label>
