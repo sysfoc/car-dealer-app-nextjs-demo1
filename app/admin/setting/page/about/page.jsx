@@ -23,7 +23,7 @@ const Page = () => {
           <TextInput id="name" placeholder="About us" />
         </div>
         <div>
-          <Label htmlFor="content">Content</Label>
+          <p className="text-sm">Content:</p>
           <Suspense fallback={<p>Loading editor...</p>}>
             <LazyJoditEditor
               value={content}

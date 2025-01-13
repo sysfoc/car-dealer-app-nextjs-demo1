@@ -24,10 +24,7 @@ const SalesChart = () => {
       <h2 className="text-xl font-bold">Sales Overview</h2>
       <div className="mt-3 h-[400px] w-full">
         <ResponsiveContainer>
-          <LineChart
-            data={salesData}
-            margin={{ top: 20, right: 10, left: 10, bottom: 5 }}
-          >
+          <LineChart data={salesData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
