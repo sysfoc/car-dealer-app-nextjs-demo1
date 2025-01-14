@@ -45,7 +45,7 @@ const AdminSidebar = () => {
             </SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={TiWorld} label="Manage Website">
-            <SidebarItem href="#">FAQ</SidebarItem>
+            <SidebarItem href="/admin/manage-website/faq">FAQ</SidebarItem>
             <SidebarItem href="#">Testimonial</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={IoSettingsSharp} label="Settings">
