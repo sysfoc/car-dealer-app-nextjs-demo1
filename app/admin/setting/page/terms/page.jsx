@@ -20,7 +20,7 @@ const Page = () => {
       <form className="mt-5 flex flex-col gap-3">
         <div>
           <Label htmlFor="name">Name</Label>
-          <TextInput id="name" placeholder="Terms and conditions" />
+          <TextInput id="name" placeholder="Terms and conditions" required />
         </div>
         <div>
           <p className="text-sm">Content:</p>
@@ -30,7 +30,6 @@ const Page = () => {
               config={config}
               tabIndex={1}
               onBlur={(newContent) => setContent(newContent)}
-              onChange={() => {}}
             />
           </Suspense>
         </div>
