@@ -12,7 +12,19 @@ import Link from "next/link";
 const Page = () => {
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold">Faqs Section</h2>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">FAQ&apos;s Section</h2>
+        </div>
+        <div>
+          <Link
+            href={"/admin/manage-website/faq/add"}
+            className="rounded-lg bg-yellow-500 p-3 text-sm text-white"
+          >
+            Add New
+          </Link>
+        </div>
+      </div>
       <div className="mt-5">
         <Table>
           <TableHead>
@@ -29,7 +41,7 @@ const Page = () => {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -50,7 +62,7 @@ const Page = () => {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -71,7 +83,7 @@ const Page = () => {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -92,7 +104,7 @@ const Page = () => {
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/blog/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
