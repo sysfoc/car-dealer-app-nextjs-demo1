@@ -35,7 +35,11 @@ export default function Home() {
       });
 
       if (response.ok) {
-        Swal.fire("Success", "Valuation submitted successfully!", "success");
+        Swal.fire(
+          "Success",
+          "Valuation submitted ! You Will be Notified Soon",
+          "success",
+        );
         setFormData({ make: "", model: "", valuationType: "" });
       } else {
         throw new Error("Failed to submit data");
