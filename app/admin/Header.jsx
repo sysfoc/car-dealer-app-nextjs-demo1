@@ -26,7 +26,6 @@ const Header = ({ isDarkMode }) => {
           alt="Sysfoc-cars-dealer"
           width={80}
           height={50}
-          style={{ objectPosition: "center" }}
           className="size-auto"
         />
       </NavbarBrand>

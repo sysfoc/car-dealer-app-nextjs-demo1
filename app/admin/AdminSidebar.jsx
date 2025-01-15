@@ -10,9 +10,8 @@ import { FaPencilAlt } from "react-icons/fa";
 import { TiWorld } from "react-icons/ti";
 import { FaList } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
-import { HiChartPie, HiViewBoards } from "react-icons/hi";
+import { HiChartPie } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { IoLanguage } from "react-icons/io5";
 import { MdOutlineMailLock } from "react-icons/md";
 import { SiPowerpages } from "react-icons/si";
 
