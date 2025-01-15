@@ -46,7 +46,9 @@ const AdminSidebar = () => {
           </SidebarCollapse>
           <SidebarCollapse icon={TiWorld} label="Manage Website">
             <SidebarItem href="/admin/manage-website/faq">FAQ</SidebarItem>
-            <SidebarItem href="#">Testimonial</SidebarItem>
+            <SidebarItem href="/admin/manage-website/testimonial">
+              Testimonial
+            </SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={IoSettingsSharp} label="Settings">
             <SidebarItem href="/admin/setting/general">
@@ -54,12 +56,6 @@ const AdminSidebar = () => {
             </SidebarItem>
             <SidebarItem href="/admin/setting/currency">Currency</SidebarItem>
             <SidebarItem href="/admin/setting/social">Social media</SidebarItem>
-          </SidebarCollapse>
-          <SidebarCollapse icon={IoLanguage} label="Language">
-            <SidebarItem href="#">Menu Text</SidebarItem>
-            <SidebarItem href="#">Website Text</SidebarItem>
-            <SidebarItem href="#">Notification Text</SidebarItem>
-            <SidebarItem href="#">Admin Panel Text</SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={SiPowerpages} label="Page Settings">
             <SidebarItem href="/admin/setting/page/home">Home</SidebarItem>
@@ -76,11 +72,6 @@ const AdminSidebar = () => {
           </SidebarCollapse>
           <SidebarItem href="/admin/emails/view" icon={MdOutlineMailLock}>
             Email Templates
-          </SidebarItem>
-        </SidebarItemGroup>
-        <SidebarItemGroup>
-          <SidebarItem href="#" icon={HiViewBoards}>
-            Documentation
           </SidebarItem>
         </SidebarItemGroup>
       </SidebarItems>
