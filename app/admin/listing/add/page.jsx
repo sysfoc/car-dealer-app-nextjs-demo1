@@ -364,70 +364,49 @@ const Page = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="bluetooth" onChange={handleCheckboxChange} />
+                  <Checkbox id="bluetooth" />
                   <Label htmlFor="bluetooth">Bluetooth connectivity</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="usb-ports" onChange={handleCheckboxChange} />
+                  <Checkbox id="usb-ports" />
                   <Label htmlFor="usb-ports">USB ports</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="carplay-androidauto"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="carplay-androidauto" />
                   <Label htmlFor="carplay-androidauto">
                     Apple CarPlay and Android Auto
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="wifi-hotspot" onChange={handleCheckboxChange} />
+                  <Checkbox id="wifi-hotspot" />
                   <Label htmlFor="wifi-hotspot">Wi-Fi hotspot</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="satellite-radio"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="satellite-radio" />
                   <Label htmlFor="satellite-radio">Satellite radio</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="navigation-system"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="navigation-system" />
                   <Label htmlFor="navigation-system">Navigation system</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="touchscreen-display"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="touchscreen-display" />
                   <Label htmlFor="touchscreen-display">
                     Touchscreen infotainment display
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="voice-recognition"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="voice-recognition" />
                   <Label htmlFor="voice-recognition">Voice recognition</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="wireless-charging"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="wireless-charging" />
                   <Label htmlFor="wireless-charging">
                     Wireless charging pad
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="rear-seat-entertainment"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="rear-seat-entertainment" />
                   <Label htmlFor="rear-seat-entertainment">
                     Rear-seat entertainment system
                   </Label>
@@ -435,74 +414,53 @@ const Page = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="air-conditioning"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="air-conditioning" />
                   <Label htmlFor="air-conditioning">Air conditioning</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="climate-control"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="climate-control" />
                   <Label htmlFor="climate-control">
                     Dual-zone or tri-zone climate control
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="heated-seats" onChange={handleCheckboxChange} />
+                  <Checkbox id="heated-seats" />
                   <Label htmlFor="heated-seats">
                     Heated and ventilated seats
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="power-adjustable-seats"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="power-adjustable-seats" />
                   <Label htmlFor="power-adjustable-seats">
                     Power-adjustable seats
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="leather-upholstery"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="leather-upholstery" />
                   <Label htmlFor="leather-upholstery">Leather upholstery</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="keyless-entry"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="keyless-entry" />
                   <Label htmlFor="keyless-entry">
                     Keyless entry and push-button start
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remote-start" onChange={handleCheckboxChange} />
+                  <Checkbox id="remote-start" />
                   <Label htmlFor="remote-start">Remote start</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="power-windows"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="power-windows" />
                   <Label htmlFor="power-windows">
                     Power windows and mirrors
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="sunroof" onChange={handleCheckboxChange} />
+                  <Checkbox id="sunroof" />
                   <Label htmlFor="sunroof">Sunroof or moonroof</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="ambient-lighting"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="ambient-lighting" />
                   <Label htmlFor="ambient-lighting">
                     Ambient interior lighting
                   </Label>
@@ -510,86 +468,65 @@ const Page = () => {
               </div>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="heated-steering-wheel"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="heated-steering-wheel" />
                   <Label htmlFor="heated-steering-wheel">
                     Heated steering wheel
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="abs" onChange={handleCheckboxChange} />
+                  <Checkbox id="abs" />
                   <Label htmlFor="abs">Anti-lock Braking System (ABS)</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="esc" onChange={handleCheckboxChange} />
+                  <Checkbox id="esc" />
                   <Label htmlFor="esc">
                     Electronic Stability Control (ESC)
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="traction-control"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="traction-control" />
                   <Label htmlFor="traction-control">Traction control</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="airbags" onChange={handleCheckboxChange} />
+                  <Checkbox id="airbags" />
                   <Label htmlFor="airbags">
                     Airbags (front, side, curtain)
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="backup-camera"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="backup-camera" />
                   <Label htmlFor="backup-camera">Backup camera</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="blind-spot-monitoring"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="blind-spot-monitoring" />
                   <Label htmlFor="blind-spot-monitoring">
                     Blind-spot monitoring
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="lane-keeping-assist"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="lane-keeping-assist" />
                   <Label htmlFor="lane-keeping-assist">
                     Lane-keeping assist
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="adaptive-cruise-control"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="adaptive-cruise-control" />
                   <Label htmlFor="adaptive-cruise-control">
                     Adaptive cruise control
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="auto-braking" onChange={handleCheckboxChange} />
+                  <Checkbox id="auto-braking" />
                   <Label htmlFor="auto-braking">
                     Automatic emergency braking
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="parking-sensors"
-                    onChange={handleCheckboxChange}
-                  />
+                  <Checkbox id="parking-sensors" />
                   <Label htmlFor="parking-sensors">Parking sensors</Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Checkbox id="tpms" onChange={handleCheckboxChange} />
+                  <Checkbox id="tpms" />
                   <Label htmlFor="tpms">
                     Tire pressure monitoring system (TPMS)
                   </Label>
@@ -606,7 +543,6 @@ const Page = () => {
               <Label htmlFor="comment" className="sr-only">
                 Comments:
               </Label>
-              <Textarea id="comment" className="mb-12 h-72" />
               <Textarea id="comment" className="mb-12 h-72" />
             </div>
           </div>
@@ -631,12 +567,6 @@ const Page = () => {
             </div>
           </div>
           <div className="my-8">
-            <Button
-              type="submit"
-              size={"md"}
-              color={"dark"}
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-            >
             <Button type="submit" size={"md"} color={"dark"} className="w-full">
               Submit
             </Button>
