@@ -490,10 +490,7 @@ const Page = () => {
               <Label htmlFor="comment" className="sr-only">
                 Comments:
               </Label>
-              <Textarea
-                id="comment"
-                className="mb-12 h-72"
-              />
+              <Textarea id="comment" className="mb-12 h-72" />
             </div>
           </div>
           <div className="mt-8">
@@ -517,17 +514,12 @@ const Page = () => {
             </div>
           </div>
           <div className="my-8">
-            <Button
-              type="submit"
-              size={"md"}
-              color={'dark'}
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-            >
+            <Button type="submit" size={"md"} color={"dark"} className="w-full">
               Submit
             </Button>
             <div className="mt-5 text-sm text-gray-600">
               By submitting this form, you agree to the Car Dealer App{" "}
-              <Link href="#" className="text-blue-600 hover:text-blue-700">
+              <Link href="/terms" className="text-blue-600 hover:text-blue-700">
                 Terms of Service
               </Link>
             </div>
