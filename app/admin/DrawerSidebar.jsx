@@ -13,9 +13,8 @@ import { TiWorld } from "react-icons/ti";
 import { FaList } from "react-icons/fa";
 import { RiMenu2Fill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
-import { HiChartPie, HiViewBoards } from "react-icons/hi";
+import { HiChartPie } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { IoLanguage } from "react-icons/io5";
 import { MdOutlineMailLock } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { SiPowerpages } from "react-icons/si";
@@ -54,7 +53,7 @@ const DrawerSidebar = () => {
             >
               <IoMdClose fontSize={20} />
             </Button>
-            <Sidebar aria-label="Sidebar for the dashboard">
+            <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
               <SidebarItems>
                 <SidebarItemGroup>
                   <SidebarItem href="/admin/dashboard" icon={HiChartPie}>
@@ -73,6 +72,9 @@ const DrawerSidebar = () => {
                     <SidebarItem href="/admin/listing/view">
                       Listings
                     </SidebarItem>
+                    <SidebarItem href="/admin/listing/approved">
+                      Pending Listings
+                    </SidebarItem>
                   </SidebarCollapse>
                   <SidebarCollapse icon={FaPencilAlt} label="Manage Blogs">
                     <SidebarItem href="/admin/categories">
@@ -87,8 +89,12 @@ const DrawerSidebar = () => {
                     </SidebarItem>
                   </SidebarCollapse>
                   <SidebarCollapse icon={TiWorld} label="Manage Website">
-                    <SidebarItem href="#">FAQ</SidebarItem>
-                    <SidebarItem href="#">Testimonial</SidebarItem>
+                    <SidebarItem href="/admin/manage-website/faq">
+                      FAQ
+                    </SidebarItem>
+                    <SidebarItem href="/admin/manage-website/testimonial">
+                      Testimonial
+                    </SidebarItem>
                   </SidebarCollapse>
                   <SidebarCollapse icon={IoSettingsSharp} label="Settings">
                     <SidebarItem href="/admin/setting/general">
@@ -98,14 +104,8 @@ const DrawerSidebar = () => {
                       Currency
                     </SidebarItem>
                     <SidebarItem href="/admin/setting/social">
-                      Social Media
+                      Social media
                     </SidebarItem>
-                  </SidebarCollapse>
-                  <SidebarCollapse icon={IoLanguage} label="Language">
-                    <SidebarItem href="#">Menu Text</SidebarItem>
-                    <SidebarItem href="#">Website Text</SidebarItem>
-                    <SidebarItem href="#">Notification Text</SidebarItem>
-                    <SidebarItem href="#">Admin Panel Text</SidebarItem>
                   </SidebarCollapse>
                   <SidebarCollapse icon={SiPowerpages} label="Page Settings">
                     <SidebarItem href="/admin/setting/page/home">
@@ -129,11 +129,6 @@ const DrawerSidebar = () => {
                     icon={MdOutlineMailLock}
                   >
                     Email Templates
-                  </SidebarItem>
-                </SidebarItemGroup>
-                <SidebarItemGroup>
-                  <SidebarItem href="#" icon={HiViewBoards}>
-                    Documentation
                   </SidebarItem>
                 </SidebarItemGroup>
               </SidebarItems>

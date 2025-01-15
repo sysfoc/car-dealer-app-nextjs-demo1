@@ -1,4 +1,6 @@
+import React from "react";
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -6,19 +8,17 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import Image from "next/image";
 import Link from "next/link";
-
-export default function Listing() {
+const Page = () => {
   return (
     <div className="mt-10">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">All Listings</h2>
+          <h2 className="text-2xl font-bold">FAQ&apos;s Section</h2>
         </div>
         <div>
           <Link
-            href={"/admin/listing/add"}
+            href={"/admin/manage-website/faq/add"}
             className="rounded-lg bg-yellow-500 p-3 text-sm text-white"
           >
             Add New
@@ -28,35 +28,20 @@ export default function Listing() {
       <div className="mt-5">
         <Table>
           <TableHead>
-            <TableHeadCell>Featured Photo</TableHeadCell>
-            <TableHeadCell>Name</TableHeadCell>
-            <TableHeadCell>Brand</TableHeadCell>
-            <TableHeadCell>Location</TableHeadCell>
-            <TableHeadCell>Status</TableHeadCell>
-            <TableHeadCell>Is Featured?</TableHeadCell>
-            <TableHeadCell>Actions</TableHeadCell>
+            <TableHeadCell>Serial</TableHeadCell>
+            <TableHeadCell>Title</TableHeadCell>
+            <TableHeadCell>Order</TableHeadCell>
+            <TableHeadCell>Action</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
             <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  style={{ objectPosition: "center" }}
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
+              <TableCell>1</TableCell>
+              <TableCell>If I find a car I like, what should I do?</TableCell>
+              <TableCell>1</TableCell>
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/listing/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -71,25 +56,13 @@ export default function Listing() {
               </TableCell>
             </TableRow>
             <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  style={{ objectPosition: "center" }}
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>How do I search for cars?</TableCell>
+              <TableCell>2</TableCell>
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/listing/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -104,25 +77,34 @@ export default function Listing() {
               </TableCell>
             </TableRow>
             <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  style={{ objectPosition: "center" }}
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
+              <TableCell>3</TableCell>
+              <TableCell>Where can I find credits in my profile?</TableCell>
+              <TableCell>0</TableCell>
               <TableCell>
                 <div className="flex items-center gap-x-5">
                   <Link
-                    href="/admin/listing/edit/2"
+                    href="/admin/manage-website/faq/edit/2"
+                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    href="#"
+                    className="font-medium text-red-500 hover:underline dark:text-red-500"
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <TableCell>4</TableCell>
+              <TableCell>Where are the posting guidelines?</TableCell>
+              <TableCell>3</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-x-5">
+                  <Link
+                    href="/admin/manage-website/faq/edit/2"
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     Edit
@@ -141,4 +123,6 @@ export default function Listing() {
       </div>
     </div>
   );
-}
+};
+
+export default Page;

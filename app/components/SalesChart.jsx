@@ -22,7 +22,7 @@ const SalesChart = () => {
   return (
     <section className="mt-10">
       <h2 className="text-xl font-bold">Sales Overview</h2>
-      <div className="mt-3 h-[400px] w-full">
+      <div className="mt-3 h-[400px] w-[800px] md:w-full">
         <ResponsiveContainer>
           <LineChart data={salesData}>
             <CartesianGrid strokeDasharray="3 3" />

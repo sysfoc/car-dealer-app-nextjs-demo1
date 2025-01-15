@@ -7,7 +7,6 @@ import {
   Select,
   Textarea,
   TextInput,
-  ToggleSwitch,
 } from "flowbite-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -232,7 +231,7 @@ const Page = () => {
                   </div>
                   <div className="flex flex-col">
                     <Label htmlFor="cookie-text-color">
-                      Cookie Consent Background Color
+                      Cookie Consent Text Color
                     </Label>
                     <input
                       id="cookie-text-color"
