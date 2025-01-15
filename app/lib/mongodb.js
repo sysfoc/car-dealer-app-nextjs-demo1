@@ -1,19 +1,46 @@
-import mongoose from "mongoose";
+import { MongoClient } from "mongodb";
 
-const connectDB = async () => {
-  if (mongoose.connections[0].readyState) {
-    console.log("Already connected to MongoDB");
-    console.log(process.env.MONGODB_URI);
-
-    return;
-  }
-  await mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  console.log(process.env.MONGODB_URI);
-
-  console.log("Connected to MongoDB");
+const uri = process.env.MONGODB_URI;
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
 };
+let client;
+``;
+let clientPromise;
 
-export default connectDB;
+if (!process.env.MONGODB_URI) {
+  throw new Error("Add Mongo URI to .env.local");
+}
+
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
+export default clientPromise;
+// import mongoose from "mongoose";
+
+// const connectDB = async () => {
+//   if (mongoose.connections[0].readyState) {
+//     console.log("Already connected to MongoDB");
+//     console.log(process.env.MONGODB_URI);
+
+//     return;
+//   }
+//   await mongoose.connect(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+//   console.log(process.env.MONGODB_URI);
+
+//   console.log("Connected to MongoDB");
+// };
+
+// export default connectDB;
