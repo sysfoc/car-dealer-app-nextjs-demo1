@@ -1,0 +1,52 @@
+import mongoose from "mongoose";
+
+const DealerSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  address: String,
+  contact: String,
+  licence: String,
+  abn: String,
+  map: String,
+});
+
+const CarSchema = new mongoose.Schema({
+  id: Number,
+  dealerId: Number,
+  make: String,
+  model: String,
+  price: Number,
+  type: String,
+  kms: String,
+  fuelType: String,
+  fuelTankFillPrice: String,
+  fuelCapacityPerTank: String,
+  noOfGears: Number,
+  cylinder: Number,
+  features: [String],
+  doors: Number,
+  seats: Number,
+  gearbox: String,
+  engineCapacity: String,
+  images: [String],
+  video: String,
+  sellerComments: String,
+  condition: String,
+  location: String,
+  year: String,
+  mileage: String,
+  bodyType: String,
+  color: String,
+  batteryRange: Number,
+  chargingTime: Number,
+  engineSize: Number,
+  enginePower: Number,
+  fuelConsumption: Number,
+  isFinance: String,
+  slug: String,
+  co2Emission: Number,
+  driveType: String,
+  dealerInfo: DealerSchema,
+});
+
+export default mongoose.models.Car || mongoose.model("Car", CarSchema);

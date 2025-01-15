@@ -11,16 +11,123 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const Page = () => {
-  const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [formData, setFormData] = useState({
+    make: "",
+    model: "",
+    price: 0,
+    type: "",
+    kms: "",
+    fuelType: "",
+    fuelTankFillPrice: "",
+    fuelCapacityPerTank: "",
+    noOfGears: 0,
+    cylinder: 0,
+    features: [],
+    doors: 0,
+    seats: 0,
+    gearbox: "",
+    engineCapacity: "",
+    images: [],
+    video: "",
+    sellerComments: "",
+    condition: "",
+    location: "",
+    year: "",
+    mileage: "",
+    bodyType: "",
+    color: "",
+    batteryRange: 0,
+    chargingTime: 0,
+    engineSize: 0,
+    enginePower: 0,
+    fuelConsumption: 0,
+    isFinance: "",
+    slug: "",
+    co2Emission: 0,
+    driveType: "",
+    dealerInfo: {
+      id: "",
+      name: "",
+      address: "",
+      contact: "",
+      licence: "",
+      abn: "",
+      map: "",
+    },
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleCheckboxChange = (e) => {
-    const label = e.target.nextSibling?.textContent || "";
-    if (e.target.checked) {
-      setSelectedFeatures((prev) => [...prev, label]);
-    } else {
-      setSelectedFeatures((prev) => prev.filter((item) => item !== label));
+    try {
+      const response = await fetch("/api/listings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        Swal.fire("Success!", result.message, "success");
+        setFormData({
+          make: "",
+          model: "",
+          price: 0,
+          type: "",
+          kms: "",
+          fuelType: "",
+          fuelTankFillPrice: "",
+          fuelCapacityPerTank: "",
+          noOfGears: 0,
+          cylinder: 0,
+          features: [],
+          doors: 0,
+          seats: 0,
+          gearbox: "",
+          engineCapacity: "",
+          images: [],
+          video: "",
+          sellerComments: "",
+          condition: "",
+          location: "",
+          year: "",
+          mileage: "",
+          bodyType: "",
+          color: "",
+          batteryRange: 0,
+          chargingTime: 0,
+          engineSize: 0,
+          enginePower: 0,
+          fuelConsumption: 0,
+          isFinance: "",
+          slug: "",
+          co2Emission: 0,
+          driveType: "",
+          dealerInfo: {
+            id: "",
+            name: "",
+            address: "",
+            contact: "",
+            licence: "",
+            abn: "",
+            map: "",
+          },
+        });
+      } else {
+        Swal.fire("Error!", result.message || "Something went wrong.", "error");
+      }
+    } catch (error) {
+      Swal.fire("Error!", "Server error occurred.", "error");
     }
   };
 
@@ -48,7 +155,7 @@ const Page = () => {
     <section className="my-10">
       <h2 className="text-xl font-semibold">Add Listing</h2>
       <div className="mt-5">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <Label htmlFor="images">Add Vehical Images Or Videos</Label>
             <FileInput
@@ -94,6 +201,15 @@ const Page = () => {
             <div className="mb-3 mt-1 border border-gray-300"></div>
           </div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
+            <div>
+              <Label htmlFor="make">Make</Label>
+              <TextInput
+                id="make"
+                name="make"
+                value={formData.make}
+                onChange={handleChange}
+              />
+            </div>
             <div>
               <Label htmlFor="brand-name">Brand Name:</Label>
               <Select id="brand-name">
@@ -490,10 +606,7 @@ const Page = () => {
               <Label htmlFor="comment" className="sr-only">
                 Comments:
               </Label>
-              <Textarea
-                id="comment"
-                className="mb-12 h-72"
-              />
+              <Textarea id="comment" className="mb-12 h-72" />
             </div>
           </div>
           <div className="mt-8">
@@ -520,7 +633,7 @@ const Page = () => {
             <Button
               type="submit"
               size={"md"}
-              color={'dark'}
+              color={"dark"}
               className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
             >
               Submit
