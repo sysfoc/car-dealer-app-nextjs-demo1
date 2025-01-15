@@ -14,7 +14,7 @@ export default function Listing() {
     <div className="mt-10">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">All Blogs</h2>
+          <h2 className="text-2xl font-bold">All Listings</h2>
         </div>
         <div>
           <Link

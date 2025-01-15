@@ -33,6 +33,9 @@ const AdminSidebar = () => {
             </SidebarItem>
             <SidebarItem href="/admin/listing/add">Add Listings</SidebarItem>
             <SidebarItem href="/admin/listing/view">Listings</SidebarItem>
+            <SidebarItem href="/admin/listing/approved">
+              Pending Listings
+            </SidebarItem>
           </SidebarCollapse>
           <SidebarCollapse icon={FaPencilAlt} label="Manage Blogs">
             <SidebarItem href="/admin/categories">Categories</SidebarItem>
