@@ -14,6 +14,29 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 const Page = () => {
+  const featuresList = [
+    { id: "bluetooth", label: "Bluetooth connectivity" },
+    { id: "usb-ports", label: "USB ports" },
+    { id: "carplay-androidauto", label: "Apple CarPlay and Android Auto" },
+    { id: "wifi-hotspot", label: "Wi-Fi hotspot" },
+    { id: "satellite-radio", label: "Satellite radio" },
+    { id: "navigation-system", label: "Navigation system" },
+    { id: "touchscreen-display", label: "Touchscreen infotainment display" },
+    { id: "voice-recognition", label: "Voice recognition" },
+    { id: "wireless-charging", label: "Wireless charging pad" },
+    { id: "rear-seat-entertainment", label: "Rear-seat entertainment system" },
+    { id: "air-conditioning", label: "Air conditioning" },
+    { id: "climate-control", label: "Dual-zone or tri-zone climate control" },
+    { id: "heated-seats", label: "Heated and ventilated seats" },
+    { id: "power-adjustable-seats", label: "Power-adjustable seats" },
+    { id: "leather-upholstery", label: "Leather upholstery" },
+    { id: "keyless-entry", label: "Keyless entry and push-button start" },
+    { id: "remote-start", label: "Remote start" },
+    { id: "power-windows", label: "Power windows and mirrors" },
+    { id: "sunroof", label: "Sunroof or moonroof" },
+    { id: "ambient-lighting", label: "Ambient interior lighting" },
+  ];
+
   const [formData, setFormData] = useState({
     make: "",
     model: "",
@@ -30,7 +53,7 @@ const Page = () => {
     seats: 0,
     gearbox: "",
     engineCapacity: "",
-    images: [],
+    images: {},
     video: "",
     sellerComments: "",
     condition: "",
@@ -58,18 +81,47 @@ const Page = () => {
       map: "",
     },
   });
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
   const handleChange = (e) => {
+    const { name, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        features: {
+          ...prev.features,
+          [name]: checked,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: e.target.value,
+      }));
+    }
+  };
+
+  const handleDealerChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      dealerInfo: {
+        ...prev.dealerInfo,
+        [name]: value,
+      },
     }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/listings", {
+      const response = await fetch("/api/cars", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -202,34 +254,27 @@ const Page = () => {
           </div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
             <div>
-              <Label htmlFor="make">Make</Label>
-              <TextInput
-                id="make"
+              <Label htmlFor="brand-make">Brand Make:</Label>
+              <Select
+                id="brand-make"
                 name="make"
                 value={formData.make}
                 onChange={handleChange}
-              />
-            </div>
-            <div>
-              <Label htmlFor="brand-name">Brand Name:</Label>
-              <Select id="brand-name">
-                <option>Select Brand</option>
-                <option value="toyota">Toyota</option>
-                <option value="honda">Honda</option>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="brand-make">Brand Make:</Label>
-              <Select id="brand-make">
+              >
                 <option>Select Make</option>
                 <option value="corolla">Corolla</option>
                 <option value="civic">Civic</option>
               </Select>
             </div>
             <div>
-              <Label htmlFor="brand-category">Brand Category:</Label>
-              <Select id="brand-category">
-                <option>Select Category</option>
+              <Label htmlFor="brand-Model">Brand Model:</Label>
+              <Select
+                id="brand-Model"
+                name="model"
+                value={formData.model}
+                onChange={handleChange}
+              >
+                <option>Select MOdEL</option>
                 <option value="sedan">Sedan</option>
                 <option value="suv">SUV</option>
                 <option value="hatchback">Hatchback</option>
@@ -239,19 +284,24 @@ const Page = () => {
               </Select>
             </div>
             <div>
-              <Label htmlFor="brand-model">Model:</Label>
-              <Select id="brand-model">
-                <option>Select Model</option>
-                <option value="2002">2002</option>
-                <option value="2006">2006</option>
-                <option value="2012">2012</option>
-                <option value="2018">2018</option>
-                <option value="2024">2024</option>
-              </Select>
+              <Label htmlFor="total-driven">Price:</Label>
+              <TextInput
+                id="price"
+                name="price"
+                type="number"
+                value={formData.price}
+                onChange={handleChange}
+              />
             </div>
+
             <div>
-              <Label htmlFor="condition">Condition:</Label>
-              <Select id="condition">
+              <Label htmlFor="type">Type:</Label>
+              <Select
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+              >
                 <option value="used">Used</option>
                 <option value="new">New</option>
               </Select>
@@ -267,38 +317,46 @@ const Page = () => {
             <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
               <div>
                 <Label htmlFor="total-driven">Total Driven (in km):</Label>
-                <TextInput id="total-driven" type="number" />
+                <TextInput
+                  id="total-driven"
+                  type="number"
+                  name="kms"
+                  value={formData.kms}
+                  onChange={handleChange}
+                />
               </div>
-              <div>
-                <Label htmlFor="average">Average (in Liters):</Label>
-                <Select id="average">
-                  <option>Select</option>
-                  <option value="10-12">10-12</option>
-                  <option value="15-18">15-18</option>
-                  <option value="20">20</option>
-                  <option value="21-23">21-23</option>
-                  <option value="23-25">23-25</option>
-                  <option value="25-28">25-28</option>
-                  <option value="30">30</option>
-                </Select>
-              </div>
+
               <div>
                 <Label htmlFor="fuel-type">Fuel Type:</Label>
-                <Select id="fuel-type">
+                <Select
+                  id="fuel-type"
+                  name="fuelType"
+                  value={formData.fuelType}
+                  onChange={handleChange}
+                >
                   <option value="petrol">Petrol</option>
                   <option value="diesel">Diesel</option>
                   <option value="cng">CNG</option>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="fuel-capacity">
-                  Fuel Capacity (in Liters):
-                </Label>
-                <TextInput id="fuel-capacity" type="number" />
+                <Label htmlFor="fuel-capacity">fuelCapacityPerTank:</Label>
+                <TextInput
+                  id="fuel-capacity"
+                  type="number"
+                  name="fuelCapacityPerTank"
+                  value={formData.fuelCapacityPerTank}
+                  onChange={handleChange}
+                />
               </div>
               <div>
-                <Label htmlFor="filling-cost">Fuel Filling Cost:</Label>
-                <Select id="filling-cost">
+                <Label htmlFor="filling-cost">fuelTankFillPrice:</Label>
+                <Select
+                  id="filling-cost"
+                  name="fuelTankFillPrice"
+                  value={formData.fuelTankFillPrice}
+                  onChange={handleChange}
+                >
                   <option>Select</option>
                   <option value="20">$20</option>
                   <option value="30">$30</option>
@@ -308,14 +366,24 @@ const Page = () => {
               </div>
               <div>
                 <Label htmlFor="gearbox">Gearbox:</Label>
-                <Select id="gearbox">
+                <Select
+                  id="gearbox"
+                  name="gearbox"
+                  value={formData.gearbox}
+                  onChange={handleChange}
+                >
                   <option value="manual">Manual</option>
                   <option value="automatic">Automatic</option>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="no-of-gears">No of Gears:</Label>
-                <Select id="no-of-gears">
+                <Label htmlFor="noOfGears">No of Gears:</Label>
+                <Select
+                  id="noOfGears"
+                  name="noOfGears"
+                  value={formData.noOfGears}
+                  onChange={handleChange}
+                >
                   <option>Select</option>
                   <option value="5">5</option>
                   <option value="6">6</option>
@@ -323,7 +391,12 @@ const Page = () => {
               </div>
               <div>
                 <Label htmlFor="no-of-doors">No of Doors:</Label>
-                <Select id="no-of-doors">
+                <Select
+                  id="doors"
+                  name="doors"
+                  value={formData.doors}
+                  onChange={handleChange}
+                >
                   <option>Select</option>
                   <option value="2">2</option>
                   <option value="4">4</option>
@@ -331,8 +404,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="no-of-seats">No of Seats:</Label>
-                <Select id="no-of-seats">
+                <Label htmlFor="seats">No of Seats:</Label>
+                <Select
+                  id="seats"
+                  name="seats"
+                  value={formData.seats}
+                  onChange={handleChange}
+                >
                   <option>Select</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -344,8 +422,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="cylinders">Cylinders (optional):</Label>
-                <Select id="cylinders">
+                <Label htmlFor="cylinder">Cylinders (optional):</Label>
+                <Select
+                  id="cylinder"
+                  name="cylinder"
+                  value={formData.cylinder}
+                  onChange={handleChange}
+                >
                   <option>Select</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -354,186 +437,173 @@ const Page = () => {
                   <option value="6">6</option>
                 </Select>
               </div>
+              <div>
+                <Label htmlFor="condition">Condition:</Label>
+                <Select
+                  id="condition"
+                  name="condition"
+                  value={formData.condition}
+                  onChange={handleChange}
+                >
+                  <option>Select</option>
+                  <option value="new">New</option>
+                  <option value="old">OLD</option>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="mileage">Millage:</Label>
+                <TextInput
+                  id="mileage"
+                  type="number"
+                  name="mileage"
+                  value={formData.mileage}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="BodyType">BodyType:</Label>
+                <TextInput
+                  id="BodyType"
+                  type="text"
+                  name="bodyType"
+                  value={formData.bodyType}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="color">Color:</Label>
+                <TextInput
+                  id="color"
+                  type="text"
+                  name="color"
+                  value={formData.color}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="location">Location:</Label>
+                <TextInput
+                  id="location"
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="year">Year:</Label>
+                <TextInput
+                  id="year"
+                  type="number"
+                  name="year"
+                  value={formData.year}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="batteryRange">batteryRange:</Label>
+                <TextInput
+                  id="batteryRange"
+                  type="number"
+                  name="batteryRange"
+                  value={formData.batteryRange}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="chargingTime">Charging Time:</Label>
+                <TextInput
+                  id="chargingTime"
+                  type="number"
+                  name="chargingTime"
+                  value={formData.chargingTime}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="engine-capacity">EngineSize:</Label>
+                <TextInput
+                  id="engineSize"
+                  type="number"
+                  name="engineSize"
+                  value={formData.engineSize}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="enginePower">EnginePower:</Label>
+                <TextInput
+                  id="enginePower"
+                  type="number"
+                  name="enginePower"
+                  value={formData.enginePower}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="engine-capacity">fuelConsumption:</Label>
+                <TextInput
+                  id="fuelConsumption"
+                  type="number"
+                  name="fuelConsumption"
+                  value={formData.fuelConsumption}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="isFinance">isFinance:</Label>
+                <TextInput
+                  id="isFinance"
+                  type="text"
+                  name="isFinance"
+                  value={formData.isFinance}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="co2Emission">Co2 Emission</Label>
+                <TextInput
+                  id="engine-capacity"
+                  type="number"
+                  name="co2Emission"
+                  value={formData.co2Emission}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="driveType">driveType</Label>
+                <TextInput
+                  id="driveType"
+                  type="number"
+                  name="driveType"
+                  value={formData.driveType}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
           </div>
           <div className="mt-5">
             <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-              Vehical Features:
+              Vehicle Features:
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="bluetooth" />
-                  <Label htmlFor="bluetooth">Bluetooth connectivity</Label>
+              {featuresList.map((feature) => (
+                <div key={feature.id} className="flex items-center gap-2">
+                  <Checkbox
+                    id={feature.id}
+                    name={feature.id}
+                    checked={formData.features[feature.id] || false}
+                    onChange={handleChange}
+                  />
+                  <Label htmlFor={feature.id}>{feature.label}</Label>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="usb-ports" />
-                  <Label htmlFor="usb-ports">USB ports</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="carplay-androidauto" />
-                  <Label htmlFor="carplay-androidauto">
-                    Apple CarPlay and Android Auto
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="wifi-hotspot" />
-                  <Label htmlFor="wifi-hotspot">Wi-Fi hotspot</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="satellite-radio" />
-                  <Label htmlFor="satellite-radio">Satellite radio</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="navigation-system" />
-                  <Label htmlFor="navigation-system">Navigation system</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="touchscreen-display" />
-                  <Label htmlFor="touchscreen-display">
-                    Touchscreen infotainment display
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="voice-recognition" />
-                  <Label htmlFor="voice-recognition">Voice recognition</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="wireless-charging" />
-                  <Label htmlFor="wireless-charging">
-                    Wireless charging pad
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="rear-seat-entertainment" />
-                  <Label htmlFor="rear-seat-entertainment">
-                    Rear-seat entertainment system
-                  </Label>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="air-conditioning" />
-                  <Label htmlFor="air-conditioning">Air conditioning</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="climate-control" />
-                  <Label htmlFor="climate-control">
-                    Dual-zone or tri-zone climate control
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="heated-seats" />
-                  <Label htmlFor="heated-seats">
-                    Heated and ventilated seats
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="power-adjustable-seats" />
-                  <Label htmlFor="power-adjustable-seats">
-                    Power-adjustable seats
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="leather-upholstery" />
-                  <Label htmlFor="leather-upholstery">Leather upholstery</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="keyless-entry" />
-                  <Label htmlFor="keyless-entry">
-                    Keyless entry and push-button start
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="remote-start" />
-                  <Label htmlFor="remote-start">Remote start</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="power-windows" />
-                  <Label htmlFor="power-windows">
-                    Power windows and mirrors
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="sunroof" />
-                  <Label htmlFor="sunroof">Sunroof or moonroof</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="ambient-lighting" />
-                  <Label htmlFor="ambient-lighting">
-                    Ambient interior lighting
-                  </Label>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="heated-steering-wheel" />
-                  <Label htmlFor="heated-steering-wheel">
-                    Heated steering wheel
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="abs" />
-                  <Label htmlFor="abs">Anti-lock Braking System (ABS)</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="esc" />
-                  <Label htmlFor="esc">
-                    Electronic Stability Control (ESC)
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="traction-control" />
-                  <Label htmlFor="traction-control">Traction control</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="airbags" />
-                  <Label htmlFor="airbags">
-                    Airbags (front, side, curtain)
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="backup-camera" />
-                  <Label htmlFor="backup-camera">Backup camera</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="blind-spot-monitoring" />
-                  <Label htmlFor="blind-spot-monitoring">
-                    Blind-spot monitoring
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="lane-keeping-assist" />
-                  <Label htmlFor="lane-keeping-assist">
-                    Lane-keeping assist
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="adaptive-cruise-control" />
-                  <Label htmlFor="adaptive-cruise-control">
-                    Adaptive cruise control
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="auto-braking" />
-                  <Label htmlFor="auto-braking">
-                    Automatic emergency braking
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="parking-sensors" />
-                  <Label htmlFor="parking-sensors">Parking sensors</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="tpms" />
-                  <Label htmlFor="tpms">
-                    Tire pressure monitoring system (TPMS)
-                  </Label>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
+
           <div className="mt-5">
             <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
               Seller Comments:
@@ -543,7 +613,13 @@ const Page = () => {
               <Label htmlFor="comment" className="sr-only">
                 Comments:
               </Label>
-              <Textarea id="comment" className="mb-12 h-72" />
+              <Textarea
+                id="comment"
+                className="mb-12 h-72"
+                name="sellerComments"
+                value={formData.sellerComments}
+                onChange={handleChange}
+              />
             </div>
           </div>
           <div className="mt-8">
@@ -554,15 +630,43 @@ const Page = () => {
             <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
               <div>
                 <Label htmlFor="address">Address:</Label>
-                <TextInput id="address" type="text" />
+                <TextInput
+                  id="address"
+                  type="text"
+                  name="address"
+                  value={formData.dealerInfo.address}
+                  onChange={(e) => handleDealerChange(e)}
+                />
               </div>
               <div>
                 <Label htmlFor="contact">Contact No:</Label>
-                <TextInput id="contact" type="tel" />
+                <TextInput
+                  id="contact"
+                  type="tel"
+                  name="contact"
+                  value={formData.dealerInfo.contact}
+                  onChange={(e) => handleDealerChange(e)}
+                />
               </div>
               <div>
                 <Label htmlFor="abn-no">ABN No:</Label>
-                <TextInput id="abn-no" type="number" />
+                <TextInput
+                  id="abn-no"
+                  type="text"
+                  name="abn"
+                  value={formData.dealerInfo.abn}
+                  onChange={(e) => handleDealerChange(e)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="abn-no">Map:</Label>
+                <TextInput
+                  id="abn-no"
+                  type="text"
+                  name="map"
+                  value={formData.dealerInfo.map}
+                  onChange={(e) => handleDealerChange(e)}
+                />
               </div>
             </div>
           </div>
