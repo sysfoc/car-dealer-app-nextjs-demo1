@@ -212,6 +212,7 @@ const Page = () => {
             <Label htmlFor="images">Add Vehical Images Or Videos</Label>
             <FileInput
               type="file"
+              name="image"
               multiple
               className="mt-1"
               accept="image/*,video/*"
