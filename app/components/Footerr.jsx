@@ -39,7 +39,7 @@ const Footerr = ({ isDarkMode }) => {
             <FooterLinkGroup col>
               <FooterLink href="#">{t("about")}</FooterLink>
               <FooterLink href="#">{t("contact")}</FooterLink>
-              <FooterLink href="#">{t("terms")}</FooterLink>
+              <FooterLink href="/terms">{t("terms")}</FooterLink>
               <FooterLink href="#">{t("privacy")}</FooterLink>
             </FooterLinkGroup>
           </div>
