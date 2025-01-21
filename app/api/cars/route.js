@@ -47,24 +47,30 @@ export async function POST(req) {
   try {
     const formData = await req.formData();
 
-    const image = formData.get("image");
-
-    if (!image) {
+    const images = formData.getAll("images");
+    if (images.length === 0) {
       return NextResponse.json(
-        { error: "Image file is required" },
+        { error: "At least one image file is required" },
         { status: 400 },
       );
     }
 
-    const fileName = image.name;
-    const filePath = path.join(uploadDir, fileName);
+    const imageUrls = [];
+    for (const image of images) {
+      if (image instanceof File) {
+        const fileName = `${Date.now()}_${image.name}`;
+        const filePath = path.join(uploadDir, fileName);
 
-    const buffer = Buffer.from(await image.arrayBuffer());
-    await fs.promises.writeFile(filePath, buffer);
+        const buffer = Buffer.from(await image.arrayBuffer());
+        await fs.promises.writeFile(filePath, buffer);
+
+        imageUrls.push(`/uploads/${fileName}`);
+      }
+    }
 
     const carData = {
       ...Object.fromEntries(formData.entries()),
-      imageUrl: `/uploads/${fileName}`,
+      imageUrls,
     };
 
     await client.connect();
@@ -76,6 +82,7 @@ export async function POST(req) {
       { status: 201 },
     );
   } catch (error) {
+    console.error("Error in POST request:", error);
     return NextResponse.json(
       { error: "Failed to add car", details: error.message },
       { status: 500 },

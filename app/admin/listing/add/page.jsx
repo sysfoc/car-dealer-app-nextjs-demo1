@@ -53,7 +53,7 @@ const Page = () => {
     seats: 0,
     gearbox: "",
     engineCapacity: "",
-    images: {},
+    images: [],
     video: "",
     sellerComments: "",
     condition: "",
@@ -183,69 +183,14 @@ const Page = () => {
     }
   };
 
-  const [media, setMedia] = useState([]);
-
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-    const newMedia = files.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-      type: file.type.startsWith("video") ? "video" : "image",
-    }));
-    setMedia((prev) => [...prev, ...newMedia]);
-  };
-
-  const handleDeleteMedia = (index) => {
-    setMedia((prev) => {
-      const updatedMedia = [...prev];
-      updatedMedia.splice(index, 1);
-      return updatedMedia;
-    });
-  };
-
   return (
     <section className="my-10">
       <h2 className="text-xl font-semibold">Add Listing</h2>
       <div className="mt-5">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} enctype="multipart/form-data">
           <div>
-            <Label htmlFor="images">Add Vehical Images Or Videos</Label>
-            <FileInput
-              type="file"
-              name="image"
-              multiple
-              className="mt-1"
-              accept="image/*,video/*"
-              onChange={handleFileChange}
-            />
-            <div className="mb-6 mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-              {media.map((item, index) => (
-                <div key={index} className="group relative">
-                  {item.type === "image" ? (
-                    <Image
-                      width={250}
-                      height={250}
-                      src={item.preview}
-                      alt={`Preview ${index + 1}`}
-                      className="h-40 w-full rounded-lg border object-cover"
-                    />
-                  ) : (
-                    <video
-                      controls
-                      src={item.preview}
-                      className="h-40 w-full rounded-lg border object-cover"
-                    />
-                  )}
-                  <button
-                    type="button"
-                    className="absolute right-2 top-2 rounded-full bg-red-600 px-3 py-2 text-white opacity-0 transition group-hover:opacity-100"
-                    onClick={() => handleDeleteMedia(index)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
+            <Label htmlFor="image">Add Vehical Images Or Videos</Label>
+            <FileInput type="file" name="image" multiple className="mt-1" />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
@@ -341,7 +286,7 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="fuel-capacity">fuelCapacityPerTank:</Label>
+                <Label htmlFor="fuel-capacity">fuel Capacity Per Tank:</Label>
                 <TextInput
                   id="fuel-capacity"
                   type="number"
@@ -351,7 +296,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="filling-cost">fuelTankFillPrice:</Label>
+                <Label htmlFor="filling-cost">fuel Tank Fill Price:</Label>
                 <Select
                   id="filling-cost"
                   name="fuelTankFillPrice"
@@ -366,7 +311,7 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="gearbox">Gearbox:</Label>
+                <Label htmlFor="gearbox">Gear Box:</Label>
                 <Select
                   id="gearbox"
                   name="gearbox"
@@ -423,7 +368,7 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="cylinder">Cylinders (optional):</Label>
+                <Label htmlFor="cylinder">Cylinders :</Label>
                 <Select
                   id="cylinder"
                   name="cylinder"
@@ -463,7 +408,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="BodyType">BodyType:</Label>
+                <Label htmlFor="BodyType">Body Type:</Label>
                 <TextInput
                   id="BodyType"
                   type="text"
@@ -503,7 +448,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="batteryRange">batteryRange:</Label>
+                <Label htmlFor="batteryRange">battery Range:</Label>
                 <TextInput
                   id="batteryRange"
                   type="number"
@@ -523,7 +468,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="engine-capacity">EngineSize:</Label>
+                <Label htmlFor="engine-capacity">Engine Size:</Label>
                 <TextInput
                   id="engineSize"
                   type="number"
@@ -533,7 +478,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="enginePower">EnginePower:</Label>
+                <Label htmlFor="enginePower">Engine Power:</Label>
                 <TextInput
                   id="enginePower"
                   type="number"
@@ -543,7 +488,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="engine-capacity">fuelConsumption:</Label>
+                <Label htmlFor="engine-capacity">fuel Consumption:</Label>
                 <TextInput
                   id="fuelConsumption"
                   type="number"
@@ -553,7 +498,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="isFinance">isFinance:</Label>
+                <Label htmlFor="isFinance">Finance Status:</Label>
                 <TextInput
                   id="isFinance"
                   type="text"
@@ -574,7 +519,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="driveType">driveType</Label>
+                <Label htmlFor="driveType">drive Type</Label>
                 <TextInput
                   id="driveType"
                   type="number"

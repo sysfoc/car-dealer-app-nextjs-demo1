@@ -396,16 +396,20 @@ const CardetailCard = () => {
               className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
             >
               <Carousel slideInterval={3000}>
-                {car.images.map((image, i) => (
-                  <Image
-                    key={i}
-                    src={image}
-                    alt={image.alt}
-                    width={300}
-                    height={200}
-                    className={isGridView ? "" : "rounded-md"}
-                  />
-                ))}
+                {Array.isArray(car.images) && car.images.length > 0 ? (
+                  car.images.map((image, i) => (
+                    <Image
+                      key={i}
+                      src={image.src || image} // Use image.src if the object has it, otherwise fallback to the string
+                      alt={image.alt || `Car Image ${i}`} // Use image.alt if provided, fallback to a default
+                      width={300}
+                      height={200}
+                      className={isGridView ? "" : "rounded-md"}
+                    />
+                  ))
+                ) : (
+                  <div>No images available</div>
+                )}
               </Carousel>
             </div>
             <div className="absolute left-2 top-2 flex items-center gap-x-2">
