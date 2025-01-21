@@ -46,13 +46,19 @@ export async function GET() {
 export async function POST(req) {
   try {
     const formData = await req.formData();
+    console.log("Form Data:", [...formData.entries()]);
 
-    const images = formData.getAll("images");
-    if (images.length === 0) {
+    const images = formData.getAll("image");
+    if (!images || images.length === 0) {
       return NextResponse.json(
         { error: "At least one image file is required" },
         { status: 400 },
       );
+    }
+
+    const uploadDir = path.resolve(process.cwd(), "public/uploads");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
     }
 
     const imageUrls = [];
@@ -63,7 +69,6 @@ export async function POST(req) {
 
         const buffer = Buffer.from(await image.arrayBuffer());
         await fs.promises.writeFile(filePath, buffer);
-
         imageUrls.push(`/uploads/${fileName}`);
       }
     }
@@ -72,6 +77,8 @@ export async function POST(req) {
       ...Object.fromEntries(formData.entries()),
       imageUrls,
     };
+
+    console.log("Car Data to Insert:", carData);
 
     await client.connect();
     const db = client.db("cardealor");

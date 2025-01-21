@@ -8,7 +8,7 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
-import Image from "next/image";
+
 import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -83,6 +83,9 @@ const Page = () => {
     condition: "",
     location: "",
     year: "",
+    modelYear: "",
+    registerationPlate: "",
+    registerationExpire: "",
     mileage: "",
     bodyType: "",
     color: "",
@@ -106,13 +109,7 @@ const Page = () => {
       map: "",
     },
   });
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
+
   const handleChange = (e) => {
     const { name, type, checked } = e.target;
 
@@ -144,65 +141,21 @@ const Page = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formElement = e.target; // The form element
+    const formData = new FormData(formElement);
     try {
       const response = await fetch("/api/cars", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: formData, // Send as FormData
       });
 
       const result = await response.json();
 
-      if (result.success) {
+      if (response.ok) {
         Swal.fire("Success!", result.message, "success");
-        setFormData({
-          make: "",
-          model: "",
-          price: 0,
-          type: "",
-          kms: "",
-          fuelType: "",
-          fuelTankFillPrice: "",
-          fuelCapacityPerTank: "",
-          noOfGears: 0,
-          cylinder: 0,
-          features: [],
-          doors: 0,
-          seats: 0,
-          gearbox: "",
-          engineCapacity: "",
-          images: [],
-          video: "",
-          sellerComments: "",
-          condition: "",
-          location: "",
-          year: "",
-          mileage: "",
-          bodyType: "",
-          color: "",
-          batteryRange: 0,
-          unit: "miles",
-          chargingTime: 0,
-          engineSize: 0,
-          enginePower: 0,
-          fuelConsumption: 0,
-          isFinance: "",
-          slug: "",
-          co2Emission: 0,
-          driveType: "",
-          dealerInfo: {
-            id: "",
-            name: "",
-            address: "",
-            contact: "",
-            licence: "",
-            abn: "",
-            map: "",
-          },
-        });
+        formElement.reset(); // Reset the form after successful submission
       } else {
-        Swal.fire("Error!", result.message || "Something went wrong.", "error");
+        Swal.fire("Error!", result.error || "Something went wrong.", "error");
       }
     } catch (error) {
       Swal.fire("Error!", "Server error occurred.", "error");
