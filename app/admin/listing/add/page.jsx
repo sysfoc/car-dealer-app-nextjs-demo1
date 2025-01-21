@@ -36,6 +36,30 @@ const Page = () => {
     { id: "sunroof", label: "Sunroof or moonroof" },
     { id: "ambient-lighting", label: "Ambient interior lighting" },
   ];
+  const batteryRangeOptions = {
+    km: [
+      "Up to 100 km",
+      "101–200 km",
+      "201–300 km",
+      "301–400 km",
+      "401–500 km",
+      "501–600 km",
+      "601–700 km",
+      "701–800 km",
+      "800+ km",
+    ],
+    miles: [
+      "Up to 62 miles",
+      "63–124 miles",
+      "125–186 miles",
+      "187–249 miles",
+      "250–311 miles",
+      "312–373 miles",
+      "374–435 miles",
+      "436–497 miles",
+      "497+ miles",
+    ],
+  };
 
   const [formData, setFormData] = useState({
     make: "",
@@ -63,6 +87,7 @@ const Page = () => {
     bodyType: "",
     color: "",
     batteryRange: 0,
+    unit: "km",
     chargingTime: 0,
     engineSize: 0,
     enginePower: 0,
@@ -157,6 +182,7 @@ const Page = () => {
           bodyType: "",
           color: "",
           batteryRange: 0,
+          unit: "km",
           chargingTime: 0,
           engineSize: 0,
           enginePower: 0,
@@ -280,13 +306,29 @@ const Page = () => {
                   value={formData.fuelType}
                   onChange={handleChange}
                 >
-                  <option value="petrol">Petrol</option>
+                  <option value="petrol"> Petrol (Gasoline)</option>
                   <option value="diesel">Diesel</option>
-                  <option value="cng">CNG</option>
+                  <option value="Electric">Electric</option>
+                  <option value="Hybrid (Petrol/Electric)">
+                    Hybrid (Petrol/Electric)
+                  </option>
+                  <option value="Plug-in Hybrid (PHEV)">
+                    Plug-in Hybrid (PHEV)
+                  </option>
+                  <option value="CNG (Compressed Natural Gas)">
+                    CNG (Compressed Natural Gas)
+                  </option>
+                  <option value="LPG (Liquefied Petroleum Gas)">
+                    LPG (Liquefied Petroleum Gas)
+                  </option>
+                  <option value="Hydrogen Fuel Cell">Hydrogen Fuel Cell</option>
+                  <option value="Ethanol (Flex-Fuel)">
+                    Ethanol (Flex-Fuel)
+                  </option>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="fuel-capacity">fuel Capacity Per Tank:</Label>
+                <Label htmlFor="fuel-capacity">Fuel Capacity Per Tank:</Label>
                 <TextInput
                   id="fuel-capacity"
                   type="number"
@@ -296,7 +338,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="filling-cost">fuel Tank Fill Price:</Label>
+                <Label htmlFor="filling-cost">Fuel Tank Fill Price:</Label>
                 <Select
                   id="filling-cost"
                   name="fuelTankFillPrice"
@@ -320,6 +362,7 @@ const Page = () => {
                 >
                   <option value="manual">Manual</option>
                   <option value="automatic">Automatic</option>
+                  <option value="automatic">Semi Automatic</option>
                 </Select>
               </div>
               <div>
@@ -331,8 +374,18 @@ const Page = () => {
                   onChange={handleChange}
                 >
                   <option>Select</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
+                  <option value="4">4-speed Manual</option>
+                  <option value="5">5-speed Manual</option>
+                  <option value="6">6-speed Manual</option>
+                  <option value="7">7-speed Manual</option>
+                  <option value="8">8-speed Manual</option>
+                  <option value="9">9-speed Manual</option>
+                  <option value="10">10-speed Manual</option>
+                  <option value="11">6-speed DCT</option>
+                  <option value="12">7-speed DCT</option>
+                  <option value="13">8-speed DCT</option>
+                  <option value="14">1-speed (Electric Cars)</option>
+                  <option value="15">Sequential Transmissions</option>
                 </Select>
               </div>
               <div>
@@ -344,9 +397,12 @@ const Page = () => {
                   onChange={handleChange}
                 >
                   <option>Select</option>
-                  <option value="2">2</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
+                  <option value="2">2 Doors</option>
+                  <option value="3">3 Doors</option>
+                  <option value="4">4 Doors</option>
+                  <option value="5">5 Doors</option>
+                  <option value="5">6 Doors</option>
+                  <option value="5">Gullwing or Butterfly Doors</option>
                 </Select>
               </div>
               <div>
@@ -365,6 +421,10 @@ const Page = () => {
                   <option value="6">6</option>
                   <option value="7">7</option>
                   <option value="8">8</option>
+                  <option value="8">9</option>
+                  <option value="8">10</option>
+                  <option value="8">11</option>
+                  <option value="8">12</option>
                 </Select>
               </div>
               <div>
@@ -376,11 +436,15 @@ const Page = () => {
                   onChange={handleChange}
                 >
                   <option>Select</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
+                  <option value="2">2 Cylinders</option>
+                  <option value="3">3 Cylinders</option>
+                  <option value="4">4 Cylinders</option>
+                  <option value="5">5 Cylinders</option>
+                  <option value="6">6 Cylinders</option>
+                  <option value="8">8 Cylinders</option>
+                  <option value="10">10 Cylinders</option>
+                  <option value="12">12 Cylinders</option>
+                  <option value="16">16 Cylinders</option>
                 </Select>
               </div>
               <div>
@@ -409,14 +473,36 @@ const Page = () => {
               </div>
               <div>
                 <Label htmlFor="BodyType">Body Type:</Label>
-                <TextInput
+                <Select
                   id="BodyType"
-                  type="text"
                   name="bodyType"
                   value={formData.bodyType}
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Select Body Type</option>
+                  <option value="Sedan">Sedan</option>
+                  <option value="Hatchback">Hatchback</option>
+                  <option value="SUV (Sports Utility Vehicle)">
+                    SUV (Sports Utility Vehicle)
+                  </option>
+                  <option value="Coupe">Coupe</option>
+                  <option value="Convertible">Convertible</option>
+                  <option value="Wagon (Station Wagon)">
+                    Wagon (Station Wagon)
+                  </option>
+                  <option value="Minivan">Minivan</option>
+                  <option value="Roadster">Roadster</option>
+                  <option value="Supercar">Supercar</option>
+                  <option value="Hypercar">Hypercar</option>
+                  <option value="Grand Tourer (GT)">Grand Tourer (GT)</option>
+                  <option value="Van">Van</option>
+                  <option value="Box Truck">Box Truck</option>
+                  <option value="Flatbed Truck">Flatbed Truck</option>
+                  <option value="Chassis Cab">Chassis Cab</option>
+                  <option value="Panel Van">Panel Van</option>
+                </Select>
               </div>
+
               <div>
                 <Label htmlFor="color">Color:</Label>
                 <TextInput
@@ -438,7 +524,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Year:</Label>
+                <Label htmlFor="year">Build Date :</Label>
                 <TextInput
                   id="year"
                   type="number"
@@ -448,7 +534,37 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="batteryRange">battery Range:</Label>
+                <Label htmlFor="year">Model Year :</Label>
+                <TextInput
+                  id="year"
+                  type="number"
+                  name="modelYear"
+                  value={formData.modelYear}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="year">Registeration Plate:</Label>
+                <TextInput
+                  id="year"
+                  type="text"
+                  name="registerationPlate"
+                  value={formData.registerationPlate}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="year">Registeration Expiry Date :</Label>
+                <TextInput
+                  id="year"
+                  type="date"
+                  name="registerationExpire"
+                  value={formData.registerationExpire}
+                  onChange={handleChange}
+                />
+              </div>
+              {/* <div>
+                <Label htmlFor="batteryRange">Battery Range:</Label>
                 <TextInput
                   id="batteryRange"
                   type="number"
@@ -456,7 +572,39 @@ const Page = () => {
                   value={formData.batteryRange}
                   onChange={handleChange}
                 />
+              </div> */}
+              <div>
+                <Label htmlFor="unit">Select Default Unit:</Label>
+                <Select
+                  id="unit"
+                  name="unit"
+                  value={formData.unit}
+                  onChange={handleChange}
+                  className="mt-1"
+                >
+                  <option value="km">Kilometers (km)</option>
+                  <option value="miles">Miles</option>
+                </Select>
               </div>
+
+              <div className="mt-4">
+                <Label htmlFor="batteryRange">Battery Range:</Label>
+                <Select
+                  id="batteryRange"
+                  name="batteryRange"
+                  value={formData.batteryRange}
+                  onChange={handleChange}
+                  className="mt-1"
+                >
+                  <option value="">Select Battery Range</option>
+                  {batteryRangeOptions[formData.unit].map((range, index) => (
+                    <option key={index} value={range}>
+                      {range}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+
               <div>
                 <Label htmlFor="chargingTime">Charging Time:</Label>
                 <TextInput
@@ -488,7 +636,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="engine-capacity">fuel Consumption:</Label>
+                <Label htmlFor="engine-capacity">Fuel Consumption:</Label>
                 <TextInput
                   id="fuelConsumption"
                   type="number"
@@ -497,15 +645,19 @@ const Page = () => {
                   onChange={handleChange}
                 />
               </div>
+
               <div>
-                <Label htmlFor="isFinance">Finance Status:</Label>
-                <TextInput
+                <Label htmlFor="isFinance">Select Finance status:</Label>
+                <Select
                   id="isFinance"
-                  type="text"
                   name="isFinance"
                   value={formData.isFinance}
                   onChange={handleChange}
-                />
+                  className="mt-1"
+                >
+                  <option value="km">On Finance </option>
+                  <option value="miles">Paid in Full</option>
+                </Select>
               </div>
 
               <div>
@@ -552,7 +704,7 @@ const Page = () => {
 
           <div className="mt-5">
             <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-              Seller Comments:
+              Dealor Comments:
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
             <div>
