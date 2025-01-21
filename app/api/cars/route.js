@@ -46,39 +46,26 @@ export async function GET() {
 export async function POST(req) {
   try {
     const formData = await req.formData();
-    console.log("Form Data:", [...formData.entries()]);
 
-    const images = formData.getAll("image");
-    if (!images || images.length === 0) {
+    const image = formData.get("image");
+
+    if (!image) {
       return NextResponse.json(
-        { error: "At least one image file is required" },
+        { error: "Image file is required" },
         { status: 400 },
       );
     }
 
-    const uploadDir = path.resolve(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
+    const fileName = image.name;
+    const filePath = path.join(uploadDir, fileName);
 
-    const imageUrls = [];
-    for (const image of images) {
-      if (image instanceof File) {
-        const fileName = `${Date.now()}_${image.name}`;
-        const filePath = path.join(uploadDir, fileName);
-
-        const buffer = Buffer.from(await image.arrayBuffer());
-        await fs.promises.writeFile(filePath, buffer);
-        imageUrls.push(`/uploads/${fileName}`);
-      }
-    }
+    const buffer = Buffer.from(await image.arrayBuffer());
+    await fs.promises.writeFile(filePath, buffer);
 
     const carData = {
       ...Object.fromEntries(formData.entries()),
-      imageUrls,
+      imageUrl: `/uploads/${fileName}`,
     };
-
-    console.log("Car Data to Insert:", carData);
 
     await client.connect();
     const db = client.db("cardealor");
@@ -89,7 +76,6 @@ export async function POST(req) {
       { status: 201 },
     );
   } catch (error) {
-    console.error("Error in POST request:", error);
     return NextResponse.json(
       { error: "Failed to add car", details: error.message },
       { status: 500 },

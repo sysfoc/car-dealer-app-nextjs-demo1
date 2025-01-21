@@ -38,7 +38,7 @@ const Footerr = ({ isDarkMode }) => {
             <FooterTitle title={`${t("quickLinks")}`} />
             <FooterLinkGroup col>
               <FooterLink href="/about">{t("about")}</FooterLink>
-              <FooterLink href="#">{t("contact")}</FooterLink>
+              <FooterLink href="/contact">{t("contact")}</FooterLink>
               <FooterLink href="/terms">{t("terms")}</FooterLink>
               <FooterLink href="/privacy">{t("privacy")}</FooterLink>
             </FooterLinkGroup>
