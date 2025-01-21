@@ -1,5 +1,5 @@
 "use client";
-import { Label, Select, TextInput } from "flowbite-react";
+import { Checkbox, Label, Select, TextInput } from "flowbite-react";
 import { useState, useEffect } from "react";
 import { VscSymbolKeyword } from "react-icons/vsc";
 import { SiCmake } from "react-icons/si";
@@ -177,10 +177,11 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <div className="flex flex-col gap-2">
               <label htmlFor="keyword">Keyword</label>
-              <input
+              <TextInput
                 type="text"
                 id="keyword"
                 value={keyword}
+                placeholder="Toyota"
                 onChange={(e) => {
                   const value = e.target.value;
                   handleSearchDebounced(value); // Use the debounced callback
@@ -190,8 +191,6 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 //   setKeyword(value);
                 //   handleFilterChange("keyword", value);
                 // }}
-                placeholder="e.g., Toyota"
-                className="border p-2"
               />
             </div>
           ),
@@ -203,8 +202,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <>
               <div className="mt-2 flex items-center">
-                <TextInput
-                  type="checkbox"
+                <Checkbox
+                  color={"green"}
                   id="new"
                   checked={safeCondition.includes("new")}
                   onChange={() => handleCheckboxChange(setCondition, "new")}
@@ -214,8 +213,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 </Label>
               </div>
               <div className="mt-2 flex items-center">
-                <TextInput
-                  type="checkbox"
+                <Checkbox
+                  color={"green"}
                   id="used"
                   checked={safeCondition.includes("used")}
                   onChange={() => handleCheckboxChange(setCondition, "used")}
@@ -235,31 +234,28 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <>
               <div className="mt-2 flex items-center">
-                <input
-                  type="checkbox"
+                <Checkbox
+                  color={"green"}
                   id="Cityville"
                   checked={safeLocation.includes("Cityville")}
                   onChange={() => {
                     handleCheckboxChange(setLocation, "Cityville");
                   }}
                 />
-                <label
-                  htmlFor="Cityville"
-                  className="ml-3 text-sm text-gray-700"
-                >
+                <label htmlFor="Cityville" className="ml-3 text-sm">
                   Cityville
                 </label>
               </div>
               <div className="mt-2 flex items-center">
-                <input
-                  type="checkbox"
+                <Checkbox
+                  color={"green"}
                   id="uk"
                   checked={safeLocation.includes("uk")}
                   onChange={() => {
                     handleCheckboxChange(setLocation, "uk");
                   }}
                 />
-                <label htmlFor="uk" className="ml-3 text-sm text-gray-700">
+                <label htmlFor="uk" className="ml-3 text-sm">
                   United Kingdom
                 </label>
               </div>
@@ -278,7 +274,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   handleFilterChange("price", "18000");
                   setPrice("18000");
                 }}
-                className={`rounded border ${price === "18000" ? "bg-blue-950 text-white" : "text-blue-950"} px-3 py-2 text-sm transition-all hover:scale-95 hover:bg-blue-950`}
+                className={`rounded border ${price === "18000" ? "bg-blue-950 text-white dark:bg-red-500" : "text-blue-950 dark:text-red-500"} px-3 py-2 text-sm transition-all hover:scale-95`}
               >
                 $18k
               </button>
@@ -288,7 +284,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   handleFilterChange("price", "20000");
                   setPrice("20000");
                 }}
-                className={`rounded border ${price === "20000" ? "bg-blue-950 text-white" : "text-blue-950"} px-3 py-2 text-sm transition-all hover:scale-95 hover:bg-blue-950`}
+                className={`rounded border ${price === "20000" ? "bg-blue-950 text-white dark:bg-red-500" : "text-blue-950 dark:text-red-500"} px-3 py-2 text-sm transition-all hover:scale-95`}
               >
                 $20k
               </button>
@@ -346,8 +342,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
             <>
               {["Corolla", "sequoio", "147", "146", "159"].map((value) => (
                 <div className="mt-2 flex items-center" key={value}>
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={value}
                     checked={safeModel.includes(value)}
                     onChange={() => handleCheckboxChange(setModel, value)}
@@ -406,8 +402,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
           render: (
             <>
               <div className="mt-2 flex items-center">
-                <TextInput
-                  type="checkbox"
+                <Checkbox
+                  color={"green"}
                   id="automatic"
                   name="gearbox"
                   checked={safeGearBox.includes("automatic")}
@@ -421,8 +417,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 </Label>
               </div>
               <div className="mt-2 flex items-center">
-                <TextInput
-                  type="checkbox"
+                <Checkbox
+                  color={"green"}
                   id="manual"
                   name="gearbox"
                   checked={safeGearBox.includes("manual")}
@@ -450,8 +446,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 { id: "suv", label: "SUV" },
               ].map(({ id, label }) => (
                 <div key={id} className="mt-2 flex items-center">
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={id}
                     name={id}
                     checked={safebodyType.includes(id)}
@@ -482,8 +478,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 { id: "green", label: "Green" },
               ].map(({ id, label }) => (
                 <div key={id} className="mt-2 flex items-center">
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={id}
                     name={id}
                     checked={safeColor.includes(id)}
@@ -511,8 +507,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 { id: "5", label: "5 Doors" },
               ].map(({ id, label }) => (
                 <div key={id} className="mt-2 flex items-center">
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={id}
                     name={id}
                     checked={safeDoors.includes(id)}
@@ -540,8 +536,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 { id: "7", label: "7 Seats" },
               ].map(({ id, label }) => (
                 <div key={id} className="mt-2 flex items-center">
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={id}
                     name={id}
                     checked={safeSeats.includes(id)}
@@ -569,8 +565,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
                 { id: "bi-fuel", label: "Bi Fuel" },
               ].map(({ id, label }) => (
                 <div key={id} className="mt-2 flex items-center">
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={id}
                     name={id}
                     checked={safeFuel.includes(id)}
@@ -769,8 +765,8 @@ const SidebarFilters = ({ onFiltersChange }) => {
             <>
               {driveTypeOptions.map((option) => (
                 <div key={option.id} className="mt-2 flex items-center">
-                  <TextInput
-                    type="checkbox"
+                  <Checkbox
+                    color={"green"}
                     id={option.id}
                     name={option.id}
                     checked={safedriveType.includes(option.id)}

@@ -1,4 +1,9 @@
 import React from "react";
+export const metadata = {
+  title: "About Us - Auto Car Dealers",
+  description:
+    "Welcome to Car Dealers! We are a team of innovators, creators, and problem-solvers committed to crafting meaningful digital experiences.",
+};
 
 const page = () => {
   return (

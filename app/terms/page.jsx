@@ -1,5 +1,9 @@
 import React from "react";
-
+export const metadata = {
+  title: "Terms and Conditions - Auto Car Dealers",
+  description:
+    "Please read these terms carefully before using our services. By accessing or using our website, you agree to be bound by these terms.",
+};
 const page = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10 dark:bg-gray-800">
