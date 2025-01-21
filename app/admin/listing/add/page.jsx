@@ -457,11 +457,11 @@ const Page = () => {
                 >
                   <option>Select</option>
                   <option value="new">New</option>
-                  <option value="old">OLD</option>
+                  <option value="Used">Used</option>
                 </Select>
               </div>
 
-              <div>
+              {/* <div>
                 <Label htmlFor="mileage">Millage:</Label>
                 <TextInput
                   id="mileage"
@@ -470,7 +470,7 @@ const Page = () => {
                   value={formData.mileage}
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
               <div>
                 <Label htmlFor="BodyType">Body Type:</Label>
                 <Select
