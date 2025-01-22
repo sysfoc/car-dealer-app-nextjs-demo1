@@ -56,6 +56,9 @@ const AdminSidebar = () => {
             <SidebarItem href="/admin/setting/general">
               General Settings
             </SidebarItem>
+            <SidebarItem href="/admin/setting/default">
+              Default Settings
+            </SidebarItem>
             <SidebarItem href="/admin/setting/currency">Currency</SidebarItem>
             <SidebarItem href="/admin/setting/social">Social media</SidebarItem>
           </SidebarCollapse>
