@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/app/components//Header";
 import Footer from "@/app/components/Footerr";
 import ScrolltoTop from "@/app/components//ScrolltoTop";
+import Cookiebox from "@/app/components/Cookiebox";
 import Sidebar from "@/app/admin/AdminSidebar";
 import Header from "@/app/admin/Header";
 import DrawerSidebar from "@/app/admin/DrawerSidebar";
@@ -55,6 +56,7 @@ export default function LayoutRenderer({ children }) {
       <Navbar isDarkMode={isDarkMode} />
       {children}
       <ScrolltoTop />
+      <Cookiebox />
       <Footer isDarkMode={isDarkMode} />
     </>
   );
