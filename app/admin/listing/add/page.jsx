@@ -141,19 +141,20 @@ const Page = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formElement = e.target; // The form element
+    const formElement = e.target;
     const formData = new FormData(formElement);
     try {
       const response = await fetch("/api/cars", {
         method: "POST",
-        body: formData, // Send as FormData
+        body: formData,
       });
 
       const result = await response.json();
 
       if (response.ok) {
         Swal.fire("Success!", result.message, "success");
-        formElement.reset(); // Reset the form after successful submission
+        formElement.reset();
+        a;
       } else {
         Swal.fire("Error!", result.error || "Something went wrong.", "error");
       }
