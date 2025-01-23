@@ -343,7 +343,7 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="no-of-doors">No of Doors:</Label>
+                <Label htmlFor="doors">No of Doors:</Label>
                 <Select
                   id="doors"
                   name="doors"
@@ -488,9 +488,9 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Model Year:</Label>
+                <Label htmlFor="modelYear">Model Year:</Label>
                 <TextInput
-                  id="year"
+                  id="modelYear"
                   type="number"
                   name="modelYear"
                   value={formData.modelYear}
@@ -498,9 +498,9 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Registeration Plate:</Label>
+                <Label htmlFor="registerationPlate">Registeration Plate:</Label>
                 <TextInput
-                  id="year"
+                  id="registerationPlate"
                   type="text"
                   name="registerationPlate"
                   value={formData.registerationPlate}
@@ -508,9 +508,9 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Registeration Expiry Date:</Label>
+                <Label htmlFor="registerationExpire">Registeration Expiry Date:</Label>
                 <TextInput
-                  id="year"
+                  id="registerationExpire"
                   type="date"
                   name="registerationExpire"
                   value={formData.registerationExpire}
@@ -711,9 +711,9 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="abn-no">Map:</Label>
+                <Label htmlFor="map">Map:</Label>
                 <TextInput
-                  id="abn-no"
+                  id="map"
                   type="text"
                   name="map"
                   value={formData.dealerInfo.map}
