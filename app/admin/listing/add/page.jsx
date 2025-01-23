@@ -173,7 +173,7 @@ const Page = () => {
             <FileInput type="file" name="image" multiple className="mt-1" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
+            <h3 className="mt-3 text-sm font-semibold text-blue-950 dark:text-red-500">
               General Details:
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
@@ -200,7 +200,7 @@ const Page = () => {
                 value={formData.model}
                 onChange={handleChange}
               >
-                <option>Select MOdEL</option>
+                <option>Select Model</option>
                 <option value="sedan">Sedan</option>
                 <option value="suv">SUV</option>
                 <option value="hatchback">Hatchback</option>
@@ -210,7 +210,7 @@ const Page = () => {
               </Select>
             </div>
             <div>
-              <Label htmlFor="total-driven">Price:</Label>
+              <Label htmlFor="price">Price:</Label>
               <TextInput
                 id="price"
                 name="price"
@@ -382,7 +382,7 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="cylinder">Cylinders :</Label>
+                <Label htmlFor="cylinder">Cylinders:</Label>
                 <Select
                   id="cylinder"
                   name="cylinder"
@@ -478,7 +478,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Build Date :</Label>
+                <Label htmlFor="year">Build Date:</Label>
                 <TextInput
                   id="year"
                   type="number"
@@ -488,7 +488,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Model Year :</Label>
+                <Label htmlFor="year">Model Year:</Label>
                 <TextInput
                   id="year"
                   type="number"
@@ -508,7 +508,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="year">Registeration Expiry Date :</Label>
+                <Label htmlFor="year">Registeration Expiry Date:</Label>
                 <TextInput
                   id="year"
                   type="date"
@@ -541,7 +541,7 @@ const Page = () => {
                 </Select>
               </div>
 
-              <div className="mt-4">
+              <div>
                 <Label htmlFor="batteryRange">Battery Range:</Label>
                 <Select
                   id="batteryRange"
@@ -570,7 +570,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="engine-capacity">Engine Size:</Label>
+                <Label htmlFor="engineSize">Engine Size:</Label>
                 <TextInput
                   id="engineSize"
                   type="number"
@@ -590,7 +590,7 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="engine-capacity">Fuel Consumption:</Label>
+                <Label htmlFor="fuelConsumption">Fuel Consumption:</Label>
                 <TextInput
                   id="fuelConsumption"
                   type="number"
@@ -617,7 +617,7 @@ const Page = () => {
               <div>
                 <Label htmlFor="co2Emission">Co2 Emission</Label>
                 <TextInput
-                  id="engine-capacity"
+                  id="co2Emission"
                   type="number"
                   name="co2Emission"
                   value={formData.co2Emission}
@@ -628,7 +628,7 @@ const Page = () => {
                 <Label htmlFor="driveType">drive Type</Label>
                 <TextInput
                   id="driveType"
-                  type="number"
+                  type="text"
                   name="driveType"
                   value={formData.driveType}
                   onChange={handleChange}
@@ -643,7 +643,7 @@ const Page = () => {
             <div className="mb-3 mt-1 border border-gray-300"></div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               {featuresList.map((feature) => (
-                <div key={feature.id} className="flex items-center gap-2">
+                <div key={feature.id} className="mt-2 flex items-center gap-2">
                   <Checkbox
                     id={feature.id}
                     name={feature.id}
