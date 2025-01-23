@@ -3,7 +3,7 @@ import React from "react";
 
 const Cookiebox = () => {
   return (
-    <section className="fixed bottom-5 right-5 z-10 shadow-lg">
+    <section className="fixed bottom-3 right-3 z-10 shadow-lg">
       <div className="w-[350px] rounded-md bg-white px-6 py-4 dark:bg-gray-700">
         <div>
           <div>
