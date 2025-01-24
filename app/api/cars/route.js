@@ -47,36 +47,51 @@ export async function GET() {
 export async function POST(req) {
   try {
     const formData = await req.formData();
+    const formEntries = Object.fromEntries(formData.entries());
+    console.log("Form Data Received:", formEntries);
 
-    const image = formData.get("image");
+    const images = formData.getAll("image");
 
-    if (!image) {
+    if (images.length === 0) {
       return NextResponse.json(
-        { error: "Image file is required" },
+        { error: "At least one image is required" },
         { status: 400 },
       );
     }
 
-    const fileName = image.name;
-    const filePath = path.join(uploadDir, fileName);
+    const imageUrls = [];
 
-    const buffer = Buffer.from(await image.arrayBuffer());
-    await fs.promises.writeFile(filePath, buffer);
+    for (const image of images) {
+      const fileName = `${Date.now()}-${image.name}`;
+      const filePath = path.join(uploadDir, fileName);
 
+      const buffer = Buffer.from(await image.arrayBuffer());
+      await fs.promises.writeFile(filePath, buffer);
+
+      imageUrls.push(`/uploads/${fileName}`);
+    }
+    const features = JSON.parse(formEntries.features || "[]");
     const carData = {
-      ...Object.fromEntries(formData.entries()),
-      imageUrl: `/uploads/${fileName}`,
+      ...formEntries,
+      features,
+      imageUrls,
     };
+
+    console.log("Car Data to Insert:", carData);
 
     await client.connect();
     const db = client.db("cardealor");
     const result = await db.collection("cars").insertOne(carData);
 
     return NextResponse.json(
-      { message: "Car added successfully", data: result },
+      {
+        message: "Car added successfully",
+        data: { ...carData, _id: result.insertedId },
+      },
       { status: 201 },
     );
   } catch (error) {
+    console.error("Error occurred:", error);
     return NextResponse.json(
       { error: "Failed to add car", details: error.message },
       { status: 500 },

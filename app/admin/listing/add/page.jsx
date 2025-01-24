@@ -143,6 +143,13 @@ const Page = () => {
     e.preventDefault();
     const formElement = e.target;
     const formData = new FormData(formElement);
+
+    const selectedFeatures = featuresList
+      .filter((feature) => formData.get(feature.id) === "on")
+      .map((feature) => feature.label);
+
+    formData.set("features", JSON.stringify(selectedFeatures));
+
     try {
       const response = await fetch("/api/cars", {
         method: "POST",
@@ -150,11 +157,10 @@ const Page = () => {
       });
 
       const result = await response.json();
-
+      console.log("result", result);
       if (response.ok) {
         Swal.fire("Success!", result.message, "success");
         formElement.reset();
-        a;
       } else {
         Swal.fire("Error!", result.error || "Something went wrong.", "error");
       }
@@ -508,7 +514,9 @@ const Page = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="registerationExpire">Registeration Expiry Date:</Label>
+                <Label htmlFor="registerationExpire">
+                  Registeration Expiry Date:
+                </Label>
                 <TextInput
                   id="registerationExpire"
                   type="date"
