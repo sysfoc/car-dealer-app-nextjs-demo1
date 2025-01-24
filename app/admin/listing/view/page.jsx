@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -7,9 +8,50 @@ import {
   TableRow,
 } from "flowbite-react";
 import Image from "next/image";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function Listing() {
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/cars/${id}`, { method: "DELETE" });
+      if (response.ok) {
+        setCars(cars.filter((car) => car._id !== id));
+        alert("Car deleted successfully!");
+      } else {
+        alert("Failed to delete car");
+      }
+    } catch (error) {
+      console.error("Error deleting car:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await fetch("/api/cars");
+        const data = await response.json();
+        setCars(data.cars || []);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch cars:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchCars();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (cars.length === 0) {
+    return <p>No cars found!</p>;
+  }
   return (
     <div className="mt-10">
       <div className="flex items-center justify-between">
@@ -28,114 +70,53 @@ export default function Listing() {
       <div className="mt-5">
         <Table>
           <TableHead>
-            <TableHeadCell>Featured Photo</TableHeadCell>
-            <TableHeadCell>Name</TableHeadCell>
-            <TableHeadCell>Brand</TableHeadCell>
-            <TableHeadCell>Location</TableHeadCell>
-            <TableHeadCell>Status</TableHeadCell>
-            <TableHeadCell>Is Featured?</TableHeadCell>
+            <TableHeadCell>Image first from array</TableHeadCell>
+            <TableHeadCell>make</TableHeadCell>
+            <TableHeadCell>Model</TableHeadCell>
+            <TableHeadCell>price</TableHeadCell>
+            <TableHeadCell>year</TableHeadCell>
+
             <TableHeadCell>Actions</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  style={{ objectPosition: "center" }}
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/listing/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  style={{ objectPosition: "center" }}
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/listing/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  style={{ objectPosition: "center" }}
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>Sliver</TableCell>
-              <TableCell>Laptop</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>$2999</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/listing/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
+            {cars.map((car) => (
+              <TableRow
+                key={car._id}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <TableCell>
+                  <Image
+                    src={car.imageUrls?.[0] || "/Luxury SUV.webp"}
+                    width={80}
+                    height={80}
+                    alt={car.make}
+                    className="rounded-md"
+                  />
+                </TableCell>
+                <TableCell>{car.make}</TableCell>
+                <TableCell>{car.model}</TableCell>
+                <TableCell>{car.price}</TableCell>
+                <TableCell>{car.year}</TableCell>
+
+                <TableCell>
+                  <div className="flex items-center gap-x-5">
+                    <Link
+                      href={`/admin/listing/edit/${car._id}`}
+                      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                    >
+                      Edit
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(car._id)}
+                      className="font-medium text-red-500 hover:underline dark:text-red-500"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

@@ -186,7 +186,7 @@ const Page = () => {
           </div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
             <div>
-              <Label htmlFor="brand-make">Brand Make:</Label>
+              <Label htmlFor="brand-make">Vehicle Make:</Label>
               <Select
                 id="brand-make"
                 name="make"
