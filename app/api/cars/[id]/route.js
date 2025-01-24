@@ -36,3 +36,50 @@ export async function DELETE(req, { params }) {
     await client.close();
   }
 }
+
+export async function PATCH(req, { params }) {
+  const { id } = params;
+
+  try {
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid car ID" }, { status: 400 });
+    }
+
+    const updatedData = await req.json();
+    console.log("Updated Data:", updatedData);
+
+    if (!updatedData || Object.keys(updatedData).length === 0) {
+      return NextResponse.json(
+        { error: "No data provided to update" },
+        { status: 400 },
+      );
+    }
+
+    await client.connect();
+    const db = client.db("cardealor");
+
+    const result = await db
+      .collection("cars")
+      .updateOne({ _id: new ObjectId(id) }, { $set: updatedData });
+
+    if (result.modifiedCount === 0) {
+      return NextResponse.json(
+        { error: "No changes made or car not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Car updated successfully", updatedData },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Error occurred:", error);
+    return NextResponse.json(
+      { error: "Failed to update car", details: error.message },
+      { status: 500 },
+    );
+  } finally {
+    await client.close();
+  }
+}
