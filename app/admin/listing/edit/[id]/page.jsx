@@ -1,4 +1,6 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import {
   Button,
   Checkbox,
@@ -10,531 +12,595 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const Page = () => {
-  const [selectedFeatures, setSelectedFeatures] = useState([]);
+const CarEditPage = ({ params }) => {
+  const router = useRouter();
+  const { id } = params;
+  const [car, setCar] = useState(null);
+  const [formData, setFormData] = useState({
+    make: "",
+    model: "",
+    price: "",
+    type: "",
+    kms: "",
+    fuelType: "",
+    fuelTankFillPrice: "",
+    fuelCapacityPerTank: "",
+    gearbox: "",
+    condition: "",
+    location: "",
+    year: "",
+    mileage: "",
+    bodyType: "",
+    color: "",
+    driveType: "",
+    doors: "",
+    seats: "",
+    noOfGears: "",
+    cylinder: "",
+    batteryRange: "",
+    chargingTime: "",
+    engineSize: "",
+    enginePower: "",
+    fuelConsumption: "",
+    co2Emission: "",
+    features: [],
+    vehicleFullName: "",
+    sellerComments: "",
+    images: [],
+    video: "",
+    isFinance: "",
+    slug: "",
+  });
 
-  const handleCheckboxChange = (e) => {
-    const label = e.target.nextSibling?.textContent || "";
-    if (e.target.checked) {
-      setSelectedFeatures((prev) => [...prev, label]);
-    } else {
-      setSelectedFeatures((prev) => prev.filter((item) => item !== label));
+  useEffect(() => {
+    const fetchCarDetails = async () => {
+      try {
+        const res = await fetch(`/api/cars/${id}`, { method: "GET" });
+        if (res.ok) {
+          const data = await res.json();
+          console.log("Fetched Car Data:", data.car);
+
+          // Populate formData with fetched data
+          setFormData({
+            ...data.car,
+            slug: data.car.make.toLowerCase().replace(/\s+/g, "-"),
+          });
+
+          setCar(data.car);
+        } else {
+          console.error("Failed to fetch car details");
+        }
+      } catch (error) {
+        console.error("Error fetching car details:", error);
+      }
+    };
+
+    fetchCarDetails();
+  }, [id]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFeatureChange = (e) => {
+    const feature = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      features: prev.features.includes(feature)
+        ? prev.features.filter((f) => f !== feature)
+        : [...prev.features, feature],
+    }));
+  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const res = await fetch(`/api/cars/${id}`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (res.ok) {
+  //       const data = await res.json();
+  //       console.log("Car updated successfully:", data);
+  //       alert("Car updated successfully!");
+  //       router.push("/admin/listing/view");
+  //     } else {
+  //       console.error("Failed to update car");
+  //       alert("Failed to update car. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating car:", error);
+  //     alert("An error occurred while updating the car.");
+  //   }
+  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+
+    // Append all form fields to FormData, excluding _id
+    for (const key in formData) {
+      if (key === "_id") continue; // Skip the _id field
+      if (key === "images" && formData.images && formData.images.length > 0) {
+        // Only append images if valid files are selected
+        formData.images.forEach((image, index) => {
+          if (image instanceof File) {
+            formDataToSend.append("images", image); // Append each image file
+          }
+        });
+      } else if (key === "video" && formData.video) {
+        // Only append video if a file is selected
+        formDataToSend.append("video", formData.video);
+      } else if (key === "features") {
+        // Convert features array to JSON string
+        formDataToSend.append(key, JSON.stringify(formData[key]));
+      } else {
+        formDataToSend.append(key, formData[key]); // Append other fields
+      }
+    }
+
+    try {
+      const res = await fetch(`/api/cars/${id}`, {
+        method: "PATCH",
+        body: formDataToSend, // Use FormData
+        // Do NOT set Content-Type header manually
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Car updated successfully:", data);
+        alert("Car updated successfully!");
+        router.push("/admin/listing/view");
+      } else {
+        const errorData = await res.json();
+        console.error("Failed to update car:", errorData);
+        alert(`Failed to update car: ${errorData.error || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error updating car:", error);
+      alert("An error occurred while updating the car.");
     }
   };
 
-  const [media, setMedia] = useState([]);
-
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files);
-    const newMedia = files.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-      type: file.type.startsWith("video") ? "video" : "image",
-    }));
-    setMedia((prev) => [...prev, ...newMedia]);
-  };
-
-  const handleDeleteMedia = (index) => {
-    setMedia((prev) => {
-      const updatedMedia = [...prev];
-      updatedMedia.splice(index, 1);
-      return updatedMedia;
-    });
-  };
+  if (!car) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="my-10">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Edit Listing</h2>
-        </div>
-        <div>
-          <Link
-            href={"/admin/listing/view"}
-            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
-          >
-            View All
-          </Link>
-        </div>
+        <h2 className="text-2xl font-bold">Edit Car Listing</h2>
+        <Link
+          href={"/admin/listing/view"}
+          className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+        >
+          View All
+        </Link>
       </div>
-      <div className="mt-5">
-        <form>
+
+      <form onSubmit={handleSubmit}>
+        {/* Dropdowns */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <Label htmlFor="images">Add Vehical Images Or Videos</Label>
-            <FileInput
-              type="file"
-              multiple
-              id="images"
-              className="mt-1"
-              accept="image/*,video/*"
-              onChange={handleFileChange}
+            <Label htmlFor="make">Make:</Label>
+            <Select
+              id="make"
+              name="make"
+              value={formData.make}
+              onChange={handleInputChange}
+            >
+              <option>Select Make</option>
+              <option value="Alfa Romeo">Alfa Romeo </option>
+              <option value="Toyota">Toyota</option>
+              <option value="BMW">BMW</option>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="model">Model:</Label>
+            <Select
+              id="model"
+              name="model"
+              value={formData.model}
+              onChange={handleInputChange}
+            >
+              <option>Select Model</option>
+              <option value="159">159</option>
+              <option value="Corolla">Corolla</option>
+              <option value="X5">X5</option>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="price">Price:</Label>
+            <TextInput
+              id="price"
+              name="price"
+              type="number"
+              value={formData.price}
+              onChange={handleInputChange}
             />
-            <div className="mb-6 mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-              {media.map((item, index) => (
-                <div key={index} className="group relative">
-                  {item.type === "image" ? (
-                    <Image
-                      width={250}
-                      height={250}
-                      src={item.preview}
-                      alt={`Preview ${index + 1}`}
-                      className="h-40 w-full rounded-lg border object-cover"
-                    />
-                  ) : (
-                    <video
-                      controls
-                      src={item.preview}
-                      className="h-40 w-full rounded-lg border object-cover"
-                    />
-                  )}
-                  <button
-                    type="button"
-                    className="absolute right-2 top-2 rounded-full bg-red-600 px-3 py-2 text-white opacity-0 transition group-hover:opacity-100"
-                    onClick={() => handleDeleteMedia(index)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
           </div>
+
           <div>
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-              General Details:
-            </h3>
-            <div className="mb-3 mt-1 border border-gray-300"></div>
+            <Label htmlFor="type">Vehicle Type:</Label>
+            <Select
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleInputChange}
+            >
+              <option>Select Type</option>
+              <option value="Sedan">Sedan</option>
+              <option value="SUV">SUV</option>
+              <option value="Convertible">Convertible</option>
+            </Select>
           </div>
-          <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
-            <div>
-              <Label htmlFor="brand-name">Brand Name:</Label>
-              <Select id="brand-name">
-                <option>Select Brand</option>
-                <option value="toyota">Toyota</option>
-                <option value="honda">Honda</option>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="brand-make">Brand Make:</Label>
-              <Select id="brand-make">
-                <option>Select Make</option>
-                <option value="corolla">Corolla</option>
-                <option value="civic">Civic</option>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="brand-category">Brand Category:</Label>
-              <Select id="brand-category">
-                <option>Select Category</option>
-                <option value="sedan">Sedan</option>
-                <option value="suv">SUV</option>
-                <option value="hatchback">Hatchback</option>
-                <option value="coupe">Coupe</option>
-                <option value="hybrid">Hybrid</option>
-                <option value="sports">Sports</option>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="brand-model">Model:</Label>
-              <Select id="brand-model">
-                <option>Select Model</option>
-                <option value="2002">2002</option>
-                <option value="2006">2006</option>
-                <option value="2012">2012</option>
-                <option value="2018">2018</option>
-                <option value="2024">2024</option>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="condition">Condition:</Label>
-              <Select id="condition">
-                <option value="used">Used</option>
-                <option value="new">New</option>
-              </Select>
-            </div>
+
+          <div>
+            <Label htmlFor="fuelType">Fuel Type:</Label>
+            <Select
+              id="fuelType"
+              name="fuelType"
+              value={formData.fuelType}
+              onChange={handleInputChange}
+            >
+              <option>Select Fuel Type</option>
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Electric">Electric</option>
+            </Select>
           </div>
-          <div className="mt-5">
-            <div>
-              <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-                Driving Details:
-              </h3>
-              <div className="mb-3 mt-1 border border-gray-300"></div>
-            </div>
-            <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
-              <div>
-                <Label htmlFor="total-driven">Total Driven (in km):</Label>
-                <TextInput id="total-driven" type="number" />
-              </div>
-              <div>
-                <Label htmlFor="average">Average (in Liters):</Label>
-                <Select id="average">
-                  <option>Select</option>
-                  <option value="10-12">10-12</option>
-                  <option value="15-18">15-18</option>
-                  <option value="20">20</option>
-                  <option value="21-23">21-23</option>
-                  <option value="23-25">23-25</option>
-                  <option value="25-28">25-28</option>
-                  <option value="30">30</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="fuel-type">Fuel Type:</Label>
-                <Select id="fuel-type">
-                  <option value="petrol">Petrol</option>
-                  <option value="diesel">Diesel</option>
-                  <option value="cng">CNG</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="fuel-capacity">
-                  Fuel Capacity (in Liters):
-                </Label>
-                <TextInput id="fuel-capacity" type="number" />
-              </div>
-              <div>
-                <Label htmlFor="filling-cost">Fuel Filling Cost:</Label>
-                <Select id="filling-cost">
-                  <option>Select</option>
-                  <option value="20">$20</option>
-                  <option value="30">$30</option>
-                  <option value="40">$40</option>
-                  <option value="50">$50</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="gearbox">Gearbox:</Label>
-                <Select id="gearbox">
-                  <option value="manual">Manual</option>
-                  <option value="automatic">Automatic</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="no-of-gears">No of Gears:</Label>
-                <Select id="no-of-gears">
-                  <option>Select</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="no-of-doors">No of Doors:</Label>
-                <Select id="no-of-doors">
-                  <option>Select</option>
-                  <option value="2">2</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="no-of-seats">No of Seats:</Label>
-                <Select id="no-of-seats">
-                  <option>Select</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="cylinders">Cylinders (optional):</Label>
-                <Select id="cylinders">
-                  <option>Select</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                </Select>
-              </div>
-            </div>
+
+          <div>
+            <Label htmlFor="kms">Kilometers:</Label>
+            <TextInput
+              id="kms"
+              name="kms"
+              value={formData.kms}
+              onChange={handleInputChange}
+            />
           </div>
-          <div className="mt-5">
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-              Vehical Features:
-            </h3>
-            <div className="mb-3 mt-1 border border-gray-300"></div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="bluetooth" onChange={handleCheckboxChange} />
-                  <Label htmlFor="bluetooth">Bluetooth connectivity</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="usb-ports" onChange={handleCheckboxChange} />
-                  <Label htmlFor="usb-ports">USB ports</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="carplay-androidauto"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="carplay-androidauto">
-                    Apple CarPlay and Android Auto
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="wifi-hotspot" onChange={handleCheckboxChange} />
-                  <Label htmlFor="wifi-hotspot">Wi-Fi hotspot</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="satellite-radio"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="satellite-radio">Satellite radio</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="navigation-system"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="navigation-system">Navigation system</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="touchscreen-display"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="touchscreen-display">
-                    Touchscreen infotainment display
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="voice-recognition"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="voice-recognition">Voice recognition</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="wireless-charging"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="wireless-charging">
-                    Wireless charging pad
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="rear-seat-entertainment"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="rear-seat-entertainment">
-                    Rear-seat entertainment system
-                  </Label>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="air-conditioning"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="air-conditioning">Air conditioning</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="climate-control"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="climate-control">
-                    Dual-zone or tri-zone climate control
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="heated-seats" onChange={handleCheckboxChange} />
-                  <Label htmlFor="heated-seats">
-                    Heated and ventilated seats
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="power-adjustable-seats"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="power-adjustable-seats">
-                    Power-adjustable seats
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="leather-upholstery"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="leather-upholstery">Leather upholstery</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="keyless-entry"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="keyless-entry">
-                    Keyless entry and push-button start
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="remote-start" onChange={handleCheckboxChange} />
-                  <Label htmlFor="remote-start">Remote start</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="power-windows"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="power-windows">
-                    Power windows and mirrors
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="sunroof" onChange={handleCheckboxChange} />
-                  <Label htmlFor="sunroof">Sunroof or moonroof</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="ambient-lighting"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="ambient-lighting">
-                    Ambient interior lighting
-                  </Label>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="heated-steering-wheel"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="heated-steering-wheel">
-                    Heated steering wheel
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="abs" onChange={handleCheckboxChange} />
-                  <Label htmlFor="abs">Anti-lock Braking System (ABS)</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="esc" onChange={handleCheckboxChange} />
-                  <Label htmlFor="esc">
-                    Electronic Stability Control (ESC)
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="traction-control"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="traction-control">Traction control</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="airbags" onChange={handleCheckboxChange} />
-                  <Label htmlFor="airbags">
-                    Airbags (front, side, curtain)
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="backup-camera"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="backup-camera">Backup camera</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="blind-spot-monitoring"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="blind-spot-monitoring">
-                    Blind-spot monitoring
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="lane-keeping-assist"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="lane-keeping-assist">
-                    Lane-keeping assist
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="adaptive-cruise-control"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="adaptive-cruise-control">
-                    Adaptive cruise control
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="auto-braking" onChange={handleCheckboxChange} />
-                  <Label htmlFor="auto-braking">
-                    Automatic emergency braking
-                  </Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="parking-sensors"
-                    onChange={handleCheckboxChange}
-                  />
-                  <Label htmlFor="parking-sensors">Parking sensors</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox id="tpms" onChange={handleCheckboxChange} />
-                  <Label htmlFor="tpms">
-                    Tire pressure monitoring system (TPMS)
-                  </Label>
-                </div>
-              </div>
-            </div>
+
+          <div>
+            <Label htmlFor="gearbox">Gearbox:</Label>
+            <Select
+              id="gearbox"
+              name="gearbox"
+              value={formData.gearbox}
+              onChange={handleInputChange}
+            >
+              <option>Select Gearbox</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
+            </Select>
           </div>
-          <div className="mt-5">
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-              Seller Comments:
-            </h3>
-            <div className="mb-3 mt-1 border border-gray-300"></div>
-            <div>
-              <Label htmlFor="comment" className="sr-only">
-                Comments:
-              </Label>
-              <Textarea id="comment" className="mb-12 h-72" />
-            </div>
+
+          <div>
+            <Label htmlFor="condition">Condition:</Label>
+            <Select
+              id="condition"
+              name="condition"
+              value={formData.condition}
+              onChange={handleInputChange}
+            >
+              <option>Select Condition</option>
+              <option value="New">New</option>
+              <option value="Used">Used</option>
+            </Select>
           </div>
-          <div className="mt-8">
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
-              Contact Details
-            </h3>
-            <div className="mb-3 mt-1 border border-gray-300"></div>
-            <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
-              <div>
-                <Label htmlFor="address">Address:</Label>
-                <TextInput id="address" type="text" />
-              </div>
-              <div>
-                <Label htmlFor="contact">Contact No:</Label>
-                <TextInput id="contact" type="tel" />
-              </div>
-              <div>
-                <Label htmlFor="abn-no">ABN No:</Label>
-                <TextInput id="abn-no" type="number" />
-              </div>
-            </div>
+
+          <div>
+            <Label htmlFor="year">Year:</Label>
+            <Select
+              id="year"
+              name="year"
+              value={formData.year}
+              onChange={handleInputChange}
+            >
+              <option>Select Year</option>
+              {[...Array(20)].map((_, i) => (
+                <option key={i} value={2025 - i}>
+                  {2025 - i}
+                </option>
+              ))}
+            </Select>
           </div>
-          <div className="my-8">
-            <Button type="submit" size={"md"} color={"dark"} className="w-full">
-              Save Changes
-            </Button>
+        </div>
+
+        {/* Text Inputs */}
+        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+          <div>
+            <Label htmlFor="fuelTankFillPrice">Fuel Tank Fill Price:</Label>
+            <TextInput
+              id="fuelTankFillPrice"
+              name="fuelTankFillPrice"
+              value={formData.fuelTankFillPrice}
+              onChange={handleInputChange}
+            />
           </div>
-        </form>
-      </div>
+
+          <div>
+            <Label htmlFor="fuelCapacityPerTank">Fuel Capacity Per Tank:</Label>
+            <TextInput
+              id="fuelCapacityPerTank"
+              name="fuelCapacityPerTank"
+              value={formData.fuelCapacityPerTank}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="noOfGears">Number of Gears:</Label>
+            <TextInput
+              id="noOfGears"
+              name="noOfGears"
+              value={formData.noOfGears}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="cylinder">Cylinder:</Label>
+            <TextInput
+              id="cylinder"
+              name="cylinder"
+              value={formData.cylinder}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="batteryRange">Battery Range:</Label>
+            <TextInput
+              id="batteryRange"
+              name="batteryRange"
+              value={formData.batteryRange}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="chargingTime">Charging Time:</Label>
+            <TextInput
+              id="chargingTime"
+              name="chargingTime"
+              value={formData.chargingTime}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="engineSize">Engine Size:</Label>
+            <TextInput
+              id="engineSize"
+              name="engineSize"
+              value={formData.engineSize}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="enginePower">Engine Power:</Label>
+            <TextInput
+              id="enginePower"
+              name="enginePower"
+              value={formData.enginePower}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="fuelConsumption">Fuel Consumption:</Label>
+            <TextInput
+              id="fuelConsumption"
+              name="fuelConsumption"
+              value={formData.fuelConsumption}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="co2Emission">CO2 Emission:</Label>
+            <TextInput
+              id="co2Emission"
+              name="co2Emission"
+              value={formData.co2Emission}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="vehicleFullName">Vehicle Full Name:</Label>
+            <TextInput
+              id="vehicleFullName"
+              name="vehicleFullName"
+              value={formData.vehicleFullName}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="sellerComments">Seller Comments:</Label>
+            <Textarea
+              id="sellerComments"
+              name="sellerComments"
+              value={formData.sellerComments}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="location">Location:</Label>
+            <TextInput
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="mileage">Mileage:</Label>
+            <TextInput
+              id="mileage"
+              name="mileage"
+              value={formData.mileage}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="bodyType">Body Type:</Label>
+            <TextInput
+              id="bodyType"
+              name="bodyType"
+              value={formData.bodyType}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="color">Color:</Label>
+            <TextInput
+              id="color"
+              name="color"
+              value={formData.color}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="driveType">Drive Type:</Label>
+            <TextInput
+              id="driveType"
+              name="driveType"
+              value={formData.driveType}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="doors">Doors:</Label>
+            <TextInput
+              id="doors"
+              name="doors"
+              value={formData.doors}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="seats">Seats:</Label>
+            <TextInput
+              id="seats"
+              name="seats"
+              value={formData.seats}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="isFinance">Finance:</Label>
+            <TextInput
+              id="isFinance"
+              name="isFinance"
+              value={formData.isFinance}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        {/* Features (Checkboxes) */}
+        <div className="mt-5">
+          <h3 className="text-sm font-semibold">Features:</h3>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+            {["Air Conditioning", "Bluetooth", "Backup Camera", "Sunroof"].map(
+              (feature) => (
+                <div key={feature} className="flex items-center">
+                  <Checkbox
+                    id={feature}
+                    value={feature}
+                    checked={formData.features.includes(feature)}
+                    onChange={handleFeatureChange}
+                  />
+                  <Label htmlFor={feature} className="ml-2">
+                    {feature}
+                  </Label>
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <Label>Existing Images:</Label>
+          <div className="flex gap-2">
+            {formData.images && formData.images.length > 0 ? (
+              formData.images.map((image, index) => (
+                <Image
+                  key={index}
+                  src={image}
+                  alt={`Car Image ${index}`}
+                  width={100}
+                  height={100}
+                  className="rounded-md"
+                />
+              ))
+            ) : (
+              <p>No images available.</p>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <Label>Existing Video:</Label>
+          {formData.video && (
+            <video controls width="300" className="mt-2">
+              <source src={formData.video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+        <div className="mt-5">
+          <Label htmlFor="images">Upload Images:</Label>
+          <FileInput
+            id="images"
+            name="images"
+            multiple // Allow multiple files
+            onChange={(e) => {
+              const files = Array.from(e.target.files);
+              setFormData((prev) => ({ ...prev, images: files }));
+            }}
+          />
+        </div>
+
+        <div className="mt-5">
+          <Label htmlFor="video">Upload Video:</Label>
+          <FileInput
+            id="video"
+            name="video"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setFormData((prev) => ({ ...prev, video: file }));
+            }}
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="mt-5">
+          <Button type="submit">Update Car</Button>
+        </div>
+      </form>
     </section>
   );
 };
 
-export default Page;
+export default CarEditPage;

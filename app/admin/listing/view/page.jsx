@@ -86,7 +86,7 @@ export default function Listing() {
               >
                 <TableCell>
                   <Image
-                    src={car.imageUrls?.[0] || "/Luxury SUV.webp"}
+                    src={car.images?.[0] || "/Luxury SUV.webp"}
                     width={80}
                     height={80}
                     alt={car.make}
