@@ -47,34 +47,42 @@
 // };
 
 // export default connectDB;
+
 import mongoose from "mongoose";
 
-const connectDB = async () => {
-  try {
-    if (mongoose.connections[0].readyState) {
-      console.log("Already connected to MongoDB");
-      return;
-    }
+const MONGODB_URI = process.env.MONGODB_URI;
 
-    const clientOptions = {
-      serverApi: {
-        version: "1",
-        strict: true,
-        deprecationErrors: true,
-      },
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    };
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable");
+}
 
-    const uri = process.env.MONGODB_URI;
-    await mongoose.connect(uri, clientOptions);
+let cached = global.mongoose;
 
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log("Pinged your deployment. Successfully connected to MongoDB!");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-    throw new Error("Failed to connect to MongoDB");
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    console.log("Connected to DB:", cached.conn.connection.db.databaseName);
+    return cached.conn;
   }
-};
 
-export default connectDB;
+  if (!cached.promise) {
+    cached.promise = mongoose
+      .connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        dbName: "cardealor",
+      })
+      .then((mongoose) => {
+        console.log("Connected to DB:", mongoose.connection.db.databaseName);
+        return mongoose;
+      });
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+export default dbConnect;
