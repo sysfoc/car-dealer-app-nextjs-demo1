@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Sidebar,
   SidebarCollapse,
@@ -6,77 +8,128 @@ import {
   SidebarItemGroup,
   SidebarItems,
 } from "flowbite-react";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaList, FaUser } from "react-icons/fa";
 import { TiWorld } from "react-icons/ti";
-import { FaList } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
 import { HiChartPie } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { MdOutlineMailLock } from "react-icons/md";
+import { MdOutlineMailLock, MdLogout } from "react-icons/md";
 import { SiPowerpages } from "react-icons/si";
 
+const sidebarItems = [
+  { label: "Dashboard", href: "/admin/dashboard", icon: HiChartPie },
+  { label: "Manage Users", href: "/admin/manage-users", icon: FaUser },
+];
+
+const collapsibleItems = [
+  {
+    label: "Manage Listings",
+    icon: FaList,
+    links: [
+      { label: "Listing Brands", href: "/admin/listing/brand" },
+      { label: "Add Listings", href: "/admin/listing/add" },
+      { label: "Listings", href: "/admin/listing/view" },
+      { label: "Pending Listings", href: "/admin/listing/approved" },
+    ],
+  },
+  {
+    label: "Manage Blogs",
+    icon: FaPencilAlt,
+    links: [
+      { label: "Categories", href: "/admin/categories" },
+      { label: "Blog", href: "/admin/blog" },
+      { label: "Approved Comments", href: "/admin/comments/approved" },
+      { label: "Pending Comments", href: "/admin/comments/pending" },
+    ],
+  },
+  {
+    label: "Manage Website",
+    icon: TiWorld,
+    links: [
+      { label: "FAQ", href: "/admin/manage-website/faq" },
+      { label: "Testimonial", href: "/admin/manage-website/testimonial" },
+    ],
+  },
+  {
+    label: "Settings",
+    icon: IoSettingsSharp,
+    links: [
+      { label: "General Settings", href: "/admin/setting/general" },
+      { label: "Default Settings", href: "/admin/setting/default" },
+      { label: "Currency", href: "/admin/setting/currency" },
+      { label: "Social Media", href: "/admin/setting/social" },
+    ],
+  },
+  {
+    label: "Page Settings",
+    icon: SiPowerpages,
+    links: [
+      { label: "Home", href: "/admin/setting/page/home" },
+      { label: "Contact", href: "/admin/setting/page/contact" },
+      { label: "About Us", href: "/admin/setting/page/about" },
+      { label: "Terms & Conditions", href: "/admin/setting/page/terms" },
+      { label: "Privacy Policy", href: "/admin/setting/page/privacy" },
+    ],
+  },
+];
+
 const AdminSidebar = () => {
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        alert("Logged out successfully!");
+        router.push("/login");
+      } else {
+        alert("Logout failed!");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
-    <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionailty">
+    <Sidebar aria-label="Admin dashboard navigation sidebar">
       <SidebarItems>
         <SidebarItemGroup>
-          <SidebarItem href="/admin/dashboard" icon={HiChartPie}>
-            Dashboard
-          </SidebarItem>
-          <SidebarItem href="/admin/manage-users" icon={FaUser}>
-            Manage Users
-          </SidebarItem>
-          <SidebarCollapse icon={FaList} label="Manage Listings">
-            <SidebarItem href="/admin/listing/brand">
-              Listing Brands
+          {/* Static Sidebar Items */}
+          {sidebarItems.map((item) => (
+            <SidebarItem key={item.href} href={item.href} icon={item.icon}>
+              {item.label}
             </SidebarItem>
-            <SidebarItem href="/admin/listing/add">Add Listings</SidebarItem>
-            <SidebarItem href="/admin/listing/view">Listings</SidebarItem>
-            <SidebarItem href="/admin/listing/approved">
-              Pending Listings
-            </SidebarItem>
-          </SidebarCollapse>
-          <SidebarCollapse icon={FaPencilAlt} label="Manage Blogs">
-            <SidebarItem href="/admin/categories">Categories</SidebarItem>
-            <SidebarItem href="/admin/blog">Blog</SidebarItem>
-            <SidebarItem href="/admin/comments/approved">
-              Approved Comments
-            </SidebarItem>
-            <SidebarItem href="/admin/comments/pending">
-              Pending Comments
-            </SidebarItem>
-          </SidebarCollapse>
-          <SidebarCollapse icon={TiWorld} label="Manage Website">
-            <SidebarItem href="/admin/manage-website/faq">FAQ</SidebarItem>
-            <SidebarItem href="/admin/manage-website/testimonial">
-              Testimonial
-            </SidebarItem>
-          </SidebarCollapse>
-          <SidebarCollapse icon={IoSettingsSharp} label="Settings">
-            <SidebarItem href="/admin/setting/general">
-              General Settings
-            </SidebarItem>
-            <SidebarItem href="/admin/setting/default">
-              Default Settings
-            </SidebarItem>
-            <SidebarItem href="/admin/setting/currency">Currency</SidebarItem>
-            <SidebarItem href="/admin/setting/social">Social media</SidebarItem>
-          </SidebarCollapse>
-          <SidebarCollapse icon={SiPowerpages} label="Page Settings">
-            <SidebarItem href="/admin/setting/page/home">Home</SidebarItem>
-            <SidebarItem href="/admin/setting/page/contact">
-              Contact
-            </SidebarItem>
-            <SidebarItem href="/admin/setting/page/about">About Us</SidebarItem>
-            <SidebarItem href="/admin/setting/page/terms">
-              Terms & Conditions
-            </SidebarItem>
-            <SidebarItem href="/admin/setting/page/privacy">
-              Privacy Policy
-            </SidebarItem>
-          </SidebarCollapse>
+          ))}
+
+          {/* Collapsible Sidebar Sections */}
+          {collapsibleItems.map((group) => (
+            <SidebarCollapse
+              key={group.label}
+              icon={group.icon}
+              label={group.label}
+            >
+              {group.links.map((link) => (
+                <SidebarItem key={link.href} href={link.href}>
+                  {link.label}
+                </SidebarItem>
+              ))}
+            </SidebarCollapse>
+          ))}
+
+          {/* Static Email Template Section */}
           <SidebarItem href="/admin/emails/view" icon={MdOutlineMailLock}>
             Email Templates
+          </SidebarItem>
+
+          {/* Logout Section */}
+          <SidebarItem onClick={handleLogout} icon={MdLogout}>
+            {isLoggingOut ? "Logging Out..." : "Logout"}
           </SidebarItem>
         </SidebarItemGroup>
       </SidebarItems>

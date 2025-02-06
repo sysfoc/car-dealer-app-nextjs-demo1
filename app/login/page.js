@@ -21,7 +21,7 @@ export default function Login() {
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem("token", data.token);
-      router.push("/dashboard");
+      router.push("admin/dashboard");
     } else {
       alert("Login failed");
     }
