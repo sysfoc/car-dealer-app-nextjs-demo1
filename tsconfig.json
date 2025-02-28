@@ -33,7 +33,9 @@
     "app/car-detail/[slug]/page.jsx",
     "app/components/Slider.jsx",
     "app/page.jsx",
-    "app/components/LayoutRenderer.jsx"
+    "app/components/LayoutRenderer.jsx",
+    "app/signup/page.jsx",
+    "app/login/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

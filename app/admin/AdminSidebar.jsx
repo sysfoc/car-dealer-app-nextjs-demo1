@@ -79,12 +79,12 @@ const AdminSidebar = () => {
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
-      const response = await fetch("/api/logout", {
-        method: "POST",
+      const response = await fetch("/api/users/logout", {
+        method: "GET",
+        credentials: "include",
       });
 
       if (response.ok) {
-        alert("Logged out successfully!");
         router.push("/login");
       } else {
         alert("Logout failed!");

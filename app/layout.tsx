@@ -5,6 +5,7 @@ import LayoutRenderer from "@/app/components/LayoutRenderer";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+
 import "./globals.css";
 
 const poppins = Poppins({
