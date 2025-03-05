@@ -2,10 +2,9 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
@@ -16,11 +15,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ["user", "superadmin"],
-      default: "user",
-    },
+    role: { type: String, default: "user" }, // Ensure role is included
   },
   { timestamps: true },
 );

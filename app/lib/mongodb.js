@@ -21,7 +21,7 @@ async function dbConnect() {
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODB_URI, {
-        dbName: "cardealor", // Keep this option
+        dbName: "cardealor",
       })
       .then((mongoose) => {
         console.log("Connected to DB:", mongoose.connection.db.databaseName);

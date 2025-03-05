@@ -10,26 +10,34 @@ import {
   TableRow,
 } from "flowbite-react";
 import Link from "next/link";
+import axios from "axios"; // ✅ Import axios
 
 export default function Page() {
   const [users, setUsers] = useState([]);
-  const [loggedInUser, setLoggedInUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 5;
-  useEffect(() => {
-    fetch(`/api/auth/user`)
-      .then((res) => res.json())
-      .then((data) => setLoggedInUser(data.user))
-      .catch((err) => console.error("Error fetching logged-in user:", err));
+  const limit = 5; // Users per page
 
-    fetch(`/api/users?page=${currentPage}&limit=${limit}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.users);
-        setTotalPages(data.totalPages);
-      })
-      .catch((err) => console.error("Error fetching users:", err));
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `/api/users?page=${currentPage}&limit=${limit}`,
+          {
+            withCredentials: true, // ✅ Ensures cookies are sent
+          },
+        );
+
+        console.log("API Response:", response.data);
+        setUsers(response.data.users || []);
+        setTotalPages(response.data.totalPages || 1);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setUsers([]); // Ensure users is always an array
+      }
+    };
+
+    fetchUsers();
   }, [currentPage]);
 
   return (
@@ -42,31 +50,29 @@ export default function Page() {
             <TableHeadCell>Name</TableHeadCell>
             <TableHeadCell>Email</TableHeadCell>
             <TableHeadCell>Password</TableHeadCell>
-            {loggedInUser?.role === "superadmin" && (
-              <TableHeadCell>Delete</TableHeadCell>
-            )}
+            <TableHeadCell>Delete</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
-            {users.map((user) => (
-              <TableRow
-                key={user._id}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.password}</TableCell>
-                {loggedInUser?.role === "superadmin" && (
+            {users.length > 0 ? (
+              users.map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell>{user.username || "No username found"}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>******</TableCell> {/* ✅ Hide password */}
                   <TableCell>
-                    <Link
-                      href="#"
-                      className="font-medium text-red-500 hover:underline dark:text-red-500"
-                    >
+                    <Link href="#" className="text-red-500 hover:underline">
                       Delete
                     </Link>
                   </TableCell>
-                )}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan="4" className="text-center">
+                  No users found
+                </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
 

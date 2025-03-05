@@ -1,32 +1,47 @@
-import { NextResponse } from "next/server";
-
-import connectToMongoDB from "../../lib/mongodb";
+import { NextRequest, NextResponse } from "next/server";
 import User from "../../models/User";
+import connectToMongoDB from "../../lib/mongodb";
+import jwt from "jsonwebtoken";
 
-export async function GET(req: Request) {
-  await connectToMongoDB();
+connectToMongoDB();
 
-  const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get("page") || "1");
-  const limit = parseInt(searchParams.get("limit") || "5");
-
+export async function GET(request: NextRequest) {
   try {
-    const users = await User.find({})
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .select("name email password");
-    console.log(users);
+    console.log("Incoming Request to /api/users");
 
-    const totalUsers = await User.countDocuments();
+    const token = request.cookies.get("token")?.value;
+    console.log("Token from cookies:", token);
 
-    return NextResponse.json({
-      users,
-      totalPages: Math.ceil(totalUsers / limit),
-      currentPage: page,
-    });
+    if (!token) {
+      console.log("Unauthorized access - Missing token");
+      return NextResponse.json(
+        { error: "Unauthorized access, token missing" },
+        { status: 403 },
+      );
+    }
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET!);
+    console.log("Decoded Token:", decoded);
+
+    if (!decoded) {
+      console.log("Invalid Token");
+      return NextResponse.json(
+        { error: "Invalid token, authorization denied" },
+        { status: 403 },
+      );
+    }
+
+    const users = await User.find({}, "username email");
+    console.log("Fetched Users:", users);
+
+    return NextResponse.json({ users, totalPages: 1 });
   } catch (error) {
+    if (error instanceof Error) {
+      console.error("API Error:", error.message);
+    } else {
+      console.error("API Error:", error);
+    }
     return NextResponse.json(
-      { message: "Server error", error },
+      { error: (error as Error).message || "Internal Server Error" },
       { status: 500 },
     );
   }

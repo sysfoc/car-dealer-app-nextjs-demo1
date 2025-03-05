@@ -1,8 +1,6 @@
 import connectToMongoDB from "../../../lib/mongodb";
 import User from "../../../models/User";
-
 import { NextRequest, NextResponse } from "next/server";
-
 import bcryptjs from "bcryptjs";
 
 connectToMongoDB();
@@ -10,19 +8,17 @@ connectToMongoDB();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-
     const { username, email, password } = reqBody;
 
-    console.log(reqBody);
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }],
+    });
 
-    const user = await User.findOne({ email });
-
-    if (user) {
+    if (existingUser) {
+      const conflictField = existingUser.email === email ? "Email" : "Username";
       return NextResponse.json(
-        {
-          error: "This user already exists",
-        },
-        { status: 400 },
+        { error: `${conflictField} already exists` },
+        { status: 409 },
       );
     }
 
@@ -38,11 +34,34 @@ export async function POST(request: NextRequest) {
     const savedUser = await newUser.save();
 
     return NextResponse.json({
-      message: "User created!",
+      message: "User created successfully!",
       success: true,
-      savedUser,
+      user: {
+        id: savedUser._id,
+        username: savedUser.username,
+        email: savedUser.email,
+      },
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Signup Error:", error);
+
+    if (error.name === "MongoServerError" && error.code === 11000) {
+      const key = Object.keys(error.keyPattern)[0];
+      return NextResponse.json(
+        {
+          error: `${key.charAt(0).toUpperCase() + key.slice(1)} already exists`,
+        },
+        { status: 409 },
+      );
+    }
+
+    if (error.name === "ValidationError") {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
