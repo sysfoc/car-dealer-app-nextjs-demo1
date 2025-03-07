@@ -10,13 +10,39 @@ import {
   TableRow,
 } from "flowbite-react";
 import Link from "next/link";
-import axios from "axios"; // ✅ Import axios
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 5; // Users per page
+  const limit = 5;
+
+  const handleDelete = async (userId) => {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    try {
+      const response = await axios.delete("/api/users/delete", {
+        data: { userId },
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        toast.success("User deleted successfully!");
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => user._id !== userId),
+        );
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.error}`);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -24,7 +50,7 @@ export default function Page() {
         const response = await axios.get(
           `/api/users?page=${currentPage}&limit=${limit}`,
           {
-            withCredentials: true, // ✅ Ensures cookies are sent
+            withCredentials: true,
           },
         );
 
@@ -33,7 +59,8 @@ export default function Page() {
         setTotalPages(response.data.totalPages || 1);
       } catch (error) {
         console.error("Error fetching users:", error);
-        setUsers([]); // Ensure users is always an array
+        setUsers([]);
+        toast.error("Error fetching users.");
       }
     };
 
@@ -58,11 +85,14 @@ export default function Page() {
                 <TableRow key={user._id}>
                   <TableCell>{user.username || "No username found"}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>******</TableCell> {/* ✅ Hide password */}
+                  <TableCell>******</TableCell>
                   <TableCell>
-                    <Link href="#" className="text-red-500 hover:underline">
+                    <button
+                      onClick={() => handleDelete(user._id)}
+                      className="text-red-500 hover:underline"
+                    >
                       Delete
-                    </Link>
+                    </button>
                   </TableCell>
                 </TableRow>
               ))
@@ -76,7 +106,6 @@ export default function Page() {
           </TableBody>
         </Table>
 
-        {/* Pagination */}
         <div className="mt-5 flex justify-between">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -99,6 +128,7 @@ export default function Page() {
           </button>
         </div>
       </div>
+      <ToastContainer autoClose={3000} />
     </div>
   );
 }

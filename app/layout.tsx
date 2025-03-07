@@ -5,7 +5,8 @@ import LayoutRenderer from "@/app/components/LayoutRenderer";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -39,6 +40,8 @@ export default async function RootLayout({
             <NuqsAdapter>{children}</NuqsAdapter>
           </LayoutRenderer>
         </NextIntlClientProvider>
+
+        <ToastContainer autoClose={3000} />
       </body>
     </html>
   );

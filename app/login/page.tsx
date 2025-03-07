@@ -5,10 +5,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { FaAngleLeft } from "react-icons/fa6";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: "", role: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,17 +22,31 @@ export default function LoginPage() {
       const response = await axios.post("/api/users/login", user, {
         withCredentials: true,
       });
-      router.push("/admin/dashboard");
+
+      console.log("Login Response:", response.data);
+      alert(`User Role: ${response.data.role}`);
+
+      const receivedRole = response.data.role?.toLowerCase()?.trim();
+      console.log("Processed Role:", receivedRole);
+
+      if (!receivedRole) {
+        throw new Error("No role received from server");
+      }
+
+      router.push(
+        receivedRole === "superadmin" ? "/admin/dashboard" : "/admin/dashboard",
+      );
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.error || "Login failed. Please try again.";
       setError(errorMessage);
-      console.error("Login error:", errorMessage);
+      console.error("Login error:", error);
+
+      toast.error(`Login Failed: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     setButtonDisabled(!user.email || !user.password);
   }, [user]);
@@ -78,8 +94,6 @@ export default function LoginPage() {
       >
         {loading ? "Processing..." : "Login"}
       </button>
-
-      {/* Rest of the component remains same */}
     </div>
   );
 }
