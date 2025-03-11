@@ -173,7 +173,7 @@ const Page = () => {
     <section className="my-10">
       <h2 className="text-xl font-semibold">Add Listing</h2>
       <div className="mt-5">
-        <form onSubmit={handleSubmit} enctype="multipart/form-data">
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div>
             <Label htmlFor="image">Add Vehical Images Or Videos</Label>
             <FileInput type="file" name="image" multiple className="mt-1" />

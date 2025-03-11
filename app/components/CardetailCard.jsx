@@ -396,8 +396,8 @@ const CardetailCard = () => {
               className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
             >
               <Carousel slideInterval={3000}>
-                {Array.isArray(car.images) && car.images.length > 0 ? (
-                  car.images.map((image, i) => (
+                {Array.isArray(car.imageUrls) && car.imageUrls.length > 0 ? (
+                  car.imageUrls.map((image, i) => (
                     <Image
                       key={i}
                       src={image.src || image} // Use image.src if the object has it, otherwise fallback to the string

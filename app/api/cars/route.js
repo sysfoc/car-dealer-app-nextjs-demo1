@@ -1,7 +1,8 @@
 import { MongoClient } from "mongodb";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
+import { verifyUserToken } from "../../lib/auth";
 
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
@@ -11,14 +12,29 @@ const uploadDir = path.join(process.cwd(), "public", "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
+
 export async function POST(req) {
   try {
+    const userData = await verifyUserToken(req);
+
+    if ("error" in userData) {
+      return NextResponse.json(
+        { error: userData.error },
+        { status: userData.status },
+      );
+    }
+
+    if (!userData.id) {
+      return NextResponse.json(
+        { error: "Invalid user data: No user ID" },
+        { status: 400 },
+      );
+    }
+
     const formData = await req.formData();
     const formEntries = Object.fromEntries(formData.entries());
-    console.log("Form Data Received:", formEntries);
 
     const images = formData.getAll("image");
-
     if (images.length === 0) {
       return NextResponse.json(
         { error: "At least one image is required" },
@@ -27,24 +43,21 @@ export async function POST(req) {
     }
 
     const imageUrls = [];
-
     for (const image of images) {
       const fileName = `${Date.now()}-${image.name}`;
       const filePath = path.join(uploadDir, fileName);
-
       const buffer = Buffer.from(await image.arrayBuffer());
       await fs.promises.writeFile(filePath, buffer);
-
       imageUrls.push(`/uploads/${fileName}`);
     }
-    const features = JSON.parse(formEntries.features || "[]");
+
     const carData = {
       ...formEntries,
-      features,
+      features: JSON.parse(formEntries.features || "[]"),
       imageUrls,
+      userId: userData.id,
+      createdAt: new Date(),
     };
-
-    console.log("Car Data to Insert:", carData);
 
     await client.connect();
     const db = client.db("cardealor");

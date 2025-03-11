@@ -1,35 +1,23 @@
-// app/api/users/delete/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
 import User from "../../../models/User";
 import connectToMongoDB from "../../../lib/mongodb";
+import { verifyUserToken } from "../../../lib/auth";
 
 export async function DELETE(request: NextRequest) {
   try {
     await connectToMongoDB();
 
-    const token = request.cookies.get("token")?.value;
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
-    const { payload } = await jwtVerify(token, secret);
-
-    interface JwtPayload {
-      id: string;
-      role: string;
-      [key: string]: any;
-    }
-
-    const { role } = payload as JwtPayload;
-
-    if (role !== "superadmin") {
+    const userData = await verifyUserToken(request);
+    if ("error" in userData) {
       return NextResponse.json(
-        {
-          error:
-            "Access Forbidden: Staff Account  do not have permission to delete users",
-        },
+        { error: userData.error },
+        { status: userData.status },
+      );
+    }
+
+    if (userData.role !== "superadmin") {
+      return NextResponse.json(
+        { error: "Access Forbidden: Staff accounts cannot delete users" },
         { status: 403 },
       );
     }
@@ -49,10 +37,7 @@ export async function DELETE(request: NextRequest) {
 
     if (user.role === "superadmin") {
       return NextResponse.json(
-        {
-          error:
-            "Cannot delete superadmins Account,Contact Support Team SYSFOC ",
-        },
+        { error: "Cannot delete superadmin accounts, contact support" },
         { status: 403 },
       );
     }
@@ -62,14 +47,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "User deleted successfully" });
   } catch (error: any) {
     console.error("Delete User Error:", error);
-
-    if (error.name === "JWTExpired") {
-      return NextResponse.json(
-        { error: "Session expired, please login again" },
-        { status: 401 },
-      );
-    }
-
     return NextResponse.json(
       { error: error.message || "Internal Server Error" },
       { status: 500 },

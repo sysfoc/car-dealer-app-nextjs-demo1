@@ -9,7 +9,10 @@ const Slider = ({ loadingState, carData }) => {
 
   const mediaItems = [
     carData.video ? { type: "video", src: carData.video } : null,
-    ...(carData.images || []).map((image) => ({ type: "image", src: image })),
+    ...(carData.imageUrls || []).map((image) => ({
+      type: "image",
+      src: image,
+    })),
   ].filter(Boolean);
 
   return (
