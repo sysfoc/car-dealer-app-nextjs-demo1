@@ -7,9 +7,19 @@ import "react-loading-skeleton/dist/skeleton.css";
 const Slider = ({ loadingState, carData }) => {
   const loading = loadingState;
 
+  const imageUrls = Array.isArray(carData.imageUrls)
+    ? carData.imageUrls
+    : carData.imageUrls && typeof carData.imageUrls === "object"
+      ? Object.values(carData.imageUrls)
+      : [];
+
+  if (!carData.video && imageUrls.length === 0) {
+    return <div className="text-center text-gray-500">No images available</div>;
+  }
+
   const mediaItems = [
     carData.video ? { type: "video", src: carData.video } : null,
-    ...(carData.imageUrls || []).map((image) => ({
+    ...imageUrls.map((image) => ({
       type: "image",
       src: image,
     })),

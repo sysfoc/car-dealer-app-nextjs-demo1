@@ -48,6 +48,7 @@ const CarSchema = new mongoose.Schema(
     slug: String,
     co2Emission: Number,
     driveType: String,
+    imageUrls: [],
     dealerInfo: DealerSchema,
   },
   { timestamps: true },
