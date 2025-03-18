@@ -322,7 +322,7 @@ const CardetailCard = () => {
         matchesDriveType
       );
     });
-    // console.log("Filtered Cars:", filtered);
+    console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
   }, [
     keyword,

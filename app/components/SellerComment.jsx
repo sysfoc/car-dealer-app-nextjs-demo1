@@ -3,7 +3,7 @@ import { FaCommentDots } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const SellerComment = ({ loadingState, carData, translation: t }) => {
+const SellerComment = ({ loadingState, car, translation: t }) => {
   const loading = loadingState;
   return (
     <div className="sticky top-1">
@@ -21,7 +21,9 @@ const SellerComment = ({ loadingState, carData, translation: t }) => {
         </div>
       ) : (
         <div className="p-4 text-gray-600 shadow-md dark:text-gray-300">
-          {carData.sellercomments}
+          {car?.sellerComments ||
+            car?.sellercomments ||
+            "No comments available"}
         </div>
       )}
     </div>

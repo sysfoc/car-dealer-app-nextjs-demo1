@@ -25,6 +25,7 @@ export default function Home() {
   const { slug } = useParams();
   const [car, setCar] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dealer, setDealer] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -41,7 +42,24 @@ export default function Home() {
         })
         .then((data) => {
           const selectedCar = data.cars?.find((c) => c.slug === slug);
+          console.log("Car Data:", selectedCar);
           setCar(selectedCar || null);
+
+          if (selectedCar?.dealerId) {
+            fetch(`/api/dealor`)
+              .then((res) => res.json())
+              .then((dealerData) => {
+                console.log("Dealer Data:", dealerData);
+
+                const matchedDealer = dealerData.find(
+                  (dealer) => dealer._id === selectedCar.dealerId,
+                );
+                console.log("Matched Dealer:", matchedDealer);
+
+                setDealer(matchedDealer || null);
+              })
+              .catch((err) => console.error("Error fetching dealer:", err));
+          }
           setLoading(false);
         })
         .catch((err) => {
@@ -163,27 +181,47 @@ export default function Home() {
           </Modal>
           <div className="mt-3 border-b-2 border-blue-950 dark:border-gray-700"></div>
           <div>
-            <Features loadingState={loading} carData={car} translation={t} />
+            {/* <Features loadingState={loading} carData={dealer} translation={t} /> */}
+            {dealer && (
+              <Features
+                loadingState={loading}
+                carData={dealer}
+                car={car}
+                translation={t}
+              />
+            )}
+
             {/* <Features loadingState={loading} /> */}
           </div>
         </div>
         <div>
           <Table loadingState={loading} carData={car} translation={t} />
-          <SellerComment loadingState={loading} carData={car} translation={t} />
+          {/* <SellerComment loadingState={loading} car={car} translation={t} /> */}
+          {car ? (
+            <SellerComment loadingState={loading} car={car} translation={t} />
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </div>
       <div className="mt-8">
-        {car.dealerInfo ? (
-          <iframe
-            src={car.dealerInfo.map}
-            width="600"
-            height="450"
-            style={{ border: 0, width: "100%" }}
-            loading="lazy"
-          ></iframe>
-        ) : (
-          <p>Map is not available</p>
-        )}
+        <div className="mt-8">
+          {dealer ? (
+            dealer.map ? (
+              <iframe
+                src={dealer.map}
+                width="600"
+                height="450"
+                style={{ border: 0, width: "100%" }}
+                loading="lazy"
+              ></iframe>
+            ) : (
+              <p>Map is not available</p>
+            )
+          ) : (
+            <p>Loading dealer information...</p>
+          )}
+        </div>
       </div>
     </section>
   );

@@ -11,7 +11,7 @@ import { MdLocationOn } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Features = ({ loadingState, carData, translation: t }) => {
+const Features = ({ loadingState, carData, car, translation: t }) => {
   const loading = loadingState;
 
   const chunkArray = (array, chunkSize) => {
@@ -21,7 +21,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
     }
     return result;
   };
-  const featureChunks = chunkArray(carData.features || [], 2);
+  const featureChunks = chunkArray(car.features || [], 2);
   return (
     <div className="mt-5">
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
@@ -31,7 +31,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.kms}
+              {loading ? <Skeleton /> : car.kms}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Kms
@@ -47,7 +47,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
               On
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.fuelType}
+              {loading ? <Skeleton /> : car.fuelType}
             </span>
           </div>
         </div>
@@ -57,7 +57,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.fuelTankFillPrice}
+              {loading ? <Skeleton /> : car.fuelTankFillPrice}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               To Fill
@@ -70,7 +70,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.fuelCapacityPerTank}
+              {loading ? <Skeleton /> : car.fuelCapacityPerTank}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Average Per Tank
@@ -83,7 +83,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
-              {loading ? <Skeleton /> : carData.noOfGears}
+              {loading ? <Skeleton /> : car.noOfGears}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
               Gears
@@ -99,7 +99,7 @@ const Features = ({ loadingState, carData, translation: t }) => {
               {loading ? (
                 <Skeleton className="h-[15px] w-[50px]" />
               ) : (
-                carData.cylinder
+                car.cylinder
               )}
             </span>
             <span className="text-sm font-semibold text-blue-950 dark:text-gray-300">
@@ -178,31 +178,31 @@ const Features = ({ loadingState, carData, translation: t }) => {
                   </TableCell>
                 </TableRow>
               </>
-            ) : carData.dealerInfo ? (
+            ) : carData ? (
               <>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     Location
                   </TableCell>
-                  <TableCell>{carData.dealerInfo.address}</TableCell>
+                  <TableCell>{carData.address}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     Contact
                   </TableCell>
-                  <TableCell>{carData.dealerInfo.contact}</TableCell>
+                  <TableCell>{carData.contact}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     Licence
                   </TableCell>
-                  <TableCell>{carData.dealerInfo.licence}</TableCell>
+                  <TableCell>{carData.licence}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
                     ABN
                   </TableCell>
-                  <TableCell>{carData.dealerInfo.abn}</TableCell>
+                  <TableCell>{carData.abn}</TableCell>
                 </TableRow>
               </>
             ) : (

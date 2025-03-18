@@ -10,10 +10,11 @@ import {
 } from "flowbite-react";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const Page = () => {
+  const [dealers, setDealers] = useState([]);
   const featuresList = [
     { id: "bluetooth", label: "Bluetooth connectivity" },
     { id: "usb-ports", label: "USB ports" },
@@ -99,16 +100,20 @@ const Page = () => {
     slug: "",
     co2Emission: 0,
     driveType: "",
-    dealerInfo: {
-      id: "",
-      name: "",
-      address: "",
-      contact: "",
-      licence: "",
-      abn: "",
-      map: "",
-    },
+    dealerId: "",
   });
+  useEffect(() => {
+    const fetchDealers = async () => {
+      try {
+        const response = await fetch("/api/dealor"); // Update API route accordingly
+        const data = await response.json();
+        setDealers(data);
+      } catch (error) {
+        console.error("Error fetching dealers:", error);
+      }
+    };
+    fetchDealers();
+  }, []);
 
   const handleChange = (e) => {
     const { name, type, checked } = e.target;
@@ -487,7 +492,7 @@ const Page = () => {
                 <Label htmlFor="year">Build Date:</Label>
                 <TextInput
                   id="year"
-                  type="number"
+                  type="text"
                   name="year"
                   value={formData.year}
                   onChange={handleChange}
@@ -497,7 +502,7 @@ const Page = () => {
                 <Label htmlFor="modelYear">Model Year:</Label>
                 <TextInput
                   id="modelYear"
-                  type="number"
+                  type="text"
                   name="modelYear"
                   value={formData.modelYear}
                   onChange={handleChange}
@@ -689,44 +694,21 @@ const Page = () => {
             <div className="mb-3 mt-1 border border-gray-300"></div>
             <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
               <div>
-                <Label htmlFor="address">Address:</Label>
-                <TextInput
-                  id="address"
-                  type="text"
-                  name="address"
-                  value={formData.dealerInfo.address}
-                  onChange={(e) => handleDealerChange(e)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="contact">Contact No:</Label>
-                <TextInput
-                  id="contact"
-                  type="tel"
-                  name="contact"
-                  value={formData.dealerInfo.contact}
-                  onChange={(e) => handleDealerChange(e)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="abn-no">ABN No:</Label>
-                <TextInput
-                  id="abn-no"
-                  type="text"
-                  name="abn"
-                  value={formData.dealerInfo.abn}
-                  onChange={(e) => handleDealerChange(e)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="map">Map:</Label>
-                <TextInput
-                  id="map"
-                  type="text"
-                  name="map"
-                  value={formData.dealerInfo.map}
-                  onChange={(e) => handleDealerChange(e)}
-                />
+                <Label htmlFor="dealerId">Select Dealer</Label>
+                <Select
+                  id="dealerId"
+                  name="dealerId"
+                  value={formData.dealerId}
+                  onChange={handleChange}
+                  className="mt-1"
+                >
+                  <option value="">-- Select Dealer --</option>
+                  {dealers.map((dealer) => (
+                    <option key={dealer._id} value={dealer._id}>
+                      {dealer.name}-{dealer.address}
+                    </option>
+                  ))}
+                </Select>
               </div>
             </div>
           </div>
