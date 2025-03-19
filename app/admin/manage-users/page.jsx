@@ -77,6 +77,7 @@ export default function Page() {
             <TableHeadCell>Name</TableHeadCell>
             <TableHeadCell>Email</TableHeadCell>
             <TableHeadCell>Password</TableHeadCell>
+            <TableHeadCell>Role</TableHeadCell>
             <TableHeadCell>Delete</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
@@ -86,6 +87,15 @@ export default function Page() {
                   <TableCell>{user.username || "No username found"}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>******</TableCell>
+                  <TableCell>
+                    {user.role === 1 ? (
+                      <span className="font-bold text-blue-600">
+                        🌟 Super Admin
+                      </span>
+                    ) : (
+                      <span className="font-bold text-gray-600">👤 User</span>
+                    )}
+                  </TableCell>
                   <TableCell>
                     <button
                       onClick={() => handleDelete(user._id)}
