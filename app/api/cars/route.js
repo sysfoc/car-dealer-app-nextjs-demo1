@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse, NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
@@ -11,6 +11,59 @@ const uploadDir = path.join(process.cwd(), "public", "uploads");
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+export async function PATCH(req) {
+  try {
+    await client.connect();
+    const db = client.db("cardealor");
+
+    const userData = await verifyUserToken(req);
+    if ("error" in userData) {
+      return NextResponse.json(
+        { error: userData.error },
+        { status: userData.status },
+      );
+    }
+
+    if (userData.role !== "superadmin") {
+      return NextResponse.json(
+        { error: "Access Denied: Only superadmin can update status" },
+        { status: 403 },
+      );
+    }
+
+    const { carId, status } = await req.json();
+    if (!carId || (status !== 0 && status !== 1)) {
+      return NextResponse.json(
+        { error: "Invalid request: carId and valid status (0 or 1) required" },
+        { status: 400 },
+      );
+    }
+
+    const objectId = new ObjectId(String(carId)); // ✅ Fix: Ensure it's a valid ObjectId
+
+    const result = await db.collection("cars").updateOne(
+      { _id: objectId }, // ✅ Fix: Correct ObjectId usage
+      { $set: { status } },
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json({ error: "Car not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      message: `Car ${status === 1 ? "approved" : "unapproved"} successfully`,
+    });
+  } catch (error) {
+    console.error("Error updating car status:", error);
+    return NextResponse.json(
+      { error: "Failed to update car status", details: error.message },
+      { status: 500 },
+    );
+  } finally {
+    await client.close();
+  }
 }
 
 async function generateUniqueSlug(db, make, userId) {
@@ -100,44 +153,13 @@ export async function POST(req) {
   }
 }
 
-// export async function GET() {
-//   try {
-//     await client.connect();
-//     const db = client.db("cardealor");
-
-//     const cars = await db.collection("cars").find({}).toArray();
-//     const dealerLocations = await db
-//       .collection("dealerLocations")
-//       .find({})
-//       .toArray();n
-
-//     const carsWithDealerInfo = cars.map((car) => {
-//       const dealerInfo = dealerLocations.find(
-//         (dealer) => dealer.id === car.dealerId,
-//       );
-//       return {
-//         ...car,
-//         dealerInfo,
-//       };
-//     });
-
-//     return NextResponse.json({ cars: carsWithDealerInfo });
-//   } catch (error) {
-//     return NextResponse.json(
-//       { error: "Failed to fetch data" },
-//       { status: 500 },
-//     );
-//   } finally {
-//     await client.close();
-//   }
-// }
 export async function GET() {
   try {
     await client.connect();
     const db = client.db("cardealor");
 
     // Fetch only cars where status is 0 (pending approval)
-    const cars = await db.collection("cars").find({ status: 0 }).toArray();
+    const cars = await db.collection("cars").find().toArray();
     const dealerLocations = await db
       .collection("dealerLocations")
       .find({})

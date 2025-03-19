@@ -75,6 +75,8 @@ export default function Listing() {
             <TableHeadCell>Model</TableHeadCell>
             <TableHeadCell>price</TableHeadCell>
             <TableHeadCell>year</TableHeadCell>
+            <TableHeadCell>UserID</TableHeadCell>
+            <TableHeadCell>SLug</TableHeadCell>
 
             <TableHeadCell>Actions</TableHeadCell>
           </TableHead>
@@ -86,7 +88,7 @@ export default function Listing() {
               >
                 <TableCell>
                   <Image
-                    src={car.images?.[0] || "/Luxury SUV.webp"}
+                    src={car.imageUrls?.[0] || "/Luxury SUV.webp"}
                     width={80}
                     height={80}
                     alt={car.make}
@@ -97,6 +99,8 @@ export default function Listing() {
                 <TableCell>{car.model}</TableCell>
                 <TableCell>{car.price}</TableCell>
                 <TableCell>{car.year}</TableCell>
+                <TableCell>{car.userId}</TableCell>
+                <TableCell>{car.slug}</TableCell>
 
                 <TableCell>
                   <div className="flex items-center gap-x-5">

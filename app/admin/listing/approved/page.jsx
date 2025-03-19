@@ -11,6 +11,8 @@ import {
   TableRow,
 } from "flowbite-react";
 import Image from "next/image";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Page() {
   const [cars, setCars] = useState([]);
@@ -19,9 +21,9 @@ export default function Page() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await fetch("/api/cars"); // Call API
+        const response = await fetch("/api/cars");
         const data = await response.json();
-        setCars(data.cars); // Update state with fetched data
+        setCars(data.cars);
       } catch (error) {
         console.error("Error fetching cars:", error);
       } finally {
@@ -31,6 +33,29 @@ export default function Page() {
 
     fetchCars();
   }, []);
+  const handleStatusChange = async (carId, newStatus) => {
+    try {
+      const response = await fetch("/api/cars", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carId, status: newStatus }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to update status");
+      }
+
+      toast.success(data.message);
+      setCars((prevCars) =>
+        prevCars.map((car) =>
+          car._id === carId ? { ...car, status: newStatus } : car,
+        ),
+      );
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="mt-10">
@@ -47,6 +72,9 @@ export default function Page() {
               <TableHeadCell>Name</TableHeadCell>
               <TableHeadCell>Brand</TableHeadCell>
               <TableHeadCell>Location</TableHeadCell>
+              <TableHeadCell>UserID</TableHeadCell>
+              <TableHeadCell>SLug</TableHeadCell>
+              <TableHeadCell>Status</TableHeadCell>
               <TableHeadCell>Actions</TableHeadCell>
             </TableHead>
             <TableBody className="divide-y">
@@ -67,14 +95,39 @@ export default function Page() {
                   <TableCell>{car.name}</TableCell>
                   <TableCell>{car.make}</TableCell>
                   <TableCell>{car.location || "Unknown"}</TableCell>
+                  <TableCell>{car.userId}</TableCell>
+                  <TableCell>{car.slug}</TableCell>
+                  <TableCell>
+                    {car.status === 1 ? (
+                      <span className="font-bold text-green-600">
+                        ✅ Approved
+                      </span>
+                    ) : (
+                      <span className="font-bold text-red-600">
+                        ❌ Unapproved
+                      </span>
+                    )}
+                  </TableCell>
+
                   <TableCell>
                     <div className="flex items-center gap-x-3">
-                      <Button color="warning" size="sm">
-                        Unapprove
-                      </Button>
-                      <Button color="success" size="sm">
-                        Approve
-                      </Button>
+                      {car.status === 1 ? (
+                        <Button
+                          color="warning"
+                          size="sm"
+                          onClick={() => handleStatusChange(car._id, 0)}
+                        >
+                          Unapprove
+                        </Button>
+                      ) : (
+                        <Button
+                          color="success"
+                          size="sm"
+                          onClick={() => handleStatusChange(car._id, 1)}
+                        >
+                          Approve
+                        </Button>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>
