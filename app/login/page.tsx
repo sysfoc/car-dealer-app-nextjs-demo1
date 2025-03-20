@@ -50,7 +50,6 @@ export default function LoginPage() {
   useEffect(() => {
     setButtonDisabled(!user.email || !user.password);
   }, [user]);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <h1 className="mb-10 py-10 text-5xl">
@@ -86,6 +85,37 @@ export default function LoginPage() {
         }}
         placeholder="Your Password..."
       />
+
+      <div className="mb-4 w-[350px] text-center">
+        <p className="mb-2 text-gray-700">Demo credentials for quick login</p>
+        <div className="flex justify-center space-x-3">
+          <button
+            onClick={() =>
+              setUser({
+                email: "sysfoc-superAdmin@gmail.com",
+                password: "1234",
+                role: "superadmin",
+              })
+            }
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+          >
+            SuperAdmin Login
+          </button>
+
+          <button
+            onClick={() =>
+              setUser({
+                email: "sysfoc-user@gmail.com",
+                password: "1234",
+                role: "user",
+              })
+            }
+            className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700"
+          >
+            User Login
+          </button>
+        </div>
+      </div>
 
       <button
         onClick={onLogin}
