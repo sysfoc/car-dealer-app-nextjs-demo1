@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const users = await User.find({}, "username email");
+    const users = await User.find({}, "username email role");
     console.log("Fetched Users:", users);
 
     return NextResponse.json({ users, totalPages: 1 });

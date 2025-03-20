@@ -7,9 +7,19 @@ import fs from "fs/promises";
 import Brand from "../../models/Brand";
 
 export async function GET() {
-  const brands = await db.brand.findMany();
-  return NextResponse.json(brands);
+  try {
+    await connectToMongoDB();
+    const brands = await Brand.find();
+    return NextResponse.json(brands);
+  } catch (error) {
+    console.error("Error fetching brands:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch brands" },
+      { status: 500 },
+    );
+  }
 }
+
 const uploadDir = path.join(process.cwd(), "public/uploads");
 
 connectToMongoDB();
@@ -27,7 +37,13 @@ export async function POST(request) {
         { status: 400 },
       );
     }
-
+    const existingBrand = await Brand.findOne({ slug });
+    if (existingBrand) {
+      return NextResponse.json(
+        { error: "Brand with this slug already exists" },
+        { status: 409 },
+      );
+    }
     await fs.mkdir(uploadDir, { recursive: true });
 
     const fileName = `${Date.now()}-${logo.name}`;
@@ -48,38 +64,6 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error adding brand:", error);
     return NextResponse.json({ error: "Failed to add brand" }, { status: 500 });
-  }
-}
-
-export async function PUT(req) {
-  try {
-    const userData = await verifyUserToken(req);
-    if ("error" in userData) {
-      return NextResponse.json(
-        { error: userData.error },
-        { status: userData.status },
-      );
-    }
-
-    if (userData.role !== "superadmin") {
-      return NextResponse.json(
-        { error: "Access Forbidden: Only superadmin can edit brands" },
-        { status: 403 },
-      );
-    }
-
-    const { id, name, slug, logo } = await req.json();
-    const updatedBrand = await db.brand.update({
-      where: { id },
-      data: { name, slug, logo },
-    });
-    return NextResponse.json(updatedBrand);
-  } catch (error) {
-    console.error("Update Brand Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
   }
 }
 

@@ -88,7 +88,7 @@ export default function Page() {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>******</TableCell>
                   <TableCell>
-                    {user.role === 1 ? (
+                    {user?.role === "superadmin" ? (
                       <span className="font-bold text-blue-600">
                         🌟 Super Admin
                       </span>
@@ -96,6 +96,7 @@ export default function Page() {
                       <span className="font-bold text-gray-600">👤 User</span>
                     )}
                   </TableCell>
+
                   <TableCell>
                     <button
                       onClick={() => handleDelete(user._id)}
