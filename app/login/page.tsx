@@ -112,7 +112,7 @@ export default function LoginPage() {
             }
             className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700"
           >
-            User Login
+            Staff Login
           </button>
         </div>
       </div>
