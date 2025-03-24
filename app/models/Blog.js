@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
 const BlogSchema = new mongoose.Schema({
-  title: { type: String, required: true },
   slug: { type: String, unique: true, required: true },
   content: { type: String, required: true },
 
@@ -23,7 +22,7 @@ const BlogSchema = new mongoose.Schema({
 
 BlogSchema.pre("save", async function (next) {
   if (!this.slug) {
-    this.slug = this.title.toLowerCase().replace(/\s+/g, "-") + "-" + uuidv4();
+    this.slug = this.h1.toLowerCase().replace(/\s+/g, "-") + "-" + uuidv4();
   }
   next();
 });

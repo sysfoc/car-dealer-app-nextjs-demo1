@@ -10,7 +10,7 @@ export async function PUT(request, { params }) {
 
     const { id } = params;
     const formData = await request.formData();
-    const title = formData.get("title");
+
     const slug = formData.get("slug");
     const metaTitle = formData.get("metaTitle");
     const metaDescription = formData.get("metaDescription");
@@ -20,13 +20,12 @@ export async function PUT(request, { params }) {
     const image = formData.get("image");
 
     let updatedData = {
-      title,
       slug,
       metaTitle,
       metaDescription,
       h1,
       content,
-      category: categoryId,
+      categoryId,
     };
 
     if (image) {

@@ -1,96 +1,185 @@
 "use client";
 import dynamic from "next/dynamic";
-import React, { Suspense, useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+
 const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-export default function Page() {
+export default function EditBlogPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const blogId = searchParams.get("id");
+  const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
+  const [h1, setH1] = useState("");
+  const [slug, setSlug] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [image, setImage] = useState(null);
+  const [existingImage, setExistingImage] = useState("");
 
-  const config = {
-    readonly: false,
-    placeholder: "Start typing...",
-    height: 500,
+  useEffect(() => {
+    if (!blogId) return;
+    const fetchBlog = async () => {
+      try {
+        const response = await fetch(`/api/blog/${blogId}`);
+        const data = await response.json();
+        if (response.ok) {
+          setH1(data.h1);
+          setSlug(data.slug);
+          setMetaTitle(data.metaTitle);
+          setMetaDescription(data.metaDescription);
+          setContent(data.content);
+          setCategoryId(data.categoryId);
+          setExistingImage(data.image);
+        } else {
+          alert("Failed to fetch blog data");
+        }
+      } catch (error) {
+        console.error("Error fetching blog:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlog();
+  }, [blogId]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("h1", h1);
+    formData.append("slug", slug);
+    formData.append("metaTitle", metaTitle);
+    formData.append("metaDescription", metaDescription);
+    formData.append("content", content);
+    formData.append("categoryId", categoryId);
+    if (image) formData.append("image", image);
+
+    try {
+      const response = await fetch(`/api/blog/${blogId}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert("Blog updated successfully");
+        router.push("/admin/blog");
+      } else {
+        alert(result.error || "Failed to update blog");
+      }
+    } catch (error) {
+      console.error("Error updating blog:", error);
+      alert("Something went wrong. Try again.");
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="my-10">
       <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold">Edit Blog Post</h2>
+        <Link
+          href="/admin/blog"
+          className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+        >
+          View All
+        </Link>
+      </div>
+
+      <form className="mt-8 flex flex-col gap-y-5" onSubmit={handleUpdate}>
         <div>
-          <h2 className="text-2xl font-bold">Edit Post</h2>
+          <Label htmlFor="h1">H1 Title</Label>
+          <TextInput
+            id="h1"
+            value={h1}
+            onChange={(e) => setH1(e.target.value)}
+          />
         </div>
+
         <div>
-          <Link
-            href={"/admin/blog"}
-            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          <Label htmlFor="slug">Slug</Label>
+          <TextInput
+            id="slug"
+            value={slug}
+            onChange={(e) => setSlug(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="metaTitle">Meta Title</Label>
+          <TextInput
+            id="metaTitle"
+            value={metaTitle}
+            onChange={(e) => setMetaTitle(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="metaDescription">Meta Description</Label>
+          <Textarea
+            id="metaDescription"
+            value={metaDescription}
+            onChange={(e) => setMetaDescription(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label>Content:</Label>
+          <LazyJoditEditor
+            value={content}
+            config={{ height: 300 }}
+            onBlur={(newContent) => setContent(newContent)}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="category">Select Category</Label>
+          <Select
+            id="category"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
           >
-            View All
-          </Link>
+            <option value="">Select Category</option>
+            <option value="category1">Category 1</option>
+            <option value="category2">Category 2</option>
+          </Select>
         </div>
-      </div>
-      <div>
+
+        {/* Existing Image */}
+        {existingImage && (
+          <div>
+            <Label>Existing Image</Label>
+            <Image
+              src={existingImage}
+              width={150}
+              height={150}
+              alt="Existing Image"
+            />
+          </div>
+        )}
+
+        {/* Upload New Image */}
         <div>
-          <form className="mt-8 flex flex-col gap-y-5">
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <TextInput id="name" placeholder="This is my first post" />
-            </div>
-            <div>
-              <Label htmlFor="slug">Slug</Label>
-              <TextInput id="slug" placeholder="This is my first post" />
-            </div>
-            <div>
-              <p className="text-sm">Content:</p>
-              <Suspense fallback={<p>Loading editor...</p>}>
-                <LazyJoditEditor
-                  value={content}
-                  config={config}
-                  tabIndex={1}
-                  onBlur={(newContent) => setContent(newContent)}
-                  onChange={() => {}}
-                />
-              </Suspense>
-            </div>
-            <div>
-              <Label htmlFor="image">Existed Image</Label>
-              <Image
-                width={150}
-                height={150}
-                style={{ objectPosition: "center" }}
-                src={"/Luxury SUV.webp"}
-                alt="image"
-              />
-              <TextInput
-                type="file"
-                id="image"
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-            <div>
-              <Label htmlFor="short-content">Short Content</Label>
-              <Textarea
-                id="short-content"
-                placeholder="This is my first post"
-                style={{ height: "300px" }}
-              />
-            </div>
-            <div>
-              <Label htmlFor="category">Select Category</Label>
-              <Select id="category">
-                <option value="any">Select Category</option>
-                <option value="$1000">Parent Blog</option>
-              </Select>
-            </div>
-            <div>
-              <Button color="dark" className="w-full">
-                Update Changes
-              </Button>
-            </div>
-          </form>
+          <Label htmlFor="image">Upload New Image</Label>
+          <TextInput
+            type="file"
+            id="image"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
         </div>
-      </div>
+
+        <div>
+          <Button color="dark" className="w-full" type="submit">
+            Update Changes
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

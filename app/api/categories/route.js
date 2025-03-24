@@ -38,3 +38,18 @@ export async function POST(request) {
     );
   }
 }
+export async function GET() {
+  try {
+    await connectDB();
+
+    const categories = await Category.find({}).select("_id name");
+
+    return NextResponse.json({ categories }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch categories" },
+      { status: 500 },
+    );
+  }
+}

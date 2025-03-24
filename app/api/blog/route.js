@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import connectDB from "../../lib/mongodb";
+import { Types } from "mongoose";
 
 import Blog from "../../models/Blog";
 import Category from "../../models/Category";
@@ -8,13 +9,12 @@ import fs from "fs/promises";
 import path from "path";
 
 const uploadDir = path.join(process.cwd(), "public/uploads");
-
 export async function POST(request) {
   try {
     await connectDB();
 
     const formData = await request.formData();
-    const title = formData.get("title");
+
     const slug = formData.get("slug");
     const metaTitle = formData.get("metaTitle");
     const metaDescription = formData.get("metaDescription");
@@ -23,18 +23,19 @@ export async function POST(request) {
     const categoryId = formData.get("categoryId");
     const image = formData.get("image");
 
-    if (
-      !title ||
-      !slug ||
-      !metaTitle ||
-      !metaDescription ||
-      !h1 ||
-      !content ||
-      !categoryId ||
-      !image
-    ) {
+    const missingFields = [];
+
+    if (!slug) missingFields.push("slug");
+    if (!metaTitle) missingFields.push("metaTitle");
+    if (!metaDescription) missingFields.push("metaDescription");
+    if (!h1) missingFields.push("h1");
+    if (!content) missingFields.push("content");
+    if (!categoryId) missingFields.push("categoryId");
+    if (!image) missingFields.push("image");
+
+    if (missingFields.length > 0) {
       return NextResponse.json(
-        { error: "All fields are required" },
+        { error: `Missing required fields: ${missingFields.join(", ")}` },
         { status: 400 },
       );
     }
@@ -44,6 +45,13 @@ export async function POST(request) {
       return NextResponse.json(
         { error: "Slug must be unique" },
         { status: 409 },
+      );
+    }
+
+    if (!Types.ObjectId.isValid(categoryId)) {
+      return NextResponse.json(
+        { error: "Invalid category ID format" },
+        { status: 400 },
       );
     }
 
@@ -59,9 +67,7 @@ export async function POST(request) {
     await fs.writeFile(filePath, buffer);
     const imageUrl = `/uploads/${fileName}`;
 
-    // Create new blog
     const newBlog = new Blog({
-      title,
       slug,
       metaTitle,
       metaDescription,
@@ -91,6 +97,31 @@ export async function GET() {
     console.error("Error fetching blogs:", error);
     return NextResponse.json(
       { error: "Failed to fetch blogs" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request, { params }) {
+  try {
+    await connectDB();
+
+    const { id } = params;
+
+    const deletedBlog = await Blog.findByIdAndDelete(id);
+
+    if (!deletedBlog) {
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "Blog deleted successfully!" },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    return NextResponse.json(
+      { error: "Failed to delete blog" },
       { status: 500 },
     );
   }
