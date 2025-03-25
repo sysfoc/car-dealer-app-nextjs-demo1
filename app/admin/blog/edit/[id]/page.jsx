@@ -1,17 +1,18 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 export default function EditBlogPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const blogId = searchParams.get("id");
+  const { id } = useParams();
+  const blogId = id;
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
   const [h1, setH1] = useState("");
@@ -21,13 +22,34 @@ export default function EditBlogPage() {
   const [categoryId, setCategoryId] = useState("");
   const [image, setImage] = useState(null);
   const [existingImage, setExistingImage] = useState("");
+  const [categories, setCategories] = useState([]);
+
+  // Fetch Categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/categories");
+        const data = await response.json();
+        setCategories(data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
-    if (!blogId) return;
+    // console.log("Blog ID:", blogId);
+    if (!blogId) {
+      setLoading(false);
+      return;
+    }
     const fetchBlog = async () => {
       try {
         const response = await fetch(`/api/blog/${blogId}`);
         const data = await response.json();
+        console.log("Blog Data:", data);
         if (response.ok) {
           setH1(data.h1);
           setSlug(data.slug);
@@ -47,6 +69,9 @@ export default function EditBlogPage() {
     };
     fetchBlog();
   }, [blogId]);
+  const handleCategoryChange = (e) => {
+    setCategoryId(e.target.value);
+  };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -67,14 +92,14 @@ export default function EditBlogPage() {
 
       const result = await response.json();
       if (response.ok) {
-        alert("Blog updated successfully");
+        toast.success("Blog updated successfully!");
         router.push("/admin/blog");
       } else {
-        alert(result.error || "Failed to update blog");
+        toast.error(result.error || "Failed to update blog");
       }
     } catch (error) {
       console.error("Error updating blog:", error);
-      alert("Something went wrong. Try again.");
+      toast.error("Something went wrong. Try again.");
     }
   };
 
@@ -139,15 +164,19 @@ export default function EditBlogPage() {
         </div>
 
         <div>
-          <Label htmlFor="category">Select Category</Label>
+          <Label htmlFor="categoryId">Select Category:</Label>
           <Select
-            id="category"
+            id="categoryId"
             value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
+            onChange={handleCategoryChange}
+            required
           >
-            <option value="">Select Category</option>
-            <option value="category1">Category 1</option>
-            <option value="category2">Category 2</option>
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
           </Select>
         </div>
 
