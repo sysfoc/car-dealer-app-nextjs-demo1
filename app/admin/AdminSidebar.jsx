@@ -35,10 +35,10 @@ const collapsibleItems = [
     label: "Manage Blogs",
     icon: FaPencilAlt,
     links: [
-      { label: "Categories", href: "/admin/categories" },
+      // { label: "Categories", href: "/admin/categories" },
       { label: "Blog", href: "/admin/blog" },
-      { label: "Approved Comments", href: "/admin/comments/approved" },
-      { label: "Pending Comments", href: "/admin/comments/pending" },
+      // { label: "Approved Comments", href: "/admin/comments/approved" },
+      // { label: "Pending Comments", href: "/admin/comments/pending" },
     ],
   },
   {
