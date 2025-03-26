@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Button,
   Table,
@@ -9,22 +11,79 @@ import {
   TableRow,
 } from "flowbite-react";
 import Link from "next/link";
+import Swal from "sweetalert2";
 const Page = () => {
+  const [faqs, setFaqs] = useState([]);
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const response = await fetch("/api/faq");
+        const data = await response.json();
+        setFaqs(data.faqs);
+      } catch (error) {
+        console.error("Error fetching FAQs:", error);
+      }
+    };
+
+    fetchFaqs();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This FAQ will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await fetch(`/api/faq/${id}`, { method: "DELETE" });
+
+      if (res.ok) {
+        setFaqs((prevFaqs) => prevFaqs.filter((faq) => faq._id !== id));
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "The FAQ has been deleted successfully.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete the FAQ.",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting FAQ:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong while deleting.",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div className="mt-10">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">FAQ&apos;s Section</h2>
-        </div>
-        <div>
-          <Link
-            href={"/admin/manage-website/faq/add"}
-            className="rounded-lg bg-yellow-500 p-3 text-sm text-white"
-          >
-            Add New
-          </Link>
-        </div>
+        <h2 className="text-2xl font-bold">FAQ&apos;s Section</h2>
+        <Link
+          href="/admin/manage-website/faq/add"
+          className="rounded-lg bg-yellow-500 p-3 text-sm text-white"
+        >
+          Add New
+        </Link>
       </div>
+
       <div className="mt-5">
         <Table>
           <TableHead>
@@ -34,90 +93,32 @@ const Page = () => {
             <TableHeadCell>Action</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>1</TableCell>
-              <TableCell>If I find a car I like, what should I do?</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/manage-website/faq/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>2</TableCell>
-              <TableCell>How do I search for cars?</TableCell>
-              <TableCell>2</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/manage-website/faq/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>3</TableCell>
-              <TableCell>Where can I find credits in my profile?</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/manage-website/faq/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>4</TableCell>
-              <TableCell>Where are the posting guidelines?</TableCell>
-              <TableCell>3</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/manage-website/faq/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
+            {faqs.map((faq, index) => (
+              <TableRow
+                key={faq._id}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{faq.title}</TableCell>
+                <TableCell>{faq.order}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-x-5">
+                    <Link
+                      href={`/admin/manage-website/faq/edit/${faq._id}`}
+                      className="text-cyan-600 hover:underline"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(faq._id)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

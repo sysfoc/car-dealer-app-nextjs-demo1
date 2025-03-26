@@ -1,68 +1,113 @@
 "use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { Button, Label, Select, TextInput } from "flowbite-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import React, { Suspense, useState } from "react";
+import { Suspense } from "react";
+import { toast } from "react-toastify";
 
 const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const Page = () => {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [order, setOrder] = useState("0");
+  const router = useRouter();
+  const { id } = useParams();
 
-  const config = {
-    readonly: false,
-    placeholder: "Start typing...",
-    height: 500,
+  useEffect(() => {
+    const fetchFaq = async () => {
+      try {
+        const res = await fetch(`/api/faq/${id}`);
+        const data = await res.json();
+        setTitle(data.faq.title);
+        setContent(data.faq.content);
+        setOrder(String(data.faq.order));
+      } catch (error) {
+        console.error("Error fetching FAQ:", error);
+      }
+    };
+
+    fetchFaq();
+  }, [id]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`/api/faq/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content, order: Number(order) }),
+      });
+
+      if (res.ok) {
+        toast.success("FAQ updated successfully!");
+        router.push("/admin/manage-website/faq");
+      } else {
+        toast.error("FAQ failed to update");
+        console.error("Failed to update FAQ");
+      }
+    } catch (error) {
+      console.error("Error updating FAQ:", error);
+      toast.error("Error overall");
+    }
   };
 
   return (
     <section className="my-10">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Update Faq</h2>
-        </div>
-        <div>
-          <Link
-            href={"/admin/manage-website/faq"}
-            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
-          >
-            Go Back
-          </Link>
-        </div>
+        <h2 className="text-2xl font-bold">Update FAQ</h2>
+        <Link
+          href="/admin/manage-website/faq"
+          className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+        >
+          Go Back
+        </Link>
       </div>
-      <form className="mt-5 flex flex-col gap-3">
+
+      <form onSubmit={handleUpdate} className="mt-5 flex flex-col gap-3">
         <div>
           <Label htmlFor="title">Title:</Label>
-          <TextInput id="title" type="text" />
+          <TextInput
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
+
         <div>
           <p className="text-sm">Content:</p>
           <Suspense fallback={<p>Loading editor...</p>}>
             <LazyJoditEditor
               value={content}
-              config={config}
               tabIndex={1}
               onBlur={(newContent) => setContent(newContent)}
-              onChange={() => {}}
             />
           </Suspense>
         </div>
+
         <div>
           <Label htmlFor="order">Order:</Label>
-          <Select id="order">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+          <Select
+            id="order"
+            value={order}
+            onChange={(e) => setOrder(e.target.value)}
+          >
+            {[...Array(6).keys()].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
           </Select>
         </div>
-        <div>
-          <Button type="submit" className="mt-3 w-full" color={"dark"}>
-            Update Changes
-          </Button>
-        </div>
+
+        <Button type="submit" className="mt-3 w-full" color="dark">
+          Update Changes
+        </Button>
       </form>
     </section>
   );
