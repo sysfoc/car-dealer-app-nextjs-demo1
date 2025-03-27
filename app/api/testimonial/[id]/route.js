@@ -5,18 +5,11 @@ import dbConnect from "../../../lib/mongodb";
 import Testimonial from "../../../models/Testimonial";
 
 const uploadDir = path.join(process.cwd(), "public/uploads");
-
 export async function PUT(req, { params }) {
   try {
     await dbConnect();
-
     const { id } = params;
     const formData = await req.formData();
-
-    const name = formData.get("name");
-    const designation = formData.get("designation");
-    const content = formData.get("content");
-    const image = formData.get("image");
 
     if (!id) {
       return NextResponse.json(
@@ -33,9 +26,15 @@ export async function PUT(req, { params }) {
       );
     }
 
+    const name = formData.get("name");
+    const designation = formData.get("designation");
+    const content = formData.get("content");
+    const image = formData.get("image");
+
     let imageUrl = testimonial.image;
 
     if (image && image.name) {
+      const uploadDir = path.join(process.cwd(), "public/uploads");
       await fs.mkdir(uploadDir, { recursive: true });
 
       const fileName = `${Date.now()}-${image.name}`;
@@ -88,4 +87,27 @@ export async function DELETE(req, { params }) {
     { message: "Deleted Successfully!" },
     { status: 200 },
   );
+}
+export async function GET(req, { params }) {
+  try {
+    await dbConnect();
+    const { id } = params;
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required!" }, { status: 400 });
+    }
+
+    const testimonial = await Testimonial.findById(id);
+    if (!testimonial) {
+      return NextResponse.json(
+        { error: "Testimonial not found!" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(testimonial, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching testimonial:", error);
+    return NextResponse.json({ error: "Server error!" }, { status: 500 });
+  }
 }

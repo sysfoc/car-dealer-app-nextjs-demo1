@@ -1,6 +1,6 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -10,7 +10,63 @@ import {
 } from "flowbite-react";
 import Link from "next/link";
 import Image from "next/image";
+import Swal from "sweetalert2";
+
 const Page = () => {
+  const [testimonials, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch("/api/testimonial");
+      if (!response.ok) {
+        throw new Error("Failed to fetch testimonials");
+      }
+      const data = await response.json();
+      setTestimonials(data);
+    } catch (error) {
+      console.error("Error fetching testimonials:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`/api/testimonial/${id}`, {
+            method: "DELETE",
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to delete testimonial");
+          }
+
+          setTestimonials(testimonials.filter((t) => t._id !== id));
+
+          Swal.fire(
+            "Deleted!",
+            "Your testimonial has been deleted.",
+            "success",
+          );
+        } catch (error) {
+          console.error("Error deleting testimonial:", error);
+          Swal.fire("Error!", "Failed to delete testimonial.", "error");
+        }
+      }
+    });
+  };
+
   return (
     <div className="mt-10">
       <div className="flex items-center justify-between">
@@ -36,37 +92,50 @@ const Page = () => {
             <TableHeadCell>Action</TableHeadCell>
           </TableHead>
           <TableBody className="divide-y">
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>1</TableCell>
-              <TableCell>
-                <Image
-                  src={"/Luxury SUV.webp"}
-                  width={80}
-                  height={80}
-                  alt="Image Of Car"
-                  objectPosition="center"
-                  className="rounded-md"
-                />
-              </TableCell>
-              <TableCell>David Smith</TableCell>
-              <TableCell>CEO, XYZ Multimedia</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/manage-website/testimonial/edit/2"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
+            {testimonials.length > 0 ? (
+              testimonials.map((testimonial, index) => (
+                <TableRow
+                  key={testimonial._id}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>
+                    <Image
+                      src={testimonial.image}
+                      width={80}
+                      height={80}
+                      alt={testimonial.name}
+                      objectPosition="center"
+                      className="rounded-md"
+                    />
+                  </TableCell>
+                  <TableCell>{testimonial.name}</TableCell>
+                  <TableCell>{testimonial.designation}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-x-5">
+                      <Link
+                        href={`/admin/manage-website/testimonial/edit/${testimonial._id}`}
+                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(testimonial._id)}
+                        className="font-medium text-red-500 hover:underline dark:text-red-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan="5" className="text-center">
+                  No Testimonials Found
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
