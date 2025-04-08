@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Button,
   Checkbox,
@@ -10,22 +11,144 @@ import {
   ToggleSwitch,
 } from "flowbite-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const Page = () => {
   const [activeSection, setActiveSection] = useState("SEO Section");
-  const [previewBackgroundImage, setpreviewBackgroundImage] =
-    useState("/Luxury SUV.webp");
-  const handleBackgroundImageChange = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setpreviewBackgroundImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+
+  // Refs for all inputs
+  const refs = {
+    title: useRef(null),
+    metaDescription: useRef(null),
+    searchHeading: useRef(null),
+    searchText: useRef(null),
+    logo: useRef(null),
+    brandHeading: useRef(null),
+    brandSubheading: useRef(null),
+    brandItems: useRef(null),
+    brandStatus: useRef(null),
+    listingHeading: useRef(null),
+    listingSubheading: useRef(null),
+    listingItems: useRef(null),
+    listingStatus: useRef(null),
+    chooseusHeading: useRef(null),
+    chooseusFirstHeading: useRef(null),
+    chooseusFirstDescription: useRef(null),
+    chooseusSecondHeading: useRef(null),
+    chooseusSecondDescription: useRef(null),
+    chooseusThirdHeading: useRef(null),
+    chooseusThirdDescription: useRef(null),
+    chooseusFourthHeading: useRef(null),
+    chooseusFourthDescription: useRef(null),
+    mondayHr: useRef(null),
+    tuesdayHr: useRef(null),
+    wednesdayHr: useRef(null),
+    thursdayHr: useRef(null),
+    fridayHr: useRef(null),
+    saturdayHr: useRef(null),
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    if (activeSection === "SEO Section") {
+      formData.append("seoTitle", refs.title.current?.value || "");
+      formData.append(
+        "seoDescription",
+        refs.metaDescription.current?.value || "",
+      );
+    }
+
+    if (activeSection === "Search Section") {
+      formData.append("searchHeading", refs.searchHeading.current?.value || "");
+      formData.append("searchText", refs.searchText.current?.value || "");
+    }
+
+    if (activeSection === "Brand Section") {
+      formData.append("brandHeading", refs.brandHeading.current?.value || "");
+      formData.append(
+        "brandSubheading",
+        refs.brandSubheading.current?.value || "",
+      );
+      formData.append("brandItems", refs.brandItems.current?.value || "");
+      formData.append("brandStatus", refs.brandStatus.current?.value || "");
+    }
+
+    if (activeSection === "Listing Section") {
+      formData.append(
+        "listingHeading",
+        refs.listingHeading.current?.value || "",
+      );
+      formData.append(
+        "listingSubheading",
+        refs.listingSubheading.current?.value || "",
+      );
+      formData.append("listingItems", refs.listingItems.current?.value || "");
+      formData.append("listingStatus", refs.listingStatus.current?.value || "");
+    }
+
+    if (activeSection === "Chooseus Section") {
+      formData.append(
+        "chooseusHeading",
+        refs.chooseusHeading.current?.value || "",
+      );
+      formData.append(
+        "chooseusFirstHeading",
+        refs.chooseusFirstHeading.current?.value || "",
+      );
+      formData.append(
+        "chooseusFirstDescription",
+        refs.chooseusFirstDescription.current?.value || "",
+      );
+      formData.append(
+        "chooseusSecondHeading",
+        refs.chooseusSecondHeading.current?.value || "",
+      );
+      formData.append(
+        "chooseusSecondDescription",
+        refs.chooseusSecondDescription.current?.value || "",
+      );
+      formData.append(
+        "chooseusThirdHeading",
+        refs.chooseusThirdHeading.current?.value || "",
+      );
+      formData.append(
+        "chooseusThirdDescription",
+        refs.chooseusThirdDescription.current?.value || "",
+      );
+      formData.append(
+        "chooseusFourthHeading",
+        refs.chooseusFourthHeading.current?.value || "",
+      );
+      formData.append(
+        "chooseusFourthDescription",
+        refs.chooseusFourthDescription.current?.value || "",
+      );
+    }
+
+    if (activeSection === "Footer") {
+      formData.append("mondayHr", refs.mondayHr.current?.value || "");
+      formData.append("tuesdayHr", refs.tuesdayHr.current?.value || "");
+      formData.append("wednesdayHr", refs.wednesdayHr.current?.value || "");
+      formData.append("thursdayHr", refs.thursdayHr.current?.value || "");
+      formData.append("fridayHr", refs.fridayHr.current?.value || "");
+      formData.append("saturdayHr", refs.saturdayHr.current?.value || "");
+    }
+
+    const response = await fetch("/api/homepage", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      alert("Data saved successfully!");
+    } else {
+      alert("Error: " + result.error);
     }
   };
+
   return (
     <section className="my-10">
       <div>
@@ -53,297 +176,179 @@ const Page = () => {
               </div>
             ))}
           </div>
+
           <div className="w-full sm:w-4/6">
-            <form>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
               {activeSection === "SEO Section" && (
-                <div className="flex flex-col gap-y-3">
-                  <div>
-                    <Label htmlFor="title">Title:</Label>
-                    <TextInput
-                      type="text"
-                      id="title"
-                      placeholder="yourcompany - your meta title"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="meta-description">Meta Description:</Label>
-                    <Textarea
-                      id="meta-description"
-                      placeholder="Your meta description"
-                      rows={5}
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="title">Title:</Label>
+                  <TextInput type="text" id="title" ref={refs.title} />
+                  <Label htmlFor="meta-description">Meta Description:</Label>
+                  <Textarea
+                    id="meta-description"
+                    rows={5}
+                    ref={refs.metaDescription}
+                  />
                 </div>
               )}
+
               {activeSection === "Search Section" && (
                 <div className="flex flex-col gap-y-3">
-                  <div>
-                    <Label htmlFor="search-heading">Search Heading:</Label>
-                    <Textarea
-                      id="search-heading"
-                      placeholder="Find Your Perfect Car"
-                      rows={5}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="search-text">Search Text:</Label>
-                    <Textarea
-                      id="search-text"
-                      placeholder="Find cars for sale and for rent near you"
-                      rows={5}
-                    />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Existing Background Image</p>
-                    <Image
-                      width={150}
-                      height={150}
-                      alt="background-image"
-                      src={previewBackgroundImage}
-                      className="my-3"
-                    />
-                    <Label htmlFor="logo">Change Background Image:</Label>
-                    <FileInput
-                      id="logo"
-                      accept="image/*"
-                      onChange={handleBackgroundImageChange}
-                    />
-                  </div>
+                  <Label htmlFor="search-heading">Search Heading:</Label>
+                  <Textarea
+                    id="search-heading"
+                    rows={2}
+                    ref={refs.searchHeading}
+                  />
+                  <Label htmlFor="search-text">Search Text:</Label>
+                  <Textarea id="search-text" rows={2} ref={refs.searchText} />
                 </div>
               )}
+
               {activeSection === "Brand Section" && (
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <Label htmlFor="brand-heading">Heading:</Label>
-                    <TextInput
-                      type="text"
-                      id="brand-heading"
-                      placeholder="Explore Our Premium Brands"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="brand-subheading">Subheading:</Label>
-                    <TextInput
-                      type="text"
-                      id="brand-subheading"
-                      placeholder="See All"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="brand-items">Total Items:</Label>
-                    <TextInput type="number" id="brand-items" placeholder="5" />
-                  </div>
-                  <div>
-                    <Label htmlFor="brand-status">Status:</Label>
-                    <Select id="brand-status">
-                      <option value="inactive">Inactive</option>
-                      <option value="active">Active</option>
-                    </Select>
-                  </div>
+                <div className="flex flex-col gap-y-3">
+                  <Label htmlFor="brand-heading">Heading:</Label>
+                  <TextInput
+                    placeholder="Brand Heading"
+                    ref={refs.brandHeading}
+                  />
+                  <Label htmlFor="brand-subheading">Subheading:</Label>
+                  <TextInput
+                    placeholder="Brand Subheading"
+                    ref={refs.brandSubheading}
+                  />
+                  <Label htmlFor="brand-items">Items:</Label>
+                  <TextInput
+                    type="number"
+                    placeholder="Items"
+                    ref={refs.brandItems}
+                  />
+                  <Select ref={refs.brandStatus}>
+                    <option value="inactive">Inactive</option>
+                    <option value="active">Active</option>
+                  </Select>
                 </div>
               )}
+
               {activeSection === "Listing Section" && (
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <Label htmlFor="listing-heading">Heading:</Label>
-                    <TextInput
-                      type="text"
-                      id="listing-heading"
-                      placeholder="Explore All Vehicles"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="listing-subheading">Subheading:</Label>
-                    <TextInput
-                      type="text"
-                      id="listing-subheading"
-                      placeholder="See All"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="listing-items">Total Items:</Label>
-                    <TextInput
-                      type="number"
-                      id="listing-items"
-                      placeholder="4"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="listing-status">Status:</Label>
-                    <Select id="listing-status">
-                      <option value="inactive">Inactive</option>
-                      <option value="active">Active</option>
-                    </Select>
-                  </div>
+                <div flex flex-col gap-3>
+                  <Label htmlFor="listing-heading">Heading:</Label>
+                  <TextInput
+                    placeholder="Listing Heading"
+                    ref={refs.listingHeading}
+                  />
+                  <Label htmlFor="listing-subheading">Subheading:</Label>
+                  <TextInput
+                    placeholder="Listing Subheading"
+                    ref={refs.listingSubheading}
+                  />
+                  <Label htmlFor="listing-items">Total Items:</Label>
+                  <TextInput
+                    type="number"
+                    placeholder="Items"
+                    ref={refs.listingItems}
+                  />
+                  <Label htmlFor="listing-status">Status:</Label>
+                  <Select ref={refs.listingStatus}>
+                    <option value="inactive">Inactive</option>
+                    <option value="active">Active</option>
+                  </Select>
                 </div>
               )}
+
               {activeSection === "Chooseus Section" && (
                 <div className="flex flex-col gap-3">
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-heading">Heading</Label>
-                    <TextInput
-                      id="chooseus-heading"
-                      type="text"
-                      placeholder="Why Choose Us?"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-first-heading">
-                      First Section Heading
-                    </Label>
-                    <TextInput
-                      id="chooseus-first-heading"
-                      type="text"
-                      placeholder="Special Financing Offers"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-first-description">
-                      First Section Description
-                    </Label>
-                    <Textarea
-                      id="chooseus-first-description"
-                      type="text"
-                      placeholder="Our stress-free finance department that can find financial solutions."
-                      rows={5}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-second-heading">
-                      Second Section Heading
-                    </Label>
-                    <TextInput
-                      id="chooseus-second-heading"
-                      type="text"
-                      placeholder="Trusted Car Dealership"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-second-description">
-                      Second Section Description
-                    </Label>
-                    <Textarea
-                      id="chooseus-second-description"
-                      type="text"
-                      placeholder="Our stress-free finance department that can find financial solutions to save."
-                      rows={5}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-third-heading">
-                      Third Section Heading
-                    </Label>
-                    <TextInput
-                      id="chooseus-third-heading"
-                      type="text"
-                      placeholder="Trusted Car Dealership"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-third-description">
-                      Third Section Description
-                    </Label>
-                    <Textarea
-                      id="chooseus-third-description"
-                      type="text"
-                      placeholder="Our stress-free finance department that can find financial solutions to save."
-                      rows={5}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-fourth-heading">
-                      Fourth Section Heading
-                    </Label>
-                    <TextInput
-                      id="chooseus-fourth-heading"
-                      type="text"
-                      placeholder="Trusted Car Dealership"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="chooseus-fourth-description">
-                      Fourth Section Description
-                    </Label>
-                    <Textarea
-                      id="chooseus-fourth-description"
-                      type="text"
-                      placeholder="Our stress-free finance department that can find financial solutions to save."
-                      rows={5}
-                    />
-                  </div>
+                  <Label htmlFor="chooseus-heading">Heading</Label>
+                  <TextInput
+                    placeholder="Choose Us Heading"
+                    ref={refs.chooseusHeading}
+                  />
+                  <Label htmlFor="chooseus-first-heading">
+                    First Section Heading
+                  </Label>
+                  <TextInput
+                    placeholder="First Heading"
+                    ref={refs.chooseusFirstHeading}
+                  />
+                  <Label htmlFor="chooseus-first-description">
+                    First Section Description
+                  </Label>
+                  <Textarea
+                    rows={2}
+                    placeholder="First Description"
+                    ref={refs.chooseusFirstDescription}
+                  />
+                  <Label htmlFor="chooseus-second-heading">
+                    Second Section Heading
+                  </Label>
+                  <TextInput
+                    placeholder="Second Heading"
+                    ref={refs.chooseusSecondHeading}
+                  />
+                  <Label htmlFor="chooseus-second-description">
+                    Second Section Description
+                  </Label>
+                  <Textarea
+                    rows={2}
+                    placeholder="Second Description"
+                    ref={refs.chooseusSecondDescription}
+                  />
+                  <Label htmlFor="chooseus-third-heading">
+                    Third Section Heading
+                  </Label>{" "}
+                  <TextInput
+                    placeholder="Third Heading"
+                    ref={refs.chooseusThirdHeading}
+                  />
+                  <Label htmlFor="chooseus-third-description">
+                    Third Section Description
+                  </Label>{" "}
+                  <Textarea
+                    rows={2}
+                    placeholder="Third Description"
+                    ref={refs.chooseusThirdDescription}
+                  />
+                  <TextInput
+                    placeholder="Fourth Heading"
+                    ref={refs.chooseusFourthHeading}
+                  />
+                  <Label htmlFor="chooseus-fourth-description">
+                    Fourth Section Description
+                  </Label>
+                  <Textarea
+                    rows={2}
+                    placeholder="Fourth Description"
+                    ref={refs.chooseusFourthDescription}
+                  />
                 </div>
               )}
+
               {activeSection === "Footer" && (
-                <div>
-                  <div className="flex flex-col">
-                    <p>Trading hours</p>
-                    <div className="mt-3 flex flex-col gap-3">
-                      <div>
-                        <Label htmlFor="monday-hr">Moday</Label>
-                        <TextInput
-                          type="text"
-                          id="monday-hr"
-                          placeholder="9:00 AM - 5:00 PM"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="tuesday-hr">Tuesday</Label>
-                        <TextInput
-                          type="text"
-                          id="tuesday-hr"
-                          placeholder="9:00 AM - 5:00 PM"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="wednesday-hr">Wednesday</Label>
-                        <TextInput
-                          type="text"
-                          id="wednesday-hr"
-                          placeholder="9:00 AM - 5:00 PM"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="thursday-hr">Thursday</Label>
-                        <TextInput
-                          type="text"
-                          id="thursday-hr"
-                          placeholder="9:00 AM - 5:00 PM"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="friday-hr">Friday</Label>
-                        <TextInput
-                          type="text"
-                          id="friday-hr"
-                          placeholder="9:00 AM - 5:00 PM"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="saturday-hr">Saturday</Label>
-                        <TextInput
-                          type="text"
-                          id="saturday-hr"
-                          placeholder="Closed"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="sunday-hr">Sunday</Label>
-                        <TextInput
-                          type="text"
-                          id="sunday-hr"
-                          placeholder="Closed"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                <div className="flex flex-col gap-2">
+                  <TextInput placeholder="Monday Hours" ref={refs.mondayHr} />
+                  <TextInput placeholder="Tuesday Hours" ref={refs.tuesdayHr} />
+                  <TextInput
+                    placeholder="Wednesday Hours"
+                    ref={refs.wednesdayHr}
+                  />
+                  <TextInput
+                    placeholder="Thursday Hours"
+                    ref={refs.thursdayHr}
+                  />
+                  <TextInput placeholder="Friday Hours" ref={refs.fridayHr} />
+                  <TextInput
+                    placeholder="Saturday Hours"
+                    ref={refs.saturdayHr}
+                  />
                 </div>
               )}
+
+              <Button type="submit" className="mt-4 w-fit">
+                Save
+              </Button>
             </form>
           </div>
         </div>
-        <Button className="mt-3 w-full" color={"dark"}>
-          Save Settings
-        </Button>
       </div>
     </section>
   );
