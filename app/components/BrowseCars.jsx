@@ -1,18 +1,19 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { FaCar } from "react-icons/fa6";
+import { FaCar, FaCarRear } from "react-icons/fa6";
 import { FaCarAlt } from "react-icons/fa";
-import { FaCarRear } from "react-icons/fa6";
-import { IoCarSport } from "react-icons/io5";
-import { IoCar } from "react-icons/io5";
+import { IoCarSport, IoCar } from "react-icons/io5";
 import { BsCarFrontFill } from "react-icons/bs";
 import { LiaCarSideSolid } from "react-icons/lia";
-import { MdElectricCar } from "react-icons/md";
-import { MdCarCrash } from "react-icons/md";
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { MdElectricCar, MdCarCrash } from "react-icons/md";
+import {
+  FaLongArrowAltLeft,
+  FaLongArrowAltRight,
+  FaShuttleVan,
+  FaCarSide,
+} from "react-icons/fa";
 import { TbCarSuv } from "react-icons/tb";
-import { FaShuttleVan, FaCarSide } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
 import { useTranslations } from "next-intl";
 

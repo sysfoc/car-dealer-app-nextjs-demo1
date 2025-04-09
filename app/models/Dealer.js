@@ -7,6 +7,7 @@ const DealerSchema = new mongoose.Schema({
   licence: { type: String, required: true },
   abn: { type: String, required: true },
   map: { type: String },
-});
+},
+{ timestamps: true });
 
 export default mongoose.models.Dealer || mongoose.model("Dealer", DealerSchema);

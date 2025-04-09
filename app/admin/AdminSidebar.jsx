@@ -12,7 +12,7 @@ import { FaPencilAlt, FaList, FaUser } from "react-icons/fa";
 import { TiWorld } from "react-icons/ti";
 import { HiChartPie } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { MdOutlineMailLock, MdLogout } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 import { SiPowerpages } from "react-icons/si";
 
 const sidebarItems = [
@@ -126,7 +126,11 @@ const AdminSidebar = () => {
           </SidebarItem> */}
 
           {/* Logout Section */}
-          <SidebarItem onClick={handleLogout} icon={MdLogout}>
+          <SidebarItem
+            onClick={handleLogout}
+            icon={MdLogout}
+            className="cursor-pointer"
+          >
             {isLoggingOut ? "Logging Out..." : "Logout"}
           </SidebarItem>
         </SidebarItemGroup>

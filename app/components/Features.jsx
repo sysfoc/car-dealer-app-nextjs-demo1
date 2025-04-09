@@ -1,10 +1,9 @@
 import React from "react";
 import { IoSpeedometerOutline } from "react-icons/io5";
-import { GiGasPump } from "react-icons/gi";
+import { GiGasPump, GiMagicLamp } from "react-icons/gi";
 import { PiGasCanLight } from "react-icons/pi";
 import { GrMapLocation } from "react-icons/gr";
 import { TbManualGearbox } from "react-icons/tb";
-import { GiMagicLamp } from "react-icons/gi";
 import { Table, TableBody, TableCell, TableRow } from "flowbite-react";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { MdLocationOn } from "react-icons/md";
