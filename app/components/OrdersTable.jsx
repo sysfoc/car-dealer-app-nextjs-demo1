@@ -50,7 +50,7 @@ const OrdersTable = () => {
     },
   ];
   return (
-    <section className="my-5 bg-white p-3 shadow">
+    <section className="my-5 bg-white p-3 shadow dark:bg-gray-800">
       <div className="overflow-x-auto">
         <Table>
           <TableHead>

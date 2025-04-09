@@ -1,11 +1,13 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoSpeedometer } from "react-icons/io5";
-import { GiGasPump } from "react-icons/gi";
 import { TbManualGearbox } from "react-icons/tb";
-import { GiCarDoor } from "react-icons/gi";
-import { GiCarSeat } from "react-icons/gi";
-import { GiPathDistance } from "react-icons/gi";
+import {
+  GiCarSeat,
+  GiPathDistance,
+  GiCarDoor,
+  GiGasPump,
+} from "react-icons/gi";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
 import { Button, Select } from "flowbite-react";

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import {
   Table,
@@ -9,7 +8,6 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import Link from "next/link";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -72,7 +70,7 @@ export default function Page() {
       <h2 className="text-2xl font-bold">Manage Users</h2>
 
       <div className="mt-5">
-        <Table>
+        <Table striped>
           <TableHead>
             <TableHeadCell>Name</TableHeadCell>
             <TableHeadCell>Email</TableHeadCell>
@@ -121,7 +119,7 @@ export default function Page() {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="rounded bg-gray-300 px-4 py-2 disabled:opacity-50"
+            className="rounded bg-blue-700 px-4 py-2 text-white disabled:opacity-80"
           >
             Previous
           </button>
@@ -133,7 +131,7 @@ export default function Page() {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className="rounded bg-gray-300 px-4 py-2 disabled:opacity-50"
+            className="rounded bg-blue-700 px-4 py-2 text-white disabled:opacity-80"
           >
             Next
           </button>

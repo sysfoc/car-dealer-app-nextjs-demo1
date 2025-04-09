@@ -5,7 +5,8 @@ const BrandSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   logo: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-});
+},
+{ timestamps: true });
 
 const Brand = mongoose.models.Brand || mongoose.model("Brand", BrandSchema);
 

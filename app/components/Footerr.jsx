@@ -9,12 +9,14 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import React from "react";
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+import {
+  FaFacebookSquare,
+  FaPinterest,
+  FaYoutube,
+  FaInstagram,
+} from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa6";
 import { SiGiphy } from "react-icons/si";
-import { FaPinterest } from "react-icons/fa";
 import LanguageSwitching from "@/app/components/LanguageSwitching";
 import { useTranslations } from "next-intl";
 const Footerr = ({ isDarkMode }) => {

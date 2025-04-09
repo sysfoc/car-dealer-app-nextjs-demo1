@@ -48,12 +48,14 @@ const Overview = () => {
         {cardData.map((card, index) => (
           <div
             key={index}
-            className={`rounded-lg border-l-4 bg-white p-4 shadow`}
+            className={`rounded-lg border-l-4 bg-white p-4 shadow dark:bg-gray-800`}
             style={{ borderColor: card.borderColor }}
           >
             <div className="flex items-center justify-between gap-2">
               <div>
-                <h2 className="text-sm text-gray-600">{card.title}</h2>
+                <h2 className="text-sm text-gray-600 dark:text-gray-400">
+                  {card.title}
+                </h2>
                 <p className={`my-1 text-2xl font-semibold ${card.textColor}`}>
                   {card.value}
                 </p>

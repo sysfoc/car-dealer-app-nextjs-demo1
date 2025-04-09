@@ -1,10 +1,14 @@
 "use client";
 import { Checkbox, Label, Select, TextInput } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { VscSymbolKeyword } from "react-icons/vsc";
 import { SiCmake } from "react-icons/si";
 import { TbEngine } from "react-icons/tb";
-import { IoMdArrowDropdown, IoIosColorPalette } from "react-icons/io";
+import {
+  IoMdArrowDropdown,
+  IoIosColorPalette,
+  IoIosSpeedometer,
+} from "react-icons/io";
 import { IoPricetag } from "react-icons/io5";
 import {
   FaLocationDot,
@@ -13,8 +17,6 @@ import {
   FaCar,
   FaHourglassEnd,
 } from "react-icons/fa6";
-import { IoIosSpeedometer } from "react-icons/io";
-import { RxBoxModel } from "react-icons/rx";
 import {
   GiCarDoor,
   GiCartwheel,
