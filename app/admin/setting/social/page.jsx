@@ -1,129 +1,113 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from "flowbite-react";
-import { FaFacebookF } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaPinterest } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import Link from "next/link";
-export default function Page() {
+"use client";
+import { Button, Label, Select, TextInput } from "flowbite-react";
+import { useEffect, useState } from "react";
+
+const SocialMediaForm = () => {
+  const [formData, setFormData] = useState({ url: "", icon: "", order: 0 });
+  const [list, setList] = useState([]);
+  const [selectedIcon, setSelectedIcon] = useState("");
+
+  const fetchData = async () => {
+    const res = await fetch("/api/socials");
+    const json = await res.json();
+    setList(json.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleIconSelect = (iconName) => {
+    setSelectedIcon(iconName);
+
+    const selected = list.find((item) => item.icon === iconName);
+    if (selected) {
+      setFormData({
+        url: selected.url || "",
+        icon: selected.icon || "",
+        order: selected.order || 0,
+      });
+    } else {
+      setFormData({ url: "", icon: iconName || "", order: 0 });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("/api/socials", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    if (data.message) {
+      alert("Saved!");
+      setFormData({ url: "", icon: "", order: 0 });
+      setSelectedIcon("");
+      fetchData();
+    }
+  };
+
   return (
-    <div className="mt-10">
-      <h2 className="text-2xl font-bold">Social Media Items</h2>
-      <div className="mt-5">
-        <Table>
-          <TableHead>
-            <TableHeadCell>Serial</TableHeadCell>
-            <TableHeadCell>URL</TableHeadCell>
-            <TableHeadCell>Icon</TableHeadCell>
-            <TableHeadCell>Order</TableHeadCell>
-            <TableHeadCell>Actions</TableHeadCell>
-          </TableHead>
-          <TableBody className="divide-y">
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>1</TableCell>
-              <TableCell> https://www.facebook.com/</TableCell>
-              <TableCell>
-                <FaFacebookF fontFamily="20" />
-              </TableCell>
-              <TableCell>1</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/setting/social/edit/1"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>2</TableCell>
-              <TableCell> https://www.twitter.com</TableCell>
-              <TableCell>
-                <FaTwitter fontFamily="20" />
-              </TableCell>
-              <TableCell>2</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/setting/social/edit/1"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>3</TableCell>
-              <TableCell>https://www.linkedin.com</TableCell>
-              <TableCell>
-                <FaLinkedin fontFamily="20" />
-              </TableCell>
-              <TableCell>3</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/setting/social/edit/1"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <TableCell>4</TableCell>
-              <TableCell> https://www.pinterest.com</TableCell>
-              <TableCell>
-                <FaPinterest fontFamily="20" />
-              </TableCell>
-              <TableCell>4</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-x-5">
-                  <Link
-                    href="/admin/setting/social/edit/1"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href="#"
-                    className="font-medium text-red-500 hover:underline dark:text-red-500"
-                  >
-                    Delete
-                  </Link>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+    <section className="my-10">
+      <h2 className="mb-4 text-2xl font-bold">Social Media Settings</h2>
+
+      <div className="mb-4 max-w-md">
+        <Label htmlFor="selectIcon">Select Existing Icon</Label>
+        <Select
+          id="selectIcon"
+          value={selectedIcon}
+          onChange={(e) => handleIconSelect(e.target.value)}
+        >
+          <option value="">-- Add New / Select Existing --</option>
+          {list.map((item) => (
+            <option key={item._id} value={item.icon}>
+              {item.icon}
+            </option>
+          ))}
+        </Select>
       </div>
-    </div>
+
+      <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4">
+        <div>
+          <Label htmlFor="url">URL</Label>
+          <TextInput
+            id="url"
+            placeholder="https://facebook.com/yourpage"
+            value={formData.url}
+            onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+          />
+        </div>
+        <div>
+          <Label htmlFor="icon">Icon Name</Label>
+          <TextInput
+            id="icon"
+            placeholder="facebook, twitter, instagram..."
+            value={formData.icon}
+            onChange={(e) => {
+              setFormData({ ...formData, icon: e.target.value });
+              setSelectedIcon(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <Label htmlFor="order">Order</Label>
+          <TextInput
+            id="order"
+            type="number"
+            value={formData.order}
+            onChange={(e) =>
+              setFormData({ ...formData, order: Number(e.target.value) })
+            }
+          />
+        </div>
+        <Button type="submit" color="dark">
+          Save
+        </Button>
+      </form>
+    </section>
   );
-}
+};
+
+export default SocialMediaForm;
