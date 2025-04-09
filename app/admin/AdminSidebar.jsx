@@ -65,9 +65,7 @@ const collapsibleItems = [
     links: [
       { label: "Home", href: "/admin/setting/page/home" },
       { label: "Contact", href: "/admin/setting/page/contact" },
-      { label: "About Us", href: "/admin/setting/page/about" },
-      { label: "Terms & Conditions", href: "/admin/setting/page/terms" },
-      { label: "Privacy Policy", href: "/admin/setting/page/privacy" },
+      { label: "Utility pages", href: "/admin/setting/page/about" },
     ],
   },
 ];
@@ -123,9 +121,9 @@ const AdminSidebar = () => {
           ))}
 
           {/* Static Email Template Section */}
-          <SidebarItem href="/admin/emails/view" icon={MdOutlineMailLock}>
+          {/* <SidebarItem href="/admin/emails/view" icon={MdOutlineMailLock}>
             Email Templates
-          </SidebarItem>
+          </SidebarItem> */}
 
           {/* Logout Section */}
           <SidebarItem onClick={handleLogout} icon={MdLogout}>
