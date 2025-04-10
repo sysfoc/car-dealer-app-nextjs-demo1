@@ -1,43 +1,87 @@
-import connectDB from "../../lib/mongodb";
+import connectToMongoDB from "../../lib/mongodb";
 import { NextResponse } from "next/server";
-import PageContent from "../../models/PageContent.js";
+import Homepage from "../../models/Homepage.js";
 
-export async function GET(req) {
-  await connectDB();
+connectToMongoDB();
 
-  const { searchParams } = new URL(req.url);
-  const type = searchParams.get("type");
+const fieldMappings = {
+  seoTitle: "seoTitle",
+  seoDescription: "seoDescription",
+  searchHeading: "searchSection.heading",
+  searchText: "searchSection.text",
+  brandHeading: "brandSection.heading",
+  brandSubheading: "brandSection.subheading",
+  brandItems: "brandSection.items",
+  brandStatus: "brandSection.status",
+  listingHeading: "listingSection.heading",
+  listingSubheading: "listingSection.subheading",
+  listingItems: "listingSection.items",
+  listingStatus: "listingSection.status",
+  chooseusHeading: "chooseUs.heading",
+  chooseusFirstHeading: "chooseUs.first.heading",
+  chooseusFirstDescription: "chooseUs.first.description",
+  chooseusSecondHeading: "chooseUs.second.heading",
+  chooseusSecondDescription: "chooseUs.second.description",
+  chooseusThirdHeading: "chooseUs.third.heading",
+  chooseusThirdDescription: "chooseUs.third.description",
+  chooseusFourthHeading: "chooseUs.fourth.heading",
+  chooseusFourthDescription: "chooseUs.fourth.description",
+  mondayHr: "footer.monday",
+  tuesdayHr: "footer.tuesday",
+  wednesdayHr: "footer.wednesday",
+  thursdayHr: "footer.thursday",
+  fridayHr: "footer.friday",
+  saturdayHr: "footer.saturday",
+};
 
-  if (!type) {
-    return NextResponse.json({ error: "Missing type" }, { status: 400 });
-  }
-
-  const data = await PageContent.findOne({ type });
-  return NextResponse.json({ data });
-}
-
-export async function POST(req) {
-  await connectDB();
-  const body = await req.json();
-  const { type, name, content } = body;
-
-  if (!type || !name || !content) {
+export async function GET() {
+  try {
+    const homepageData = await Homepage.findOne();
+    return NextResponse.json(homepageData || {});
+  } catch (error) {
     return NextResponse.json(
-      { error: "All fields are required." },
-      { status: 400 },
+      { error: "Failed to fetch homepage data." },
+      { status: 500 },
     );
   }
+}
 
-  const existing = await PageContent.findOne({ type });
-  let result;
+export async function POST(request) {
+  try {
+    const formData = await request.formData();
+    const update = {};
 
-  if (existing) {
-    existing.name = name;
-    existing.content = content;
-    result = await existing.save();
-  } else {
-    result = await PageContent.create({ type, name, content });
+    // Build update object from form data
+    for (const [key, value] of formData.entries()) {
+      const path = fieldMappings[key];
+      if (path) {
+        path.split(".").reduce((acc, part, index, parts) => {
+          if (index === parts.length - 1) {
+            acc[part] = value;
+          } else {
+            acc[part] = acc[part] || {};
+          }
+          return acc[part];
+        }, update);
+      }
+    }
+
+    const options = { new: true, upsert: true };
+    const homepageData = await Homepage.findOneAndUpdate(
+      {},
+      { $set: update },
+      options,
+    );
+
+    return NextResponse.json(
+      { message: "Homepage content saved successfully!", data: homepageData },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Error saving homepage content:", error);
+    return NextResponse.json(
+      { error: "Failed to save homepage data." },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json({ message: "Saved successfully", data: result });
 }

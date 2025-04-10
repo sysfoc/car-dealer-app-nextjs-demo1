@@ -1,7 +1,5 @@
 import connectToMongoDB from "../../lib/mongodb";
 import { NextResponse } from "next/server";
-// import path from "path";
-// import fs from "fs/promises";
 import Homepage from "../../models/Homepage.js";
 
 connectToMongoDB();
@@ -55,10 +53,12 @@ export async function POST(request) {
       saturday: formData.get("saturdayHr"),
     };
 
-    const homepageData = new Homepage({
+    // Find the homepage data if it exists
+    const existingHomepage = await Homepage.findOne();
+
+    const homepageData = {
       seoTitle,
       seoDescription,
-
       searchSection: {
         heading: searchHeading,
         text: searchText,
@@ -77,18 +77,50 @@ export async function POST(request) {
       },
       chooseUs: chooseUsData,
       footer,
-    });
+    };
 
-    await homepageData.save();
-
-    return NextResponse.json(
-      { message: "Homepage content saved successfully!", data: homepageData },
-      { status: 201 },
-    );
+    // If homepage data exists, update it, otherwise, create a new entry
+    if (existingHomepage) {
+      await Homepage.updateOne({}, homepageData);
+      return NextResponse.json(
+        {
+          message: "Homepage content updated successfully!",
+          data: homepageData,
+        },
+        { status: 200 },
+      );
+    } else {
+      const newHomepage = new Homepage(homepageData);
+      await newHomepage.save();
+      return NextResponse.json(
+        { message: "Homepage content saved successfully!", data: newHomepage },
+        { status: 201 },
+      );
+    }
   } catch (error) {
     console.error("Error saving homepage content:", error);
     return NextResponse.json(
       { error: "Failed to save homepage data." },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const homepageData = await Homepage.findOne();
+    if (homepageData) {
+      return NextResponse.json({ data: homepageData }, { status: 200 });
+    } else {
+      return NextResponse.json(
+        { message: "No homepage data found" },
+        { status: 404 },
+      );
+    }
+  } catch (error) {
+    console.error("Error fetching homepage data:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch homepage data." },
       { status: 500 },
     );
   }

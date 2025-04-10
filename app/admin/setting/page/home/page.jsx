@@ -1,28 +1,16 @@
 "use client";
 
-import {
-  Button,
-  Checkbox,
-  FileInput,
-  Label,
-  Select,
-  Textarea,
-  TextInput,
-  ToggleSwitch,
-} from "flowbite-react";
-import Image from "next/image";
+import { Button, Textarea, TextInput, Select, Label } from "flowbite-react";
 import React, { useState, useRef } from "react";
 
 const Page = () => {
   const [activeSection, setActiveSection] = useState("SEO Section");
 
-  // Refs for all inputs
   const refs = {
     title: useRef(null),
     metaDescription: useRef(null),
     searchHeading: useRef(null),
     searchText: useRef(null),
-    logo: useRef(null),
     brandHeading: useRef(null),
     brandSubheading: useRef(null),
     brandItems: useRef(null),
@@ -52,89 +40,69 @@ const Page = () => {
     e.preventDefault();
     const formData = new FormData();
 
-    if (activeSection === "SEO Section") {
-      formData.append("seoTitle", refs.title.current?.value || "");
-      formData.append(
-        "seoDescription",
-        refs.metaDescription.current?.value || "",
-      );
-    }
-
-    if (activeSection === "Search Section") {
-      formData.append("searchHeading", refs.searchHeading.current?.value || "");
-      formData.append("searchText", refs.searchText.current?.value || "");
-    }
-
-    if (activeSection === "Brand Section") {
-      formData.append("brandHeading", refs.brandHeading.current?.value || "");
-      formData.append(
-        "brandSubheading",
-        refs.brandSubheading.current?.value || "",
-      );
-      formData.append("brandItems", refs.brandItems.current?.value || "");
-      formData.append("brandStatus", refs.brandStatus.current?.value || "");
-    }
-
-    if (activeSection === "Listing Section") {
-      formData.append(
-        "listingHeading",
-        refs.listingHeading.current?.value || "",
-      );
-      formData.append(
-        "listingSubheading",
-        refs.listingSubheading.current?.value || "",
-      );
-      formData.append("listingItems", refs.listingItems.current?.value || "");
-      formData.append("listingStatus", refs.listingStatus.current?.value || "");
-    }
-
-    if (activeSection === "Chooseus Section") {
-      formData.append(
-        "chooseusHeading",
-        refs.chooseusHeading.current?.value || "",
-      );
-      formData.append(
-        "chooseusFirstHeading",
-        refs.chooseusFirstHeading.current?.value || "",
-      );
-      formData.append(
-        "chooseusFirstDescription",
-        refs.chooseusFirstDescription.current?.value || "",
-      );
-      formData.append(
-        "chooseusSecondHeading",
-        refs.chooseusSecondHeading.current?.value || "",
-      );
-      formData.append(
-        "chooseusSecondDescription",
-        refs.chooseusSecondDescription.current?.value || "",
-      );
-      formData.append(
-        "chooseusThirdHeading",
-        refs.chooseusThirdHeading.current?.value || "",
-      );
-      formData.append(
-        "chooseusThirdDescription",
-        refs.chooseusThirdDescription.current?.value || "",
-      );
-      formData.append(
-        "chooseusFourthHeading",
-        refs.chooseusFourthHeading.current?.value || "",
-      );
-      formData.append(
-        "chooseusFourthDescription",
-        refs.chooseusFourthDescription.current?.value || "",
-      );
-    }
-
-    if (activeSection === "Footer") {
-      formData.append("mondayHr", refs.mondayHr.current?.value || "");
-      formData.append("tuesdayHr", refs.tuesdayHr.current?.value || "");
-      formData.append("wednesdayHr", refs.wednesdayHr.current?.value || "");
-      formData.append("thursdayHr", refs.thursdayHr.current?.value || "");
-      formData.append("fridayHr", refs.fridayHr.current?.value || "");
-      formData.append("saturdayHr", refs.saturdayHr.current?.value || "");
-    }
+    formData.append("seoTitle", refs.title.current?.value || "");
+    formData.append(
+      "seoDescription",
+      refs.metaDescription.current?.value || "",
+    );
+    formData.append("searchHeading", refs.searchHeading.current?.value || "");
+    formData.append("searchText", refs.searchText.current?.value || "");
+    formData.append("brandHeading", refs.brandHeading.current?.value || "");
+    formData.append(
+      "brandSubheading",
+      refs.brandSubheading.current?.value || "",
+    );
+    formData.append("brandItems", refs.brandItems.current?.value || "");
+    formData.append("brandStatus", refs.brandStatus.current?.value || "");
+    formData.append("listingHeading", refs.listingHeading.current?.value || "");
+    formData.append(
+      "listingSubheading",
+      refs.listingSubheading.current?.value || "",
+    );
+    formData.append("listingItems", refs.listingItems.current?.value || "");
+    formData.append("listingStatus", refs.listingStatus.current?.value || "");
+    formData.append(
+      "chooseusHeading",
+      refs.chooseusHeading.current?.value || "",
+    );
+    formData.append(
+      "chooseusFirstHeading",
+      refs.chooseusFirstHeading.current?.value || "",
+    );
+    formData.append(
+      "chooseusFirstDescription",
+      refs.chooseusFirstDescription.current?.value || "",
+    );
+    formData.append(
+      "chooseusSecondHeading",
+      refs.chooseusSecondHeading.current?.value || "",
+    );
+    formData.append(
+      "chooseusSecondDescription",
+      refs.chooseusSecondDescription.current?.value || "",
+    );
+    formData.append(
+      "chooseusThirdHeading",
+      refs.chooseusThirdHeading.current?.value || "",
+    );
+    formData.append(
+      "chooseusThirdDescription",
+      refs.chooseusThirdDescription.current?.value || "",
+    );
+    formData.append(
+      "chooseusFourthHeading",
+      refs.chooseusFourthHeading.current?.value || "",
+    );
+    formData.append(
+      "chooseusFourthDescription",
+      refs.chooseusFourthDescription.current?.value || "",
+    );
+    formData.append("mondayHr", refs.mondayHr.current?.value || "");
+    formData.append("tuesdayHr", refs.tuesdayHr.current?.value || "");
+    formData.append("wednesdayHr", refs.wednesdayHr.current?.value || "");
+    formData.append("thursdayHr", refs.thursdayHr.current?.value || "");
+    formData.append("fridayHr", refs.fridayHr.current?.value || "");
+    formData.append("saturdayHr", refs.saturdayHr.current?.value || "");
 
     const response = await fetch("/api/homepage", {
       method: "POST",
@@ -143,7 +111,7 @@ const Page = () => {
 
     const result = await response.json();
     if (response.ok) {
-      alert("Data saved successfully!");
+      alert("Data saved or updated successfully!");
     } else {
       alert("Error: " + result.error);
     }
