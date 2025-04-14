@@ -1,17 +1,42 @@
-import { Avatar, Button, Label, Textarea, TextInput } from "flowbite-react";
+import { notFound } from "next/navigation";
 import Image from "next/image";
-import React from "react";
+import { Avatar, Button, Label, Textarea, TextInput } from "flowbite-react";
 import { FaEye } from "react-icons/fa";
 import { IoMdAlarm } from "react-icons/io";
 
-const page = () => {
+type ParamsType = {
+  slug: string;
+};
+
+const Page = async ({ params }: { params: ParamsType }) => {
+  const { slug } = params;
+
+  let blog = null;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/blog/${slug}`, {
+      cache: "no-store", 
+    });
+
+    if (!res.ok) throw new Error("Blog not found");
+
+    const data = await res.json();
+    blog = data;
+  } catch (error) {
+    notFound();
+  }
+
+  if (!blog) {
+    return <div className="p-10 text-red-500 text-xl">Blog not found or API failed.</div>;
+  }
+
   return (
     <section className="mx-4 my-5 sm:mx-16">
       <div className="grid grid-cols-1 items-center gap-x-10 gap-y-5 py-5 md:grid-cols-2">
         <div className="overflow-hidden rounded-lg">
           <Image
-            src={"/Luxury SUV.webp"}
-            alt="blog-image"
+            src={blog.image || "/default.jpg"}
+            alt={blog.title || "Blog image"}
             width={500}
             height={300}
             className="size-full"
@@ -20,47 +45,33 @@ const page = () => {
         <div>
           <div className="flex flex-row items-center gap-3">
             <button className="inline-flex items-center rounded-lg bg-blue-950 px-3 py-2 text-center text-sm font-medium text-white dark:bg-red-500">
-              Cars to Buy
+              {blog.category || "Uncategorized"}
             </button>
             <div className="flex items-center gap-2">
               <IoMdAlarm fontSize={18} />
-              <span>Oct 04, 2024</span>
+              <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
             </div>
           </div>
-          <h1 className="mt-3 text-2xl font-bold sm:mt-5 sm:text-4xl">
-            Top 5 Vehicals to buy in 2025 - The Biggest Car Launches of 2025
-          </h1>
+          <h1 className="mt-3 text-2xl font-bold sm:mt-5 sm:text-4xl">{blog.h1 || blog.metaTitle}</h1>
           <div className="mt-5 flex items-center gap-10">
             <div className="flex items-center gap-3">
               <Avatar size={"sm"} rounded />
-              <span>Hamza Ilyas</span>
+              <span>{blog.author || "Anonymous"}</span>
             </div>
             <div className="flex flex-row items-center gap-2">
               <FaEye fontSize={18} />
-              <span>225 views</span>
+              <span>{blog.views || 0} views</span>
             </div>
           </div>
         </div>
       </div>
+
       <div className="mt-5 w-full md:w-3/4">
-        <div>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis
-          iste accusantium quod. Veniam, aliquid ad hic, temporibus, amet
-          inventore id nostrum tempora quibusdam in nemo quia accusamus et? Eos
-          expedita, cupiditate libero dolorum dolorem, aperiam dolor magnam vel
-          aut obcaecati doloremque nulla maiores itaque aspernatur. Suscipit
-          aliquid quo ab sunt quaerat nihil optio explicabo dolor quisquam?
-          Earum quia iusto corrupti dolorem qui voluptate labore quisquam.
-          Ratione aperiam animi velit! Perferendis officia nihil eos a error
-          dolor dicta. Culpa officiis ullam fuga accusamus voluptate vero cum,
-          corrupti consectetur minus? Quibusdam nemo molestias iusto, blanditiis
-          architecto libero dolorum! Est repudiandae id sint eos praesentium, ad
-          deserunt.
-        </div>
+        <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+
         <div>
           <h2 className="mt-8 text-2xl font-bold">Comments</h2>
-          <div>
-            <form>
+          <form>
               <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="flex flex-col">
                   <Label htmlFor="fname">First Name:</Label>
@@ -93,11 +104,10 @@ const page = () => {
                 </Button>
               </div>
             </form>
-          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default page;
+export default Page;
