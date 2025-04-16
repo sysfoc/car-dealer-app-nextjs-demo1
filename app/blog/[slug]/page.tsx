@@ -3,6 +3,7 @@ import Image from "next/image";
 import { IoMdAlarm } from "react-icons/io";
 import { Avatar, Button, Label, Textarea, TextInput } from "flowbite-react";
 import ClientBlog from "../[slug]/ClientBlog"
+import { headers } from "next/headers";
 
 type ParamsType = {
   slug: string;
@@ -25,7 +26,11 @@ interface BlogType {
 
 async function getBlog(slug: string): Promise<BlogType | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${slug}`, {
+    const headersList = headers();
+    const host = headersList.get("host");
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
+    const res = await fetch(`${protocol}://${host}/api/blog/${slug}`, {
       cache: "no-store",
     });
 
@@ -35,6 +40,7 @@ async function getBlog(slug: string): Promise<BlogType | null> {
     return null;
   }
 }
+
 
 const Page = async ({ params }: { params: ParamsType }) => {
   const blog = await getBlog(params.slug);
