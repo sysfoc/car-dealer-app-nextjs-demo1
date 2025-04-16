@@ -10,6 +10,7 @@ const BlogSchema = new mongoose.Schema(
     metaTitle: { type: String, required: true },
     metaDescription: { type: String, required: true },
     h1: { type: String, required: true },
+
     comments: [
       {
         user: String,
@@ -17,10 +18,18 @@ const BlogSchema = new mongoose.Schema(
         date: { type: Date, default: Date.now },
       },
     ],
+
     image: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
+
+    views: [
+      {
+        ip: { type: String, required: true },
+        lastViewed: { type: Date, required: true },
+      },
+    ],
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 BlogSchema.pre("save", async function (next) {
