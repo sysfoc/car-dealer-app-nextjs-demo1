@@ -24,6 +24,10 @@ interface BlogType {
   slug: string;
 }
 
+
+
+
+
 async function getBlog(slug: string): Promise<BlogType | null> {
   try {
     const headersList = headers();
@@ -107,7 +111,7 @@ const Page = async ({ params }: { params: ParamsType }) => {
                 />
               </div>
               <div className="col-span-2 flex flex-col">
-                <Label htmlFor="comment">Add Comment:</Label>
+                <Label htmlFor="comment">Add Comments update:</Label>
                 <Textarea rows={10} id="comment" />
               </div>
             </div>
