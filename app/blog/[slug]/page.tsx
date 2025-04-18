@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { IoMdAlarm } from "react-icons/io";
-import { Avatar, Button, Label, Textarea, TextInput } from "flowbite-react";
+import { Avatar } from "flowbite-react";
 import ClientBlog from "../[slug]/ClientBlog"
 import { headers } from "next/headers";
+import CommentSection from "../../components/CommentSection"
 
 type ParamsType = {
   slug: string;
@@ -88,45 +89,7 @@ const Page = async ({ params }: { params: ParamsType }) => {
         </div>
       </div>
 
-      <div className="mt-5 w-full md:w-3/4">
-        <div dangerouslySetInnerHTML={{ __html: blog.content }} />
-        <div>
-          <h2 className="mt-8 text-2xl font-bold">Comments</h2>
-          <form>
-            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="flex flex-col">
-                <Label htmlFor="fname">First Name:</Label>
-                <TextInput type="text" id="fname" placeholder="First Name" />
-              </div>
-              <div className="flex flex-col">
-                <Label htmlFor="lname">Last Name:</Label>
-                <TextInput type="text" id="lname" placeholder="Last Name" />
-              </div>
-              <div className="col-span-2 flex flex-col">
-                <Label htmlFor="email">Email:</Label>
-                <TextInput
-                  type="email"
-                  id="email"
-                  placeholder="Email Address"
-                />
-              </div>
-              <div className="col-span-2 flex flex-col">
-                <Label htmlFor="comment">Add Comments update:</Label>
-                <Textarea rows={10} id="comment" />
-              </div>
-            </div>
-            <div>
-              <Button
-                type="submit"
-                size={"sm"}
-                className="mt-5 rounded-lg bg-blue-950 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-500 dark:bg-red-500 dark:hover:bg-blue-950"
-              >
-                Add Comment
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <CommentSection slug={blog.slug} />
     </section>
   );
 };

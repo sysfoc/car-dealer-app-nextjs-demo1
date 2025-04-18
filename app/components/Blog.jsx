@@ -78,15 +78,15 @@ const Blog = () => {
           </div>
 
           <div className="grid h-full gap-3 sm:grid-cols-2">
-            {blogs.slice(1, 5).map((blog) => (
+            {blogs.slice(1, 5).map((blog, index) => (
               <div
-                key={blog.id}
+                key={`${blog.slug}-${index}`}
                 className="flex flex-col border border-gray-300 transition-transform duration-300 ease-in-out hover:scale-95"
               >
                 <Link href={`/blog/${blog.slug}`}>
                   <Image
                     src={blog.image || "/sydney.jpg"}
-                    alt={blog.title}
+                    alt={blog.slug}
                     width={500}
                     height={500}
                     className="w-full"
