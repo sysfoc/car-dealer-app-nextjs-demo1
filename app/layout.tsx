@@ -8,6 +8,8 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import Cookiebox from "@/app/components/Cookiebox";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,12 +34,13 @@ export default async function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
+      <GoogleAnalytics GA_MEASUREMENT_ID='G-CV93W8PY4B'/>
       <body
         className={`transition-all dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
         <NextIntlClientProvider messages={messages}>
           <LayoutRenderer>
-            <NuqsAdapter>{children}</NuqsAdapter>
+            <NuqsAdapter>{children}<Cookiebox /></NuqsAdapter>
           </LayoutRenderer>
         </NextIntlClientProvider>
 

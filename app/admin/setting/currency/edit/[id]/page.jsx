@@ -1,44 +1,120 @@
+"use client";
+
 import { Button, Label, Select, TextInput } from "flowbite-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
+  const router = useRouter();
+  const params = useParams();
+  const currencyId = params?.id;
+
+  const [name, setName] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [value, setValue] = useState("");
+  const [isDefault, setIsDefault] = useState("no");
+
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      try {
+        const res = await fetch(`/api/currency/${currencyId}`);
+        const data = await res.json();
+        setName(data.name);
+        setSymbol(data.symbol);
+        setValue(data.value);
+        setIsDefault(data.isDefault ? "yes" : "no");
+      } catch (error) {
+        console.error("Failed to load currency", error);
+      }
+    };
+
+    if (currencyId) fetchCurrency();
+  }, [currencyId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const updatedData = {
+      name,
+      symbol,
+      value: parseFloat(value),
+      isDefault: isDefault === "yes",
+    };
+
+    try {
+      const res = await fetch(`/api/currency/${currencyId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (res.ok) {
+        router.push("/admin/setting/currency");
+      } else {
+        const err = await res.json();
+        console.error("Update failed:", err);
+      }
+    } catch (error) {
+      console.error("Error submitting update:", error);
+    }
+  };
+
   return (
     <section className="my-10">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Edit Currency</h2>
-        </div>
-        <div>
-          <Link
-            href={"/admin/setting/currency"}
-            className="rounded-lg bg-blue-500 p-3 text-sm text-white"
-          >
-            View All
-          </Link>
-        </div>
+        <h2 className="text-2xl font-bold">Edit Currency</h2>
+        <Link
+          href={"/admin/setting/currency"}
+          className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+        >
+          View All
+        </Link>
       </div>
-      <form className="mt-5 flex flex-col gap-3">
+
+      <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
         <div>
           <Label htmlFor="name">Name</Label>
           <TextInput
-            type="name"
+            type="text"
             id="name"
-            autoComplete="on"
             placeholder="USD"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
         <div>
           <Label htmlFor="symbol">Symbol</Label>
-          <TextInput type="text" id="symbol" placeholder="$" />
+          <TextInput
+            type="text"
+            id="symbol"
+            placeholder="$"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            required
+          />
         </div>
         <div>
           <Label htmlFor="value">Value</Label>
-          <TextInput type="number" id="value" placeholder="1" />
+          <TextInput
+            type="number"
+            id="value"
+            placeholder="1"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            required
+          />
         </div>
         <div>
           <Label htmlFor="is-default">Is Default?</Label>
-          <Select id="is-default">
+          <Select
+            id="is-default"
+            value={isDefault}
+            onChange={(e) => setIsDefault(e.target.value)}
+          >
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </Select>
@@ -53,4 +129,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

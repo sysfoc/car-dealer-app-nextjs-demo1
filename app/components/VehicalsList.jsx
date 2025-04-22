@@ -146,7 +146,7 @@ const VehicalsList = ({ loadingState }) => {
                       <div className="flex items-center justify-center">
                         <IoSpeedometer fontSize={25} />
                       </div>
-                      <p className="mt-2 text-sm">{vehicle.driven} Miles</p>
+                      <p className="mt-2 text-sm">{vehicle.kms}</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center">
