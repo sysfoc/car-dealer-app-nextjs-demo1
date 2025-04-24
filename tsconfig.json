@@ -27,6 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "types.d.ts",
     "app/api/cars.js",
     "app/components/Herosection.jsx",
     "app/components/Herosection.jsx",

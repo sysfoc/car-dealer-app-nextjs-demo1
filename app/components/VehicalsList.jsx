@@ -8,6 +8,7 @@ import { TbManualGearbox } from "react-icons/tb";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useTranslations } from "next-intl";
+import { useCurrency } from "../context/CurrencyContext"
 
 const VehicalsList = ({ loadingState }) => {
 
@@ -15,6 +16,7 @@ const VehicalsList = ({ loadingState }) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { currency } = useCurrency();
 
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -165,7 +167,9 @@ const VehicalsList = ({ loadingState }) => {
                   <div className="my-3 flex items-center justify-between">
                     <div>
                       <h4 className="text-lg font-semibold">
-                        ${vehicle.price}
+                        {/* {vehicle.price} */}
+                        {currency?.symbol} {(vehicle.price / (currency?.value || 1)).toFixed(2)}
+
                       </h4>
                     </div>
                     <div>

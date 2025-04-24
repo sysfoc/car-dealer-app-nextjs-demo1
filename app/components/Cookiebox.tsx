@@ -6,7 +6,6 @@ const CookieBox = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Only runs on client
     const stored = getLocalStorage("cookie_consent", null);
     if (stored !== 'essential' && stored !== 'all') {
       setIsVisible(true);
@@ -24,7 +23,12 @@ const CookieBox = () => {
       console.log("Cookie Consent:", analyticsValue);
     }
 
-    // 🔄 Force page reload to reapply GA config based on updated consent
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        analytics_storage: value === 'all' ? 'granted' : 'denied'
+      });
+    }
+
     window.location.reload();
   };
 

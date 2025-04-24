@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import Cookiebox from "@/app/components/Cookiebox";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import { CurrencyProvider } from "./context/CurrencyContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -40,7 +41,11 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <LayoutRenderer>
-            <NuqsAdapter>{children}<Cookiebox /></NuqsAdapter>
+            <NuqsAdapter>
+            <CurrencyProvider>
+              {children}<Cookiebox />
+            </CurrencyProvider>
+              </NuqsAdapter>
           </LayoutRenderer>
         </NextIntlClientProvider>
 
