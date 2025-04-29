@@ -1,6 +1,6 @@
 import React from "react";
 import parse from "html-react-parser";
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
 export const metadata = {
   title: "Privacy Policy - Auto Car Dealers",
@@ -8,11 +8,8 @@ export const metadata = {
     "This Privacy Policy outlines how we collect, use, and protect your personal information when you use our services.",
 };
 
-async function getPrivacyContent() {
-  const headersList = headers();
-  const host = headersList.get('host');
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const res = await fetch(`${protocol}://${host}/api/page-content/privacy`, {
+async function getPrivacyContent(baseUrl) {
+  const res = await fetch(`${baseUrl}/api/page-content/privacy`, {
     cache: "no-store",
   });
 
@@ -22,7 +19,12 @@ async function getPrivacyContent() {
 }
 
 const PrivacyPage = async () => {
-  const data = await getPrivacyContent();
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
+
+  const data = await getPrivacyContent(baseUrl);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 dark:bg-gray-800">

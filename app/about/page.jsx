@@ -1,18 +1,14 @@
 import React from "react";
 import parse from "html-react-parser";
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 
 export const metadata = {
   title: "About Us - Auto Car Dealers",
   description:
     "Welcome to Car Dealers! We are a team of innovators, creators, and problem-solvers committed to crafting meaningful digital experiences.",
 };
-
-async function getAboutContent() {
-  const headersList = headers();
-  const host = headersList.get('host');
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const res = await fetch(`${protocol}://${host}/api/page-content/about`, {
+async function getAboutContent(baseUrl) {
+  const res = await fetch(`${baseUrl}/api/page-content/about`, {
     cache: "no-store",
   });
 
@@ -22,7 +18,12 @@ async function getAboutContent() {
 }
 
 const AboutPage = async () => {
-  const data = await getAboutContent();
+  const headersList = headers(); 
+  const host = headersList.get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
+
+  const data = await getAboutContent(baseUrl);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 dark:bg-gray-800">
