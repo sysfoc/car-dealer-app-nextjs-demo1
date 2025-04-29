@@ -71,7 +71,7 @@ const ContactUs = () => {
                 Address
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                1234 Main Street, Suite 567, City Name, Country
+              {process.env.NEXT_PUBLIC_CONTACT_ADDRESS}
               </p>
             </div>
             <div className="mb-4">
@@ -79,7 +79,7 @@ const ContactUs = () => {
                 Email
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                info@example.com
+              {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
               </p>
             </div>
             <div className="mb-4">
@@ -87,7 +87,7 @@ const ContactUs = () => {
                 Phone
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                +1 (123) 456-7890
+              {process.env.NEXT_PUBLIC_CONTACT_PHONE}
               </p>
             </div>
             <div className="mb-4">
@@ -95,7 +95,7 @@ const ContactUs = () => {
                 Working Hours
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Monday - Friday: 9:00 AM - 6:00 PM
+              {process.env.NEXT_PUBLIC_CONTACT_WORKING_HOURS}
               </p>
             </div>
           </div>

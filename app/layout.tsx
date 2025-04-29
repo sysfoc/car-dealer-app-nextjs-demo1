@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   title: "Auto Car Dealers",
   description: "Make Deals Of Cars And Any Other Vehical",
 };
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:5000';
+const res = await fetch(`${baseUrl}/api/settings/general`);
+const settings = await res.json();
+
 
 export default async function RootLayout({
   children,
@@ -30,22 +34,28 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+
   return (
     <html lang={locale}>
       <head>
         <ThemeModeScript />
       </head>
-      <GoogleAnalytics GA_MEASUREMENT_ID='G-CV93W8PY4B'/>
+      
+      {settings?.analytics?.status === 'active' && (
+  <GoogleAnalytics GA_MEASUREMENT_ID={settings.analytics.trackingId} />
+)}
+
       <body
         className={`transition-all dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
         <NextIntlClientProvider messages={messages}>
           <LayoutRenderer>
             <NuqsAdapter>
-            <CurrencyProvider>
-              {children}<Cookiebox />
-            </CurrencyProvider>
-              </NuqsAdapter>
+              <CurrencyProvider>
+                {children}
+                <Cookiebox cookieConsent={settings.cookieConsent}/>
+              </CurrencyProvider>
+            </NuqsAdapter>
           </LayoutRenderer>
         </NextIntlClientProvider>
 

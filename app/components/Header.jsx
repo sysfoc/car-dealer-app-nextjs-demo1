@@ -26,6 +26,38 @@ const Header = ({ isDarkMode }) => {
   const [modalType, setModalType] = useState("signIn");
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [logo, setLogo] = useState("/logo.png");
+
+  const [topSettings, setTopSettings] = useState({
+    hideDarkMode: false,
+    hideFavourite: false,
+    hideLogo: false,
+  });
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch('/api/settings/general');
+        const data = await response.json();
+        console.log(data)
+        if (data.settings?.logo) {
+          console.log(data.settings.logo);
+          setLogo(data.settings.logo);
+        }
+        if (data.settings?.top) {
+          setTopSettings(data.settings.top);
+        }
+        if (data.settings.themeColor) {
+          setThemeColors(data.settings.themeColor);
+        }
+      } catch (error) {
+        console.error('Failed to fetch logo:', error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,13 +89,13 @@ const Header = ({ isDarkMode }) => {
     <>
       <Navbar
         fluid
-        className={`sticky inset-x-0 top-0 z-50 bg-gray-50/95 shadow-md transition-transform duration-300 dark:bg-gray-700/95 ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`sticky inset-x-0 top-0 z-50 bg-gray-50/95 shadow-md transition-transform duration-300 dark:bg-gray-700/95 ${isVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
       >
         <Link href="/">
           <Image
-            src={isDarkMode ? "/logo-white.png" : "/logo.png"}
+            // src={isDarkMode ? "/logo-white.png" : "/logo.png"}
+            src={logo}
             alt="Sysfoc-cars-dealer"
             width={100}
             height={50}
@@ -154,13 +186,15 @@ const Header = ({ isDarkMode }) => {
             className="cursor-pointer text-gray-600 dark:text-gray-400"
             onClick={() => setOpenSidebar(true)}
           />
-          <Link href={"/user/saved"} aria-label="Saved-ads">
-            <FaRegHeart
-              fontSize={16}
-              className="text-gray-600 dark:text-gray-400"
-            />
-          </Link>
-          <DarkThemeToggle />
+          {!topSettings.hideFavourite && (
+            <Link href="/user/saved" aria-label="Saved-ads">
+              <FaRegHeart
+                fontSize={16}
+                className="text-gray-600 dark:text-gray-400"
+              />
+            </Link>
+          )}
+          {!topSettings.hideDarkMode && <DarkThemeToggle />}
         </div>
       </Navbar>
       {openSidebar && (

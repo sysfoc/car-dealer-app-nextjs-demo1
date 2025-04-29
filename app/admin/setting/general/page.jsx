@@ -122,6 +122,22 @@ const Page = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch("/api/settings/general");  
+        const data = await response.json();
+        if (data.settings) {
+          setSettings(data.settings);
+        }
+      } catch (error) {
+        console.error("Error fetching settings", error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
   return (
     <section className="my-10">
       <div>

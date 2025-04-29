@@ -8,7 +8,7 @@ import {
   FooterTitle,
 } from "flowbite-react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaFacebookSquare,
   FaPinterest,
@@ -21,6 +21,21 @@ import LanguageSwitching from "@/app/components/LanguageSwitching";
 import { useTranslations } from "next-intl";
 const Footerr = ({ isDarkMode }) => {
   const t = useTranslations("Footer");
+  const [footerSettings, setFooterSettings] = useState(null);
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/settings/general", { cache: "no-store" });
+        const data = await res.json();
+        setFooterSettings(data?.settings?.footer || {});
+      } catch (error) {
+        console.error("Failed to fetch footer settings:", error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
   return (
     <Footer className="mt-10 bg-gray-100/30 dark:bg-gray-700/30">
       <div className="w-full">
@@ -37,7 +52,8 @@ const Footerr = ({ isDarkMode }) => {
             />
           </div>
           <div>
-            <FooterTitle title={`${t("quickLinks")}`} />
+            {/* <FooterTitle title={`${t("quickLinks")}`} /> */}
+            <FooterTitle title={footerSettings?.col1Heading || t("quickLinks")} />
             <FooterLinkGroup col>
               <FooterLink href="/about">{t("about")}</FooterLink>
               <FooterLink href="/contact">{t("contact")}</FooterLink>
@@ -46,7 +62,8 @@ const Footerr = ({ isDarkMode }) => {
             </FooterLinkGroup>
           </div>
           <div>
-            <FooterTitle title={`${t("tradingHours")}`} />
+            {/* <FooterTitle title={`${t("tradingHours")}`} /> */}
+            <FooterTitle title={footerSettings?.col2Heading || t("tradingHours")} />
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <span className="text-sm text-gray-500 dark:text-white">
@@ -133,7 +150,8 @@ const Footerr = ({ isDarkMode }) => {
             </div>
           </div>
           <div>
-            <FooterTitle title={`${t("language")}`} />
+            {/* <FooterTitle title={`${t("language")}`} /> */}
+            <FooterTitle title={footerSettings?.col3Heading || t("language")} />
             <LanguageSwitching />
           </div>
         </div>
