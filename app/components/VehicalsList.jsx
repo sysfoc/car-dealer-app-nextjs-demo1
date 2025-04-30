@@ -24,6 +24,7 @@ const VehicalsList = ({ loadingState }) => {
         const response = await fetch('/api/cars');
         if (!response.ok) throw new Error('Failed to fetch vehicles');
         const data = await response.json();
+        console.log('API response:',data)
         setVehicles(data.cars.filter(car => car.status === 1));
         setIsLoading(false);
       } catch (err) {
@@ -138,9 +139,9 @@ const VehicalsList = ({ loadingState }) => {
                   />
                 </div>
                 <div className="my-3 px-4">
-                  <h3 className="text-xl font-semibold">{vehicle.make}{" "}{vehicle.model}</h3>
+                  <h3 className="text-xl font-semibold">{vehicle?.make}{" "}{vehicle?.model}</h3>
                   <p className="text-sm">
-                    {vehicle.description?.slice(0, 26)}...
+                    {vehicle?.description?.slice(0, 26)}...
                   </p>
                   <div className="mt-3 border-b-2 border-gray-100"></div>
                   <div className="my-3 grid grid-cols-3 gap-3">
@@ -148,19 +149,19 @@ const VehicalsList = ({ loadingState }) => {
                       <div className="flex items-center justify-center">
                         <IoSpeedometer fontSize={25} />
                       </div>
-                      <p className="mt-2 text-sm">{vehicle.kms}</p>
+                      <p className="mt-2 text-sm">{vehicle?.kms}</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center">
                         <GiGasPump fontSize={25} />
                       </div>
-                      <p className="mt-2 text-sm">{vehicle.fuelType}</p>
+                      <p className="mt-2 text-sm">{vehicle?.fuelType}</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center">
                         <TbManualGearbox fontSize={25} />
                       </div>
-                      <p className="mt-2 text-sm">{vehicle.gearbox}</p>
+                      <p className="mt-2 text-sm">{vehicle?.gearbox}</p>
                     </div>
                   </div>
                   <div className="mt-3 border-b-2 border-gray-100"></div>
@@ -168,7 +169,7 @@ const VehicalsList = ({ loadingState }) => {
                     <div>
                       <h4 className="text-lg font-semibold">
                         {/* {vehicle.price} */}
-                        {currency?.symbol} {(vehicle.price / (currency?.value || 1)).toFixed(2)}
+                        {currency?.symbol} {(vehicle?.price / (currency?.value || 1)).toFixed(2)}
 
                       </h4>
                     </div>

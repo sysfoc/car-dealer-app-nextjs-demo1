@@ -47,9 +47,6 @@ const Header = ({ isDarkMode }) => {
         if (data.settings?.top) {
           setTopSettings(data.settings.top);
         }
-        if (data.settings.themeColor) {
-          setThemeColors(data.settings.themeColor);
-        }
       } catch (error) {
         console.error('Failed to fetch logo:', error);
       }

@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import Image from "next/image";
 import { IoMdAlarm } from "react-icons/io";
 import { Avatar } from "flowbite-react";
@@ -9,6 +8,7 @@ import CommentSection from "../../components/CommentSection"
 type ParamsType = {
   slug: string;
 };
+
 
 interface BlogType {
   _id: string;
@@ -24,10 +24,6 @@ interface BlogType {
   content: string;
   slug: string;
 }
-
-
-
-
 
 async function getBlog(slug: string): Promise<BlogType | null> {
   try {
@@ -51,7 +47,7 @@ const Page = async ({ params }: { params: ParamsType }) => {
   const blog = await getBlog(params.slug);
 
   if (!blog) {
-    notFound();
+    return;
   }
 
   return (
@@ -69,27 +65,27 @@ const Page = async ({ params }: { params: ParamsType }) => {
         <div>
           <div className="flex flex-row items-center gap-3">
             <button className="inline-flex items-center rounded-lg bg-blue-950 px-3 py-2 text-center text-sm font-medium text-white dark:bg-red-500">
-              {blog.category || "Uncategorized"}
+              {blog?.category || "Uncategorized"}
             </button>
             <div className="flex items-center gap-2">
               <IoMdAlarm fontSize={18} />
-              <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+              <span>{new Date(blog?.createdAt).toLocaleDateString()}</span>
             </div>
           </div>
           <h1 className="mt-3 text-2xl font-bold sm:mt-5 sm:text-4xl">
-            {blog.h1 || blog.metaTitle}
+            {blog?.h1 || blog?.metaTitle}
           </h1>
           <div className="mt-5 flex items-center gap-10">
             <div className="flex items-center gap-3">
               <Avatar size={"sm"} rounded />
-              <span>{blog.author || "Anonymous"}</span>
+              <span>{blog?.author || "Anonymous"}</span>
             </div>
-            <ClientBlog slug={blog.slug} />
+            <ClientBlog slug={blog?.slug} />
           </div>
         </div>
       </div>
 
-      <CommentSection slug={blog.slug} />
+      <CommentSection slug={blog?.slug} />
     </section>
   );
 };

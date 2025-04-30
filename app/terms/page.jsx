@@ -24,6 +24,7 @@ const TermsPage = async () => {
 
   const contentData = await getTermsContent(baseUrl);
 
+  
   return (
     <div className="min-h-screen bg-gray-50 py-10 dark:bg-gray-800">
       <div className="mx-auto max-w-4xl rounded-lg bg-white p-8 shadow-md dark:bg-gray-700">
