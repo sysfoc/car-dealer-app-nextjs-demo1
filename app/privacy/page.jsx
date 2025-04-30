@@ -1,6 +1,6 @@
 import React from "react";
-import parse from "html-react-parser";
 import { headers } from "next/headers";
+import ParsedHtmlContent from "../components/ParsedHtmlContent" 
 
 export const metadata = {
   title: "Privacy Policy - Auto Car Dealers",
@@ -33,7 +33,11 @@ const PrivacyPage = async () => {
           {data?.name || "Privacy Policy"}
         </h1>
         <div className="prose dark:prose-invert max-w-none">
-          {data?.content ? parse(data.content) : <p>No content found.</p>}
+          {data?.content ? (
+            <ParsedHtmlContent html={data.content} />
+          ) : (
+            <p>No content found.</p>
+          )}
         </div>
         <div className="mt-8 border-t pt-4">
           <p className="text-center text-sm text-gray-500 dark:text-white">

@@ -1,24 +1,25 @@
+
 import React from "react";
-import parse from "html-react-parser";
 import { headers } from "next/headers";
+import ParsedHtmlContent from "../components/ParsedHtmlContent";
 
 export const metadata = {
   title: "About Us - Auto Car Dealers",
   description:
     "Welcome to Car Dealers! We are a team of innovators, creators, and problem-solvers committed to crafting meaningful digital experiences.",
 };
+
 async function getAboutContent(baseUrl) {
   const res = await fetch(`${baseUrl}/api/page-content/about`, {
     cache: "no-store",
   });
 
   if (!res.ok) return null;
-
   return res.json();
 }
 
 const AboutPage = async () => {
-  const headersList = headers(); 
+  const headersList = headers();
   const host = headersList.get("host");
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
   const baseUrl = `${protocol}://${host}`;
@@ -31,9 +32,13 @@ const AboutPage = async () => {
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800 dark:text-white">
           {data?.name || "About Us"}
         </h1>
-        <div className="prose dark:prose-invert max-w-none">
-          {data?.content ? parse(data.content) : <p>No content found.</p>}
-        </div>
+
+        {data?.content ? (
+          <ParsedHtmlContent html={data.content} />
+        ) : (
+          <p>No content found.</p>
+        )}
+
         <div className="mt-8 border-t pt-4">
           <p className="text-center text-sm text-gray-500 dark:text-white">
             © 2025 sysfoc. All rights reserved.

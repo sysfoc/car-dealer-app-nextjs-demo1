@@ -45,6 +45,7 @@ export default function Listing() {
     fetchCars();
   }, []);
 
+  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -77,6 +78,7 @@ export default function Listing() {
             <TableHeadCell>year</TableHeadCell>
             <TableHeadCell>UserID</TableHeadCell>
             <TableHeadCell>SLug</TableHeadCell>
+
 
             <TableHeadCell>Actions</TableHeadCell>
           </TableHead>

@@ -54,6 +54,7 @@ const CarEditPage = ({ params }) => {
     slug: "",
   });
 
+  
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {

@@ -155,6 +155,7 @@ const Page = () => {
 
     formData.set("features", JSON.stringify(selectedFeatures));
 
+  
     try {
       const response = await fetch("/api/cars", {
         method: "POST",
