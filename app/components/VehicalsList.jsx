@@ -23,7 +23,7 @@ const VehicalsList = ({ loadingState }) => {
       try {
         const response = await fetch('/api/cars');
         if (!response.ok) throw new Error('Failed to fetch vehicles');
-        const data = await response.json();
+        const data = await response.text( );
         console.log('API response:',data)
         setVehicles(data.cars.filter(car => car.status === 1));
         setIsLoading(false);

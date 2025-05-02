@@ -11,7 +11,6 @@ const uploadDir = path.join(process.cwd(), "public", "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
-
 export async function PATCH(req, { params }) {
   const { id } = params;
 
@@ -20,14 +19,22 @@ export async function PATCH(req, { params }) {
       return NextResponse.json({ error: "Invalid car ID" }, { status: 400 });
     }
 
-    const formData = await req.formData();
-    const formEntries = Object.fromEntries(formData.entries());
-    //  console.log("Form Data Received:", formEntries);
+    await client.connect();
+    const db = client.db("cardealor");
 
-    let features = [];
-    if (formEntries.features) {
+    // Fetch existing car data
+    const existingCar = await db.collection("cars").findOne({ _id: new ObjectId(id) });
+    if (!existingCar) {
+      return NextResponse.json({ error: "Car not found" }, { status: 404 });
+    }
+
+    const formData = await req.formData();
+
+    // Process features
+    let features = existingCar.features || [];
+    if (formData.has("features")) {
       try {
-        features = JSON.parse(formEntries.features);
+        features = JSON.parse(formData.get("features"));
       } catch (error) {
         console.error("Failed to parse features:", error);
         return NextResponse.json(
@@ -36,54 +43,55 @@ export async function PATCH(req, { params }) {
         );
       }
     }
+let imageUrls = Array.isArray(existingCar.imageUrls) ? existingCar.imageUrls : [];
 
-    let imageUrls = [];
-    const images = formData.getAll("images");
-
-    if (images && images.length > 0) {
-      for (const image of images) {
-        if (image instanceof File) {
-          const fileName = `${Date.now()}-${image.name}`;
-          const filePath = path.join(uploadDir, fileName);
-
-          const buffer = Buffer.from(await image.arrayBuffer());
-          await fs.promises.writeFile(filePath, buffer);
-
-          imageUrls.push(`/uploads/${fileName}`);
-        }
-      }
-    }
-
-    let videoUrl = null;
-    const video = formData.get("video");
-
-    if (video && video.name) {
-      const fileName = `${Date.now()}-${video.name}`;
+const newImages = formData.getAll("images");
+if (newImages.length > 0) {
+  for (const image of newImages) {
+    if (image.name) {
+      const fileName = `${Date.now()}-${image.name}`;
       const filePath = path.join(uploadDir, fileName);
 
-      const buffer = Buffer.from(await video.arrayBuffer());
+      const buffer = Buffer.from(await image.arrayBuffer());
+      await fs.promises.writeFile(filePath, buffer);
+
+      imageUrls.push(`/uploads/${fileName}`);
+    }
+  }
+}
+
+    let videoUrl = existingCar.video || null;
+    const newVideo = formData.get("video");
+    if (newVideo && newVideo.name) {
+      const fileName = `${Date.now()}-${newVideo.name}`;
+      const filePath = path.join(uploadDir, fileName);
+
+      const buffer = Buffer.from(await newVideo.arrayBuffer());
       await fs.promises.writeFile(filePath, buffer);
 
       videoUrl = `/uploads/${fileName}`;
     }
 
+    const formEntries = {};
+    for (const [key, value] of formData.entries()) {
+      if (key !== 'images' && key !== 'video' && key !== 'features') {
+        formEntries[key] = value;
+      }
+    }
+
     const updatedData = {
       ...formEntries,
-      ...(features.length > 0 && { features }),
-      ...(imageUrls.length > 0 && { images: imageUrls }),
-      ...(videoUrl && { video: videoUrl }),
+      features,
+      imageUrls, 
+      video: videoUrl,
     };
 
-    delete updatedData._id;
+    delete updatedData._id; 
 
-    console.log("Updated Data to Insert:", updatedData);
-
-    await client.connect();
-    const db = client.db("cardealor");
-
-    const result = await db
-      .collection("cars")
-      .updateOne({ _id: new ObjectId(id) }, { $set: updatedData });
+    const result = await db.collection("cars").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updatedData }
+    );
 
     if (result.modifiedCount === 0) {
       return NextResponse.json(
@@ -106,6 +114,9 @@ export async function PATCH(req, { params }) {
     await client.close();
   }
 }
+
+
+
 
 export async function DELETE(req, { params }) {
   const { id } = params;
@@ -142,6 +153,7 @@ export async function DELETE(req, { params }) {
 
 export async function GET(req, { params }) {
   const { id } = params;
+
 
   try {
     if (!ObjectId.isValid(id)) {

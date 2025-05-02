@@ -54,7 +54,6 @@ const CarEditPage = ({ params }) => {
     slug: "",
   });
 
-  
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
@@ -63,15 +62,14 @@ const CarEditPage = ({ params }) => {
           const data = await res.json();
           console.log("Fetched Car Data:", data.car);
 
-          // Populate formData with fetched data
+          // Populate formData with fetched data, including existing images
           setFormData({
             ...data.car,
+            images: data.car.imageUrls || [], // Initialize images from imageUrls
             slug: data.car.make.toLowerCase().replace(/\s+/g, "-"),
           });
 
           setCar(data.car);
-        } else {
-          console.error("Failed to fetch car details");
         }
       } catch (error) {
         console.error("Error fetching car details:", error);
@@ -80,6 +78,8 @@ const CarEditPage = ({ params }) => {
 
     fetchCarDetails();
   }, [id]);
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -95,32 +95,6 @@ const CarEditPage = ({ params }) => {
         : [...prev.features, feature],
     }));
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const res = await fetch(`/api/cars/${id}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (res.ok) {
-  //       const data = await res.json();
-  //       console.log("Car updated successfully:", data);
-  //       alert("Car updated successfully!");
-  //       router.push("/admin/listing/view");
-  //     } else {
-  //       console.error("Failed to update car");
-  //       alert("Failed to update car. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating car:", error);
-  //     alert("An error occurred while updating the car.");
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -540,15 +514,14 @@ const CarEditPage = ({ params }) => {
             )}
           </div>
         </div>
-
         <div className="mt-5">
           <Label>Existing Images:</Label>
           <div className="flex gap-2">
-            {formData.images && formData.images.length > 0 ? (
+            {formData.images && Array.isArray(formData.images) && formData.images.length > 0 ? (
               formData.images.map((image, index) => (
                 <Image
                   key={index}
-                  src={image}
+                  src={typeof image === 'string' ? image : URL.createObjectURL(image)}
                   alt={`Car Image ${index}`}
                   width={100}
                   height={100}
@@ -560,6 +533,7 @@ const CarEditPage = ({ params }) => {
             )}
           </div>
         </div>
+
 
         <div className="mt-5">
           <Label>Existing Video:</Label>
@@ -575,7 +549,7 @@ const CarEditPage = ({ params }) => {
           <FileInput
             id="images"
             name="images"
-            multiple // Allow multiple files
+            multiple
             onChange={(e) => {
               const files = Array.from(e.target.files);
               setFormData((prev) => ({ ...prev, images: files }));
@@ -595,7 +569,6 @@ const CarEditPage = ({ params }) => {
           />
         </div>
 
-        {/* Submit Button */}
         <div className="mt-5">
           <Button type="submit">Update Car</Button>
         </div>

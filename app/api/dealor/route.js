@@ -1,3 +1,32 @@
+// import { NextResponse } from "next/server";
+// import connectDB from "../../lib/mongodb";
+// import Dealer from "../../models/Dealer";
+
+// await connectDB();
+
+// export const GET = async () => {
+//   try {
+//     const dealers = await Dealer.find();
+//     return NextResponse.json(dealers, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json({ error: "Server error" }, { status: 500 });
+//   }
+// };
+
+// export const POST = async (req) => {
+//   try {
+//     const body = await req.json();
+//     const newDealer = new Dealer(body);
+//     await newDealer.save();
+//     return NextResponse.json({ message: "Dealer added" }, { status: 201 });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { error: "Failed to add dealer" },
+//       { status: 500 },
+//     );
+//   }
+// };
+
 import { NextResponse } from "next/server";
 import connectDB from "../../lib/mongodb";
 import Dealer from "../../models/Dealer";
@@ -6,9 +35,18 @@ await connectDB();
 
 export const GET = async () => {
   try {
-    const dealers = await Dealer.find();
-    return NextResponse.json(dealers, { status: 200 });
+    const dealers = await Dealer.find().lean(); // Convert to plain JavaScript objects
+    // Transform MongoDB data to client-safe format
+    const transformedDealers = dealers.map(dealer => ({
+      ...dealer,
+      _id: dealer._id.toString(), // Convert ObjectId to string
+      createdAt: dealer.createdAt.toISOString(), // Convert Date to string
+      updatedAt: dealer.updatedAt.toISOString(),
+    }));
+    
+    return NextResponse.json(transformedDealers, { status: 200 });
   } catch (error) {
+    console.error("Error fetching dealers:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 };
@@ -17,9 +55,22 @@ export const POST = async (req) => {
   try {
     const body = await req.json();
     const newDealer = new Dealer(body);
-    await newDealer.save();
-    return NextResponse.json({ message: "Dealer added" }, { status: 201 });
+    const savedDealer = await newDealer.save();
+    
+    // Convert the saved document to client-safe format
+    const responseData = {
+      ...savedDealer.toObject(),
+      _id: savedDealer._id.toString(),
+      createdAt: savedDealer.createdAt.toISOString(),
+      updatedAt: savedDealer.updatedAt.toISOString(),
+    };
+
+    return NextResponse.json(
+      { message: "Dealer added", data: responseData }, 
+      { status: 201 }
+    );
   } catch (error) {
+    console.error("Error adding dealer:", error);
     return NextResponse.json(
       { error: "Failed to add dealer" },
       { status: 500 },

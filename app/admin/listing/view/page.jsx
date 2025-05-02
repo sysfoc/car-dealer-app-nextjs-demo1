@@ -101,7 +101,7 @@ export default function Listing() {
                 <TableCell>{car.model}</TableCell>
                 <TableCell>{car.price}</TableCell>
                 <TableCell>{car.year}</TableCell>
-                <TableCell>{car.userId}</TableCell>
+                <TableCell>{car.userId?.toString()}</TableCell>
                 <TableCell>{car.slug}</TableCell>
 
                 <TableCell>

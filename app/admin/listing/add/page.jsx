@@ -102,10 +102,22 @@ const Page = () => {
     driveType: "",
     dealerId: "",
   });
+  // useEffect(() => {
+  //   const fetchDealers = async () => {
+  //     try {
+  //       const response = await fetch("/api/dealor"); // Update API route accordingly
+  //       const data = await response.json();
+  //       setDealers(data);
+  //     } catch (error) {
+  //       console.error("Error fetching dealers:", error);
+  //     }
+  //   };
+  //   fetchDealers();
+  // }, []);
   useEffect(() => {
     const fetchDealers = async () => {
       try {
-        const response = await fetch("/api/dealor"); // Update API route accordingly
+        const response = await fetch("/api/dealor"); // Ensure this matches your API route
         const data = await response.json();
         setDealers(data);
       } catch (error) {
