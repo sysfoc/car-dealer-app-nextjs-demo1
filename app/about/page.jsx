@@ -18,6 +18,7 @@ async function getAboutContent(baseUrl) {
 const AboutPage = async () => {
   const headersList = headers(); 
   const host = headersList.get("host");
+  console.log("Host:", host);
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
   const baseUrl = `${protocol}://${host}`;
 
@@ -29,9 +30,11 @@ const AboutPage = async () => {
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800 dark:text-white">
           {data?.name || "About Us"}
         </h1>
-        <div className="prose dark:prose-invert max-w-none">
-        {data?.content ? data?.content : <p>No content found.</p>}
-        </div>
+        <div className="prose dark:prose-invert max-w-none"
+        dangerouslySetInnerHTML={{
+          __html: data?.content || "<p>Loading...</p>",
+        }}
+        />
         <div className="mt-8 border-t pt-4">
           <p className="text-center text-sm text-gray-500 dark:text-white">
             © 2025 sysfoc. All rights reserved.

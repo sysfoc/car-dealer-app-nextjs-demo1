@@ -59,13 +59,12 @@ const CarEditPage = ({ params }) => {
       try {
         const res = await fetch(`/api/cars/${id}`, { method: "GET" });
         if (res.ok) {
-          const data = await res.json();
+          const data = await res.formData();
+          //const data = await res.json();
           console.log("Fetched Car Data:", data.car);
-
-          // Populate formData with fetched data, including existing images
           setFormData({
             ...data.car,
-            images: data.car.imageUrls || [], // Initialize images from imageUrls
+            images: data.car.imageUrls || [],
             slug: data.car.make.toLowerCase().replace(/\s+/g, "-"),
           });
 
@@ -99,33 +98,27 @@ const CarEditPage = ({ params }) => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-
-    // Append all form fields to FormData, excluding _id
     for (const key in formData) {
-      if (key === "_id") continue; // Skip the _id field
+      if (key === "_id") continue;
       if (key === "images" && formData.images && formData.images.length > 0) {
-        // Only append images if valid files are selected
         formData.images.forEach((image, index) => {
           if (image instanceof File) {
-            formDataToSend.append("images", image); // Append each image file
+            formDataToSend.append("images", image);
           }
         });
       } else if (key === "video" && formData.video) {
-        // Only append video if a file is selected
         formDataToSend.append("video", formData.video);
       } else if (key === "features") {
-        // Convert features array to JSON string
         formDataToSend.append(key, JSON.stringify(formData[key]));
       } else {
-        formDataToSend.append(key, formData[key]); // Append other fields
+        formDataToSend.append(key, formData[key]);
       }
     }
 
     try {
       const res = await fetch(`/api/cars/${id}`, {
         method: "PATCH",
-        body: formDataToSend, // Use FormData
-        // Do NOT set Content-Type header manually
+        body: formDataToSend, 
       });
 
       if (res.ok) {
@@ -161,7 +154,6 @@ const CarEditPage = ({ params }) => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        {/* Dropdowns */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
             <Label htmlFor="make">Make:</Label>
@@ -289,8 +281,6 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
         </div>
-
-        {/* Text Inputs */}
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
             <Label htmlFor="fuelTankFillPrice">Fuel Tank Fill Price:</Label>
@@ -492,8 +482,6 @@ const CarEditPage = ({ params }) => {
             />
           </div>
         </div>
-
-        {/* Features (Checkboxes) */}
         <div className="mt-5">
           <h3 className="text-sm font-semibold">Features:</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">

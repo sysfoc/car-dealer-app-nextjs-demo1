@@ -102,22 +102,41 @@ const Page = () => {
     driveType: "",
     dealerId: "",
   });
-  // useEffect(() => {
-  //   const fetchDealers = async () => {
-  //     try {
-  //       const response = await fetch("/api/dealor"); // Update API route accordingly
-  //       const data = await response.json();
-  //       setDealers(data);
-  //     } catch (error) {
-  //       console.error("Error fetching dealers:", error);
-  //     }
-  //   };
-  //   fetchDealers();
-  // }, []);
+
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+
+  useEffect(() => {
+    const fetchMakes = async () => {
+      try {
+        const response = await fetch("/api/makes");
+        const data = await response.json();
+        setMakes(data);
+      } catch (error) {
+        console.error("Error fetching makes:", error);
+      }
+    };
+    fetchMakes();
+  }, []);
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (formData.make) {
+        try {
+          const response = await fetch(`/api/models?makeId=${formData.make}`);
+          const data = await response.json();
+          setModels(data);
+        } catch (error) {
+          console.error("Error fetching models:", error);
+        }
+      }
+    };
+    fetchModels();
+  }, [formData.make]);
+ 
   useEffect(() => {
     const fetchDealers = async () => {
       try {
-        const response = await fetch("/api/dealor"); // Ensure this matches your API route
+        const response = await fetch("/api/dealor"); 
         const data = await response.json();
         setDealers(data);
       } catch (error) {
@@ -128,7 +147,15 @@ const Page = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, type, checked } = e.target;
+    const { name, value, type, checked } = e.target;
+
+    if (name === "make") {
+      setFormData(prev => ({
+        ...prev,
+        make: value,
+        model: ""
+      }));}
+
 
     if (type === "checkbox") {
       setFormData((prev) => ({
@@ -167,7 +194,7 @@ const Page = () => {
 
     formData.set("features", JSON.stringify(selectedFeatures));
 
-  
+
     try {
       const response = await fetch("/api/cars", {
         method: "POST",
@@ -203,36 +230,42 @@ const Page = () => {
             <div className="mb-3 mt-1 border border-gray-300"></div>
           </div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
-            <div>
-              <Label htmlFor="brand-make">Vehicle Make:</Label>
-              <Select
-                id="brand-make"
-                name="make"
-                value={formData.make}
-                onChange={handleChange}
-              >
-                <option>Select Make</option>
-                <option value="corolla">Corolla</option>
-                <option value="civic">Civic</option>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="brand-Model">Brand Model:</Label>
-              <Select
-                id="brand-Model"
-                name="model"
-                value={formData.model}
-                onChange={handleChange}
-              >
-                <option>Select Model</option>
-                <option value="sedan">Sedan</option>
-                <option value="suv">SUV</option>
-                <option value="hatchback">Hatchback</option>
-                <option value="coupe">Coupe</option>
-                <option value="hybrid">Hybrid</option>
-                <option value="sports">Sports</option>
-              </Select>
-            </div>
+<div>
+  <Label htmlFor="brand-make">Vehicle Make:</Label>
+  <Select
+    id="brand-make"
+    name="make"
+    value={formData.make}
+    onChange={handleChange}
+  >
+    <option>Select Make</option>
+    {makes.map((make) => (
+      <option key={make._id} value={make._id}>
+        {make.name}
+      </option>
+    ))}
+  </Select>
+</div>
+
+<div>
+  <Label htmlFor="brand-Model">Brand Model:</Label>
+  <Select
+    id="brand-Model"
+    name="model"
+    value={formData.model}
+    onChange={handleChange}
+  >
+    <option>Select Model</option>
+    {models.map((model) => (
+      <option key={model._id} value={model._id}>
+        {model.name}
+      </option>
+    ))}
+  </Select>
+</div>
+
+
+
             <div>
               <Label htmlFor="price">Price:</Label>
               <TextInput
@@ -438,17 +471,6 @@ const Page = () => {
                   <option value="Used">Used</option>
                 </Select>
               </div>
-
-              {/* <div>
-                <Label htmlFor="mileage">Millage:</Label>
-                <TextInput
-                  id="mileage"
-                  type="number"
-                  name="mileage"
-                  value={formData.mileage}
-                  onChange={handleChange}
-                />
-              </div> */}
               <div>
                 <Label htmlFor="BodyType">Body Type:</Label>
                 <Select
@@ -543,16 +565,6 @@ const Page = () => {
                   onChange={handleChange}
                 />
               </div>
-              {/* <div>
-                <Label htmlFor="batteryRange">Battery Range:</Label>
-                <TextInput
-                  id="batteryRange"
-                  type="number"
-                  name="batteryRange"
-                  value={formData.batteryRange}
-                  onChange={handleChange}
-                />
-              </div> */}
               <div>
                 <Label htmlFor="unit">Select Default Unit:</Label>
                 <Select
@@ -716,7 +728,7 @@ const Page = () => {
                   className="mt-1"
                 >
                   <option value="">-- Select Dealer --</option>
-                  {dealers.map((dealer) => (
+                  {dealers?.map((dealer) => (
                     <option key={dealer._id} value={dealer._id}>
                       {dealer.name}-{dealer.address}
                     </option>

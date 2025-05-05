@@ -22,7 +22,6 @@ export async function PATCH(req, { params }) {
     await client.connect();
     const db = client.db("cardealor");
 
-    // Fetch existing car data
     const existingCar = await db.collection("cars").findOne({ _id: new ObjectId(id) });
     if (!existingCar) {
       return NextResponse.json({ error: "Car not found" }, { status: 404 });
@@ -30,7 +29,6 @@ export async function PATCH(req, { params }) {
 
     const formData = await req.formData();
 
-    // Process features
     let features = existingCar.features || [];
     if (formData.has("features")) {
       try {
@@ -153,7 +151,6 @@ export async function DELETE(req, { params }) {
 
 export async function GET(req, { params }) {
   const { id } = params;
-
 
   try {
     if (!ObjectId.isValid(id)) {

@@ -35,12 +35,11 @@ await connectDB();
 
 export const GET = async () => {
   try {
-    const dealers = await Dealer.find().lean(); // Convert to plain JavaScript objects
-    // Transform MongoDB data to client-safe format
+    const dealers = await Dealer.find().lean();
     const transformedDealers = dealers.map(dealer => ({
       ...dealer,
-      _id: dealer._id.toString(), // Convert ObjectId to string
-      createdAt: dealer.createdAt.toISOString(), // Convert Date to string
+      _id: dealer._id.toString(),
+      createdAt: dealer.createdAt.toISOString(),
       updatedAt: dealer.updatedAt.toISOString(),
     }));
     

@@ -190,8 +190,6 @@ export default function Home() {
                 translation={t}
               />
             )}
-
-            {/* <Features loadingState={loading} /> */}
           </div>
         </div>
         <div>

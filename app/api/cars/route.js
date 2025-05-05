@@ -153,22 +153,62 @@ export async function POST(req) {
   }
 }
 
+// export async function GET() {
+//   try {
+//     await client.connect();
+//     const db = client.db("cardealor");
+
+//     // Fetch only cars where status is 0 (pending approval)
+//     const cars = await db.collection("cars").find().toArray();
+//     const dealerLocations = await db
+//       .collection("dealerLocations")
+//       .find({})
+//       .toArray();
+
+//     const carsWithDealerInfo = cars.map((car) => ({
+//       ...car,
+//       dealerInfo:
+//         dealerLocations.find((dealer) => dealer.id === car.dealerId) || null,
+//     }));
+
+//     return NextResponse.json({ cars: carsWithDealerInfo });
+//   } catch (error) {
+//     console.error("Failed to fetch cars:", error);
+//     return NextResponse.json(
+//       { error: "Failed to fetch data" },
+//       { status: 500 },
+//     );
+//   }
+// }
+
 export async function GET() {
   try {
     await client.connect();
     const db = client.db("cardealor");
 
-    // Fetch only cars where status is 0 (pending approval)
-    const cars = await db.collection("cars").find().toArray();
-    const dealerLocations = await db
-      .collection("dealerLocations")
-      .find({})
-      .toArray();
+    // Convert MongoDB data to client-safe format
+    const cars = (await db.collection("cars").find().toArray()).map(car => ({
+      ...car,
+      _id: car._id.toString(),
+      createdAt: car.createdAt.toISOString(),
+      updatedAt: car.updatedAt.toISOString(),
+      userId: car.userId?.toString(), // Handle nested ObjectIDs
+      dealerId: car.dealerId?.toString()
+    }));
+
+    const dealerLocations = (await db.collection("dealerLocations").find().toArray())
+      .map(dealer => ({
+        ...dealer,
+        _id: dealer._id.toString(),
+        createdAt: dealer.createdAt.toISOString(),
+        updatedAt: dealer.updatedAt.toISOString()
+      }));
 
     const carsWithDealerInfo = cars.map((car) => ({
       ...car,
-      dealerInfo:
-        dealerLocations.find((dealer) => dealer.id === car.dealerId) || null,
+      dealerInfo: dealerLocations.find(
+        (dealer) => dealer._id === car.dealerId
+      ) || null
     }));
 
     return NextResponse.json({ cars: carsWithDealerInfo });
@@ -176,7 +216,7 @@ export async function GET() {
     console.error("Failed to fetch cars:", error);
     return NextResponse.json(
       { error: "Failed to fetch data" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
