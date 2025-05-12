@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 import connectToMongoDB from "../../../lib/mongodb";
 import User from "../../../models/User";
 import { NextRequest, NextResponse } from "next/server";
@@ -27,9 +27,11 @@ export async function POST(request: NextRequest) {
     if (!validPassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 400 });
     }
-
     const tokenData = {
-      id: user._id,
+      id:
+        user._id instanceof Buffer
+          ? user._id.toString("hex")
+          : user._id.toString(),
       username: user.username,
       email: user.email,
       role: user.role,

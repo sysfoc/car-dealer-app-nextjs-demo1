@@ -13,14 +13,17 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const CarEditPage = ({ params }) => {
   const router = useRouter();
-  const { id } = params;
+  const { id } = useParams();
   const [car, setCar] = useState(null);
   const [formData, setFormData] = useState({
     make: "",
+    makeName: "",
     model: "",
+    modelName: "",
     price: "",
     type: "",
     kms: "",
@@ -30,8 +33,11 @@ const CarEditPage = ({ params }) => {
     gearbox: "",
     condition: "",
     location: "",
-    year: "",
+    modelYear: "",
     mileage: "",
+    registerationPlate: "",
+    registerationExpire: "",
+    unit: "miles",
     bodyType: "",
     color: "",
     driveType: "",
@@ -49,18 +55,21 @@ const CarEditPage = ({ params }) => {
     vehicleFullName: "",
     sellerComments: "",
     images: [],
+    imageUrls: [],
     video: "",
     isFinance: "",
     slug: "",
   });
+
+   const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
 
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
         const res = await fetch(`/api/cars/${id}`, { method: "GET" });
         if (res.ok) {
-          const data = await res.formData();
-          //const data = await res.json();
+          const data = await res.json();
           console.log("Fetched Car Data:", data.car);
           setFormData({
             ...data.car,
@@ -77,9 +86,60 @@ const CarEditPage = ({ params }) => {
 
     fetchCarDetails();
   }, [id]);
+  useEffect(() => {
+    const fetchMakes = async () => {
+      try {
+        const res = await fetch("/api/makes");
+        const data = await res.json();
+        setMakes(data);
+      } catch (err) {
+        console.error("Failed to fetch makes", err);
+      }
+    };
+    fetchMakes();
+  }, []);
 
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (formData.make) {
+        try {
+          const res = await fetch(`/api/models?makeId=${formData.make}`);
+          const data = await res.json();
+          setModels(data);
+        } catch (err) {
+          console.error("Failed to fetch models", err);
+        }
+      }
+    };
+    fetchModels();
+  }, [formData.make]);
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
 
-
+    if (name === "make") {
+      const selectedMake = makes.find((make) => make._id === value);
+      setFormData(prev => ({
+        ...prev,
+        make: value,
+        makeName: selectedMake ? selectedMake.name : "",
+        model: ""
+      }));
+    }
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        features: {
+          ...prev.features,
+          [name]: checked,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: e.target.value,
+      }));
+    }
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -118,7 +178,7 @@ const CarEditPage = ({ params }) => {
     try {
       const res = await fetch(`/api/cars/${id}`, {
         method: "PATCH",
-        body: formDataToSend, 
+        body: formDataToSend,
       });
 
       if (res.ok) {
@@ -161,12 +221,14 @@ const CarEditPage = ({ params }) => {
               id="make"
               name="make"
               value={formData.make}
-              onChange={handleInputChange}
+              onChange={handleChange}
             >
               <option>Select Make</option>
-              <option value="Alfa Romeo">Alfa Romeo </option>
-              <option value="Toyota">Toyota</option>
-              <option value="BMW">BMW</option>
+              {makes.map((make) => (
+                <option key={make._id} value={make._id}>
+                  {make.name}
+                </option>
+              ))}
             </Select>
           </div>
 
@@ -176,12 +238,14 @@ const CarEditPage = ({ params }) => {
               id="model"
               name="model"
               value={formData.model}
-              onChange={handleInputChange}
+              onChange={handleChange}
             >
               <option>Select Model</option>
-              <option value="159">159</option>
-              <option value="Corolla">Corolla</option>
-              <option value="X5">X5</option>
+              {models.map((model) => (
+                <option key={model._id} value={model._id}>
+                  {model.name}
+                </option>
+              ))}
             </Select>
           </div>
 
@@ -268,8 +332,8 @@ const CarEditPage = ({ params }) => {
             <Label htmlFor="year">Year:</Label>
             <Select
               id="year"
-              name="year"
-              value={formData.year}
+              name="modelYear"
+              value={formData.modelYear}
               onChange={handleInputChange}
             >
               <option>Select Year</option>

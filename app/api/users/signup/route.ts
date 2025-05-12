@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
       $or: [{ email }, { username }],
     });
 
+
+    
     if (existingUser) {
       const conflictField = existingUser.email === email ? "Email" : "Username";
       return NextResponse.json(

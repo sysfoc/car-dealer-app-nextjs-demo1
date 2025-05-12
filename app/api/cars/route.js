@@ -41,10 +41,10 @@ export async function PATCH(req) {
       );
     }
 
-    const objectId = new ObjectId(String(carId)); // ✅ Fix: Ensure it's a valid ObjectId
+    const objectId = new ObjectId(String(carId));
 
     const result = await db.collection("cars").updateOne(
-      { _id: objectId }, // ✅ Fix: Correct ObjectId usage
+      { _id: objectId },
       { $set: { status } },
     );
 
@@ -66,17 +66,18 @@ export async function PATCH(req) {
   }
 }
 
-async function generateUniqueSlug(db, make, userId) {
-  let slug = make
+
+async function generateUniqueSlug(db, makeName, userIdString) {
+  let slug = makeName
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-  let uniqueSlug = `${slug}-${userId}`;
+  let uniqueSlug = `${slug}-${userIdString}`;
   let count = 1;
 
   while (await db.collection("cars").findOne({ slug: uniqueSlug })) {
-    uniqueSlug = `${slug}-${userId}-${count}`;
+    uniqueSlug = `${slug}-${userIdString}-${count}`;
     count++;
   }
 
@@ -86,20 +87,34 @@ async function generateUniqueSlug(db, make, userId) {
 export async function POST(req) {
   try {
     const userData = await verifyUserToken(req);
+    console.log("Raw userData.id:", userData.id);
+
+    const userIdString = userData.id?.toString?.() || null;
+
+    console.log("Converted userIdString:", userIdString);
+    console.log('userIdString:', userIdString);
+    if (!userIdString) {
+      return NextResponse.json(
+        { error: "Invalid user ID format" },
+        { status: 400 }
+      );
+    }
 
     if ("error" in userData) {
       return NextResponse.json(
         { error: userData.error },
-        { status: userData.status },
+        { status: userData.status }
       );
     }
 
     if (!userData.id) {
       return NextResponse.json(
         { error: "Invalid user data: No user ID" },
-        { status: 400 },
+        { status: 400 }
       );
     }
+
+    console.log("Computed userIdString:", userIdString); // Debugging log
 
     const formData = await req.formData();
     const formEntries = Object.fromEntries(formData.entries());
@@ -108,10 +123,9 @@ export async function POST(req) {
     if (images.length === 0) {
       return NextResponse.json(
         { error: "At least one image is required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
-
     const imageUrls = [];
     for (const image of images) {
       const fileName = `${Date.now()}-${image.name}`;
@@ -122,17 +136,36 @@ export async function POST(req) {
     }
     await client.connect();
     const db = client.db("cardealor");
-    const slug = await generateUniqueSlug(db, formEntries.make, userData.id);
+    const makeId = formEntries.make;
+    const make = await db.collection("makes").findOne({
+      _id: new ObjectId(String(makeId)),
+    });
+
+    if (!make) {
+      return NextResponse.json({ error: "Invalid Make ID" }, { status: 400 });
+    }
+
+    const slug = await generateUniqueSlug(
+      db,
+      make.name,
+      //userData.id.toString()
+      userIdString
+    );
     const carData = {
       ...formEntries,
+      make: new ObjectId(formEntries.make),
+      model: new ObjectId(formEntries.model),
       features: JSON.parse(formEntries.features || "[]"),
       imageUrls,
-      userId: userData.id,
+      //userId: userIdString.toString(),
+      userId: new ObjectId(userIdString),
       slug,
       status: userData.role === "superadmin" ? 1 : 0,
       createdAt: new Date(),
     };
 
+    console.log("Final carData with userId:", carData);
+    
     const result = await db.collection("cars").insertOne(carData);
 
     return NextResponse.json(
@@ -140,83 +173,86 @@ export async function POST(req) {
         message: "Car added successfully",
         data: { ...carData, _id: result.insertedId },
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(
       { error: "Failed to add car", details: error.message },
-      { status: 500 },
+      { status: 500 }
     );
   } finally {
     await client.close();
   }
 }
 
-// export async function GET() {
-//   try {
-//     await client.connect();
-//     const db = client.db("cardealor");
-
-//     // Fetch only cars where status is 0 (pending approval)
-//     const cars = await db.collection("cars").find().toArray();
-//     const dealerLocations = await db
-//       .collection("dealerLocations")
-//       .find({})
-//       .toArray();
-
-//     const carsWithDealerInfo = cars.map((car) => ({
-//       ...car,
-//       dealerInfo:
-//         dealerLocations.find((dealer) => dealer.id === car.dealerId) || null,
-//     }));
-
-//     return NextResponse.json({ cars: carsWithDealerInfo });
-//   } catch (error) {
-//     console.error("Failed to fetch cars:", error);
-//     return NextResponse.json(
-//       { error: "Failed to fetch data" },
-//       { status: 500 },
-//     );
-//   }
-// }
 
 export async function GET() {
   try {
     await client.connect();
     const db = client.db("cardealor");
 
-    // Convert MongoDB data to client-safe format
-    const cars = (await db.collection("cars").find().toArray()).map(car => ({
+    const cars = await db.collection("cars").find().toArray();
+
+    const formattedCars = cars.map((car) => ({
       ...car,
       _id: car._id.toString(),
-      createdAt: car.createdAt.toISOString(),
-      updatedAt: car.updatedAt.toISOString(),
-      userId: car.userId?.toString(), // Handle nested ObjectIDs
-      dealerId: car.dealerId?.toString()
+      make: car.make?.toString(),
+      model: car.model?.toString(),
+      userId: car.userId?.toString(),
+      dealerId: car.dealerId?.toString(),
     }));
 
-    const dealerLocations = (await db.collection("dealerLocations").find().toArray())
-      .map(dealer => ({
-        ...dealer,
-        _id: dealer._id.toString(),
-        createdAt: dealer.createdAt.toISOString(),
-        updatedAt: dealer.updatedAt.toISOString()
-      }));
+    const makeIds = [...new Set(formattedCars.map((c) => c.make).filter(Boolean))];
+    const modelIds = [...new Set(formattedCars.map((c) => c.model).filter(Boolean))];
 
-    const carsWithDealerInfo = cars.map((car) => ({
-      ...car,
-      dealerInfo: dealerLocations.find(
-        (dealer) => dealer._id === car.dealerId
-      ) || null
-    }));
+    const [makes, models] = await Promise.all([
+      db
+        .collection("makes")
+        .find({ _id: { $in: makeIds.map((id) => new ObjectId(id)) } })
+        .toArray(),
+      db
+        .collection("carmodels") // Corrected collection name
+        .find({ _id: { $in: modelIds.map((id) => new ObjectId(id)) } })
+        .toArray(),
+    ]);
 
-    return NextResponse.json({ cars: carsWithDealerInfo });
+    const makeMap = makes.reduce((acc, make) => {
+      acc[make._id.toString()] = make.name;
+      return acc;
+    }, {});
+
+    const modelMap = models.reduce((acc, model) => {
+      acc[model._id.toString()] = {
+        name: model.name,
+        makeId: model.makeId.toString(),
+      };
+      return acc;
+    }, {});
+
+    const missingModels = modelIds.filter((id) => !modelMap[id]);
+    if (missingModels.length > 0) {
+      console.log("Missing model IDs:", missingModels);
+      console.log("Available model IDs:", models.map((m) => m._id.toString()));
+    }
+
+    const enrichedCars = formattedCars.map((car) => {
+      const modelInfo = modelMap[car.model?.toString()] || {};
+      return {
+        ...car,
+        makeName: makeMap[car.make?.toString()] || "Unknown Make",
+        modelName: modelInfo.name || "Unknown Model",
+        makeId: car.make,
+        modelId: car.model,
+      };
+    });
+
+    return NextResponse.json({ cars: enrichedCars });
   } catch (error) {
-    console.error("Failed to fetch cars:", error);
+    console.error("Population error:", error);
     return NextResponse.json(
-      { error: "Failed to fetch data" },
-      { status: 500 }
+      { error: "Failed to fetch data", details: error.message },
+      { status: 500 },
     );
   }
 }

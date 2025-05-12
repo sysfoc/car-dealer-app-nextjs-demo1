@@ -264,8 +264,6 @@ const Page = () => {
   </Select>
 </div>
 
-
-
             <div>
               <Label htmlFor="price">Price:</Label>
               <TextInput

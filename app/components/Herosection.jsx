@@ -23,87 +23,65 @@ const HeroSection = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+
   useEffect(() => {
     const fetchMakes = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/cars`,
-        );
-        console.log("Response Data:", response.data);
-
-        if (Array.isArray(response.data.cars)) {
-          const makes = [...new Set(response.data.cars.map((car) => car.make))];
-          setMakes(makes);
-        } else {
-          console.error("Data is not in expected format:", response.data);
-        }
+        const response = await axios.get("/api/makes");
+        setMakes(response.data);
       } catch (error) {
         console.error("Error fetching makes:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchMakes();
   }, []);
 
   useEffect(() => {
-    if (selectedMake) {
-      setSelectedModel("");
-      const fetchModels = async () => {
+    const fetchModels = async () => {
+      if (selectedMake) {
         setLoading(true);
         try {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/cars?make=${selectedMake}`,
-          );
-          console.log("Models Response Data:", response.data);
-
-          if (Array.isArray(response.data.cars)) {
-            const models = [
-              ...new Set(response.data.cars.map((car) => car.model)),
-            ];
-            setModels(models);
-          } else {
-            console.error(
-              "Models data is not in expected format:",
-              response.data,
-            );
-          }
+          const response = await axios.get(`/api/models?makeId=${selectedMake}`);
+          setModels(response.data);
         } catch (error) {
           console.error("Error fetching models:", error);
         } finally {
           setLoading(false);
         }
-      };
-
-      fetchModels();
-    } else {
-      setModels([]);
-    }
+      }
+    };
+    fetchModels();
   }, [selectedMake]);
-
+  
   const handleSearch = async () => {
     if (!selectedMake && !priceRange) {
-      alert(
-        "Please select at least one search criterion (Make or Price Range).",
-      );
+      alert("Please select at least one search criterion (Make or Price Range).");
       return;
     }
 
     setLoading(true);
-
     try {
       const queryParams = [];
-      if (selectedMake) queryParams.push(`keyword=${selectedMake}`);
-      if (selectedModel) queryParams.push(`model=${selectedModel}`);
+
+      if (selectedMake) {
+        const makeObj = makes.find(m => m._id === selectedMake);
+        if (makeObj) queryParams.push(`make=${encodeURIComponent(makeObj.name)}`);
+      }
+
+      if (selectedModel) {
+        const modelObj = models.find(m => m._id === selectedModel);
+        if (modelObj) queryParams.push(`model=${encodeURIComponent(modelObj.name)}`);
+      }
+
       if (priceRange) queryParams.push(`price=${priceRange}`);
 
       const queryString = queryParams.join("&");
-
       router.push(`/car-for-sale?${queryString}`);
     } catch (error) {
-      console.error("Error fetching car data:", error);
+      console.error("Error searching cars:", error);
       alert("An error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -150,8 +128,8 @@ const HeroSection = () => {
               >
                 <option value="">{t("selectMake")}</option>
                 {makes.map((make) => (
-                  <option key={make} value={make}>
-                    {make}
+                  <option key={make._id} value={make._id}>
+                    {make.name}
                   </option>
                 ))}
               </select>
@@ -169,8 +147,8 @@ const HeroSection = () => {
               >
                 <option value="">{t("selectModel")}</option>
                 {models.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
+                  <option key={model._id} value={model._id}>
+                    {model.name}
                   </option>
                 ))}
               </select>
@@ -198,9 +176,6 @@ const HeroSection = () => {
                 color={"blue"}
                 onClick={handleSearch}
                 className="w-full p-2 dark:bg-red-500"
-                // disabled={
-                //   loading || !selectedMake || !selectedModel || !priceRange
-                // }
               >
                 {loading ? "Searching..." : `${t("searchCar")}`}
               </Button>

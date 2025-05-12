@@ -11,6 +11,7 @@ const uploadDir = path.join(process.cwd(), "public", "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
+
 export async function PATCH(req, { params }) {
   const { id } = params;
 
@@ -29,6 +30,7 @@ export async function PATCH(req, { params }) {
 
     const formData = await req.formData();
 
+    // Parse features
     let features = existingCar.features || [];
     if (formData.has("features")) {
       try {
@@ -41,50 +43,53 @@ export async function PATCH(req, { params }) {
         );
       }
     }
-let imageUrls = Array.isArray(existingCar.imageUrls) ? existingCar.imageUrls : [];
-
-const newImages = formData.getAll("images");
-if (newImages.length > 0) {
-  for (const image of newImages) {
-    if (image.name) {
-      const fileName = `${Date.now()}-${image.name}`;
-      const filePath = path.join(uploadDir, fileName);
-
-      const buffer = Buffer.from(await image.arrayBuffer());
-      await fs.promises.writeFile(filePath, buffer);
-
-      imageUrls.push(`/uploads/${fileName}`);
+    let imageUrls = Array.isArray(existingCar.imageUrls) ? existingCar.imageUrls : [];
+    const newImages = formData.getAll("images");
+    if (newImages.length > 0) {
+      for (const image of newImages) {
+        if (image.name) {
+          const fileName = `${Date.now()}-${image.name}`;
+          const filePath = path.join(uploadDir, fileName);
+          const buffer = Buffer.from(await image.arrayBuffer());
+          await fs.promises.writeFile(filePath, buffer);
+          imageUrls.push(`/uploads/${fileName}`);
+        }
+      }
     }
-  }
-}
-
     let videoUrl = existingCar.video || null;
     const newVideo = formData.get("video");
     if (newVideo && newVideo.name) {
       const fileName = `${Date.now()}-${newVideo.name}`;
       const filePath = path.join(uploadDir, fileName);
-
       const buffer = Buffer.from(await newVideo.arrayBuffer());
       await fs.promises.writeFile(filePath, buffer);
-
       videoUrl = `/uploads/${fileName}`;
     }
-
     const formEntries = {};
     for (const [key, value] of formData.entries()) {
-      if (key !== 'images' && key !== 'video' && key !== 'features') {
+      if (!["images", "video", "features"].includes(key)) {
         formEntries[key] = value;
       }
     }
 
+   let slug = existingCar.slug;
+
+if (
+  formData.has("makeName") &&
+  formData.get("makeName").toLowerCase() !== existingCar.makeName?.toLowerCase()
+) {
+  const userId = existingCar.userId?.toString() || existingCar._id.toString();
+  slug = `${formData.get("makeName").toLowerCase()}-${userId}`;
+}
     const updatedData = {
       ...formEntries,
       features,
-      imageUrls, 
+      imageUrls,
       video: videoUrl,
+      slug,
     };
 
-    delete updatedData._id; 
+    delete updatedData._id;
 
     const result = await db.collection("cars").updateOne(
       { _id: new ObjectId(id) },
@@ -112,9 +117,6 @@ if (newImages.length > 0) {
     await client.close();
   }
 }
-
-
-
 
 export async function DELETE(req, { params }) {
   const { id } = params;
@@ -148,7 +150,6 @@ export async function DELETE(req, { params }) {
     await client.close();
   }
 }
-
 export async function GET(req, { params }) {
   const { id } = params;
 
@@ -165,7 +166,23 @@ export async function GET(req, { params }) {
       return NextResponse.json({ error: "Car not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ car }, { status: 200 });
+    const [makeDoc, modelDoc] = await Promise.all([
+      car.make ? db.collection("makes").findOne({ _id: new ObjectId(car.make) }) : null,
+      car.model ? db.collection("carmodels").findOne({ _id: new ObjectId(car.model) }) : null,
+    ]);
+
+    const enrichedCar = {
+      ...car,
+      _id: car._id.toString(),
+      make: car.make?.toString(),
+      model: car.model?.toString(),
+      userId: car.userId?.toString(),
+      dealerId: car.dealerId?.toString(),
+      makeName: makeDoc?.name || "Unknown Make",
+      modelName: modelDoc?.name || "Unknown Model",
+    };
+
+    return NextResponse.json({ car: enrichedCar }, { status: 200 });
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(

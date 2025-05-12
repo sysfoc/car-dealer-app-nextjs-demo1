@@ -45,9 +45,9 @@ export default function Listing() {
     fetchCars();
   }, []);
 
-  
+
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center">Loading...</p>;
   }
 
   if (cars.length === 0) {
@@ -97,10 +97,10 @@ export default function Listing() {
                     className="rounded-md"
                   />
                 </TableCell>
-                <TableCell>{car.make}</TableCell>
-                <TableCell>{car.model}</TableCell>
+                <TableCell>{car.makeName}</TableCell>
+                <TableCell>{car.modelName}</TableCell>
                 <TableCell>{car.price}</TableCell>
-                <TableCell>{car.year}</TableCell>
+                <TableCell>{car.modelYear}</TableCell>
                 <TableCell>{car.userId?.toString()}</TableCell>
                 <TableCell>{car.slug}</TableCell>
 
