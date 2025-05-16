@@ -182,7 +182,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
               <TextInput
                 type="text"
                 id="keyword"
-                value={keyword}
+                value={keyword ?? ""}
                 placeholder="Toyota"
                 onChange={(e) => {
                   const value = e.target.value;
@@ -308,7 +308,7 @@ const SidebarFilters = ({ onFiltersChange }) => {
                   type="number"
                   name="minYear"
                   id="minYear"
-                  value={minYear}
+                  value={minYear ?? ""}
                   onChange={(e) => {
                     const value = e.target.value;
                     setMinYear(value);

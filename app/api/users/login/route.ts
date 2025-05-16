@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import connectToMongoDB from "../../../lib/mongodb";
 import User from "../../../models/User";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,7 +9,7 @@ connectToMongoDB();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { email, password } = reqBody;
+    const { email, password, pin } = reqBody;
     console.log("Received Request Body:", reqBody);
 
     const user = await User.findOne({ email });
@@ -21,12 +20,19 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+
     console.log("User Found in DB:", user);
 
     const validPassword = await bcryptjs.compare(password, user.password);
     if (!validPassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 400 });
     }
+
+    const validPin = await bcryptjs.compare(pin, user.pin);
+    if (!validPin) {
+      return NextResponse.json({ error: "Invalid PIN" }, { status: 400 });
+    }
+
     const tokenData = {
       id:
         user._id instanceof Buffer
@@ -37,16 +43,12 @@ export async function POST(request: NextRequest) {
       role: user.role,
     };
 
-    console.log("Token Data Before Signing:", tokenData);
-
     const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
     const token = await new SignJWT(tokenData)
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
       .setExpirationTime("2d")
       .sign(secret);
-
-    console.log("Generated Token:", token);
 
     const response = NextResponse.json({
       message: "Login Successful",

@@ -164,10 +164,10 @@ const HeroSection = () => {
                 className="w-full border-0 bg-transparent p-3 focus:ring-0 dark:text-gray-200"
               >
                 <option value="">{t("priceRange")}</option>
-                <option value="16000">16000</option>
-                <option value="17000">17000</option>
-                <option value="18000">18000</option>
-                <option value="19000">19000</option>
+                <option value="200">200</option>
+                <option value="190">190</option>
+                <option value="300">300</option>
+                <option value="250">250</option>
               </select>
             </div>
             <div>

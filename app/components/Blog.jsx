@@ -60,7 +60,7 @@ const Blog = () => {
               <Link href={`/blog/${blogs[0].slug}`}>
                 <Image
                   src={blogs[0].image || "/sydney.jpg"}
-                  alt={blogs[0].title}
+                  alt={blogs[0].title || "Featured blog post"}
                   width={500}
                   height={500}
                   className="w-full"

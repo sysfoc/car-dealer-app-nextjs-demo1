@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true,
-    },
+     username: {
+       type: String,
+       required: true,
+     },
     email: {
       type: String,
       required: true,
@@ -15,15 +15,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     role: {
       type: String,
       enum: ["user", "superadmin"],
-      default: "user",
+      required: true,
+    },
+    pin: {
+      type: String,
       required: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

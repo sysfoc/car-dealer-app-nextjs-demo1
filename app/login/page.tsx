@@ -1,16 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { FaAngleLeft } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [user, setUser] = useState({ email: "", password: "", role: "" });
+  const [user, setUser] = useState({ email: "", password: "", role: "", pin: ""  });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -86,15 +84,28 @@ export default function LoginPage() {
         placeholder="Your Password..."
       />
 
+      <input
+        className="mb-4 w-[350px] rounded-lg border border-gray-300 p-2 text-slate-800 focus:border-gray-600 focus:outline-none"
+        id="pin"
+        type="text"
+        value={user.pin || ""}
+        onChange={(e) => {
+          setUser({ ...user, pin: e.target.value });
+          setError("");
+        }}
+        placeholder="Your PIN..."
+      />
+
       <div className="mb-4 w-[350px] text-center">
-        <p className="mb-2 text-gray-700">Demo credentials for quick login</p>
+        {/* <p className="mb-2 text-gray-700">Demo credentials for quick login</p> */}
         <div className="flex justify-center space-x-3">
           <button
             onClick={() =>
               setUser({
-                email: "sysfoc-superAdmin@gmail.com",
-                password: "1234",
+                email: "sysfoc_super_admin@gmail.com",
+                password: "sysfoc_super_admin",
                 role: "superadmin",
+                pin: "622685",
               })
             }
             className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
@@ -105,9 +116,10 @@ export default function LoginPage() {
           <button
             onClick={() =>
               setUser({
-                email: "sysfoc-user@gmail.com",
-                password: "1234",
+                email: "sysfoc_user@gmail.com",
+                password: "sysfoc_user",
                 role: "user",
+                pin:"930643",
               })
             }
             className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700"

@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Button,
   Carousel,
@@ -30,7 +31,6 @@ const CardetailCard = () => {
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [keyword] = useQueryState("keyword", "");
-
   const [condition] = useQueryState("condition", []);
   const [location] = useQueryState("location", []);
   const [price] = useQueryState("price", []);
@@ -42,24 +42,20 @@ const CardetailCard = () => {
   const [gearBox] = useQueryState("gearBox", []);
   const [bodyType] = useQueryState("bodyType", []);
   const safebodyType = Array.isArray(bodyType) ? bodyType : [];
-
   const [color, setColor] = useQueryState("color", []);
   const safeColor = Array.isArray(color) ? color : [];
   const [doors, setDoors] = useQueryState("doors", []);
   const [seats, setSeats] = useQueryState("seats", []);
   const [fuel, setFuel] = useQueryState("fuel", []);
-
   const [engineSizeFrom] = useQueryState("engineSizeFrom", "");
   const [engineSizeTo] = useQueryState("engineSizeTo", "");
   const [enginePowerFrom] = useQueryState("enginePowerFrom", "");
   const [enginePowerTo] = useQueryState("enginePowerTo", "");
 
-  // const safeDoors = Array.isArray(doors) ? doors : [];
   const safeDoors = Array.isArray(doors)
     ? doors.map((door) => parseInt(door, 10)).filter(Number.isInteger)
     : [];
 
-  //const safeSeats = Array.isArray(seats) ? seats : [];
   const safeSeats = Array.isArray(seats)
     ? seats.map((seat) => parseInt(seat, 10)).filter(Number.isInteger)
     : [];
@@ -77,43 +73,22 @@ const CardetailCard = () => {
 
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
-  const loading = false;
+  const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const query = new URLSearchParams({
-      keyword,
-      condition,
-      location,
-      price,
-      minYear,
-      maxYear,
-      model,
-      millageFrom,
-      millageTo,
-      gearBox,
-      bodyType,
-      color,
-      doors,
-      seats,
-      fuel,
-      battery,
-      charging,
-      engineSizeFrom,
-      engineSizeTo,
-      enginePowerFrom,
-      enginePowerTo,
-      fuelConsumption,
-      co2Emission,
-      driveType,
+      keyword, condition, location, price, minYear, maxYear, model, millageFrom, millageTo, gearBox, bodyType, color,
+      doors, seats, fuel, battery, charging, engineSizeFrom, engineSizeTo, enginePowerFrom, enginePowerTo,
+      fuelConsumption, co2Emission, driveType,
     }).toString();
 
     // paste below line in .env
     // NEXT_PUBLIC_API_URL=http://localhost:3000/api/
-
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
     console.log("API URL:", `${apiUrl}/cars?${query}`);
 
+    setLoading(true);
     fetch(`${apiUrl}/cars?${query}`)
       .then((res) => {
         if (!res.ok) {
@@ -125,65 +100,43 @@ const CardetailCard = () => {
       .then((data) => {
         console.log("API Data:", data);
         setCars(data.cars || []);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Fetch error:", error);
         setCars([]);
+        setLoading(false);
       });
   }, [
-    keyword,
-    condition,
-    location,
-    price,
-    minYear,
-    maxYear,
-    model,
-    millageFrom,
-    millageTo,
-    gearBox,
-    bodyType,
-    color,
-    doors,
-    seats,
-    fuel,
-    charging,
-    battery,
-    engineSizeFrom,
-    engineSizeTo,
-    enginePowerFrom,
-    enginePowerTo,
-    fuelConsumption,
-    co2Emission,
-    driveType,
+    keyword, condition, location, price, minYear, maxYear, model, millageFrom, millageTo, gearBox, bodyType, color, doors, seats,
+    fuel, charging, battery, engineSizeFrom, engineSizeTo, enginePowerFrom, enginePowerTo, fuelConsumption,
+    co2Emission, driveType,
   ]);
 
   const safeCondition = Array.isArray(condition) ? condition : [];
   const safeLocation = Array.isArray(location) ? location : [];
-
   const safeModel =
     Array.isArray(model) && model.length > 0 ? model : model ? [model] : [];
-
   const safePrice = Array.isArray(price)
     ? price.map((p) => parseInt(p, 10))
     : [parseInt(price, 10)].filter(Boolean);
   const safeGearBox = Array.isArray(gearBox) ? gearBox : [];
 
-  // console.log("safeGearBox:", safeGearBox);
-
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
+      // Match against makeName and modelName instead of directly using make/model fields
       const matchesKeyword = keyword
-        ? car.make.toLowerCase().includes(keyword.toLowerCase()) ||
-          car.model.toLowerCase().includes(keyword.toLowerCase())
+        ? (car.makeName?.toLowerCase().includes(keyword.toLowerCase()) ||
+           car.modelName?.toLowerCase().includes(keyword.toLowerCase()))
         : true;
 
       const matchesCondition = safeCondition.length
-        ? safeCondition.includes(car.condition.toLowerCase())
+        ? safeCondition.includes(car.condition?.toLowerCase())
         : true;
 
       const matchesLocation = safeLocation.length
         ? safeLocation.some((loc) =>
-            car.location.toLowerCase().includes(loc.toLowerCase()),
+            car.location?.toLowerCase().includes(loc.toLowerCase()),
           )
         : true;
 
@@ -194,20 +147,33 @@ const CardetailCard = () => {
           })
         : true;
 
+      // Use modelYear if year is not available
+      const carYear = car.year || car.modelYear;
       const matchesYear =
-        car.year &&
-        (!minYear || car.year >= parseInt(minYear, 10)) &&
-        (!maxYear || car.year <= parseInt(maxYear, 10));
+        carYear &&
+        (!minYear || parseInt(carYear, 10) >= parseInt(minYear, 10)) &&
+        (!maxYear || parseInt(carYear, 10) <= parseInt(maxYear, 10));
 
+      // Match using modelName or modelId
       const matchesModel = safeModel.length
         ? safeModel.some(
-            (model) => model.toLowerCase() === car.model.toLowerCase(),
+            (modelVal) => {
+              if (car.modelName) {
+                return modelVal.toLowerCase() === car.modelName.toLowerCase();
+              }
+              if (car.modelId) {
+                return modelVal === car.modelId;
+              }
+              return false;
+            }
           )
         : true;
 
-      const matchesMileage = car.mileage
+      // Use kms field if mileage is not available
+      const carMileageField = car.mileage || car.kms;
+      const matchesMileage = carMileageField
         ? (() => {
-            const carMileage = parseInt(car.mileage.replace(/[^\d]/g, ""), 10);
+            const carMileage = parseInt(String(carMileageField).replace(/[^\d]/g, ""), 10) || 0;
             const from = millageFrom ? parseInt(millageFrom, 10) : null;
             const to = millageTo ? parseInt(millageTo, 10) : null;
             return (!from || carMileage >= from) && (!to || carMileage <= to);
@@ -217,21 +183,35 @@ const CardetailCard = () => {
       const matchesGearBox = safeGearBox.length
         ? safeGearBox.includes(car.gearbox?.toLowerCase())
         : true;
+
       const matchesbodyType = safebodyType.length
         ? safebodyType.includes(car.bodyType?.toLowerCase())
         : true;
+
       const matchesColor = safeColor.length
         ? safeColor.includes(car.color?.toLowerCase())
         : true;
+
+      // Convert to number if string
+      const carDoors = typeof car.doors === 'string' && car.doors !== 'Select' ? 
+        parseInt(car.doors, 10) : car.doors;
+      
       const matchesDoors = safeDoors.length
-        ? safeDoors.includes(car.doors)
+        ? safeDoors.includes(carDoors)
         : true;
+
+      // Convert to number if string  
+      const carSeats = typeof car.seats === 'string' && car.seats !== 'Select' ? 
+        parseInt(car.seats, 10) : car.seats;
+        
       const matchesSeats = safeSeats.length
-        ? safeSeats.includes(car.seats)
+        ? safeSeats.includes(carSeats)
         : true;
+
       const matchesFuelType = safeFuel.length
         ? safeFuel.includes(car.fuelType?.toLowerCase())
         : true;
+
       const matchesDriveType = safedriveType.length
         ? safedriveType.includes(car.driveType?.toLowerCase())
         : true;
@@ -258,15 +238,15 @@ const CardetailCard = () => {
 
       const matchesEngineSize =
         (!engineSizeFrom ||
-          parseInt(car.engineSize, 10) >= parseInt(engineSizeFrom, 10)) &&
+          parseInt(String(car.engineSize), 10) >= parseInt(engineSizeFrom, 10)) &&
         (!engineSizeTo ||
-          parseInt(car.engineSize, 10) <= parseInt(engineSizeTo, 10));
+          parseInt(String(car.engineSize), 10) <= parseInt(engineSizeTo, 10));
 
       const matchesEnginePower =
         (!enginePowerFrom ||
-          parseInt(car.enginePower, 10) >= parseInt(enginePowerFrom, 10)) &&
+          parseInt(String(car.enginePower), 10) >= parseInt(enginePowerFrom, 10)) &&
         (!enginePowerTo ||
-          parseInt(car.enginePower, 10) <= parseInt(enginePowerTo, 10));
+          parseInt(String(car.enginePower), 10) <= parseInt(enginePowerTo, 10));
 
       const matchesFuelConsumption = car.fuelConsumption
         ? (() => {
@@ -281,6 +261,7 @@ const CardetailCard = () => {
               : true;
           })()
         : true;
+
       const matchesCo2Emission = car.co2Emission
         ? (() => {
             const selectedCo2Emission = co2Emission
@@ -296,61 +277,25 @@ const CardetailCard = () => {
         : true;
 
       return (
-        matchesKeyword &&
-        matchesCondition &&
-        matchesLocation &&
-        matchesPrice &&
-        matchesYear &&
-        matchesModel &&
-        matchesMileage &&
-        matchesGearBox &&
-        matchesbodyType &&
-        matchesColor &&
-        matchesDoors &&
-        matchesSeats &&
-        matchesFuelType &&
-        matchesBatteryrange &&
-        matchesChargingTime &&
-        matchesEngineSize &&
-        matchesEnginePower &&
-        matchesFuelConsumption &&
-        matchesCo2Emission &&
-        matchesDriveType
+        matchesKeyword && matchesCondition && matchesLocation && matchesPrice && matchesYear &&
+        matchesModel && matchesMileage && matchesGearBox && matchesbodyType && matchesColor && matchesDoors &&
+        matchesSeats && matchesFuelType && matchesBatteryrange && matchesChargingTime && matchesEngineSize &&
+        matchesEnginePower && matchesFuelConsumption && matchesCo2Emission && matchesDriveType
       );
     });
+
     console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
   }, [
-    keyword,
-    condition,
-    price,
-    location,
-    cars,
-    minYear,
-    maxYear,
-    model,
-    millageFrom,
-    millageTo,
-    gearBox,
-    bodyType,
-    color,
-    doors,
-    seats,
-    fuel,
-    charging,
-    battery,
-    engineSizeFrom,
-    engineSizeTo,
-    enginePowerFrom,
-    enginePowerTo,
-    fuelConsumption,
-    co2Emission,
-    driveType,
+    keyword, condition, price, location, cars, minYear, maxYear, model, millageFrom, millageTo, gearBox, bodyType, color,
+    doors, seats, fuel, charging, battery, engineSizeFrom, engineSizeTo, enginePowerFrom, enginePowerTo, fuelConsumption,
+    co2Emission, driveType,
   ]);
 
   if (loading) {
     return <p>Loading cars...</p>;
   }
+
   if (!filteredCars.length) {
     return <p>No cars found.</p>;
   }
@@ -360,7 +305,7 @@ const CardetailCard = () => {
       <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
         <div>
           <span className="text-sm">
-            <strong>10</strong> {t("outOf")} <strong>46</strong> {t("results")}
+            <strong>{filteredCars.length}</strong> {t("outOf")} <strong>{cars.length}</strong> {t("results")}
           </span>
         </div>
         <div className="flex items-center gap-x-3">
@@ -385,7 +330,7 @@ const CardetailCard = () => {
       >
         {filteredCars.map((car, index) => (
           <div
-            key={car.id}
+            key={car._id}
             className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"}`}
           >
             <div
@@ -408,14 +353,18 @@ const CardetailCard = () => {
                 )}
               </Carousel>
             </div>
+
             <div className="absolute left-2 top-2 flex items-center gap-x-2">
               <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
-                {car.condition}
+                {car.condition && car.condition !== "Select" ? car.condition : car.type || "Used"}
               </span>
-              <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
-                {car.isFinance}
-              </span>
+              {car.isFinance && car.isFinance !== "km" && (
+                <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
+                  {car.isFinance}
+                </span>
+              )}
             </div>
+
             <div className="p-4">
               <div>
                 <Link
@@ -426,13 +375,13 @@ const CardetailCard = () => {
                     {loading ? (
                       <Skeleton height={25} />
                     ) : (
-                      `${car.make} - ${car.model}`
+                      `${car.makeName || "Unknown"} - ${car.modelName || "Unknown"}`
                     )}
                   </h3>
                 </Link>
                 <div className="flex items-center justify-between">
                   <h4 className="text-2xl font-bold text-blue-950 dark:text-red-500">
-                    {loading ? <Skeleton height={25} width={100} /> : car.price}
+                    {loading ? <Skeleton height={25} width={100} /> : `$${car.price || 0}`}
                   </h4>
                   <div>
                     <Button
@@ -454,52 +403,57 @@ const CardetailCard = () => {
                     <div className="flex items-center justify-center">
                       <FaLocationCrosshairs fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.location}</p>
+                    <p className="mt-2 text-sm">{car.location || "Not specified"}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <FaCalendarCheck fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.year}</p>
+                    <p className="mt-2 text-sm">{car.year || car.modelYear || "Not specified"}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <IoSpeedometer fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.kms}</p>
+                    <p className="mt-2 text-sm">{car.kms || car.mileage || "Not specified"}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <GiGasPump fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.fuelType}</p>
+                    <p className="mt-2 text-sm">{car.fuelType || "Not specified"}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <TbManualGearbox fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.gearbox}</p>
+                    <p className="mt-2 text-sm">{car.gearbox || "Not specified"}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <IoIosColorPalette fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.color}</p>
+                    <p className="mt-2 text-sm">{car.color || "Not specified"}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <GiCarSeat fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.seats}</p>
+                    <p className="mt-2 text-sm">
+                      {car.seats && car.seats !== "Select" ? car.seats : "Not specified"}
+                    </p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center">
                       <GiCarDoor fontSize={22} />
                     </div>
-                    <p className="mt-2 text-sm">{car.doors}</p>
+                    <p className="mt-2 text-sm">
+                      {car.doors && car.doors !== "Select" ? car.doors : "Not specified"}
+                    </p>
                   </div>
                 </div>
               </div>
+
               <div className="mt-5 grid grid-cols-2 gap-x-3">
                 <Button
                   color={"white"}
@@ -508,7 +462,7 @@ const CardetailCard = () => {
                 >
                   {t("enquireNow")}
                 </Button>
-                <Link href={"#"} className="flex flex-col">
+                <Link href={`car-detail/${car.slug}`} className="flex flex-col">
                   <Button
                     color={"white"}
                     className="bg-blue-950 text-sm uppercase text-white dark:bg-red-500"
@@ -520,6 +474,7 @@ const CardetailCard = () => {
             </div>
           </div>
         ))}
+
         <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
           <ModalHeader>Enquire Now</ModalHeader>
           <ModalBody>
@@ -554,7 +509,7 @@ const CardetailCard = () => {
                       placeholder="+92 333 333333"
                     />
                   </div>
-                  <div className="flex flex-col gap-y-1">
+                  <div className="flex flex-col gap-y-1 sm:col-span-2">
                     <Label htmlFor="comment">Comment</Label>
                     <Textarea rows={5} placeholder="Comment"></Textarea>
                   </div>

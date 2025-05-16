@@ -32,35 +32,3 @@ export async function verifyUserToken(request: NextRequest) {
     return { error: "Invalid token", status: 403 };
   }
 }
-
-// import { jwtVerify } from "jose";
-// import { NextRequest } from "next/server";
-
-// export async function verifyUserToken(request: NextRequest) {
-//   try {
-//     const token = request.cookies.get("token")?.value;
-
-//     if (!token) {
-//       return { error: "Unauthorized", status: 401 };
-//     }
-
-//     const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
-//     const { payload } = await jwtVerify(token, secret);
-
-//     interface JwtPayload {
-//       id: string;
-//       role: string;
-//       [key: string]: any;
-//     }
-
-//     return payload as JwtPayload;
-//   } catch (error: any) {
-//     console.error("JWT Verification Error:", error);
-
-//     if (error.name === "JWTExpired") {
-//       return { error: "Session expired, please login again", status: 401 };
-//     }
-
-//     return { error: "Invalid token", status: 403 };
-//   }
-// }

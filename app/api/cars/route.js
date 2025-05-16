@@ -148,7 +148,6 @@ export async function POST(req) {
     const slug = await generateUniqueSlug(
       db,
       make.name,
-      //userData.id.toString()
       userIdString
     );
     const carData = {
@@ -157,7 +156,6 @@ export async function POST(req) {
       model: new ObjectId(formEntries.model),
       features: JSON.parse(formEntries.features || "[]"),
       imageUrls,
-      //userId: userIdString.toString(),
       userId: new ObjectId(userIdString),
       slug,
       status: userData.role === "superadmin" ? 1 : 0,
