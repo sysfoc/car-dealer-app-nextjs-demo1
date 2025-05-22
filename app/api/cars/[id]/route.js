@@ -87,6 +87,8 @@ if (
       imageUrls,
       video: videoUrl,
       slug,
+      status: existingCar.status,
+      description: formEntries.description || existingCar.description
     };
 
     delete updatedData._id;

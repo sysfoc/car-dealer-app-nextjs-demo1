@@ -66,6 +66,7 @@ const Page = () => {
     make: "",
     model: "",
     price: 0,
+    description: "",
     type: "",
     kms: "",
     fuelType: "",
@@ -132,11 +133,11 @@ const Page = () => {
     };
     fetchModels();
   }, [formData.make]);
- 
+
   useEffect(() => {
     const fetchDealers = async () => {
       try {
-        const response = await fetch("/api/dealor"); 
+        const response = await fetch("/api/dealor");
         const data = await response.json();
         setDealers(data);
       } catch (error) {
@@ -154,7 +155,8 @@ const Page = () => {
         ...prev,
         make: value,
         model: ""
-      }));}
+      }));
+    }
 
 
     if (type === "checkbox") {
@@ -230,39 +232,39 @@ const Page = () => {
             <div className="mb-3 mt-1 border border-gray-300"></div>
           </div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
-<div>
-  <Label htmlFor="brand-make">Vehicle Make:</Label>
-  <Select
-    id="brand-make"
-    name="make"
-    value={formData.make}
-    onChange={handleChange}
-  >
-    <option>Select Make</option>
-    {makes.map((make) => (
-      <option key={make._id} value={make._id}>
-        {make.name}
-      </option>
-    ))}
-  </Select>
-</div>
+            <div>
+              <Label htmlFor="brand-make">Vehicle Make:</Label>
+              <Select
+                id="brand-make"
+                name="make"
+                value={formData.make}
+                onChange={handleChange}
+              >
+                <option>Select Make</option>
+                {makes.map((make) => (
+                  <option key={make._id} value={make._id}>
+                    {make.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
 
-<div>
-  <Label htmlFor="brand-Model">Brand Model:</Label>
-  <Select
-    id="brand-Model"
-    name="model"
-    value={formData.model}
-    onChange={handleChange}
-  >
-    <option>Select Model</option>
-    {models.map((model) => (
-      <option key={model._id} value={model._id}>
-        {model.name}
-      </option>
-    ))}
-  </Select>
-</div>
+            <div>
+              <Label htmlFor="brand-Model">Brand Model:</Label>
+              <Select
+                id="brand-Model"
+                name="model"
+                value={formData.model}
+                onChange={handleChange}
+              >
+                <option>Select Model</option>
+                {models.map((model) => (
+                  <option key={model._id} value={model._id}>
+                    {model.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
 
             <div>
               <Label htmlFor="price">Price:</Label>
@@ -287,6 +289,18 @@ const Page = () => {
                 <option value="new">New</option>
               </Select>
             </div>
+
+              <div>
+                <Label htmlFor="description">Description:</Label>
+                <Textarea
+                  id="description"
+                  className="mb-4 h-28"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Enter a detailed description of the vehicle..."
+                />
+              </div>
           </div>
           <div className="mt-5">
             <div>

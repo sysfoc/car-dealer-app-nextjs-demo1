@@ -30,7 +30,6 @@ export default function Page() {
         setLoading(false);
       }
     };
-
     fetchCars();
   }, []);
   const handleStatusChange = async (carId, newStatus) => {
@@ -92,8 +91,8 @@ export default function Page() {
                       className="rounded-md"
                     />
                   </TableCell>
-                  <TableCell>{car.name}</TableCell>
-                  <TableCell>{car.make}</TableCell>
+                  <TableCell>{car.modelName}</TableCell>
+                  <TableCell>{car.makeName}</TableCell>
                   <TableCell>{car.location || "Unknown"}</TableCell>
                   <TableCell>{car.userId}</TableCell>
                   <TableCell>{car.slug}</TableCell>

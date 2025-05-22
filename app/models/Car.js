@@ -37,6 +37,7 @@ const CarSchema = new mongoose.Schema(
     slug: String,
     co2Emission: Number,
     driveType: String,
+    description: String,
     imageUrls: [],
     status: { type: Number, default: 0 },
   },

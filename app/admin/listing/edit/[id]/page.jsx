@@ -23,6 +23,7 @@ const CarEditPage = ({ params }) => {
     make: "",
     makeName: "",
     model: "",
+    description: "",
     modelName: "",
     price: "",
     type: "",
@@ -61,7 +62,7 @@ const CarEditPage = ({ params }) => {
     slug: "",
   });
 
-   const [makes, setMakes] = useState([]);
+  const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
 
   useEffect(() => {
@@ -170,7 +171,9 @@ const CarEditPage = ({ params }) => {
         formDataToSend.append("video", formData.video);
       } else if (key === "features") {
         formDataToSend.append(key, JSON.stringify(formData[key]));
-      } else {
+      } else if (key === "description") {
+        formDataToSend.append(key, formData[key] || "")}
+       else {
         formDataToSend.append(key, formData[key]);
       }
     }
@@ -463,6 +466,18 @@ const CarEditPage = ({ params }) => {
               name="sellerComments"
               value={formData.sellerComments}
               onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="sm:col-span-1">
+            <Label htmlFor="description">Description:</Label>
+            <Textarea
+              id="description"
+              name="description"
+              rows={2}
+              value={formData.description || ""}
+              onChange={handleInputChange}
+              className="w-full"
             />
           </div>
 
