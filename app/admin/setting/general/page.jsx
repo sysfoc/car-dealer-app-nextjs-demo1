@@ -122,21 +122,21 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch("/api/settings/general");  
-        const data = await response.json();
-        if (data.settings) {
-          setSettings(data.settings);
-        }
-      } catch (error) {
-        console.error("Error fetching settings", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchSettings = async () => {
+  //     try {
+  //       const response = await fetch("/api/settings/general");  
+  //       const data = await response.json();
+  //       if (data.settings) {
+  //         setSettings(data.settings);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching settings", error);
+  //     }
+  //   };
 
-    fetchSettings();
-  }, []);
+  //   fetchSettings();
+  // }, []);
 
   return (
     <section className="my-10">
@@ -157,8 +157,8 @@ const Page = () => {
               <div
                 key={section}
                 className={`w-full cursor-pointer rounded-md p-3 text-white ${activeSection === section
-                    ? "bg-blue-950 dark:bg-red-500"
-                    : "bg-blue-950/70 hover:bg-blue-950 dark:bg-red-500/70 dark:hover:dark:bg-red-500"
+                  ? "bg-blue-950 dark:bg-red-500"
+                  : "bg-blue-950/70 hover:bg-blue-950 dark:bg-red-500/70 dark:hover:dark:bg-red-500"
                   }`}
                 onClick={() => setActiveSection(section)}
               >
@@ -392,12 +392,11 @@ const Page = () => {
                 </div>
               )}
 
+
               {activeSection === "Cookie Consent" && (
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col">
-                    <Label htmlFor="cookie-message">
-                      Cookie Consent Message
-                    </Label>
+                    <Label htmlFor="cookie-message">Cookie Consent Message</Label>
                     <Textarea
                       id="cookie-message"
                       value={settings.cookieConsent.message}
@@ -408,12 +407,12 @@ const Page = () => {
                           message: e.target.value
                         }
                       }))}
+                      placeholder="We use cookies to enhance your experience..."
                     />
                   </div>
+
                   <div className="flex flex-col">
-                    <Label htmlFor="cookie-button-text">
-                      Cookie Consent Button Text
-                    </Label>
+                    <Label htmlFor="cookie-button-text">Cookie Consent Button Text</Label>
                     <TextInput
                       id="cookie-button-text"
                       value={settings.cookieConsent.buttonText}
@@ -424,84 +423,134 @@ const Page = () => {
                           buttonText: e.target.value
                         }
                       }))}
+                      placeholder="Accept All"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="cookie-text-color">
-                      Cookie Consent Text Color
-                    </Label>
-                    <input
-                      id="cookie-text-color"
-                      type="color"
-                      value={settings.cookieConsent.textColor}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        cookieConsent: {
-                          ...prev.cookieConsent,
-                          textColor: e.target.value
-                        }
-                      }))}
-                      className="w-full"
-                    />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="flex flex-col">
+                      <Label htmlFor="cookie-text-color">Text Color</Label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          id="cookie-text-color"
+                          type="color"
+                          value={settings.cookieConsent.textColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              textColor: e.target.value
+                            }
+                          }))}
+                          className="w-12 h-10 border rounded"
+                        />
+                        <TextInput
+                          value={settings.cookieConsent.textColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              textColor: e.target.value
+                            }
+                          }))}
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <Label htmlFor="cookie-bg-color">Background Color</Label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          id="cookie-bg-color"
+                          type="color"
+                          value={settings.cookieConsent.bgColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              bgColor: e.target.value
+                            }
+                          }))}
+                          className="w-12 h-10 border rounded"
+                        />
+                        <TextInput
+                          value={settings.cookieConsent.bgColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              bgColor: e.target.value
+                            }
+                          }))}
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <Label htmlFor="cookie-button-text-color">Button Text Color</Label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          id="cookie-button-text-color"
+                          type="color"
+                          value={settings.cookieConsent.buttonTextColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              buttonTextColor: e.target.value
+                            }
+                          }))}
+                          className="w-12 h-10 border rounded"
+                        />
+                        <TextInput
+                          value={settings.cookieConsent.buttonTextColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              buttonTextColor: e.target.value
+                            }
+                          }))}
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <Label htmlFor="cookie-button-bg-color">Button Background Color</Label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          id="cookie-button-bg-color"
+                          type="color"
+                          value={settings.cookieConsent.buttonBgColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              buttonBgColor: e.target.value
+                            }
+                          }))}
+                          className="w-12 h-10 border rounded"
+                        />
+                        <TextInput
+                          value={settings.cookieConsent.buttonBgColor}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            cookieConsent: {
+                              ...prev.cookieConsent,
+                              buttonBgColor: e.target.value
+                            }
+                          }))}
+                          className="flex-1"
+                        />
+                      </div>
+                    </div>
                   </div>
+
                   <div className="flex flex-col">
-                    <Label htmlFor="cookie-bg-color">
-                      Cookie Consent Background Color
-                    </Label>
-                    <input
-                      id="cookie-bg-color"
-                      type="color"
-                      value={settings.cookieConsent.bgColor}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        cookieConsent: {
-                          ...prev.cookieConsent,
-                          bgColor: e.target.value
-                        }
-                      }))}
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="cookie-button-text-color">
-                      Cookie Consent Button Text Color
-                    </Label>
-                    <input
-                      id="cookie-button-text-color"
-                      type="color"
-                      value={settings.cookieConsent.buttonTextColor}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        cookieConsent: {
-                          ...prev.cookieConsent,
-                          buttonTextColor: e.target.value
-                        }
-                      }))}
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="cookie-button-bg-color">
-                      Cookie Consent Button Background Color
-                    </Label>
-                    <input
-                      id="cookie-button-bg-color"
-                      type="color"
-                      value={settings.cookieConsent.buttonBgColor}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        cookieConsent: {
-                          ...prev.cookieConsent,
-                          buttonBgColor: e.target.value
-                        }
-                      }))}
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Label htmlFor="cookie-consent-status">
-                      Cookie Consent Status
-                    </Label>
+                    <Label htmlFor="cookie-consent-status">Cookie Consent Status</Label>
                     <Select
                       id="cookie-consent-status"
                       value={settings.cookieConsent.status}
@@ -517,10 +566,54 @@ const Page = () => {
                       <option value="active">Active</option>
                     </Select>
                   </div>
+
+                  {/* Preview */}
+                  <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                    <Label className="block mb-2">Preview:</Label>
+                    <div
+                      className="p-3 rounded shadow-md max-w-sm"
+                      style={{
+                        backgroundColor: settings.cookieConsent.bgColor,
+                        color: settings.cookieConsent.textColor,
+                      }}
+                    >
+                      <div className="text-sm font-semibold mb-2">
+                        {settings.cookieConsent.message || 'We Use Cookies'}
+                      </div>
+                      <div className="text-xs mb-3 opacity-80">
+                        We use cookies to enhance your experience.
+                      </div>
+                      <div className="flex flex-col gap-2 w-64">
+                        <button
+                          disabled
+                          className="px-3 py-1 text-xs rounded"
+                          style={{
+                            backgroundColor: settings.cookieConsent.buttonBgColor,
+                            color: settings.cookieConsent.buttonTextColor,
+                          }}
+                        >
+                          Only Essentials
+                        </button>
+                        <button
+                          disabled
+                          className="px-3 py-1 text-xs rounded"
+                          style={{
+                            backgroundColor: settings.cookieConsent.buttonBgColor,
+                            color: settings.cookieConsent.buttonTextColor,
+                          }}
+                        >
+                          {settings.cookieConsent.buttonText || 'Accept All'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
+
+
               {activeSection === "Theme Colors" && (
+
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col">
                     <Label htmlFor="dark-mode-bg-color">

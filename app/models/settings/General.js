@@ -1,65 +1,107 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const generalSettingsSchema = new mongoose.Schema(
-  {
-    logo: {
-      type: String,
-      required: true,
-    },
-    favicon: {
-      type: String,
-      required: true,
-    },
-    top: {
-      hideDarkMode: Boolean,
-      hideFavourite: Boolean,
-      hideLogo: Boolean,
-    },
-    footer: {
-      col1Heading: String,
-      col2Heading: String,
-      col3Heading: String,
-    },
-    recaptcha: {
-      siteKey: String,
-      status: {
-        type: String,
-        enum: ["active", "inactive"],
-        default: "inactive"
-      },
-    },
-    analytics: {
-      trackingId: String,
-      status: {
-        type: String,
-        enum: ["active", "inactive"],
-        default: "inactive"
-      },
-    },
-    cookieConsent: {
-      message: String,
-      buttonText: String,
-      textColor: String,
-      bgColor: String,
-      buttonTextColor: String,
-      buttonBgColor: String,
-      status: {
-        type: String,
-        enum: ["active", "inactive"],
-        default: "inactive"
-      },
-    },
-    themeColor: {
-      darkModeBg: String,
-      darkModeText: String,
-    },
+const SettingsSchema = new mongoose.Schema({
+  logo: {
+    type: String,
+    default: '/logo.png'
   },
-  {
-    timestamps: true,
+  favicon: {
+    type: String,
+    default: '/logo.png'
+  },
+  top: {
+    hideDarkMode: {
+      type: Boolean,
+      default: false
+    },
+    hideFavourite: {
+      type: Boolean,
+      default: false
+    },
+    hideLogo: {
+      type: Boolean,
+      default: false
+    }
+  },
+  footer: {
+    col1Heading: {
+      type: String,
+      default: ''
+    },
+    col2Heading: {
+      type: String,
+      default: ''
+    },
+    col3Heading: {
+      type: String,
+      default: ''
+    }
+  },
+  recaptcha: {
+    siteKey: {
+      type: String,
+      default: ''
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'inactive'
+    }
+  },
+  analytics: {
+    trackingId: {
+      type: String,
+      default: ''
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'inactive'
+    }
+  },
+  cookieConsent: {
+    message: {
+      type: String,
+      default: ''
+    },
+    buttonText: {
+      type: String,
+      default: 'ACCEPT'
+    },
+    textColor: {
+      type: String,
+      default: '#000000'
+    },
+    bgColor: {
+      type: String,
+      default: '#ffffff'
+    },
+    buttonTextColor: {
+      type: String,
+      default: '#ffffff'
+    },
+    buttonBgColor: {
+      type: String,
+      default: '#000000'
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'inactive'
+    }
+  },
+  themeColor: {
+    darkModeBg: {
+      type: String,
+      default: '#000000'
+    },
+    darkModeText: {
+      type: String,
+      default: '#ffffff'
+    }
   }
-);
+}, {
+  timestamps: true
+});
 
-const GeneralSettings = mongoose.models.GeneralSettings || 
-  mongoose.model("GeneralSettings", generalSettingsSchema);
-
-export default GeneralSettings;
+export default mongoose.models.Settings || mongoose.model('Settings', SettingsSchema);

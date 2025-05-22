@@ -1,125 +1,34 @@
+import dbConnect from "../../../lib/mongodb";
+import GeneralSettings from "../../../models/settings/General.js";
 import { NextResponse } from "next/server";
-import dbConnect from "@/app/lib/mongodb";
-import GeneralSettings from "@/app/models/settings/General.js";
-
-export async function POST(req) {
-  try {
-    await dbConnect();
-    const body = await req.json();
-    
-
-    const { 
-      logo = "", 
-      favicon = "",
-      top = {
-        hideDarkMode: false,
-        hideFavourite: false,
-        hideLogo: false
-      },
-      footer = {
-        col1Heading: "",
-        col2Heading: "",
-        col3Heading: ""
-      },
-      recaptcha = {
-        siteKey: "",
-        status: "inactive"
-      },
-      analytics = {
-        trackingId: "",
-        status: "inactive"
-      },
-      cookieConsent = {
-        message: "",
-        buttonText: "ACCEPT",
-        textColor: "#000000",
-        bgColor: "#ffffff",
-        buttonTextColor: "#ffffff",
-        buttonBgColor: "#000000",
-        status: "inactive"
-      },
-      themeColor = {
-        darkModeBg: "#000000",
-        darkModeText: "#ffffff"
-      }
-    } = body;
-
-    if (!logo || !favicon) {
-      return NextResponse.json(
-        { error: "Logo and Favicon are required" },
-        { status: 400 }
-      );
-    }
-
-    const existingSettings = await GeneralSettings.findOne();
-    let updatedSettings;
-
-    if (existingSettings) {
-      
-      existingSettings.logo = logo;
-      existingSettings.favicon = favicon;
-      existingSettings.top = { ...existingSettings.top, ...top };
-      existingSettings.footer = { ...existingSettings.footer, ...footer };
-      existingSettings.recaptcha = { ...existingSettings.recaptcha, ...recaptcha };
-      existingSettings.analytics = { ...existingSettings.analytics, ...analytics };
-      existingSettings.cookieConsent = { ...existingSettings.cookieConsent, ...cookieConsent };
-      existingSettings.themeColor = { ...existingSettings.themeColor, ...themeColor };
-      
-      updatedSettings = await existingSettings.save();
-    } else {
-      updatedSettings = await GeneralSettings.create({
-        logo,
-        favicon,
-        top,
-        footer,
-        recaptcha,
-        analytics,
-        cookieConsent,
-        themeColor
-      });
-    }
-
-    return NextResponse.json({
-      message: "Settings saved successfully",
-      settings: updatedSettings
-    });
-
-  } catch (error) {
-    console.error("POST Error:", error);
-    return NextResponse.json(
-      { error: "Server error", details: error.message },
-      { status: 500 }
-    );
-  }
-}
 
 export async function GET() {
   try {
     await dbConnect();
+    
     const settings = await GeneralSettings.findOne();
-
-
-    return NextResponse.json({
-      settings: settings || {
-        logo: "",
-        favicon: "",
+    
+    if (!settings) {
+      const defaultSettings = {
+        logo: "/logo.png",
+        favicon: "/logo.png",
         top: {
           hideDarkMode: false,
           hideFavourite: false,
-          hideLogo: false
+          hideLogo: false,
         },
         footer: {
           col1Heading: "",
           col2Heading: "",
-          col3Heading: ""
+          col3Heading: "",
         },
         recaptcha: {
           siteKey: "",
-          status: "inactive"
+          status: "inactive",
         },
         analytics: {
           trackingId: "",
-          status: "inactive"
+          status: "inactive",
         },
         cookieConsent: {
           message: "",
@@ -128,19 +37,73 @@ export async function GET() {
           bgColor: "#ffffff",
           buttonTextColor: "#ffffff",
           buttonBgColor: "#000000",
-          status: "inactive"
+          status: "inactive",
         },
         themeColor: {
           darkModeBg: "#000000",
-          darkModeText: "#ffffff"
-        }
-      }
-    });
-
+          darkModeText: "#ffffff",
+        },
+      };
+      
+      return NextResponse.json({ settings: defaultSettings });
+    }
+    
+    return NextResponse.json({ settings });
   } catch (error) {
-    console.error("GET Error:", error);
+    console.error('Error fetching settings:', error);
     return NextResponse.json(
-      { error: "Server error", details: error.message },
+      { error: 'Failed to fetch settings' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req) {
+  try {
+    await dbConnect();
+    const body = await req.json();
+    
+    console.log('Received settings data:', body);
+    
+    let settings = await GeneralSettings.findOne();
+    
+    if (settings) {
+      settings = await GeneralSettings.findOneAndUpdate(
+        {},
+        { 
+          $set: {
+            ...body,
+            updatedAt: new Date()
+          }
+        },
+        { 
+          new: true, 
+          runValidators: true 
+        }
+      );
+    } else {
+      settings = await GeneralSettings.create({
+        ...body,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+    
+    console.log('Settings saved:', settings);
+    
+    return NextResponse.json({ 
+      success: true, 
+      settings,
+      message: 'Settings saved successfully' 
+    });
+    
+  } catch (error) {
+    console.error('Error saving settings:', error);
+    return NextResponse.json(
+      { 
+        error: 'Failed to save settings',
+        details: error.message 
+      },
       { status: 500 }
     );
   }
