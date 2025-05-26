@@ -3,14 +3,19 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Currency = {
+  _id: string;
   name: string;
   symbol: string;
   value: number;
+  isDefault?: boolean;
 };
 
 type CurrencyContextType = {
-  currency: Currency | null;
-  refreshCurrency: () => void;
+  defaultCurrency: Currency | null;
+  selectedCurrency: Currency | null;
+  currencies: Currency[];
+  refreshCurrencies: () => void;
+  setSelectedCurrency: (currency: Currency) => void;
 };
 
 const CurrencyContext = createContext<CurrencyContextType | null>(null);
@@ -22,20 +27,33 @@ export const useCurrency = () => {
 };
 
 export const CurrencyProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currency, setCurrency] = useState<Currency | null>(null);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [defaultCurrency, setDefaultCurrency] = useState<Currency | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
 
-  const fetchCurrency = async () => {
-    const res = await fetch("/api/currency/default");
+  const fetchCurrencies = async () => {
+    const res = await fetch('/api/currency');
     const data = await res.json();
-    setCurrency(data);
+    setCurrencies(data);
+    const defaultCurr = data.find((c: Currency) => c.isDefault);
+    setDefaultCurrency(defaultCurr);
+    setSelectedCurrency(defaultCurr);
   };
 
   useEffect(() => {
-    fetchCurrency();
+    fetchCurrencies();
   }, []);
 
   return (
-    <CurrencyContext.Provider value={{ currency, refreshCurrency: fetchCurrency }}>
+    <CurrencyContext.Provider
+      value={{
+        defaultCurrency,
+        selectedCurrency,
+        currencies,
+        refreshCurrencies: fetchCurrencies,
+        setSelectedCurrency
+      }}
+    >
       {children}
     </CurrencyContext.Provider>
   );

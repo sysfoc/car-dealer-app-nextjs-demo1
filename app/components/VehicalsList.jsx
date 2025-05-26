@@ -16,7 +16,7 @@ const VehicalsList = ({ loadingState }) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { currency } = useCurrency();
+  const { currency, selectedCurrency } = useCurrency();
 
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -170,29 +170,33 @@ const VehicalsList = ({ loadingState }) => {
                 </div>
                 <div className="mt-3 border-b-2 border-gray-100"></div>
                 <div className="my-3 flex items-center justify-between">
-                  <div>
-                    <h4 className="text-lg font-semibold">
-                      {/* {vehicle.price} */}
-                      {currency?.symbol} {(vehicle?.price / (currency?.value || 1)).toFixed(2)}
+              <div>
+                <h4 className="text-lg font-semibold">
+                  {selectedCurrency?.symbol}{" "}
+                  {Math.round(
+                    (vehicle?.price * (selectedCurrency?.value || 1)) /
+                    (currency?.value || 1)
+                  )}
+                </h4>
+              </div>
 
-                    </h4>
-                  </div>
-                  <div>
-                    <Link
-                      href="https://www.petbazar.com.pk/car-for-sale"
-                      className="font-semibold text-blue-950 dark:text-red-500"
-                    >
-                      <p className="inline-flex items-center gap-x-3">
-                        View Details <MdOutlineArrowOutward />
-                      </p>
-                    </Link>
-                  </div>
-                </div>
+              <div>
+                <Link
+                  href="https://www.petbazar.com.pk/car-for-sale"
+                  className="font-semibold text-blue-950 dark:text-red-500"
+                >
+                  <p className="inline-flex items-center gap-x-3">
+                    View Details <MdOutlineArrowOutward />
+                  </p>
+                </Link>
               </div>
             </div>
-          ))}
-      </div>
-    </section>
+              </div>
+    </div>
+  ))
+}
+      </div >
+    </section >
   );
 };
 

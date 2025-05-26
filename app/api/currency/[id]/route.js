@@ -1,5 +1,6 @@
 import dbconnect from "../../../lib/mongodb";
 import Currency from "../../../models/Currency";
+import Car from "../../../models/Car.js"
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
@@ -21,17 +22,26 @@ export async function PUT(req, { params }) {
     
     try {
       session.startTransaction();
-      
+
+      const cars = await Car.find({}).session(session);
+      for (const car of cars) {
+        const newPrice = parseFloat((car.price * currentCurrency.value).toFixed(2));
+        await Car.findByIdAndUpdate(
+          car._id,
+          { $set: { price: newPrice } },
+          { session }
+        );
+      }
+
       if (prevDefault) {
         const newPrevDefaultValue = prevDefault.value * conversionFactor;
-        
         await Currency.findByIdAndUpdate(
           prevDefault._id, 
           { isDefault: false, value: newPrevDefaultValue },
           { session }
         );
       }
-      
+
       for (const currency of allCurrencies) {
         if (currency._id.toString() !== prevDefault?._id?.toString()) {
           const newValue = parseFloat((currency.value * conversionFactor).toFixed(5));
@@ -42,7 +52,7 @@ export async function PUT(req, { params }) {
           );
         }
       }
-      
+
       const updated = await Currency.findByIdAndUpdate(
         params.id, 
         { ...body, value: 1, isDefault: true },
