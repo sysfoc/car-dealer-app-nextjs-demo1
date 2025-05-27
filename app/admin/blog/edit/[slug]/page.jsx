@@ -11,12 +11,12 @@ const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 export default function EditBlogPage() {
   const router = useRouter();
-  const { id } = useParams();
-  const blogId = id;
+  const { slug } = useParams();
+  const blogSlug = slug;
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
   const [h1, setH1] = useState("");
-  const [slug, setSlug] = useState("");
+  const [currentSlug, setCurrentSlug] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -24,7 +24,6 @@ export default function EditBlogPage() {
   const [existingImage, setExistingImage] = useState("");
   const [categories, setCategories] = useState([]);
 
-  // Fetch Categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -40,35 +39,36 @@ export default function EditBlogPage() {
   }, []);
 
   useEffect(() => {
-    // console.log("Blog ID:", blogId);
-    if (!blogId) {
+    if (!blogSlug) {
       setLoading(false);
       return;
     }
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`/api/blog/${blogId}`);
+        const response = await fetch(`/api/blog/${blogSlug}`);
         const data = await response.json();
         console.log("Blog Data:", data);
         if (response.ok) {
           setH1(data.h1);
-          setSlug(data.slug);
+          setCurrentSlug(data.slug);
           setMetaTitle(data.metaTitle);
           setMetaDescription(data.metaDescription);
           setContent(data.content);
           setCategoryId(data.categoryId);
           setExistingImage(data.image);
         } else {
-          alert("Failed to fetch blog data");
+          toast.error("Failed to fetch blog data");
         }
       } catch (error) {
         console.error("Error fetching blog:", error);
+        toast.error("Error fetching blog data");
       } finally {
         setLoading(false);
       }
     };
     fetchBlog();
-  }, [blogId]);
+  }, [blogSlug]);
+
   const handleCategoryChange = (e) => {
     setCategoryId(e.target.value);
   };
@@ -77,7 +77,7 @@ export default function EditBlogPage() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("h1", h1);
-    formData.append("slug", slug);
+    formData.append("slug", currentSlug);
     formData.append("metaTitle", metaTitle);
     formData.append("metaDescription", metaDescription);
     formData.append("content", content);
@@ -85,7 +85,7 @@ export default function EditBlogPage() {
     if (image) formData.append("image", image);
 
     try {
-      const response = await fetch(`/api/blog/${blogId}`, {
+      const response = await fetch(`/api/blog/${blogSlug}`, {
         method: "PUT",
         body: formData,
       });
@@ -131,8 +131,8 @@ export default function EditBlogPage() {
           <Label htmlFor="slug">Slug</Label>
           <TextInput
             id="slug"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
+            value={currentSlug}
+            onChange={(e) => setCurrentSlug(e.target.value)}
           />
         </div>
 
@@ -179,8 +179,6 @@ export default function EditBlogPage() {
             ))}
           </Select>
         </div>
-
-        {/* Existing Image */}
         {existingImage && (
           <div>
             <Label>Existing Image</Label>
@@ -193,7 +191,6 @@ export default function EditBlogPage() {
           </div>
         )}
 
-        {/* Upload New Image */}
         <div>
           <Label htmlFor="image">Upload New Image</Label>
           <TextInput

@@ -144,7 +144,7 @@ const Page = () => {
       </div>
       <form className="mt-5 flex flex-col gap-3" onSubmit={handleSubmit}>
         <div>
-          <Label htmlFor="title">H1:</Label>
+          <Label htmlFor="title">H1/Title:</Label>
           <TextInput onChange={handleChange} id="h1" type="text" />
         </div>
         <div>

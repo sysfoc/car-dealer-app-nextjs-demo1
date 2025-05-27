@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 interface Blog {
   _id: string;
+  h1: string;
   title: string;
   slug: string;
   metaDescription: string;
@@ -44,9 +45,9 @@ export default function Page() {
     fetchBlogs();
   }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (slug: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/blog/${id}`, {
+      const response = await fetch(`/api/blog/${slug}`, {
         method: "DELETE",
       });
 
@@ -55,7 +56,8 @@ export default function Page() {
       }
 
       // Update the blogs list after deletion
-      setBlogs(blogs.filter((blog) => blog._id !== id));
+      // setBlogs(blogs.filter((blog) => blog._id !== id));
+      setBlogs(blogs.filter((blog) => blog.slug !== slug));
     } catch (err) {
       console.error("Delete error:", err);
       alert(err instanceof Error ? err.message : "Failed to delete blog");
@@ -110,7 +112,7 @@ export default function Page() {
                     className="rounded-md"
                   />
                 </TableCell>
-                <TableCell>{blog.title}</TableCell>
+                <TableCell>{blog.h1}</TableCell>
                 <TableCell>{blog.slug}</TableCell>
                 <TableCell>{blog.metaDescription}</TableCell>
                 <TableCell>
@@ -119,7 +121,7 @@ export default function Page() {
                 <TableCell>
                   <div className="flex items-center gap-x-5">
                     <Link
-                      href={`/admin/blog/edit/${blog._id}`}
+                      href={`/admin/blog/edit/${blog.slug}`}
                       className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                     >
                       Edit

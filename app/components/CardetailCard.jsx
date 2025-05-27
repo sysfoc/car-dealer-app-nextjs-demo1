@@ -26,6 +26,7 @@ import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
+import { useCurrency } from "../context/CurrencyContext.tsx";
 
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
@@ -51,6 +52,7 @@ const CardetailCard = () => {
   const [engineSizeTo] = useQueryState("engineSizeTo", "");
   const [enginePowerFrom] = useQueryState("enginePowerFrom", "");
   const [enginePowerTo] = useQueryState("enginePowerTo", "");
+  const { currency, selectedCurrency } = useCurrency();
 
   const safeDoors = Array.isArray(doors)
     ? doors.map((door) => parseInt(door, 10)).filter(Number.isInteger)
@@ -127,7 +129,7 @@ const CardetailCard = () => {
       // Match against makeName and modelName instead of directly using make/model fields
       const matchesKeyword = keyword
         ? (car.makeName?.toLowerCase().includes(keyword.toLowerCase()) ||
-           car.modelName?.toLowerCase().includes(keyword.toLowerCase()))
+          car.modelName?.toLowerCase().includes(keyword.toLowerCase()))
         : true;
 
       const matchesCondition = safeCondition.length
@@ -136,15 +138,15 @@ const CardetailCard = () => {
 
       const matchesLocation = safeLocation.length
         ? safeLocation.some((loc) =>
-            car.location?.toLowerCase().includes(loc.toLowerCase()),
-          )
+          car.location?.toLowerCase().includes(loc.toLowerCase()),
+        )
         : true;
 
       const matchesPrice = safePrice.length
         ? safePrice.some((singlePrice) => {
-            const carPrice = car.price ? parseInt(car.price, 10) : null;
-            return carPrice >= singlePrice;
-          })
+          const carPrice = car.price ? parseInt(car.price, 10) : null;
+          return carPrice >= singlePrice;
+        })
         : true;
 
       // Use modelYear if year is not available
@@ -157,27 +159,27 @@ const CardetailCard = () => {
       // Match using modelName or modelId
       const matchesModel = safeModel.length
         ? safeModel.some(
-            (modelVal) => {
-              if (car.modelName) {
-                return modelVal.toLowerCase() === car.modelName.toLowerCase();
-              }
-              if (car.modelId) {
-                return modelVal === car.modelId;
-              }
-              return false;
+          (modelVal) => {
+            if (car.modelName) {
+              return modelVal.toLowerCase() === car.modelName.toLowerCase();
             }
-          )
+            if (car.modelId) {
+              return modelVal === car.modelId;
+            }
+            return false;
+          }
+        )
         : true;
 
       // Use kms field if mileage is not available
       const carMileageField = car.mileage || car.kms;
       const matchesMileage = carMileageField
         ? (() => {
-            const carMileage = parseInt(String(carMileageField).replace(/[^\d]/g, ""), 10) || 0;
-            const from = millageFrom ? parseInt(millageFrom, 10) : null;
-            const to = millageTo ? parseInt(millageTo, 10) : null;
-            return (!from || carMileage >= from) && (!to || carMileage <= to);
-          })()
+          const carMileage = parseInt(String(carMileageField).replace(/[^\d]/g, ""), 10) || 0;
+          const from = millageFrom ? parseInt(millageFrom, 10) : null;
+          const to = millageTo ? parseInt(millageTo, 10) : null;
+          return (!from || carMileage >= from) && (!to || carMileage <= to);
+        })()
         : true;
 
       const matchesGearBox = safeGearBox.length
@@ -193,17 +195,17 @@ const CardetailCard = () => {
         : true;
 
       // Convert to number if string
-      const carDoors = typeof car.doors === 'string' && car.doors !== 'Select' ? 
+      const carDoors = typeof car.doors === 'string' && car.doors !== 'Select' ?
         parseInt(car.doors, 10) : car.doors;
-      
+
       const matchesDoors = safeDoors.length
         ? safeDoors.includes(carDoors)
         : true;
 
       // Convert to number if string  
-      const carSeats = typeof car.seats === 'string' && car.seats !== 'Select' ? 
+      const carSeats = typeof car.seats === 'string' && car.seats !== 'Select' ?
         parseInt(car.seats, 10) : car.seats;
-        
+
       const matchesSeats = safeSeats.length
         ? safeSeats.includes(carSeats)
         : true;
@@ -218,22 +220,22 @@ const CardetailCard = () => {
 
       const matchesBatteryrange = car.batteryRange
         ? (() => {
-            const batteryRange = battery ? parseInt(battery, 10) : null;
-            const carBatteryRange = car.batteryRange
-              ? parseInt(car.batteryRange, 10)
-              : null;
-            return batteryRange ? carBatteryRange >= batteryRange : true;
-          })()
+          const batteryRange = battery ? parseInt(battery, 10) : null;
+          const carBatteryRange = car.batteryRange
+            ? parseInt(car.batteryRange, 10)
+            : null;
+          return batteryRange ? carBatteryRange >= batteryRange : true;
+        })()
         : true;
 
       const matchesChargingTime = car.chargingTime
         ? (() => {
-            const chargingTime = charging ? parseInt(charging, 10) : null;
-            const carChargingTime = car.chargingTime
-              ? parseInt(car.chargingTime, 10)
-              : null;
-            return chargingTime ? carChargingTime >= chargingTime : true;
-          })()
+          const chargingTime = charging ? parseInt(charging, 10) : null;
+          const carChargingTime = car.chargingTime
+            ? parseInt(car.chargingTime, 10)
+            : null;
+          return chargingTime ? carChargingTime >= chargingTime : true;
+        })()
         : true;
 
       const matchesEngineSize =
@@ -250,30 +252,30 @@ const CardetailCard = () => {
 
       const matchesFuelConsumption = car.fuelConsumption
         ? (() => {
-            const selectedFuelConsumption = fuelConsumption
-              ? parseInt(fuelConsumption, 10)
-              : null;
-            const carFuelConsumption = car.fuelConsumption
-              ? parseInt(car.fuelConsumption, 10)
-              : null;
-            return selectedFuelConsumption
-              ? carFuelConsumption === selectedFuelConsumption
-              : true;
-          })()
+          const selectedFuelConsumption = fuelConsumption
+            ? parseInt(fuelConsumption, 10)
+            : null;
+          const carFuelConsumption = car.fuelConsumption
+            ? parseInt(car.fuelConsumption, 10)
+            : null;
+          return selectedFuelConsumption
+            ? carFuelConsumption === selectedFuelConsumption
+            : true;
+        })()
         : true;
 
       const matchesCo2Emission = car.co2Emission
         ? (() => {
-            const selectedCo2Emission = co2Emission
-              ? parseInt(co2Emission, 10)
-              : null;
-            const carCo2Emission = car.co2Emission
-              ? parseInt(car.co2Emission, 10)
-              : null;
-            return selectedCo2Emission
-              ? carCo2Emission === selectedCo2Emission
-              : true;
-          })()
+          const selectedCo2Emission = co2Emission
+            ? parseInt(co2Emission, 10)
+            : null;
+          const carCo2Emission = car.co2Emission
+            ? parseInt(car.co2Emission, 10)
+            : null;
+          return selectedCo2Emission
+            ? carCo2Emission === selectedCo2Emission
+            : true;
+        })()
         : true;
 
       return (
@@ -381,12 +383,16 @@ const CardetailCard = () => {
                 </Link>
                 <div className="flex items-center justify-between">
                   <h4 className="text-2xl font-bold text-blue-950 dark:text-red-500">
-                    {loading ? <Skeleton height={25} width={100} /> : `$${car.price || 0}`}
+                    {loading ? (
+                      <Skeleton height={25} width={100} />
+                    ) : (
+                      `${selectedCurrency?.symbol} ${car.price || 0}`
+                    )}
                   </h4>
                   <div>
                     <Button
                       color={"white"}
-                      // onClick={() => handleFavoriteToggle(index)}
+                    // onClick={() => handleFavoriteToggle(index)}
                     >
                       <CiHeart fontSize={22} color="gray" />
                     </Button>
