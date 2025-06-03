@@ -11,8 +11,10 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import { FiLogOut } from "react-icons/fi";
+import { useAuth } from "../context/UserContext";
 
 const Header = ({ isDarkMode }) => {
+  const { user } = useAuth();
   return (
     <Navbar
       fluid
@@ -42,15 +44,16 @@ const Header = ({ isDarkMode }) => {
           label={
             <Avatar
               alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              // img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              img={user?.profilePicture}
               rounded
             />
           }
         >
           <DropdownHeader>
-            <span className="block text-sm">Hamza Ilyas</span>
+            <span className="block text-sm">{user?.username}</span>
             <span className="block truncate text-sm font-semibold">
-              hamza@gmail.com
+              {user?.email}
             </span>
           </DropdownHeader>
         </Dropdown>

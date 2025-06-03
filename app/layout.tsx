@@ -11,6 +11,7 @@ import "./globals.css";
 import Cookiebox from "@/app/components/Cookiebox";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import { CurrencyProvider } from "./context/CurrencyContext";
+import { AuthProvider } from "./context/UserContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,15 +28,15 @@ const getGeneralSettings = async () => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5000";
     const res = await fetch(`${baseUrl}/api/settings/general`, {
-      cache: 'no-store',
-      next: { revalidate: 60 }
+      cache: "no-store",
+      next: { revalidate: 60 },
     });
-    
+
     if (!res.ok) {
       console.error(`Failed to fetch settings: ${res.status}`);
       return null;
     }
-    
+
     return await res.json();
   } catch (error) {
     console.error("Error fetching general settings:", error);
@@ -57,20 +58,20 @@ export default async function RootLayout({
     top: {
       hideDarkMode: false,
       hideFavourite: false,
-      hideLogo: false
+      hideLogo: false,
     },
     footer: {
       col1Heading: "",
       col2Heading: "",
-      col3Heading: ""
+      col3Heading: "",
     },
     recaptcha: {
       siteKey: "",
-      status: "inactive"
+      status: "inactive",
     },
     analytics: {
       trackingId: "",
-      status: "inactive"
+      status: "inactive",
     },
     cookieConsent: {
       message: "",
@@ -79,12 +80,12 @@ export default async function RootLayout({
       bgColor: "#ffffff",
       buttonTextColor: "#ffffff",
       buttonBgColor: "#000000",
-      status: "inactive"
+      status: "inactive",
     },
     themeColor: {
       darkModeBg: "#000000",
-      darkModeText: "#ffffff"
-    }
+      darkModeText: "#ffffff",
+    },
   };
 
   return (
@@ -92,7 +93,7 @@ export default async function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      
+
       {settings?.analytics?.status === "active" && (
         <GoogleAnalytics GA_MEASUREMENT_ID={settings.analytics.trackingId} />
       )}
@@ -101,14 +102,16 @@ export default async function RootLayout({
         className={`transition-all dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}
       >
         <NextIntlClientProvider messages={messages}>
-          <LayoutRenderer>
-            <NuqsAdapter>
-              <CurrencyProvider>
-                {children}
-                <Cookiebox cookieConsent={settings.cookieConsent} />
-              </CurrencyProvider>
-            </NuqsAdapter>
-          </LayoutRenderer>
+          <AuthProvider>
+            <LayoutRenderer>
+              <NuqsAdapter>
+                <CurrencyProvider>
+                  {children}
+                  <Cookiebox cookieConsent={settings.cookieConsent} />
+                </CurrencyProvider>
+              </NuqsAdapter>
+            </LayoutRenderer>
+          </AuthProvider>
         </NextIntlClientProvider>
 
         <ToastContainer autoClose={3000} />

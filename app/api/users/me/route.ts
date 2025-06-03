@@ -11,6 +11,7 @@ interface JwtUserPayload {
   role: string;
   iat: number;
   exp: number;
+  profilePicture?: string;
 }
 
 connectToMongoDB();
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
     try {
       const decoded = jwt.verify(token, process.env.TOKEN_SECRET!) as JwtUserPayload;
       
-      const user = await User.findById(decoded.id, "username email role");
+      const user = await User.findById(decoded.id, "username email role profilePicture");
       
       if (!user) {
         return NextResponse.json(
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
           { status: 403 },
         );
       }
-      const user = await User.findById(decoded.id, "username email role");
+      const user = await User.findById(decoded.id, "username email role profilePicture");
       
       if (!user) {
         return NextResponse.json(

@@ -4,12 +4,6 @@ import CardetailCard from "@/app/components/CardetailCard";
 import { Pagination } from "flowbite-react";
 
 export default function Home() {
-  // const [currentPage, setCurrentPage] = useState(1);
-
-  // const onPageChange = (page) => {
-  //   setCurrentPage(page);
-  // };
-
   return (
     <section className="mx-4 my-10 sm:mx-8">
       <div className="relative mt-5 flex flex-wrap justify-between gap-5 md:flex-nowrap">

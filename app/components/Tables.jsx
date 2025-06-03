@@ -88,9 +88,9 @@ const Tables = ({ loadingState, carData, translation: t }) => {
           <TableBody className="divide-y">
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">
-                Vehical
+                Vehicle
               </TableCell>
-              <TableCell>{carData.make}</TableCell>
+              <TableCell>{carData.makeName}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-semibold text-blue-950 dark:text-gray-200">

@@ -77,7 +77,6 @@ const CarEditPage = ({ params }) => {
             images: data.car.imageUrls || [],
             slug: data.car.make.toLowerCase().replace(/\s+/g, "-"),
           });
-
           setCar(data.car);
         }
       } catch (error) {

@@ -386,13 +386,12 @@ const CardetailCard = () => {
                     {loading ? (
                       <Skeleton height={25} width={100} />
                     ) : (
-                      `${selectedCurrency?.symbol} ${car.price || 0}`
+                      `${selectedCurrency?.symbol} ${Math.round(car.price) || 0}`
                     )}
                   </h4>
                   <div>
                     <Button
                       color={"white"}
-                    // onClick={() => handleFavoriteToggle(index)}
                     >
                       <CiHeart fontSize={22} color="gray" />
                     </Button>

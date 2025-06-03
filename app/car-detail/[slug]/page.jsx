@@ -18,6 +18,7 @@ import {
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useTranslations } from "next-intl";
+import { useCurrency } from "@/app/context/CurrencyContext";
 
 export default function Home() {
   const t = useTranslations("carDetails");
@@ -27,6 +28,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [dealer, setDealer] = useState(null);
   const [error, setError] = useState(null);
+  const { selectedCurrency } = useCurrency();
 
   useEffect(() => {
     if (slug) {
@@ -96,10 +98,10 @@ export default function Home() {
           </div>
           <div className="my-5">
             <h3 className="text-2xl font-semibold">
-              {loading ? <Skeleton /> : car.model}
+              {loading ? <Skeleton /> : car.modelName}
             </h3>
             <h4 className="my-2 text-3xl font-semibold text-blue-950 dark:text-red-500">
-              {loading ? <Skeleton width={60} /> : `$${car.price}`}
+              {loading ? <Skeleton width={60} /> : `${selectedCurrency?.symbol} ${Math.round(car.price)}`}
             </h4>
           </div>
           <div className="flex items-center gap-x-3">
@@ -224,3 +226,5 @@ export default function Home() {
     </section>
   );
 }
+
+
