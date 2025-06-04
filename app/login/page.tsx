@@ -5,13 +5,20 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/UserContext";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [user, setUser] = useState({ email: "", password: "", role: "", pin: ""  });
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    role: "",
+    pin: "",
+  });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { refreshUser } = useAuth();
 
   const onLogin = async () => {
     try {
@@ -30,7 +37,7 @@ export default function LoginPage() {
       if (!receivedRole) {
         throw new Error("No role received from server");
       }
-
+      await refreshUser();
       router.push(
         receivedRole === "superadmin" ? "/admin/dashboard" : "/admin/dashboard",
       );
@@ -101,11 +108,17 @@ export default function LoginPage() {
         <div className="flex justify-center space-x-3">
           <button
             onClick={() =>
-              setUser({
-                email: "sysfoc_super_admin@gmail.com",
-                password: "sysfoc_super_admin",
+              // setUser({
+              //   email: "sysfoc_super_admin@gmail.com",
+              //   password: "sysfoc_super_admin",
+              //   role: "superadmin",
+              //   pin: "622685",
+              // })
+               setUser({
+                email: "rehan2@gmail.com",
+                password: "rehan2@gmail.com",
                 role: "superadmin",
-                pin: "622685",
+                pin: "583601",
               })
             }
             className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
@@ -119,7 +132,7 @@ export default function LoginPage() {
                 email: "sysfoc_user@gmail.com",
                 password: "sysfoc_user",
                 role: "user",
-                pin:"930643",
+                pin: "930643",
               })
             }
             className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700"

@@ -1,6 +1,5 @@
-export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/app/models/User"
+import User from "@/app/models/User";
 import connectToMongoDB from "../../../lib/mongodb";
 import jwt from "jsonwebtoken";
 
@@ -14,67 +13,41 @@ interface JwtUserPayload {
   profilePicture?: string;
 }
 
-connectToMongoDB();
+export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
+    await connectToMongoDB();
+
     const token = request.cookies.get("token")?.value;
-    
+
     if (!token) {
-      return NextResponse.json(
-        { error: "Unauthorized access, token missing" },
-        { status: 403 },
-      );
+      return NextResponse.json({ error: "Token missing" }, { status: 403 });
     }
-    
-    console.log("Token:", token);
-    console.log("Secret:", process.env.JWT_SECRET ? "Secret exists" : "Secret missing");
-    
+
+    let decoded: JwtUserPayload;
+
     try {
-      const decoded = jwt.verify(token, process.env.TOKEN_SECRET!) as JwtUserPayload;
-      
-      const user = await User.findById(decoded.id, "username email role profilePicture");
-      
-      if (!user) {
-        return NextResponse.json(
-          { error: "User not found" },
-          { status: 404 },
-        );
-      }
-      
-      return NextResponse.json({ user });
+      decoded = jwt.verify(token, process.env.TOKEN_SECRET!) as JwtUserPayload;
     } catch (jwtError) {
-      console.error("JWT verification error:", jwtError);
-      const decoded = jwt.decode(token) as JwtUserPayload;
-      
-      if (!decoded || !decoded.id) {
-        return NextResponse.json(
-          { error: "Unable to decode token" },
-          { status: 403 },
-        );
-      }
-      const user = await User.findById(decoded.id, "username email role profilePicture");
-      
-      if (!user) {
-        return NextResponse.json(
-          { error: "User not found" },
-          { status: 404 },
-        );
-      }
-      return NextResponse.json({
-        user,
-        warning: "Token signature verification failed, using decoded token",
-      });
+      console.error("JWT verification failed:", jwtError);
+      const response = NextResponse.json({ error: "Invalid token" }, { status: 403 });
+      response.cookies.delete("token");
+      return response;
     }
+
+    const user = await User.findById(decoded.id, "username email role profilePicture");
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ user });
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("API Error:", error.message);
-    } else {
-      console.error("API Error:", error);
-    }
+    console.error("API Error:", (error as Error).message || error);
     return NextResponse.json(
       { error: (error as Error).message || "Internal Server Error" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

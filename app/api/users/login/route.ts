@@ -2,7 +2,7 @@ import connectToMongoDB from "../../../lib/mongodb";
 import User from "../../../models/User";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
-import { SignJWT } from "jose";
+import jwt from "jsonwebtoken";
 
 connectToMongoDB();
 
@@ -41,22 +41,19 @@ export async function POST(request: NextRequest) {
       username: user.username,
       email: user.email,
       role: user.role,
-      profilePicture: user.profilePicture
+      //profilePicture: user.profilePicture || "/userPicture.jpg",
     };
 
-    const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
-    const token = await new SignJWT(tokenData)
-      .setProtectedHeader({ alg: "HS256" })
-      .setIssuedAt()
-      .setExpirationTime("2d")
-      .sign(secret);
+    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
+      expiresIn: "2d",
+    });
 
     const response = NextResponse.json({
       message: "Login Successful",
       success: true,
       token,
       role: user.role,
-      profilePicture: user.profilePicture
+      //profilePicture: user.profilePicture,
     });
 
     response.cookies.set("token", token, {
