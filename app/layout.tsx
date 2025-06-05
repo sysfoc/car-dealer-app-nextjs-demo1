@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 const getGeneralSettings = async () => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5000";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const res = await fetch(`${baseUrl}/api/settings/general`, {
       cache: "no-store",
       next: { revalidate: 60 },
