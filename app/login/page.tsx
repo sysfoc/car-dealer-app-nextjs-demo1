@@ -115,10 +115,10 @@ export default function LoginPage() {
               //   pin: "622685",
               // })
                setUser({
-                email: "rehan2@gmail.com",
-                password: "rehan2@gmail.com",
+                email: "sysfoc_admin@gmail.com",
+                password: "sysfoc_admin@gmail.com",
                 role: "superadmin",
-                pin: "583601",
+                pin: "123456",
               })
             }
             className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
@@ -129,10 +129,10 @@ export default function LoginPage() {
           <button
             onClick={() =>
               setUser({
-                email: "sysfoc_user@gmail.com",
-                password: "sysfoc_user",
+                email: "sysfoc_user1@gmail.com",
+                password: "sysfoc_user1@gmail.com",
                 role: "user",
-                pin: "930643",
+                pin: "123456",
               })
             }
             className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700"
