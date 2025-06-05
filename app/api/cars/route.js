@@ -66,7 +66,6 @@
 //   }
 // }
 
-
 // async function generateUniqueSlug(db, makeName, userIdString) {
 //   let slug = makeName
 //     .toLowerCase()
@@ -163,7 +162,7 @@
 //     };
 
 //     console.log("Final carData with userId:", carData);
-    
+
 //     const result = await db.collection("cars").insertOne(carData);
 
 //     return NextResponse.json(
@@ -183,7 +182,6 @@
 //     await client.close();
 //   }
 // }
-
 
 // export async function GET() {
 //   try {
@@ -274,13 +272,13 @@ async function ensureUploadDir() {
       fs.mkdirSync(uploadDir, { recursive: true, mode: 0o755 });
       console.log("Upload directory created:", uploadDir);
     }
-    
+
     // Test write permissions
-    const testFile = path.join(uploadDir, 'test-write.tmp');
-    await fs.promises.writeFile(testFile, 'test');
+    const testFile = path.join(uploadDir, "test-write.tmp");
+    await fs.promises.writeFile(testFile, "test");
     await fs.promises.unlink(testFile);
     console.log("Upload directory is writable");
-    
+
     return true;
   } catch (error) {
     console.error("Upload directory setup failed:", error);
@@ -318,10 +316,9 @@ export async function PATCH(req) {
 
     const objectId = new ObjectId(String(carId));
 
-    const result = await db.collection("cars").updateOne(
-      { _id: objectId },
-      { $set: { status } },
-    );
+    const result = await db
+      .collection("cars")
+      .updateOne({ _id: objectId }, { $set: { status } });
 
     if (result.matchedCount === 0) {
       return NextResponse.json({ error: "Car not found" }, { status: 404 });
@@ -364,8 +361,10 @@ export async function POST(req) {
     const uploadReady = await ensureUploadDir();
     if (!uploadReady) {
       return NextResponse.json(
-        { error: "Server configuration error: Upload directory not accessible" },
-        { status: 500 }
+        {
+          error: "Server configuration error: Upload directory not accessible",
+        },
+        { status: 500 },
       );
     }
 
@@ -378,21 +377,21 @@ export async function POST(req) {
     if (!userIdString) {
       return NextResponse.json(
         { error: "Invalid user ID format" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if ("error" in userData) {
       return NextResponse.json(
         { error: userData.error },
-        { status: userData.status }
+        { status: userData.status },
       );
     }
 
     if (!userData.id) {
       return NextResponse.json(
         { error: "Invalid user data: No user ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -403,16 +402,16 @@ export async function POST(req) {
     if (images.length === 0) {
       return NextResponse.json(
         { error: "At least one image is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const imageUrls = [];
-    
+
     // Enhanced file processing with better error handling
     for (let i = 0; i < images.length; i++) {
       const image = images[i];
-      
+
       // Validate file
       if (!image || !image.name || image.size === 0) {
         console.warn(`Skipping invalid image at index ${i}`);
@@ -423,16 +422,24 @@ export async function POST(req) {
       if (image.size > 10 * 1024 * 1024) {
         return NextResponse.json(
           { error: `Image ${image.name} is too large. Maximum size is 10MB.` },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       // Validate file type
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+        "image/gif",
+      ];
       if (!allowedTypes.includes(image.type)) {
         return NextResponse.json(
-          { error: `Invalid file type for ${image.name}. Only JPEG, PNG, and WebP are allowed.` },
-          { status: 400 }
+          {
+            error: `Invalid file type for ${image.name}. Only JPEG, PNG, and WebP are allowed.`,
+          },
+          { status: 400 },
         );
       }
 
@@ -447,23 +454,35 @@ export async function POST(req) {
         // Convert to buffer and save
         const arrayBuffer = await image.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        
+
+        //await fs.promises.writeFile(filePath, buffer);
+
+        console.log("Saving image to:", filePath);
         await fs.promises.writeFile(filePath, buffer);
-        
+        console.log("Saved image to:", filePath);
+
+
+
         // Verify file was actually written
         const stats = await fs.promises.stat(filePath);
+
+
+        console.log("Stats for file:", stats);
+
+
         if (stats.size !== buffer.length) {
           throw new Error(`File size mismatch for ${fileName}`);
         }
-        
+
         imageUrls.push(`/uploads/${fileName}`);
-        console.log(`Successfully saved image: ${fileName}, size: ${stats.size} bytes`);
-        
+        console.log(
+          `Successfully saved image: ${fileName}, size: ${stats.size} bytes`,
+        );
       } catch (fileError) {
         console.error(`Error saving image ${image.name}:`, fileError);
         return NextResponse.json(
           { error: `Failed to save image ${image.name}: ${fileError.message}` },
-          { status: 500 }
+          { status: 500 },
         );
       }
     }
@@ -471,13 +490,13 @@ export async function POST(req) {
     if (imageUrls.length === 0) {
       return NextResponse.json(
         { error: "No valid images were processed" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     await client.connect();
     const db = client.db("cardealor");
-    
+
     const makeId = formEntries.make;
     const make = await db.collection("makes").findOne({
       _id: new ObjectId(String(makeId)),
@@ -488,7 +507,7 @@ export async function POST(req) {
     }
 
     const slug = await generateUniqueSlug(db, make.name, userIdString);
-    
+
     const carData = {
       ...formEntries,
       make: new ObjectId(formEntries.make),
@@ -503,27 +522,27 @@ export async function POST(req) {
 
     console.log("Final carData with imageUrls:", {
       ...carData,
-      imageUrls: carData.imageUrls
+      imageUrls: carData.imageUrls,
     });
-    
+
     const result = await db.collection("cars").insertOne(carData);
 
     return NextResponse.json(
       {
         message: "Car added successfully",
-        data: { 
-          ...carData, 
+        data: {
+          ...carData,
           _id: result.insertedId,
-          imageUrls: carData.imageUrls // Ensure imageUrls are returned
+          imageUrls: carData.imageUrls, // Ensure imageUrls are returned
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error occurred in POST /api/cars:", error);
     return NextResponse.json(
       { error: "Failed to add car", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     await client.close();
@@ -546,8 +565,12 @@ export async function GET() {
       dealerId: car.dealerId?.toString(),
     }));
 
-    const makeIds = [...new Set(formattedCars.map((c) => c.make).filter(Boolean))];
-    const modelIds = [...new Set(formattedCars.map((c) => c.model).filter(Boolean))];
+    const makeIds = [
+      ...new Set(formattedCars.map((c) => c.make).filter(Boolean)),
+    ];
+    const modelIds = [
+      ...new Set(formattedCars.map((c) => c.model).filter(Boolean)),
+    ];
 
     const [makes, models] = await Promise.all([
       db
@@ -595,21 +618,6 @@ export async function GET() {
     await client.close();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { MongoClient, ObjectId } from "mongodb";
 // import { NextResponse, NextRequest } from "next/server";
@@ -714,7 +722,7 @@ export async function GET() {
 
 // export async function POST(req) {
 //   let client = null;
-  
+
 //   try {
 //     const userData = await verifyUserToken(req);
 //     console.log("Raw userData.id:", userData.id);
@@ -765,7 +773,7 @@ export async function GET() {
 //     try {
 //       for (let i = 0; i < images.length; i++) {
 //         const image = images[i];
-        
+
 //         // Validate image
 //         if (!image || !image.name) {
 //           console.error(`Invalid image at index ${i}`);
@@ -805,7 +813,7 @@ export async function GET() {
 
 //         // Save file
 //         await fs.promises.writeFile(filePath, buffer);
-        
+
 //         // Verify file was saved
 //         const stats = await fs.promises.stat(filePath);
 //         if (stats.size === 0) {
@@ -815,7 +823,7 @@ export async function GET() {
 //         }
 
 //         console.log(`Successfully saved: ${fileName} (${stats.size} bytes)`);
-        
+
 //         // Add to successful saves
 //         savedFiles.push(filePath);
 //         imageUrls.push(`/uploads/${fileName}`);
@@ -832,7 +840,7 @@ export async function GET() {
 
 //     } catch (imageError) {
 //       console.error("Error processing images:", imageError);
-      
+
 //       // Cleanup any saved files on error
 //       for (const filePath of savedFiles) {
 //         try {
@@ -841,7 +849,7 @@ export async function GET() {
 //           console.error(`Error cleaning up file ${filePath}:`, cleanupError);
 //         }
 //       }
-      
+
 //       return NextResponse.json(
 //         { error: "Failed to process images", details: imageError.message },
 //         { status: 500 }
@@ -884,7 +892,7 @@ export async function GET() {
 //     };
 
 //     console.log("Final carData with imageUrls:", { ...carData, imageUrls });
-    
+
 //     // Insert car data
 //     const result = await db.collection("cars").insertOne(carData);
 
@@ -975,6 +983,3 @@ export async function GET() {
 //     await client.close();
 //   }
 // }
-
-
-
