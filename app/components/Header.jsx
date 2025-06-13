@@ -1,16 +1,11 @@
 "use client";
 import {
-  Navbar,
-  NavbarCollapse,
-  NavbarLink,
-  NavbarToggle,
   Button,
   Checkbox,
   Label,
   TextInput,
 } from "flowbite-react";
 import React, { useState, useEffect } from "react";
-import { DarkThemeToggle } from "flowbite-react";
 import { FaRegHeart, FaSun, FaMoon } from "react-icons/fa";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
@@ -54,26 +49,73 @@ const Header = ({ isDarkMode }) => {
     hideLogo: false,
   });
 
+  // useEffect(() => {
+  //   const fetchSettings = async () => {
+  //     try {
+  //       const response = await fetch('/api/settings/general');
+  //       const data = await response.json();
+  //       console.log(data)
+  //       if (data.settings?.logo) {
+  //         console.log(data.settings.logo);
+  //         setLogo(data.settings.logo);
+  //       }
+  //       if (data.settings?.top) {
+  //         setTopSettings(data.settings.top);
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to fetch logo:', error);
+  //     }
+  //   };
+
+  //   fetchSettings();
+  // }, []);
+
   useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch('/api/settings/general');
-        const data = await response.json();
-        console.log(data)
-        if (data.settings?.logo) {
-          console.log(data.settings.logo);
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch('/api/settings/general');
+      const data = await response.json();
+      
+      if (data.settings?.logo) {
+        // Handle base64 logos without storing the full string
+        if (data.settings.logo.startsWith('data:image')) {
+          // Create a blob URL for base64 images
+          const byteString = atob(data.settings.logo.split(',')[1]);
+          const mimeString = data.settings.logo.split(',')[0].split(':')[1].split(';')[0];
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          
+          for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+          }
+          
+          const blob = new Blob([ab], { type: mimeString });
+          const blobUrl = URL.createObjectURL(blob);
+          setLogo(blobUrl);
+        } else {
+          // Regular URL path
           setLogo(data.settings.logo);
         }
-        if (data.settings?.top) {
-          setTopSettings(data.settings.top);
-        }
-      } catch (error) {
-        console.error('Failed to fetch logo:', error);
       }
-    };
+      
+      if (data.settings?.top) {
+        setTopSettings(data.settings.top);
+      }
+    } catch (error) {
+      console.error('Failed to fetch settings:', error);
+    }
+  };
 
-    fetchSettings();
-  }, []);
+  fetchSettings();
+}, []);
+
+useEffect(() => {
+  return () => {
+    if (logo.startsWith('blob:')) {
+      URL.revokeObjectURL(logo);
+    }
+  };
+}, [logo]);
 
   useEffect(() => {
     const handleScroll = () => {

@@ -45,10 +45,19 @@ export async function GET() {
         },
       };
       
-      return NextResponse.json({ settings: defaultSettings });
+     if (defaultSettings.logo?.startsWith('data:image')) {
+  defaultSettings.logo = 'base64-image';
+}
+
+return NextResponse.json({ settings: defaultSettings });
     }
     
-    return NextResponse.json({ settings });
+if (settings?.logo?.startsWith('data:image')) {
+  settings.logo = 'base64-image';
+}
+
+return NextResponse.json({ settings });
+
   } catch (error) {
     console.error('Error fetching settings:', error);
     return NextResponse.json(
