@@ -148,7 +148,7 @@ const Page = () => {
                   General Settings
                 </h1>
                 <p className="text-slate-600">
-                  Manage your website's global settings and configurations
+                  Manage your website global settings and configurations
                 </p>
               </div>
               <Button 

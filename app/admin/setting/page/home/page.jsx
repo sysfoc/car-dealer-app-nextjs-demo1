@@ -107,7 +107,7 @@ const Page = () => {
                   Edit Homepage
                 </h1>
                 <p className="text-slate-600">
-                  Customize your website's homepage content and settings
+                  Customize your website homepage content and settings
                 </p>
               </div>
               

@@ -68,7 +68,7 @@ const Page = () => {
                   Default Settings
                 </h1>
                 <p className="text-slate-600">
-                  Configure your dealership's default settings
+                  Configure your dealership default settings
                 </p>
               </div>
               

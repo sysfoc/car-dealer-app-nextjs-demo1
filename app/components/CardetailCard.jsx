@@ -322,7 +322,7 @@ if (!filteredCars.length) {
         </div>
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">No vehicles found</h3>
         <p className="text-gray-500 dark:text-gray-400 mb-6">
-          We couldn't find any vehicles matching your current filters. Try adjusting your search criteria or clearing some filters.
+          We could not find any vehicles matching your current filters. Try adjusting your search criteria or clearing some filters.
         </p>
       </div>
     </div>
@@ -615,7 +615,7 @@ return (
     <Modal dismissible show={openModal} onClose={() => setOpenModal(false)} className="backdrop-blur-sm">
       <ModalHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Get in Touch</h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">We'll get back to you within 24 hours</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">We will get back to you within 24 hours</p>
       </ModalHeader>
       
       <ModalBody className="p-6">
