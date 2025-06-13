@@ -10,7 +10,7 @@ interface JwtUserPayload {
   role: string;
   iat: number;
   exp: number;
-  profilePicture?: string;
+  // profilePicture?: string;
 }
 
 export const dynamic = "force-dynamic";
@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
     }
 
     const user = await User.findById(decoded.id, "username email role profilePicture");
+    // const user = await User.findById(decoded.id, "username email role profilePicture");
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });

@@ -41,7 +41,6 @@ export async function POST(request: NextRequest) {
       username: user.username,
       email: user.email,
       role: user.role,
-      //profilePicture: user.profilePicture || "/userPicture.jpg",
     };
 
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
@@ -53,7 +52,6 @@ export async function POST(request: NextRequest) {
       success: true,
       token,
       role: user.role,
-      //profilePicture: user.profilePicture,
     });
 
     response.cookies.set("token", token, {
