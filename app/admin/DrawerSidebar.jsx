@@ -15,9 +15,8 @@ import { RiMenu2Fill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
 import { HiChartPie } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { MdOutlineMailLock } from "react-icons/md";
+import { MdAppSettingsAlt, MdOutlineMailLock } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-import { SiPowerpages } from "react-icons/si";
 
 const DrawerSidebar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -107,7 +106,7 @@ const DrawerSidebar = () => {
                       Social media
                     </SidebarItem>
                   </SidebarCollapse>
-                  <SidebarCollapse icon={SiPowerpages} label="Page Settings">
+                  <SidebarCollapse icon={MdAppSettingsAlt} label="Page Settings">
                     <SidebarItem href="/admin/setting/page/home">
                       Home
                     </SidebarItem>

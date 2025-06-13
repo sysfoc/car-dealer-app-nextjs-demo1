@@ -201,7 +201,7 @@ const Blog = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No Blogs Available</h3>
                 <p className="text-gray-600 dark:text-blue-100/80 text-lg">
-                  We're working on bringing you fresh content. Check back soon!
+                  We are working on bringing you fresh content. Check back soon!
                 </p>
               </div>
             </div>

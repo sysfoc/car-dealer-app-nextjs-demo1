@@ -12,8 +12,7 @@ import { FaPencilAlt, FaList, FaUser } from "react-icons/fa";
 import { TiWorld } from "react-icons/ti";
 import { HiChartPie } from "react-icons/hi";
 import { IoSettingsSharp } from "react-icons/io5";
-import { MdLogout } from "react-icons/md";
-import { SiPowerpages } from "react-icons/si";
+import { MdAppSettingsAlt, MdLogout } from "react-icons/md";
 import jwt from "jsonwebtoken";
 import Cookies from "js-cookie";
 
@@ -137,7 +136,7 @@ const AdminSidebar = () => {
     },
     {
       label: "Page Settings",
-      icon: SiPowerpages,
+      icon: MdAppSettingsAlt,
       links: [
         { label: "Home", href: "/admin/setting/page/home" },
         { label: "Contact", href: "/admin/setting/page/contact" },

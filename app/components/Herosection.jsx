@@ -4,10 +4,9 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Button } from "flowbite-react";
 import Link from "next/link";
 import { TbCarSuv } from "react-icons/tb";
-import { FaShuttleVan, FaCarSide, FaSearch, FaChevronLeft, FaChevronRight, FaCar, FaPlay, FaStar } from "react-icons/fa";
+import { FaShuttleVan, FaCarSide, FaSearch, FaChevronLeft, FaChevronRight, FaCar, } from "react-icons/fa";
 import { GiSurferVan } from "react-icons/gi";
 import { useTranslations } from "next-intl";
 import { IoMdStar } from "react-icons/io";
@@ -19,7 +18,6 @@ const HeroSection = () => {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [priceRange, setPriceRange] = useState(50000);
-  const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Carousel state
@@ -411,7 +409,7 @@ const HeroSection = () => {
               {t("browseVehical")}
             </h2>
             <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
-              Explore our comprehensive collection of vehicles organized by category to find exactly what you're looking for
+              Explore our comprehensive collection of vehicles organized by category to find exactly what you are looking for
             </p>
             <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mt-6 rounded-full"></div>
           </div>

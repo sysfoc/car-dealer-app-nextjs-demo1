@@ -56,7 +56,7 @@ const Services = () => {
             </h2>
             
             <p className="text-base text-gray-600 dark:text-blue-100/80 max-w-2xl mx-auto leading-relaxed">
-              Whether you're buying or selling, we're here to make your automotive journey seamless and rewarding
+              Whether you are buying or selling, we are here to make your automotive journey seamless and rewarding
             </p>
             
             <div className="w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full"></div>
