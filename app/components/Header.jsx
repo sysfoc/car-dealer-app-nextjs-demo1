@@ -113,6 +113,17 @@ const Header = ({ isDarkMode }) => {
   return (
     <>
       {/* Clean Professional Header */}
+
+    <div 
+        className={`transition-all duration-500 ease-in-out ${
+          isVisible ? 'h-16' : 'h-0'
+        }`}
+      />
+
+      {/* <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-in-out ${isVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
+      > */}
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-in-out ${isVisible ? "translate-y-0" : "-translate-y-full"
           }`}

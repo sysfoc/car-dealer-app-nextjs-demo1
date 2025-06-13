@@ -2,10 +2,11 @@
 import { useEffect, useState, Suspense } from "react";
 import { Button, Label, Textarea, TextInput } from "flowbite-react";
 import dynamic from "next/dynamic";
+import Swal from "sweetalert2";
 
 const LazyJoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const Page = () => {
+const ContactUsPage = () => {
   const [formData, setFormData] = useState({
     heading: "",
     content: "",
@@ -14,13 +15,22 @@ const Page = () => {
     phone: "",
     map: "",
   });
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     const fetchContact = async () => {
-      const res = await fetch("/api/contact");
-      const data = await res.json();
-      if (data.contact) {
-        setFormData(data.contact);
+      try {
+        const res = await fetch("/api/contact");
+        const data = await res.json();
+        if (data.contact) {
+          setFormData(data.contact);
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to fetch contact data. Please try again.",
+          icon: "error",
+        });
       }
     };
     fetchContact();
@@ -32,86 +42,219 @@ const Page = () => {
     height: 500,
   };
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await res.json();
-    if (data.message) {
-      alert("Contact saved successfully!");
+      const data = await res.json();
+      if (data.message) {
+        Swal.fire({
+          title: "Success!",
+          text: "Contact information saved successfully!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to save contact information. Please try again.",
+        icon: "error",
+      });
+    } finally {
+      setIsSaving(false);
     }
   };
 
   return (
-    <section className="my-10">
-      <h2 className="text-xl font-semibold">Contact Us</h2>
-      <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
-        <div>
-          <Label htmlFor="heading">Heading:</Label>
-          <TextInput
-            id="heading"
-            value={formData.heading}
-            onChange={handleChange}
-          />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-600 p-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-8">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              Contact Information
+            </h1>
+            <p className="text-gray-600">
+              Manage and update your contact page details
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm">Content:</p>
-          <Suspense fallback={<p>Loading editor...</p>}>
-            <LazyJoditEditor
-              config={config}
-              value={formData.content}
-              onBlur={(newContent) =>
-                setFormData({ ...formData, content: newContent })
-              }
-              onChange={() => {}}
-            />
-          </Suspense>
+
+        {/* Form Section */}
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <div>
+              <Label
+                htmlFor="heading"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Heading
+              </Label>
+              <TextInput
+                id="heading"
+                value={formData.heading}
+                onChange={handleInputChange}
+                placeholder="Enter contact page heading"
+                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                This will be displayed as the main heading on the contact page
+              </p>
+            </div>
+
+            <div>
+              <Label
+                htmlFor="content"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Content
+              </Label>
+              <Suspense fallback={<p className="text-gray-500">Loading editor...</p>}>
+                <LazyJoditEditor
+                  config={config}
+                  value={formData.content}
+                  onBlur={(newContent) =>
+                    setFormData({ ...formData, content: newContent })
+                  }
+                  onChange={() => {}}
+                />
+              </Suspense>
+              <p className="text-sm text-gray-500 mt-1">
+                Enter the main content for the contact page
+              </p>
+            </div>
+
+            <div>
+              <Label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Name
+              </Label>
+              <TextInput
+                id="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="Enter contact name"
+                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                The name of the contact person or organization
+              </p>
+            </div>
+
+            <div>
+              <Label
+                htmlFor="address"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Address
+              </Label>
+              <TextInput
+                id="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Enter contact address"
+                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                The physical address for contact
+              </p>
+            </div>
+
+            <div>
+              <Label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Phone Number
+              </Label>
+              <TextInput
+                id="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="Enter phone number"
+                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                The contact phone number
+              </p>
+            </div>
+
+            <div>
+              <Label
+                htmlFor="map"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Map (iFrame Code)
+              </Label>
+              <Textarea
+                id="map"
+                rows={5}
+                value={formData.map}
+                onChange={handleInputChange}
+                placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen></iframe>'
+                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-mono text-sm"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                Paste your Google Maps iframe code to display your location
+              </p>
+            </div>
+
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                disabled={isSaving}
+              >
+                {isSaving ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Saving...
+                  </>
+                ) : (
+                  "Save Contact Info"
+                )}
+              </Button>
+            </div>
+          </form>
         </div>
-        <div>
-          <Label htmlFor="name">Name:</Label>
-          <TextInput id="name" value={formData.name} onChange={handleChange} />
-        </div>
-        <div>
-          <Label htmlFor="address">Address:</Label>
-          <TextInput
-            id="address"
-            value={formData.address}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="phone">Phone No:</Label>
-          <TextInput
-            id="phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="map">Map (iFrame Code):</Label>
-          <Textarea
-            id="map"
-            rows={5}
-            value={formData.map}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Button type="submit" className="mt-3 w-full" color={"dark"}>
-            Save Updates
-          </Button>
-        </div>
-      </form>
-    </section>
+      </div>
+    </div>
   );
 };
 
-export default Page;
+export default ContactUsPage;

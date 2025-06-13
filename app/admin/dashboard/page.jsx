@@ -11,8 +11,8 @@ export default function Dashboard() {
   return (
     <main className="my-5">
       <OverviewSection />
-      <ChartsSection />
       <OrdersSection />
+      <ChartsSection />
       <GeoChartSection />
     </main>
   );

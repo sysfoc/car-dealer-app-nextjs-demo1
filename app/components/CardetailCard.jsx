@@ -10,6 +10,7 @@ import {
   Select,
   Textarea,
   TextInput,
+  Spinner,
 } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -294,24 +295,61 @@ const CardetailCard = () => {
     co2Emission, driveType,
   ]);
 
-  if (loading) {
-    return <p>Loading cars...</p>;
-  }
-
-  if (!filteredCars.length) {
-    return <p>No cars found.</p>;
-  }
-
+  // Loading State
+if (loading) {
   return (
-    <>
-      <div className="mb-2 flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700">
+    <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-2xl px-8 py-6 shadow-2xl border border-slate-200 dark:border-gray-700">
+        <Spinner aria-label="Loading vehicles" size="lg" className="text-white" />
         <div>
-          <span className="text-sm">
-            <strong>{filteredCars.length}</strong> {t("outOf")} <strong>{cars.length}</strong> {t("results")}
-          </span>
+          <span className="text-gray-800 dark:text-gray-200 font-semibold text-lg">Loading vehicles...</span>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Please wait while we fetch the latest listings</p>
         </div>
-        <div className="flex items-center gap-x-3">
-          <Select icon={GrSort}>
+      </div>
+    </div>
+  );
+}
+
+// No Results State
+if (!filteredCars.length) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-slate-200 dark:border-gray-700 max-w-md">
+        <div className="w-20 h-20 bg-slate-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-10 h-10 text-slate-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.664-2.647l.835-1.252A6 6 0 0112 13a6 6 0 014.829-1.899l.835 1.252zm.835-1.252A7.962 7.962 0 0112 9c-2.34 0-4.29 1.009-5.664 2.647L5.5 10.395A9.969 9.969 0 0112 7c2.477 0 4.73.901 6.5 2.395l-.835 1.252z" />
+          </svg>
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">No vehicles found</h3>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">
+          We couldn't find any vehicles matching your current filters. Try adjusting your search criteria or clearing some filters.
+        </p>
+      </div>
+    </div>
+  );
+}
+return (
+  <>
+    {/* Results Header */}
+    <div className="mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-gradient-to-r from-slate-50 to-blue-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl border border-slate-200 dark:border-gray-600">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-blue-600 rounded-full animate-pulse"></div>
+            <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              <span className="text-blue-600 dark:text-blue-400">{filteredCars.length}</span>
+              <span className="text-gray-500 dark:text-gray-400 mx-2">of</span>
+              <span className="text-gray-800 dark:text-gray-200">{cars.length}</span>
+              <span className="text-gray-500 dark:text-gray-400 ml-2">vehicles found</span>
+            </span>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <Select 
+            icon={GrSort} 
+            className="min-w-[180px] bg-white dark:bg-gray-700 border-slate-300 dark:border-gray-600 rounded-xl text-sm font-medium shadow-sm"
+          >
             <option value="recent">{t("updatedDateRecent")}</option>
             <option value="oldest">{t("updatedDateOldest")}</option>
             <option value="price-lh">{t("priceLowToHigh")}</option>
@@ -321,219 +359,344 @@ const CardetailCard = () => {
             <option value="mileage-lh">{t("mileageLowToHigh")}</option>
             <option value="mileage-hl">{t("mileageHighToLow")}</option>
           </Select>
-          <Button color={"light"} onClick={() => setIsGridView(!isGridView)}>
-            {isGridView ? <FiList fontSize={20} /> : <FiGrid fontSize={20} />}
-          </Button>
+          
+          <div className="flex bg-white dark:bg-gray-700 rounded-xl p-1 border border-slate-300 dark:border-gray-600 shadow-sm">
+            <button
+              onClick={() => setIsGridView(false)}
+              className={`p-2.5 rounded-lg transition-all duration-200 ${
+                !isGridView 
+                  ? 'bg-blue-600 text-white shadow-md' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
+            >
+              <FiList size={18} />
+            </button>
+            <button
+              onClick={() => setIsGridView(true)}
+              className={`p-2.5 rounded-lg transition-all duration-200 ${
+                isGridView 
+                  ? 'bg-blue-600 text-white shadow-md' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
+            >
+              <FiGrid size={18} />
+            </button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div
-        className={`grid ${isGridView ? "grid-cols-1 gap-5 md:grid-cols-2" : "space-y-5"}`}
-      >
-        {filteredCars.map((car, index) => (
-          <div
-            key={car._id}
-            className={`relative rounded-lg shadow-lg dark:bg-gray-700 ${isGridView ? "" : "flex flex-col gap-x-3 md:flex-row"}`}
-          >
-            <div
-              className={`mt-3 ${isGridView ? "h-48 sm:h-64" : "h-48 w-full md:h-64 md:w-1/2"}`}
-            >
-              <Carousel slideInterval={3000}>
-                {Array.isArray(car.imageUrls) && car.imageUrls.length > 0 ? (
-                  car.imageUrls.map((image, i) => (
+    {/* Car Cards Container */}
+    {/* <div className={`gap-6 ${
+      isGridView 
+        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" 
+        : "space-y-6"
+    }`}> */}
+    <div className={`gap-6 ${
+  isGridView 
+    ? "grid grid-cols-1 sm:grid-cols-2" 
+    : "space-y-6"
+}`}>
+      {filteredCars.map((car, index) => (
+        <div
+          key={car._id}
+          className={`group bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden ${
+            isGridView 
+              ? "flex flex-col h-full" 
+              : "flex flex-col sm:flex-row max-w-5xl mx-auto"
+          }`}
+        >
+          {/* Image Section */}
+          <div className={`relative flex-shrink-0 ${
+            isGridView 
+              ? "h-48 sm:h-52 w-full" 
+              : "h-64 sm:h-64 sm:w-80 md:w-96"
+          }`}>
+            <Carousel slideInterval={3000} className="h-full w-full rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none overflow-hidden">
+              {Array.isArray(car.imageUrls) && car.imageUrls.length > 0 ? (
+                car.imageUrls.map((image, i) => (
+                  <div key={i} className="relative h-full w-full">
                     <Image
-                      key={i}
-                      src={image.src || image} // Use image.src if the object has it, otherwise fallback to the string
-                      alt={image.alt || `Car Image ${i}`} // Use image.alt if provided, fallback to a default
-                      width={300}
-                      height={200}
-                      className={isGridView ? "" : "rounded-md"}
+                      src={image.src || image}
+                      alt={image.alt || `${car.makeName} ${car.modelName} Image ${i + 1}`}
+                      width={600}
+                      height={400}
+                      className="h-full w-full object-cover object-center"
                     />
-                  ))
-                ) : (
-                  <div>No images available</div>
-                )}
-              </Carousel>
-            </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex h-full items-center justify-center bg-slate-100 dark:bg-gray-700">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-slate-200 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <span className="text-sm text-slate-500 dark:text-gray-400">No images available</span>
+                  </div>
+                </div>
+              )}
+            </Carousel>
 
-            <div className="absolute left-2 top-2 flex items-center gap-x-2">
-              <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
+            {/* Overlay Badges */}
+            <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+              <span className="px-3 py-1.5 bg-blue-600 text-white text-xs font-bold uppercase rounded-full shadow-lg backdrop-blur-sm">
                 {car.condition && car.condition !== "Select" ? car.condition : car.type || "Used"}
               </span>
               {car.isFinance && car.isFinance !== "km" && (
-                <span className="rounded bg-blue-950 px-3 py-1 text-xs uppercase text-white dark:bg-red-500">
+                <span className="px-3 py-1.5 bg-emerald-500 text-white text-xs font-bold uppercase rounded-full shadow-lg backdrop-blur-sm">
                   {car.isFinance}
                 </span>
               )}
             </div>
 
-            <div className="p-4">
-              <div>
-                <Link
-                  href={`car-detail/${car.slug}`}
-                  className="hover:text-blue-950 hover:underline dark:hover:text-red-500"
-                >
-                  <h3 className="font-bold uppercase">
+            {/* Wishlist & Image Counter */}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+              {Array.isArray(car.imageUrls) && car.imageUrls.length > 1 && (
+                <div className="px-2.5 py-1 bg-black/70 text-white text-xs font-medium rounded-full backdrop-blur-sm">
+                  1/{car.imageUrls.length}
+                </div>
+              )}
+              <button className="w-10 h-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
+                <CiHeart size={22} className="text-gray-600 dark:text-gray-400" />
+              </button>
+            </div>
+          </div>
+
+          {/* Content Section */}
+          <div className={`flex-1 flex flex-col ${
+            isGridView ? "p-4" : "p-5 sm:p-6"
+          }`}>
+            {/* Header */}
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1 pr-4">
+                <Link href={`car-detail/${car.slug}`} className="group/link">
+                  <h3 className={`font-bold text-gray-900 dark:text-white group-hover/link:text-blue-600 dark:group-hover/link:text-blue-400 transition-colors line-clamp-2 ${
+                    isGridView ? "text-lg leading-tight" : "text-xl sm:text-2xl"
+                  }`}>
                     {loading ? (
-                      <Skeleton height={25} />
+                      <Skeleton height={28} />
                     ) : (
-                      `${car.makeName || "Unknown"} - ${car.modelName || "Unknown"}`
+                      `${car.makeName || "Unknown"} ${car.modelName || "Unknown"}`
                     )}
                   </h3>
                 </Link>
-                <div className="flex items-center justify-between">
-                  <h4 className="text-2xl font-bold text-blue-950 dark:text-red-500">
-                    {loading ? (
-                      <Skeleton height={25} width={100} />
-                    ) : (
-                      `${selectedCurrency?.symbol} ${Math.round(car.price) || 0}`
-                    )}
-                  </h4>
-                  <div>
-                    <Button
-                      color={"white"}
-                    >
-                      <CiHeart fontSize={22} color="gray" />
-                    </Button>
+                
+                {(car.year || car.modelYear) && (
+                  <div className="mt-2">
+                    <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-300 text-xs font-semibold rounded-lg">
+                      {car.year || car.modelYear} Model
+                    </span>
+                  </div>
+                )}
+              </div>
+              
+              <div className="text-right">
+                <div className={`font-bold text-blue-600 dark:text-blue-400 ${
+                  isGridView ? "text-xl" : "text-2xl sm:text-3xl"
+                }`}>
+                  {loading ? (
+                    <Skeleton height={32} width={120} />
+                  ) : (
+                    `${selectedCurrency?.symbol}${Math.round(car.price) || 0}`
+                  )}
+                </div>
+                <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">Starting price</p>
+              </div>
+            </div>
+
+            {/* Key Specifications */}
+            <div className="flex-1 mb-4">
+              <div className={`grid gap-3 ${
+                isGridView 
+                  ? "grid-cols-1 sm:grid-cols-2" 
+                  : "grid-cols-2 sm:grid-cols-3"
+              }`}>
+                <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaLocationCrosshairs className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wide leading-tight">Location</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white leading-tight break-words">
+                      {car.location || "Not specified"}
+                    </p>
                   </div>
                 </div>
-                <div
-                  className="mt-2 border-gray-300"
-                  style={{ borderWidth: "1px" }}
-                ></div>
-                <div
-                  className={`my-3 grid ${isGridView ? "grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-4" : "grid-cols-3 gap-x-8 gap-y-4 sm:grid-cols-4"}`}
-                >
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <FaLocationCrosshairs fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">{car.location || "Not specified"}</p>
+
+                <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <IoSpeedometer className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <FaCalendarCheck fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">{car.year || car.modelYear || "Not specified"}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wide leading-tight">Mileage</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white leading-tight break-words">
+                      {car.kms || car.mileage || "Not specified"}
+                    </p>
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <IoSpeedometer fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">{car.kms || car.mileage || "Not specified"}</p>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="w-8 h-8 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <GiGasPump className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <GiGasPump fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">{car.fuelType || "Not specified"}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wide leading-tight">Fuel</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white leading-tight break-words">
+                      {car.fuelType || "Not specified"}
+                    </p>
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <TbManualGearbox fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">{car.gearbox || "Not specified"}</p>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <TbManualGearbox className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <IoIosColorPalette fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">{car.color || "Not specified"}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wide leading-tight">Gearbox</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white leading-tight break-words">
+                      {car.gearbox || "Not specified"}
+                    </p>
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <GiCarSeat fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">
+                </div>
+
+                <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="w-8 h-8 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <IoIosColorPalette className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wide leading-tight">Color</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white leading-tight break-words">
+                      {car.color || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <GiCarSeat className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wide leading-tight">Seats</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white leading-tight break-words">
                       {car.seats && car.seats !== "Select" ? car.seats : "Not specified"}
                     </p>
                   </div>
-                  <div className="text-center">
-                    <div className="flex items-center justify-center">
-                      <GiCarDoor fontSize={22} />
-                    </div>
-                    <p className="mt-2 text-sm">
-                      {car.doors && car.doors !== "Select" ? car.doors : "Not specified"}
-                    </p>
-                  </div>
                 </div>
               </div>
+            </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-x-3">
-                <Button
-                  color={"white"}
-                  className="border border-blue-950 text-sm uppercase hover:bg-blue-950 hover:text-white dark:border-red-500 dark:hover:bg-red-500"
-                  onClick={() => setOpenModal(true)}
-                >
-                  {t("enquireNow")}
-                </Button>
-                <Link href={`car-detail/${car.slug}`} className="flex flex-col">
-                  <Button
-                    color={"white"}
-                    className="bg-blue-950 text-sm uppercase text-white dark:bg-red-500"
-                  >
-                    {t("viewDetails")}
-                  </Button>
-                </Link>
-              </div>
+            {/* Action Buttons */}
+            <div className="flex gap-3 mt-auto">
+              <button
+                onClick={() => setOpenModal(true)}
+                className={`flex-1 border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 font-semibold rounded-xl hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-white transition-all duration-200 text-center ${
+                  isGridView ? "px-4 py-2.5 text-sm" : "px-6 py-3"
+                }`}
+              >
+                {t("enquireNow")}
+              </button>
+              <Link href={`car-detail/${car.slug}`} className="flex-1">
+                <button className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 ${
+                  isGridView ? "px-4 py-2.5 text-sm" : "px-6 py-3"
+                }`}>
+                  {t("viewDetails")}
+                </button>
+              </Link>
             </div>
           </div>
-        ))}
+        </div>
+      ))}
+    </div>
 
-        <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-          <ModalHeader>Enquire Now</ModalHeader>
-          <ModalBody>
-            <div>
-              <form>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div className="flex flex-col gap-y-1">
-                    <Label htmlFor="fname">First Name</Label>
-                    <TextInput
-                      type="text"
-                      id="fname"
-                      placeholder="First Name"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-y-1">
-                    <Label htmlFor="lname">Last Name</Label>
-                    <TextInput type="text" id="lname" placeholder="Last Name" />
-                  </div>
-                  <div className="flex flex-col gap-y-1">
-                    <Label htmlFor="email">Email</Label>
-                    <TextInput
-                      type="email"
-                      id="email"
-                      placeholder="Active Email Address"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-y-1">
-                    <Label htmlFor="phone">Phone</Label>
-                    <TextInput
-                      type="tel"
-                      id="phone"
-                      placeholder="+92 333 333333"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-y-1 sm:col-span-2">
-                    <Label htmlFor="comment">Comment</Label>
-                    <Textarea rows={5} placeholder="Comment"></Textarea>
-                  </div>
-                </div>
-                <div className="mt-5 flex flex-col">
-                  <Button
-                    color={"dark"}
-                    className="w-full text-lg font-semibold uppercase"
-                  >
-                    Send Enquiry
-                  </Button>
-                </div>
-              </form>
+    {/* Enquiry Modal */}
+    <Modal dismissible show={openModal} onClose={() => setOpenModal(false)} className="backdrop-blur-sm">
+      <ModalHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Get in Touch</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">We'll get back to you within 24 hours</p>
+      </ModalHeader>
+      
+      <ModalBody className="p-6">
+        <form className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="fname" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                First Name *
+              </Label>
+              <TextInput
+                type="text"
+                id="fname"
+                placeholder="Enter your first name"
+                className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 focus:ring-2"
+                required
+              />
             </div>
-          </ModalBody>
-        </Modal>
-      </div>
-    </>
-  );
-};
-
+            
+            <div className="space-y-2">
+              <Label htmlFor="lname" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Last Name *
+              </Label>
+              <TextInput 
+                type="text" 
+                id="lname" 
+                placeholder="Enter your last name" 
+                className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 focus:ring-2"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Email Address *
+              </Label>
+              <TextInput
+                type="email"
+                id="email"
+                placeholder="your.email@example.com"
+                className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 focus:ring-2"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Phone Number *
+              </Label>
+              <TextInput
+                type="tel"
+                id="phone"
+                placeholder="+92 300 1234567"
+                className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 focus:ring-2"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="comment" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Your Message
+              </Label>
+              <Textarea 
+                rows={4} 
+                placeholder="Tell us about your requirements, budget, or any specific questions..."
+                className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500 focus:ring-2 resize-none"
+              />
+            </div>
+          </div>
+          
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button
+              type="submit"
+              className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              Send Enquiry
+            </button>
+          </div>
+        </form>
+      </ModalBody>
+    </Modal>
+  </>
+);
+}
 export default CardetailCard;

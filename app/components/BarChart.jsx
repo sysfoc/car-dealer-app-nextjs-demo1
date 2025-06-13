@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Chart } from "react-google-charts";
+
 const BarChart = () => {
   const data = [
     ["Month", "Sales", "Expenses"],
@@ -44,6 +45,6 @@ const BarChart = () => {
       />
     </div>
   );
-};
+}
 
 export default BarChart;
