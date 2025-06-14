@@ -45,17 +45,9 @@ export async function GET() {
         },
       };
       
-     if (defaultSettings.logo?.startsWith('data:image')) {
-  defaultSettings.logo = 'base64-image';
-}
-
 return NextResponse.json({ settings: defaultSettings });
     }
     
-if (settings?.logo?.startsWith('data:image')) {
-  settings.logo = 'base64-image';
-}
-
 return NextResponse.json({ settings });
 
   } catch (error) {
