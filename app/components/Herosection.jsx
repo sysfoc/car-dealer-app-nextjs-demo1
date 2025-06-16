@@ -475,7 +475,7 @@ const HeroSection = () => {
 
                   {/* Price Range Labels */}
                   <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500">
-                    <span>$1K</span>
+                    <span>$100</span>
                     <span>$100K</span>
                   </div>
                 </div>
