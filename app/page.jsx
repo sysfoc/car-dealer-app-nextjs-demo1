@@ -16,6 +16,7 @@ import { FaPinterest } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import TopBanner from "./components/TopBanner";
 
 export default function Home() {
   const t = useTranslations("HomePage");
@@ -82,6 +83,7 @@ export default function Home() {
 
   return (
     <div>
+      <TopBanner/>
       <Herosection />
       <BrandsList />
       <BrowseCars />
