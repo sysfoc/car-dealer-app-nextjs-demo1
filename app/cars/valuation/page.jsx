@@ -116,21 +116,21 @@ export default function Home() {
                   onClick={() => handleValuationType("Selling")}
                 >
                   <AiOutlineDollar className="mr-2" fontSize={20} />
-                  I'm Selling
+                   I&apos;m Selling
                 </Button>
                 <Button
                   color={formData.valuationType === "Buying" ? "dark" : "gray"}
                   onClick={() => handleValuationType("Buying")}
                 >
                   <MdSell className="mr-2" fontSize={20} />
-                  I'm Buying
+                   I&apos;m Buying
                 </Button>
                 <Button
                   color={formData.valuationType === "Trading" ? "dark" : "gray"}
                   onClick={() => handleValuationType("Trading")}
                 >
                   <FaExchangeAlt className="mr-2" fontSize={20} />
-                  I'm Trading in
+                   I&apos;m Trading in
                 </Button>
               </div>
 
