@@ -163,26 +163,6 @@ const Footerr = ({ isDarkMode }) => {
               <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mb-4"></div>
               <div className="space-y-6">
                 <LanguageSwitching />
-                
-                {/* Newsletter Signup */}
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
-                  <h4 className="text-base font-bold text-gray-800 dark:text-gray-200 mb-3">
-                    📧 Stay Updated
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                    Get the latest deals and updates delivered to your inbox.
-                  </p>
-                  <div className="flex flex-col space-y-3">
-                    <input 
-                      type="email" 
-                      placeholder="Enter your email address"
-                      className="px-4 py-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
-                    />
-                    <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg">
-                      Subscribe Now
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

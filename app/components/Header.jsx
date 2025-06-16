@@ -24,8 +24,8 @@ const Header = ({ isDarkMode }) => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [logo, setLogo] = useState("/logo.png");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const [darkMode, setDarkMode] = useState(false);
+  const [bannerHeight, setBannerHeight] = useState(0);
 
   // Custom dark mode toggle function
   const toggleDarkMode = () => {
@@ -41,6 +41,43 @@ const Header = ({ isDarkMode }) => {
   useEffect(() => {
     // Check initial dark mode state
     setDarkMode(document.documentElement.classList.contains('dark'));
+  }, []);
+
+  // Dynamic banner height detection
+  useEffect(() => {
+    const detectBannerHeight = () => {
+      const banner = document.querySelector('[data-banner="top-banner"]') || 
+                    document.querySelector('.top-banner') ||
+                    document.querySelector('[class*="banner"]') ||
+                    document.querySelector('[id*="banner"]');
+      
+      if (banner) {
+        const height = banner.getBoundingClientRect().height;
+        setBannerHeight(height);
+      } else {
+        setBannerHeight(0);
+      }
+    };
+
+    // Initial detection
+    detectBannerHeight();
+
+    // Create a MutationObserver to watch for banner changes
+    const observer = new MutationObserver(detectBannerHeight);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+
+    // Also listen for resize events
+    window.addEventListener('resize', detectBannerHeight);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', detectBannerHeight);
+    };
   }, []);
 
   const [topSettings, setTopSettings] = useState({
@@ -107,19 +144,22 @@ const Header = ({ isDarkMode }) => {
 
   return (
     <>
-      {/* Clean Professional Header */}
-
-   <div 
-  className={`transition-all duration-500 ease-in-out ${
-    isVisible ? 'h-32' : 'h-16'
-  }`} 
-/>
+      {/* Dynamic spacer that adjusts based on banner presence */}
+      <div 
+        className={`transition-all duration-500 ease-in-out`}
+        style={{ 
+          height: isVisible ? `${bannerHeight + 64}px` : `${bannerHeight + 16}px` 
+        }}
+      />
   
-     <header
-  className={`fixed inset-x-0 top-[60px] z-40 transition-all duration-500 ease-in-out ${
-    isVisible ? "translate-y-0" : "-translate-y-full"
-  }`}
->
+      <header
+        className={`fixed inset-x-0 z-40 transition-all duration-500 ease-in-out ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+        style={{ 
+          top: `${bannerHeight}px` 
+        }}
+      >
         <div className="absolute inset-0 backdrop-blur-lg bg-white/85 dark:bg-gray-900/85 border-b border-gray-200/50 dark:border-gray-700/50"></div>
 
         <nav className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
