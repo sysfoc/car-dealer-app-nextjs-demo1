@@ -29,12 +29,12 @@ export default function Home() {
     {
       question: "Where can I sell my car?",
       answer:
-        "You could sell it directly to a dealership or auction house, or you can sell it online. If you’ve got the time to wait for the right buyer, selling your car privately on a site like Auto Trader can earn you more money.",
+        "You could sell it directly to a dealership or auction house, or you can sell it online. If you have got the time to wait for the right buyer, selling your car privately on a site like Auto Trader can earn you more money.",
     },
     {
       question: "What is my car worth?",
       answer:
-        "Auto Trader’s free car valuation tool gives you the right guide price. We combine data from thousands of live adverts and dealer websites, plus values from car auctions, and ex-fleet and leasing vehicles. As our guide price represents the entire market and our data is updated daily, your quote is fair, priced to sell, and accurate.",
+        "Auto Traders free car valuation tool gives you the right guide price. We combine data from thousands of live adverts and dealer websites, plus values from car auctions, and ex-fleet and leasing vehicles. As our guide price represents the entire market and our data is updated daily, your quote is fair, priced to sell, and accurate.",
     },
   ];
 

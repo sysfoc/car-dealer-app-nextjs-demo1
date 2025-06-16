@@ -24,13 +24,14 @@ export const metadata: Metadata = {
   description: "Make Deals Of Cars And Any Other Vehical",
 };
 
-
 const getGeneralSettings = async () => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/settings/general`, {
+     const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}`
+        : "http://localhost:3000";
+   const res = await fetch(`${baseUrl}/api/settings/general`, {
       cache: "no-store",
-      // next: { revalidate: 60 },
     });
 
     if (!res.ok) {
@@ -44,6 +45,7 @@ const getGeneralSettings = async () => {
     return null;
   }
 };
+
 
 export default async function RootLayout({
   children,

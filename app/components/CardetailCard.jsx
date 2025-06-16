@@ -25,54 +25,66 @@ import { GiGasPump, GiCarDoor, GiCarSeat } from "react-icons/gi";
 import { TbManualGearbox } from "react-icons/tb";
 import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
-import { useQueryState } from "nuqs";
-import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState, useMemo } from "react";
 import { useCurrency } from "../context/CurrencyContext.tsx";
 
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
-  const [keyword] = useQueryState("keyword", "");
-  const [condition] = useQueryState("condition", []);
-  const [location] = useQueryState("location", []);
-  const [price] = useQueryState("price", []);
-  const [minYear] = useQueryState("minYear", []);
-  const [maxYear] = useQueryState("maxYear", []);
-  const [model] = useQueryState("model", []);
-  const [millageFrom] = useQueryState("millageFrom", "");
-  const [millageTo] = useQueryState("millageTo", "");
-  const [gearBox] = useQueryState("gearBox", []);
-  const [bodyType] = useQueryState("bodyType", []);
-  const safebodyType = Array.isArray(bodyType) ? bodyType : [];
-  const [color, setColor] = useQueryState("color", []);
-  const safeColor = Array.isArray(color) ? color : [];
-  const [doors, setDoors] = useQueryState("doors", []);
-  const [seats, setSeats] = useQueryState("seats", []);
-  const [fuel, setFuel] = useQueryState("fuel", []);
-  const [engineSizeFrom] = useQueryState("engineSizeFrom", "");
-  const [engineSizeTo] = useQueryState("engineSizeTo", "");
-  const [enginePowerFrom] = useQueryState("enginePowerFrom", "");
-  const [enginePowerTo] = useQueryState("enginePowerTo", "");
+  const searchParams = useSearchParams();
   const { currency, selectedCurrency } = useCurrency();
 
-  const safeDoors = Array.isArray(doors)
-    ? doors.map((door) => parseInt(door, 10)).filter(Number.isInteger)
-    : [];
+  // Get all filters at once
+  const filters = useMemo(() => {
+    return Object.fromEntries(searchParams.entries());
+  }, [searchParams]);
 
-  const safeSeats = Array.isArray(seats)
-    ? seats.map((seat) => parseInt(seat, 10)).filter(Number.isInteger)
-    : [];
-  const safeFuel = Array.isArray(fuel) ? fuel : [];
+  // Parse array parameters from query string
+  const parseArrayParam = (param) => {
+    if (!param) return [];
+    return Array.isArray(param) ? param : [param];
+  };
 
-  const [battery, setBattery] = useQueryState("battery", "Any");
-  const [charging, setCharging] = useQueryState("charging", "Any");
-  const [fuelConsumption, setFuelConsumption] = useQueryState(
-    "fuelConsumption",
-    "Any",
-  );
-  const [co2Emission, setco2Emission] = useQueryState("co2Emission", "Any");
-  const [driveType, setDrivetype] = useQueryState("driveType", []);
-  const safedriveType = Array.isArray(driveType) ? driveType : [];
+  const parseNumberParam = (param) => {
+    if (!param) return [];
+    const parsed = Array.isArray(param) 
+      ? param.map(p => parseInt(p, 10)).filter(Number.isInteger)
+      : [parseInt(param, 10)].filter(Number.isInteger);
+    return parsed;
+  };
+
+  // Parsed filter values
+  const parsedFilters = useMemo(() => {
+    return {
+      keyword: filters.keyword || "",
+      condition: parseArrayParam(filters.condition),
+      location: parseArrayParam(filters.location),
+      // price: parseNumberParam(filters.price),
+      minPrice: filters.minPrice ? parseInt(filters.minPrice, 10) : null,
+    maxPrice: filters.maxPrice ? parseInt(filters.maxPrice, 10) : null,
+      minYear: filters.minYear || "",
+      maxYear: filters.maxYear || "",
+      model: parseArrayParam(filters.model),
+      millageFrom: filters.millageFrom || "",
+      millageTo: filters.millageTo || "",
+      gearBox: parseArrayParam(filters.gearBox),
+      bodyType: parseArrayParam(filters.bodyType),
+      color: parseArrayParam(filters.color),
+      doors: parseNumberParam(filters.doors),
+      seats: parseNumberParam(filters.seats),
+      fuel: parseArrayParam(filters.fuel),
+      engineSizeFrom: filters.engineSizeFrom || "",
+      engineSizeTo: filters.engineSizeTo || "",
+      enginePowerFrom: filters.enginePowerFrom || "",
+      enginePowerTo: filters.enginePowerTo || "",
+      battery: filters.battery || "Any",
+      charging: filters.charging || "Any",
+      fuelConsumption: filters.fuelConsumption || "Any",
+      co2Emission: filters.co2Emission || "Any",
+      driveType: parseArrayParam(filters.driveType),
+    };
+  }, [filters]);
 
   const t = useTranslations("Filters");
   const [isGridView, setIsGridView] = useState(true);
@@ -80,15 +92,8 @@ const CardetailCard = () => {
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    const query = new URLSearchParams({
-      keyword, condition, location, price, minYear, maxYear, model, millageFrom, millageTo, gearBox, bodyType, color,
-      doors, seats, fuel, battery, charging, engineSizeFrom, engineSizeTo, enginePowerFrom, enginePowerTo,
-      fuelConsumption, co2Emission, driveType,
-    }).toString();
-
-    // paste below line in .env
-    // NEXT_PUBLIC_API_URL=http://localhost:3000/api/
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
+    const query = new URLSearchParams(filters).toString();
+    const apiUrl = "/api";
     console.log("API URL:", `${apiUrl}/cars?${query}`);
 
     setLoading(true);
@@ -110,56 +115,50 @@ const CardetailCard = () => {
         setCars([]);
         setLoading(false);
       });
-  }, [
-    keyword, condition, location, price, minYear, maxYear, model, millageFrom, millageTo, gearBox, bodyType, color, doors, seats,
-    fuel, charging, battery, engineSizeFrom, engineSizeTo, enginePowerFrom, enginePowerTo, fuelConsumption,
-    co2Emission, driveType,
-  ]);
-
-  const safeCondition = Array.isArray(condition) ? condition : [];
-  const safeLocation = Array.isArray(location) ? location : [];
-  const safeModel =
-    Array.isArray(model) && model.length > 0 ? model : model ? [model] : [];
-  const safePrice = Array.isArray(price)
-    ? price.map((p) => parseInt(p, 10))
-    : [parseInt(price, 10)].filter(Boolean);
-  const safeGearBox = Array.isArray(gearBox) ? gearBox : [];
+  }, [filters]);
 
   useEffect(() => {
     const filtered = (cars || []).filter((car) => {
       // Match against makeName and modelName instead of directly using make/model fields
-      const matchesKeyword = keyword
-        ? (car.makeName?.toLowerCase().includes(keyword.toLowerCase()) ||
-          car.modelName?.toLowerCase().includes(keyword.toLowerCase()))
+      const matchesKeyword = parsedFilters.keyword
+        ? (car.makeName?.toLowerCase().includes(parsedFilters.keyword.toLowerCase()) ||
+          car.modelName?.toLowerCase().includes(parsedFilters.keyword.toLowerCase()))
         : true;
 
-      const matchesCondition = safeCondition.length
-        ? safeCondition.includes(car.condition?.toLowerCase())
+      const matchesCondition = parsedFilters.condition.length
+        ? parsedFilters.condition.includes(car.condition?.toLowerCase())
         : true;
 
-      const matchesLocation = safeLocation.length
-        ? safeLocation.some((loc) =>
+      const matchesLocation = parsedFilters.location.length
+        ? parsedFilters.location.some((loc) =>
           car.location?.toLowerCase().includes(loc.toLowerCase()),
         )
         : true;
 
-      const matchesPrice = safePrice.length
-        ? safePrice.some((singlePrice) => {
-          const carPrice = car.price ? parseInt(car.price, 10) : null;
-          return carPrice >= singlePrice;
-        })
-        : true;
+      // const matchesPrice = parsedFilters.price.length
+      //   ? parsedFilters.price.some((singlePrice) => {
+      //     const carPrice = car.price ? parseInt(car.price, 10) : null;
+      //     return carPrice >= singlePrice;
+      //   })
+      //   : true;
+
+      const carPrice = car.price ? parseInt(car.price, 10) : null;
+  const matchesPrice = 
+    (parsedFilters.minPrice === null && parsedFilters.maxPrice === null) || 
+    (carPrice !== null &&
+      (parsedFilters.minPrice === null || carPrice >= parsedFilters.minPrice) &&
+      (parsedFilters.maxPrice === null || carPrice <= parsedFilters.maxPrice));
 
       // Use modelYear if year is not available
       const carYear = car.year || car.modelYear;
       const matchesYear =
         carYear &&
-        (!minYear || parseInt(carYear, 10) >= parseInt(minYear, 10)) &&
-        (!maxYear || parseInt(carYear, 10) <= parseInt(maxYear, 10));
+        (!parsedFilters.minYear || parseInt(carYear, 10) >= parseInt(parsedFilters.minYear, 10)) &&
+        (!parsedFilters.maxYear || parseInt(carYear, 10) <= parseInt(parsedFilters.maxYear, 10));
 
       // Match using modelName or modelId
-      const matchesModel = safeModel.length
-        ? safeModel.some(
+      const matchesModel = parsedFilters.model.length
+        ? parsedFilters.model.some(
           (modelVal) => {
             if (car.modelName) {
               return modelVal.toLowerCase() === car.modelName.toLowerCase();
@@ -177,51 +176,51 @@ const CardetailCard = () => {
       const matchesMileage = carMileageField
         ? (() => {
           const carMileage = parseInt(String(carMileageField).replace(/[^\d]/g, ""), 10) || 0;
-          const from = millageFrom ? parseInt(millageFrom, 10) : null;
-          const to = millageTo ? parseInt(millageTo, 10) : null;
+          const from = parsedFilters.millageFrom ? parseInt(parsedFilters.millageFrom, 10) : null;
+          const to = parsedFilters.millageTo ? parseInt(parsedFilters.millageTo, 10) : null;
           return (!from || carMileage >= from) && (!to || carMileage <= to);
         })()
         : true;
 
-      const matchesGearBox = safeGearBox.length
-        ? safeGearBox.includes(car.gearbox?.toLowerCase())
+      const matchesGearBox = parsedFilters.gearBox.length
+        ? parsedFilters.gearBox.includes(car.gearbox?.toLowerCase())
         : true;
 
-      const matchesbodyType = safebodyType.length
-        ? safebodyType.includes(car.bodyType?.toLowerCase())
+      const matchesbodyType = parsedFilters.bodyType.length
+        ? parsedFilters.bodyType.includes(car.bodyType?.toLowerCase())
         : true;
 
-      const matchesColor = safeColor.length
-        ? safeColor.includes(car.color?.toLowerCase())
+      const matchesColor = parsedFilters.color.length
+        ? parsedFilters.color.includes(car.color?.toLowerCase())
         : true;
 
       // Convert to number if string
       const carDoors = typeof car.doors === 'string' && car.doors !== 'Select' ?
         parseInt(car.doors, 10) : car.doors;
 
-      const matchesDoors = safeDoors.length
-        ? safeDoors.includes(carDoors)
+      const matchesDoors = parsedFilters.doors.length
+        ? parsedFilters.doors.includes(carDoors)
         : true;
 
       // Convert to number if string  
       const carSeats = typeof car.seats === 'string' && car.seats !== 'Select' ?
         parseInt(car.seats, 10) : car.seats;
 
-      const matchesSeats = safeSeats.length
-        ? safeSeats.includes(carSeats)
+      const matchesSeats = parsedFilters.seats.length
+        ? parsedFilters.seats.includes(carSeats)
         : true;
 
-      const matchesFuelType = safeFuel.length
-        ? safeFuel.includes(car.fuelType?.toLowerCase())
+      const matchesFuelType = parsedFilters.fuel.length
+        ? parsedFilters.fuel.includes(car.fuelType?.toLowerCase())
         : true;
 
-      const matchesDriveType = safedriveType.length
-        ? safedriveType.includes(car.driveType?.toLowerCase())
+      const matchesDriveType = parsedFilters.driveType.length
+        ? parsedFilters.driveType.includes(car.driveType?.toLowerCase())
         : true;
 
       const matchesBatteryrange = car.batteryRange
         ? (() => {
-          const batteryRange = battery ? parseInt(battery, 10) : null;
+          const batteryRange = parsedFilters.battery !== "Any" ? parseInt(parsedFilters.battery, 10) : null;
           const carBatteryRange = car.batteryRange
             ? parseInt(car.batteryRange, 10)
             : null;
@@ -231,7 +230,7 @@ const CardetailCard = () => {
 
       const matchesChargingTime = car.chargingTime
         ? (() => {
-          const chargingTime = charging ? parseInt(charging, 10) : null;
+          const chargingTime = parsedFilters.charging !== "Any" ? parseInt(parsedFilters.charging, 10) : null;
           const carChargingTime = car.chargingTime
             ? parseInt(car.chargingTime, 10)
             : null;
@@ -240,21 +239,21 @@ const CardetailCard = () => {
         : true;
 
       const matchesEngineSize =
-        (!engineSizeFrom ||
-          parseInt(String(car.engineSize), 10) >= parseInt(engineSizeFrom, 10)) &&
-        (!engineSizeTo ||
-          parseInt(String(car.engineSize), 10) <= parseInt(engineSizeTo, 10));
+        (!parsedFilters.engineSizeFrom ||
+          parseInt(String(car.engineSize), 10) >= parseInt(parsedFilters.engineSizeFrom, 10)) &&
+        (!parsedFilters.engineSizeTo ||
+          parseInt(String(car.engineSize), 10) <= parseInt(parsedFilters.engineSizeTo, 10));
 
       const matchesEnginePower =
-        (!enginePowerFrom ||
-          parseInt(String(car.enginePower), 10) >= parseInt(enginePowerFrom, 10)) &&
-        (!enginePowerTo ||
-          parseInt(String(car.enginePower), 10) <= parseInt(enginePowerTo, 10));
+        (!parsedFilters.enginePowerFrom ||
+          parseInt(String(car.enginePower), 10) >= parseInt(parsedFilters.enginePowerFrom, 10)) &&
+        (!parsedFilters.enginePowerTo ||
+          parseInt(String(car.enginePower), 10) <= parseInt(parsedFilters.enginePowerTo, 10));
 
       const matchesFuelConsumption = car.fuelConsumption
         ? (() => {
-          const selectedFuelConsumption = fuelConsumption
-            ? parseInt(fuelConsumption, 10)
+          const selectedFuelConsumption = parsedFilters.fuelConsumption !== "Any"
+            ? parseInt(parsedFilters.fuelConsumption, 10)
             : null;
           const carFuelConsumption = car.fuelConsumption
             ? parseInt(car.fuelConsumption, 10)
@@ -267,8 +266,8 @@ const CardetailCard = () => {
 
       const matchesCo2Emission = car.co2Emission
         ? (() => {
-          const selectedCo2Emission = co2Emission
-            ? parseInt(co2Emission, 10)
+          const selectedCo2Emission = parsedFilters.co2Emission !== "Any"
+            ? parseInt(parsedFilters.co2Emission, 10)
             : null;
           const carCo2Emission = car.co2Emission
             ? parseInt(car.co2Emission, 10)
@@ -289,45 +288,41 @@ const CardetailCard = () => {
 
     console.log("Filtered Cars:", filtered);
     setFilteredCars(filtered);
-  }, [
-    keyword, condition, price, location, cars, minYear, maxYear, model, millageFrom, millageTo, gearBox, bodyType, color,
-    doors, seats, fuel, charging, battery, engineSizeFrom, engineSizeTo, enginePowerFrom, enginePowerTo, fuelConsumption,
-    co2Emission, driveType,
-  ]);
+  }, [cars, parsedFilters]);
 
   // Loading State
-if (loading) {
-  return (
-    <div className="flex items-center justify-center min-h-[400px]">
-      <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-2xl px-8 py-6 shadow-2xl border border-slate-200 dark:border-gray-700">
-        <Spinner aria-label="Loading vehicles" size="lg" className="text-white" />
-        <div>
-          <span className="text-gray-800 dark:text-gray-200 font-semibold text-lg">Loading vehicles...</span>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Please wait while we fetch the latest listings</p>
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-2xl px-8 py-6 shadow-2xl border border-slate-200 dark:border-gray-700">
+          <Spinner aria-label="Loading vehicles" size="lg" className="text-white" />
+          <div>
+            <span className="text-gray-800 dark:text-gray-200 font-semibold text-lg">Loading vehicles...</span>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Please wait while we fetch the latest listings</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
-// No Results State
-if (!filteredCars.length) {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-slate-200 dark:border-gray-700 max-w-md">
-        <div className="w-20 h-20 bg-slate-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-10 h-10 text-slate-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.664-2.647l.835-1.252A6 6 0 0112 13a6 6 0 014.829-1.899l.835 1.252zm.835-1.252A7.962 7.962 0 0112 9c-2.34 0-4.29 1.009-5.664 2.647L5.5 10.395A9.969 9.969 0 0112 7c2.477 0 4.73.901 6.5 2.395l-.835 1.252z" />
-          </svg>
+  // No Results State
+  if (!filteredCars.length) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-slate-200 dark:border-gray-700 max-w-md">
+          <div className="w-20 h-20 bg-slate-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-slate-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.664-2.647l.835-1.252A6 6 0 0112 13a6 6 0 014.829-1.899l.835 1.252zm.835-1.252A7.962 7.962 0 0112 9c-2.34 0-4.29 1.009-5.664 2.647L5.5 10.395A9.969 9.969 0 0112 7c2.477 0 4.73.901 6.5 2.395l-.835 1.252z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">No vehicles found</h3>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">
+            We could not find any vehicles matching your current filters. Try adjusting your search criteria or clearing some filters.
+          </p>
         </div>
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">No vehicles found</h3>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">
-          We could not find any vehicles matching your current filters. Try adjusting your search criteria or clearing some filters.
-        </p>
       </div>
-    </div>
-  );
-}
+    );
+  }
 return (
   <>
     {/* Results Header */}
