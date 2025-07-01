@@ -1,8 +1,19 @@
+// import Make from "../../models/make.model.js"
+// import dbconnect from "../../lib/mongodb.js"
+
+// export async function GET() {
+//   await dbconnect();
+//   const makes = await Make.find({});
+//   return Response.json(makes);
+// }
+
 import Make from "../../models/make.model.js"
 import dbconnect from "../../lib/mongodb.js"
 
+export const dynamic = "force-dynamic"
+
 export async function GET() {
-  await dbconnect();
-  const makes = await Make.find({});
-  return Response.json(makes);
+  await dbconnect()
+  const makes = await Make.find({})
+  return Response.json(makes)
 }
