@@ -5,7 +5,6 @@ import Dealer from "../../models/Dealer";
 export const GET = async () => {
   try {
     await connectDB(); 
-
     const dealers = await Dealer.find().lean();
     const transformedDealers = dealers.map(dealer => ({
       ...dealer,
