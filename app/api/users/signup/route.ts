@@ -4,10 +4,11 @@ import User from "../../../models/User";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 
-connectToMongoDB();
+
 
 export async function POST(request: NextRequest) {
   try {
+    connectToMongoDB();
     const contentType = request.headers.get('content-type');
     let email, password, role, pin, profilePicture;
 

@@ -3,11 +3,11 @@ import Valuation from "../../models/Valuation";
 
 export async function POST(req) {
   try {
-    await connectDB(); // Connect to MongoDB
-    const data = await req.json(); // Parse incoming data
+    await connectDB();
+    const data = await req.json();
 
-    const newValuation = new Valuation(data); // Create new document
-    await newValuation.save(); // Save to MongoDB
+    const newValuation = new Valuation(data);
+    await newValuation.save();
 
     return new Response(JSON.stringify({ message: "Valuation saved!" }), {
       status: 201,

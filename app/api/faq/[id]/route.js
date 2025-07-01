@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import connectDB from "../../../lib/mongodb";
 import Faq from "../../../models/Faq";
 
-await connectDB();
+
 
 export async function GET(req, { params }) {
   try {
+    await connectDB();
     const faq = await Faq.findById(params.id);
     if (!faq)
       return NextResponse.json({ error: "FAQ not found" }, { status: 404 });
@@ -17,6 +18,7 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
   try {
+    await connectDB();
     const { title, content, order } = await req.json();
     const updatedFaq = await Faq.findByIdAndUpdate(
       params.id,
@@ -38,6 +40,7 @@ export async function PUT(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
+    await connectDB();
     await Faq.findByIdAndDelete(params.id);
     return NextResponse.json({ message: "FAQ deleted" }, { status: 200 });
   } catch (error) {

@@ -2,10 +2,11 @@ import connectToMongoDB from "../../lib/mongodb";
 import { NextResponse } from "next/server";
 import Homepage from "../../models/Homepage.js";
 
-connectToMongoDB();
+
 
 export async function POST(request) {
   try {
+    connectToMongoDB();
     const formData = await request.formData();
 
     const seoTitle = formData.get("seoTitle");
@@ -108,6 +109,7 @@ export async function POST(request) {
 
 export async function GET() {
   try {
+    connectToMongoDB();
     const homepageData = await Homepage.findOne();
     if (homepageData) {
       return NextResponse.json({ data: homepageData }, { status: 200 });

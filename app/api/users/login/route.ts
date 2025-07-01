@@ -4,10 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-connectToMongoDB();
-
 export async function POST(request: NextRequest) {
   try {
+    connectToMongoDB();
     const reqBody = await request.json();
     const { email, password, pin } = reqBody;
     console.log("Received Request Body:", reqBody);

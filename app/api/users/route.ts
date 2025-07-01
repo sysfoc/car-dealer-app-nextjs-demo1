@@ -4,10 +4,10 @@ import User from "../../models/User";
 import connectToMongoDB from "../../lib/mongodb";
 import jwt from "jsonwebtoken";
 
-connectToMongoDB();
 
 export async function GET(request: NextRequest) {
   try {
+    connectToMongoDB();
     console.log("Incoming Request to /api/users");
 
     const token = request.cookies.get("token")?.value;

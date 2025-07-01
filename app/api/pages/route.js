@@ -2,7 +2,6 @@ import connectToMongoDB from "../../lib/mongodb";
 import { NextResponse } from "next/server";
 import Homepage from "../../models/Homepage.js";
 
-connectToMongoDB();
 
 const fieldMappings = {
   seoTitle: "seoTitle",
@@ -36,6 +35,7 @@ const fieldMappings = {
 
 export async function GET() {
   try {
+    connectToMongoDB();
     const homepageData = await Homepage.findOne();
     return NextResponse.json(homepageData || {});
   } catch (error) {
@@ -48,6 +48,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    connectToMongoDB();
     const formData = await request.formData();
     const update = {};
 
