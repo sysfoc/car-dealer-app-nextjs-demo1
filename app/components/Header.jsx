@@ -210,7 +210,7 @@ const Header = ({ isDarkMode }) => {
 
                 {!topSettings.hideFavourite && (
                   <Link
-                    href="/user/saved"
+                    href="/liked-cars"
                     className="group relative p-3 rounded-xl bg-gray-100/70 dark:bg-gray-700/70 backdrop-blur-sm text-gray-700 dark:text-gray-300 transition-all duration-300 hover:bg-gray-200/80 dark:hover:bg-gray-600/80 hover:text-gray-900 dark:hover:text-white hover:scale-105 ring-1 ring-gray-300/50 dark:ring-gray-600/50 hover:ring-gray-400/70 dark:hover:ring-gray-500/70"
                     aria-label="Saved-ads"
                   >
@@ -262,7 +262,6 @@ const Header = ({ isDarkMode }) => {
                   </Link>
                 ))}
 
-                {/* Mobile Actions - Equal Size Icons */}
                 <div className="flex items-center justify-center space-x-4 pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
                   <button
                     onClick={() => {
@@ -276,7 +275,7 @@ const Header = ({ isDarkMode }) => {
 
                   {!topSettings.hideFavourite && (
                     <Link
-                      href="/user/saved"
+                      href="/liked-cars"
                       onClick={() => setMobileMenuOpen(false)}
                       className="p-3 rounded-xl bg-gray-100/70 dark:bg-gray-700/70 backdrop-blur-sm text-gray-700 dark:text-gray-300 transition-all duration-300 hover:bg-gray-200/80 dark:hover:bg-gray-600/80 hover:text-gray-900 dark:hover:text-white ring-1 ring-gray-300/50 dark:ring-gray-600/50"
                     >

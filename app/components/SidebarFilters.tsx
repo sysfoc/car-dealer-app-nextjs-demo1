@@ -17,6 +17,7 @@ import {
   FaRegCalendarCheck,
   FaCar,
   FaHourglassEnd,
+  FaHandshake,
 } from "react-icons/fa6";
 import {
   GiCarDoor,
@@ -35,12 +36,15 @@ import { MdBatteryCharging50, MdOutlineCo2 } from "react-icons/md";
 import { ImPower } from "react-icons/im";
 import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
+import { usePathname } from "next/navigation";
 
 const SidebarFilters = () => {
   const t = useTranslations("Filters");
   const router = useRouter();
   const [localFilters, setLocalFilters] = useState<Record<string, any>>({});
   const [openSections, setOpenSections] = useState<string[]>([]);
+   const pathname = usePathname();
+  const isLeasingPage = pathname.includes("/leasing");
   
   // Track active input to preserve focus
   const activeInputRef = useRef<string | null>(null);
@@ -388,6 +392,36 @@ const SidebarFilters = () => {
             </div>
           ),
         },
+        {
+      label: "Lease",
+      content: "lease",
+      symbol: <FaHandshake color="white" />,
+      render: !isLeasingPage && (
+        <div className="space-y-4">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="lease-filter"
+              checked={localFilters.lease === "true"}
+              onChange={(e) =>
+                handleInputChange(
+                  "lease",
+                  e.target.checked ? "true" : "false",
+                  "lease-filter",
+                )
+              }
+              className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+            />
+            <label
+              htmlFor="lease-filter"
+              className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+            >
+              Show Lease Cars Only
+            </label>
+          </div>
+        </div>
+      ),
+    },
         {
           label: t("mileage"),
           content: "mileage",
@@ -1086,7 +1120,7 @@ const SidebarFilters = () => {
               </div>
             ),
           },
-      ].map((section, index) => (
+      ].filter(section => !(section.content === 'lease' && isLeasingPage)).map((section, index) => (
         <FilterSection
           key={index}
           label={section.label}

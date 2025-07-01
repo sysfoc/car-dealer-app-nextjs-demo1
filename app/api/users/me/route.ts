@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
 
     if (!token) {
-      return NextResponse.json({ error: "Token missing" }, { status: 403 });
+      return NextResponse.json({ user: null }, { status: 200 });
     }
 
     let decoded: JwtUserPayload;
@@ -35,8 +35,7 @@ export async function GET(request: NextRequest) {
       return response;
     }
 
-    const user = await User.findById(decoded.id, "username email role");
-    // const user = await User.findById(decoded.id, "username email role profilePicture");
+    const user = await User.findById(decoded.id, "username email role likedCars");
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });

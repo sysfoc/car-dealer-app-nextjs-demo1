@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -26,13 +25,15 @@ export default function LoginPage() {
     try {
       setError("");
       setLoading(true);
+      toast.info("Authenticating your credentials...");
       const response = await axios.post("/api/users/login", user, {
         withCredentials: true,
       });
 
       console.log("Login Response:", response.data);
-      alert(`User Role: ${response.data.role}`);
-
+      toast.success(`${response.data.role.charAt(0).toUpperCase() + response.data.role?.slice(1)} Login successful!`);
+      // alert(`User Role: ${response.data.role}`);
+      
       const receivedRole = response.data.role?.toLowerCase()?.trim();
       console.log("Processed Role:", receivedRole);
 
@@ -48,8 +49,7 @@ export default function LoginPage() {
         error.response?.data?.error || "Login failed. Please try again.";
       setError(errorMessage);
       console.error("Login error:", error);
-
-      toast.error(`Login Failed: ${errorMessage}`);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,7 @@ export default function LoginPage() {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex mt-14 md:mt-16">
       {/* Left Side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex-col justify-center items-center p-12 text-white relative overflow-hidden">
         {/* Background Pattern */}
@@ -199,10 +199,10 @@ export default function LoginPage() {
                   <button
                     onClick={() =>
                       setUser({
-                        email: "sysfoc_admin@gmail.com",
-                        password: "sysfoc_admin@gmail.com",
+                        email: "sysfoc_admin07@gmail.com",
+                        password: "sysfoc_admin07",
                         role: "superadmin",
-                        pin: "123456",
+                        pin: "977442",
                       })
                     }
                     className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
